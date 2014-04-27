@@ -1,3 +1,4 @@
+import java.io.IOException;
 import java.util.Comparator;
 import java.util.HashMap;
 import java.util.HashSet;
@@ -29,7 +30,7 @@ public class KNN_Naive implements MLModel{
 	}
 
 	@Override
-	public Map<String, Double> predict(Instance instance) {
+	public Map<String, Double> predict(Instance instance) throws IOException {
 		this.curIns = instance;
 		Queue<Instance> topK = new PriorityQueue<Instance>(1, new Comparator<Instance>() {
 			@Override
@@ -62,12 +63,12 @@ public class KNN_Naive implements MLModel{
 			}
 		}
 		while(!topK.isEmpty()) {
-			Instance curIns = topK.remove();
-			double curDis = getDis(curIns);
-			if(res.containsKey(curIns.label)) {
-				res.put(curIns.label, maxDis-curDis);
+			Instance curNear = topK.remove();
+			double curDis = getDis(curNear);
+			if(!res.containsKey(curNear.label)) {
+				res.put(curNear.label, maxDis-curDis);
 			} else {
-				res.put(curIns.label, res.get(curIns.label)+maxDis-curDis);
+				res.put(curNear.label, res.get(curNear.label)+maxDis-curDis);
 			}
 		}
 		return res;

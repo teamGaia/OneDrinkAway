@@ -1,3 +1,4 @@
+import java.io.IOException;
 import java.util.List;
 import java.util.Map;
 
@@ -14,6 +15,7 @@ public interface MLModel {
 	 * @param instance
 	 * @return: a map with score of each predicted class, higher the score,
 	 * more probably the class instance belongs to this class
+	 * @throws IOException 
 	 */
-	public Map<String, Double> predict(Instance instance);
+	public Map<String, Double> predict(Instance instance) throws IOException;
 }
