@@ -5,8 +5,13 @@ import java.util.Map;
 
 public interface MLModel {
 	/**
-	 * 
-	 * @param instances: the instances used to train the model
-	 */
-	public double predictRating(List<Drink> trainingSet, Drink sample);
+	 * @param trainingSet: List of training examples to create the model
+	 **/ 
+	public void train(List<Drink> trainingSet);
+	
+	/**
+	 * @param sample: the Drink to predict the rating
+	 * @return the predicted rating (0.0-5.0)
+	 **/
+	public double predictRating(Drink sample);
 }
