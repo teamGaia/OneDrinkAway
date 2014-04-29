@@ -1,4 +1,9 @@
-package com.onedrinkaway;
+package com.onedrinkaway.app;
+
+import com.onedrinkaway.R;
+import com.onedrinkaway.R.id;
+import com.onedrinkaway.R.layout;
+import com.onedrinkaway.R.menu;
 
 import android.app.Activity;
 import android.app.Fragment;

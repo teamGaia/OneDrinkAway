@@ -1,3 +1,5 @@
+package com.onedrinkaway.machinelearning;
+
 import java.io.IOException;
 import java.util.Comparator;
 import java.util.HashMap;

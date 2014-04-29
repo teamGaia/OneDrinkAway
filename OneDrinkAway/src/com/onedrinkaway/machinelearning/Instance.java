@@ -1,3 +1,5 @@
+package com.onedrinkaway.machinelearning;
+
 import java.util.HashMap;
 import java.util.Map;
 
