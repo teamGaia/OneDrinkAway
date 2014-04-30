@@ -1,11 +1,14 @@
+/**
+ * OneDrinkAway v0.1 (Zero-feature release) 
+ * @author Andrea, Nicole, Taylor
+ * 
+ * OneDrinkAwayActivity is an abstract class with two items on it's ActionBar:
+ * help and home. Each Activity in the OneDrinkAway project will extend this
+ * abstract class so they can inherit the ActionBar. 
+ */
+
 package com.onedrinkaway.app;
 
-import com.onedrinkaway.R;
-import com.onedrinkaway.R.id;
-import com.onedrinkaway.R.layout;
-import com.onedrinkaway.R.menu;
-
-import android.app.Activity;
 import android.app.Fragment;
 import android.os.Bundle;
 import android.support.v7.app.ActionBarActivity;
@@ -14,24 +17,12 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
-import android.os.Build;
 
-public class OneDrinkAwayActivity extends ActionBarActivity {
+import com.onedrinkaway.R;
 
-	@Override
-	protected void onCreate(Bundle savedInstanceState) {
-		super.onCreate(savedInstanceState);
-		setContentView(R.layout.activity_one_drink_away);
-
-		if (savedInstanceState == null) {
-			getFragmentManager().beginTransaction()
-					.add(R.id.container, new PlaceholderFragment()).commit();
-		}
-	}
-
+public abstract class OneDrinkAwayActivity extends ActionBarActivity {
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
-
 		// Inflate the menu; this adds items to the action bar if it is present.
 		getMenuInflater().inflate(R.menu.one_drink_away, menu);
 		return true;

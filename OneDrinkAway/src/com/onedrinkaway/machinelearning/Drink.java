@@ -1,3 +1,7 @@
+/**
+ * OneDrinkAway v0.1 (Zero-feature release) 
+ */
+
 import java.util.HashMap;
 import java.util.Map;
 
