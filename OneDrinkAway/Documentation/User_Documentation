@@ -146,3 +146,20 @@ the drink. If you have previously rated the drink that you are currently viewing
 rerate the drink with the original method. Under the image of the drink glass is a 
 "Add to Favorites" button that when selected, adds this drink to your Favorite Drinks 
 list for future viewing
+
+Report a Bug
+If you find a bug in the application, please take the time to submit it to us.
+
+Our bug report form can be found here: https://github.com/teamGaia/OneDrinkAway/issues
+
+Before submitting a bug:
+
+See if there is a bug that has a similar title. This form has all of the current bugs already 
+listed by name with descriptions included.
+
+To submit a bug report:
+
+Create a new issue
+Label the issue as a bug
+Give the issue a title that will be a descriptive name of the bug you are reporting
+Write a detailed description of what you were doing when the bug appeared and what exactly the bug is and submit
