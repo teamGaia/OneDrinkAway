@@ -9,14 +9,9 @@
 
 package com.onedrinkaway.app;
 
-import android.app.Fragment;
-import android.os.Bundle;
 import android.support.v7.app.ActionBarActivity;
-import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.view.View;
-import android.view.ViewGroup;
 
 import com.onedrinkaway.R;
 
@@ -39,22 +34,4 @@ public abstract class OneDrinkAwayActivity extends ActionBarActivity {
 		}
 		return super.onOptionsItemSelected(item);
 	}
-
-	/**
-	 * A placeholder fragment containing a simple view.
-	 */
-	public static class PlaceholderFragment extends Fragment {
-
-		public PlaceholderFragment() {
-		}
-
-		@Override
-		public View onCreateView(LayoutInflater inflater, ViewGroup container,
-				Bundle savedInstanceState) {
-			View rootView = inflater.inflate(R.layout.fragment_one_drink_away,
-					container, false);
-			return rootView;
-		}
-	}
-
 }
