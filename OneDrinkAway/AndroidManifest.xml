@@ -17,14 +17,26 @@
             android:name="com.onedrinkaway.app.OneDrinkAwayActivity"
             android:label="@string/title_activity_one_drink_away" >
         </activity>
-        
         <activity
             android:name="com.onedrinkaway.app.HomePageActivity"
             android:label="@string/title_activity_one_drink_away" >
             <intent-filter>
-				<action android:name="android.intent.action.MAIN" />
-         		<category android:name="android.intent.category.LAUNCHER" />
-			</intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+        <activity
+            android:name="com.onedrinkaway.app.HomePage"
+            android:label="@string/title_activity_home_page"
+            android:parentActivityName="com.onedrinkaway.app.OneDrinkAwayActivity" >
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.onedrinkaway.app.OneDrinkAwayActivity" />
+        </activity>
+        <activity
+            android:name="com.onedrinkaway.app.HomePage"
+            android:label="@string/title_activity_home_page" >
         </activity>
     </application>
 

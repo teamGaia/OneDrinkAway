@@ -7,5 +7,6 @@
     <string name="action_home">Home</string>
     <string name="hello_world">Hello World!</string>
     <string name="action_settings">Settings</string>
+    <string name="title_activity_home_page">HomePage</string>
 
 </resources>
