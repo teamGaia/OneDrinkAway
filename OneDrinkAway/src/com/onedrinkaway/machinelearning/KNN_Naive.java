@@ -6,15 +6,18 @@ package com.onedrinkaway.machinelearning;
 
 import java.io.IOException;
 import java.util.Comparator;
-import java.util.HashMap;
-import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.PriorityQueue;
 import java.util.Queue;
-import java.util.Set;
 import java.util.TreeMap;
 
+/*
+ * I needed to remove errors so I could run the project. 
+ * I had to change the MLModel interface to remove errors in this code.
+ * I also removed @Override from "train" and "predict" 
+ * - Taylor
+ */
 
 public class KNN_Naive implements MLModel{
 	private int K;
@@ -30,12 +33,10 @@ public class KNN_Naive implements MLModel{
 		train(instances);
 	}
 	
-	@Override
 	public void train(List<Instance> instances) {
 		this.instances = instances;
 	}
 
-	@Override
 	public Map<String, Double> predict(Instance instance) throws IOException {
 		this.curIns = instance;
 		Queue<Instance> topK = new PriorityQueue<Instance>(1, new Comparator<Instance>() {
@@ -88,5 +89,11 @@ public class KNN_Naive implements MLModel{
 			sumDis += (thisInsVal-curInsVal)*(thisInsVal-curInsVal);
 		}
 		return Math.sqrt(sumDis);
+	}
+
+	@Override
+	public double predictRating(Drink sample) {
+		// TODO Auto-generated method stub
+		return 0;
 	}
 }

@@ -5,10 +5,7 @@
 package com.onedrinkaway.machinelearning;
 
 import java.io.BufferedReader;
-import java.io.File;
-import java.io.FileNotFoundException;
 import java.io.IOException;
-import java.io.Reader;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
@@ -39,7 +36,7 @@ public class RunML {
 			String[] curLine = line.split(",");
 			insLength = curLine.length;
 			Instance curIns = new Instance(curLine);
-			Map<String, Double> res = model.predict(curIns);
+			Map<String, Double> res = model.predict(curIns);   
 			Stack<String> resStr = c.getWordDecentOrder(res);
 			String label = resStr.peek().split(" ")[0];
 			if(curIns.label.equals(label)) {

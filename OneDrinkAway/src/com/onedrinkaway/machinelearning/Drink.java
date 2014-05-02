@@ -1,9 +1,9 @@
+package com.onedrinkaway.machinelearning;
+
 /**
  * OneDrinkAway v0.1 (Zero-feature release) 
  */
 
-import java.util.HashMap;
-import java.util.Map;
 
 public class Drink {
 	//public String label;
