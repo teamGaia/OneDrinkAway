@@ -1,0 +1,3 @@
+The accuracy is: 0.94
+The time consumption is: 2.114
+One instance length is: 785
