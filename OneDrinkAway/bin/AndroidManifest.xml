@@ -17,6 +17,15 @@
             android:name="com.onedrinkaway.app.OneDrinkAwayActivity"
             android:label="@string/title_activity_one_drink_away" >
         </activity>
+        
+        <activity
+            android:name="com.onedrinkaway.app.HomePageActivity"
+            android:label="@string/title_activity_one_drink_away" >
+            <intent-filter>
+				<action android:name="android.intent.action.MAIN" />
+         		<category android:name="android.intent.category.LAUNCHER" />
+			</intent-filter>
+        </activity>
     </application>
 
 </manifest>
