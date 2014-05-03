@@ -2,7 +2,7 @@
  * OneDrinkAway v0.1 (Zero-feature release) 
  */
 
-package com.onedrinkaway.machinelearning;
+package com.onedrinkaway.test;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -10,6 +10,10 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 import java.util.Stack;
+
+import com.onedrinkaway.machinelearning.Instance;
+import com.onedrinkaway.machinelearning.MLModel;
+import com.onedrinkaway.machinelearning.c;
 
 
 public class RunML {

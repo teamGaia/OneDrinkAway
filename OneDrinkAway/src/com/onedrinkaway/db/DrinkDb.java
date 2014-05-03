@@ -73,6 +73,7 @@ public class DrinkDb {
      * 
      * @param drink the drink to be added
      * @param score the rating for the drink, must be [1-5] inclusive
+     * @throws: IllegalArgumentException if the score is smaller than 1 or bigger than 5
      */
     public void addRating(Drink drink, int score) {
         if (score < 1 || score > 5)

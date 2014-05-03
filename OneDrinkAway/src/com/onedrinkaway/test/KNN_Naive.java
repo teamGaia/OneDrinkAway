@@ -2,7 +2,7 @@
  * OneDrinkAway v0.1 (Zero-feature release) 
  */
 
-package com.onedrinkaway.machinelearning;
+package com.onedrinkaway.test;
 
 import java.io.IOException;
 import java.util.Comparator;
@@ -12,12 +12,10 @@ import java.util.PriorityQueue;
 import java.util.Queue;
 import java.util.TreeMap;
 
-/*
- * I needed to remove errors so I could run the project. 
- * I had to change the MLModel interface to remove errors in this code.
- * I also removed @Override from "train" and "predict" 
- * - Taylor
- */
+import com.onedrinkaway.common.Drink;
+import com.onedrinkaway.machinelearning.Instance;
+import com.onedrinkaway.machinelearning.MLModel;
+
 
 public class KNN_Naive implements MLModel{
 	private int K;
@@ -96,4 +94,5 @@ public class KNN_Naive implements MLModel{
 		// TODO Auto-generated method stub
 		return 0;
 	}
+
 }
