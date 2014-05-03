@@ -4,13 +4,12 @@ import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
 
-import org.junit.Before;
 import org.junit.Test;
+
+import junit.framework.TestCase;
 
 import com.onedrinkaway.common.Drink;
 import com.onedrinkaway.db.DrinkDb;
-
-import junit.framework.TestCase;
 
 public class TestSuite extends TestCase {
 	
@@ -20,9 +19,8 @@ public class TestSuite extends TestCase {
 	private List<String> getCategoritsExpected;
 	private List<String> getFlavorsExpected;
 	private List<Drink> getDrinksExpected;
-	//</DrinkDb gloabl>
+	//</DrinkDb global>
 	
-	@Before
 	public void buildTest() {
 		//<for DrinkDb>
 		DrinkDb db = new DrinkDb();

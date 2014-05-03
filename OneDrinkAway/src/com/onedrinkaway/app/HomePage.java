@@ -19,6 +19,10 @@ public class HomePage extends OneDrinkAwayActivity {
 			getSupportFragmentManager().beginTransaction()
 					.add(R.id.container, new PlaceholderFragment()).commit();
 		}
+		
+		// My code
+		getSupportActionBar().setTitle(R.string.app_name);
+		getSupportActionBar().setDisplayHomeAsUpEnabled(false);
 	}
 
 	/**

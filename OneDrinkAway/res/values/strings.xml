@@ -8,5 +8,12 @@
     <string name="hello_world">Hello World!</string>
     <string name="action_settings">Settings</string>
     <string name="title_activity_home_page">HomePage</string>
+    <string name="search_by_name">Search By Name</string>
+    <string name="search_by_category">Search By Category</string>
+    <string name="search_by_ingredient">Search By Ingredient</string>
+    <string name="search_by_flavor">Search By Flavor</string>
+    <string name="favorites">Favorites</string>
+    <string name="advanced_search">Advanced Search</string>
+    <string name="try_something_new">Try Something New!</string>
 
 </resources>
