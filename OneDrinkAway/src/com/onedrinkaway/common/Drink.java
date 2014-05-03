@@ -4,57 +4,92 @@
 
 package com.onedrinkaway.common;
 
+import java.util.List;
+
 public class Drink {
-	//public String label;
-	public Object name;   //this field just serve as a reference
-	//public Map<String, Double> features;
-	
+	public String name;
 	private double rate;
 	private int[] attributes;
 	
+	/**
+	 * This is a constructor of the Drink object
+	 * @effect: construct a Drink object with default value
+	 */
 	public Drink() {
-		//features = new HashMap<String, Double>();
+
 	}
 	
+	/**
+	 * This is a constructor of the Drink object
+	 * 
+	 * @effect: construct a Drink object represented by parameter
+	 * @param info: the JSON representation of Drink object
+	 */
+	public Drink(String info) {
+		
+	}
+	
+	/**
+	 * 
+	 * @return: the id of the Drink object
+	 */
+	public int getId() {
+		return 0;
+	}
+	
+	/**
+	 * 
+	 * @return: the list all the flavors
+	 */
+	public List<String> getFlavors() {
+		return null;
+	}
+	
+	/**
+	 * 
+	 * @return: the category the drink belongs to
+	 */
+	public String getCategory() {
+		return null;
+	}
+	
+	/**
+	 * 
+	 * @return: the list of redients of the drink
+	 */
+	public List<String> getRedients() {
+		return null;
+	}
+	
+	/**
+	 * 
+	 * @return: all the attributes of the drink that used in machine learning
+	 */
 	public int[] getAttributes() {
-		return attributes;
+		return null;
 	}
 	
+	/**
+	 * 
+	 * @return: the rate of the drink
+	 */
 	public double getRate() {
-		return rate;
+		return 0;
 	}
 	
+	/**
+	 * @effect: set the rate of this drink
+	 * @param rate: new rate of this drink
+	 */
 	public void setRate(double rate) {
-		this.rate = rate;
+		
 	}
 	
-	
-	public Drink(String[] info) {
-		this();
-		if(info == null || info.length < 2) {
-			throw new IllegalArgumentException();
-		}
-		
-		rate = Double.parseDouble(info[0]);
-		attributes = new int[info.length-1];
-		
-		for(int i = 1; i < info.length; i++) {
-			int val = Integer.parseInt(info[i]);
-			//features.put("f"+i, val);
-			attributes[i-1] = val;
-		}
-	}
-	
+	/**
+	 * @return: the JSON representation of Drink Object
+	 */
+	@Override
 	public String toString() {
-		/*
-		StringBuilder res = new StringBuilder();
-		res.append("[");
-		for(String featName : features.keySet()) {
-			res.append(featName+" : "+features.get(featName)+", ");
-		}
-		res.append("]");
-		return res.toString();
-		*/
-		return "";
+		return null;
 	}
 }
