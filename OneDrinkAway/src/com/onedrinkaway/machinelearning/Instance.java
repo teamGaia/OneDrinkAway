@@ -11,11 +11,11 @@ public class Instance {
 	public String label;
 	public Object name;   //this field just serve as a reference
 	public Map<String, Double> features;
-	
+
 	public Instance() {
 		features = new HashMap<String, Double>();
 	}
-	
+
 	public Instance(String[] info) {
 		this();
 		if(info == null || info.length < 2) {
@@ -26,7 +26,7 @@ public class Instance {
 			features.put("f"+i, Double.parseDouble(info[i]));
 		}
 	}
-	
+
 	public String toString() {
 		StringBuilder res = new StringBuilder();
 		res.append("[");
