@@ -16,12 +16,6 @@ import com.onedrinkaway.common.Drink;
 import com.onedrinkaway.machinelearning.Instance;
 import com.onedrinkaway.machinelearning.MLModel;
 
-/*
- * I needed to remove errors so I could run the project. 
- * I had to change the MLModel interface to remove errors in this code.
- * I also removed @Override from "train" and "predict" 
- * - Taylor
- */
 
 public class KNN_Naive implements MLModel{
 	private int K;

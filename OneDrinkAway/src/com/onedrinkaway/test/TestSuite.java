@@ -20,7 +20,7 @@ public class TestSuite extends TestCase {
 	private List<String> getCategoritsExpected;
 	private List<String> getFlavorsExpected;
 	private List<Drink> getDrinksExpected;
-	//</DrinkDb gloabl>
+	//</DrinkDb global>
 	
 	@Before
 	public void buildTest() {
