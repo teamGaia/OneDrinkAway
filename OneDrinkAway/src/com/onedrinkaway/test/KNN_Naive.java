@@ -2,6 +2,10 @@
  * OneDrinkAway v0.1 (Zero-feature release) 
  */
 
+
+/**
+ * This is the K Nearest Neighbor algorithm
+ */
 package com.onedrinkaway.test;
 
 import java.io.IOException;
@@ -22,19 +26,34 @@ public class KNN_Naive implements MLModel{
 	private List<Instance> instances;
 	private Instance curIns;
 	
+	/**
+	 * @effect construct a K nearest neighbor classfier
+	 * @param K: number of nearest neighbor
+	 */
 	public KNN_Naive(int K) {
 		this.K = K;
 	}
 	
+	/**
+	 * @effect construct a trained K nearest neighbor classfier
+	 * @param K: number of nearest neighbor
+	 */
 	public KNN_Naive(int K, List<Instance> instances) {
 		this(K);
 		train(instances);
 	}
 	
+	/**
+	 * @param trainingSet: List of training examples to create the model
+	 **/ 
 	public void train(List<Instance> instances) {
 		this.instances = instances;
 	}
-
+	
+	/**
+	 * @param sample: the Drink to predict the rating
+	 * @return the predicted rating (0.0-5.0)
+	 **/
 	public Map<String, Double> predict(Instance instance) throws IOException {
 		this.curIns = instance;
 		Queue<Instance> topK = new PriorityQueue<Instance>(1, new Comparator<Instance>() {
@@ -79,6 +98,11 @@ public class KNN_Naive implements MLModel{
 		return res;
 	}
 	
+	/**
+	 * get distance between two instance
+	 * @param thisIns
+	 * @return
+	 */
 	private double getDis(Instance thisIns) {
 		double sumDis = 0.0;
 		for(String featName : thisIns.features.keySet()) {
@@ -88,7 +112,11 @@ public class KNN_Naive implements MLModel{
 		}
 		return Math.sqrt(sumDis);
 	}
-
+	
+	/**
+	 * @param sample: the Drink to predict the rating
+	 * @return the predicted rating (0.0-5.0)
+	 **/
 	@Override
 	public double predictRating(Drink sample) {
 		// TODO Auto-generated method stub
