@@ -23,6 +23,11 @@ public interface MLModel {
 	 **/
 	public double predictRating(Drink sample);
 
-	
+	/**
+	 * 
+	 * @param curIns: the current instance
+	 * @return: the class to rating mapping
+	 * @throws IOException
+	 */
 	public Map<String, Double> predict(Instance curIns) throws IOException;
 }

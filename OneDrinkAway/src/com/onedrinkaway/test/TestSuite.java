@@ -4,26 +4,47 @@ import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
 
+import org.junit.Before;
 import org.junit.Test;
+
+import com.onedrinkaway.common.Drink;
+import com.onedrinkaway.common.Query;
+import com.onedrinkaway.db.DrinkDb;
 
 import junit.framework.TestCase;
 
-import com.onedrinkaway.common.Drink;
-import com.onedrinkaway.db.DrinkDb;
-
 public class TestSuite extends TestCase {
-	
+
+	//<ML global>
+	private final double PRECISION_THRES = 0.0;
+	private final int ML_TIMEOUT = 100000;
+	//</ML global>
+
 	//<DrinkDb global>
 	private List<String> getIngredientsExpected;
 	private List<Drink> getAllDrinksExpected;
 	private List<String> getCategoritsExpected;
 	private List<String> getFlavorsExpected;
 	private List<Drink> getDrinksExpected;
+	private DrinkDb db;
 	//</DrinkDb global>
-	
+
+	//<Query global>
+	private Query que;
+	//</Query global>
+
+	//<Drink global>
+	private List<String> getDrinkFlavorsExpected;
+	private List<String> getDrinkCategoriesExpected;
+	private List<String> getDrinkRedientsExpected;
+	private List<String> getDrinkAttributesExpected;
+	private Drink drink;
+	//</Drink global>
+
+	@Before
 	public void buildTest() {
 		//<for DrinkDb>
-		DrinkDb db = new DrinkDb();
+		db = new DrinkDb();
 		String[] valIngredients = {};
 		getIngredientsExpected = makeList(valIngredients);
 		String[] valAllDrinks = {};
@@ -35,10 +56,24 @@ public class TestSuite extends TestCase {
 		String[] valDrinks = {};
 		getDrinksExpected = makeDrinkList(valDrinks);
 		//</for DrinkDb>
-		
-		
+
+		//<for Query>
+		que = new Query();
+		//</for Query>
+
+		//<for Drink>
+		drink = new Drink();
+		String[] valDrinkFlavor = {};
+		getDrinkFlavorsExpected = makeList(valDrinkFlavor);
+		String[] valDrinkCategories = {};
+		getDrinkCategoriesExpected = makeList(valDrinkCategories);
+		String[] valDrinkRedients = {};
+		getDrinkRedientsExpected = makeList(valDrinkRedients);
+		String[] valDrinkAttributes = {};
+		getDrinkAttributesExpected = makeList(valDrinkAttributes);
+		//</for Drink>
 	}
-	
+
 	private List<String> makeList(String[] vals) {
 		if(vals == null) {
 			throw new IllegalArgumentException();
@@ -49,8 +84,8 @@ public class TestSuite extends TestCase {
 		}
 		return ret;
 	}
-	
-	
+
+
 	private <T> boolean twoListEquals(List<T> l1, List<T> l2) {
 		if(l1 == null || l2 == null || (l1.size() != l2.size())) {
 			return false;
@@ -64,12 +99,14 @@ public class TestSuite extends TestCase {
 		}
 		return true;
 	}
-	
+
+
 	/**
 	 * 
 	 * @param vals: String representation of drinks
 	 * @return: the list of drinks
 	 */
+
 	private List<Drink> makeDrinkList(String[] vals) {
 		if(vals == null) {
 			throw new IllegalArgumentException();
@@ -80,49 +117,185 @@ public class TestSuite extends TestCase {
 		}
 		return ret;
 	}
-	
+
 	//<================test DrinkDb=============>
 	@Test
 	public void testGetIngredientsReturnedValue() {
-		
+
 	}
-	
-	
+
 	@Test
 	public void testGetCategoriesReturnedValue() {
-		
+
 	}
-	
+
 	@Test
 	public void testGetFlavorsReturnedValue() {
-		
+
 	}
-	
+
 	@Test
 	public void testGetDrinksReturnedValue() {
-		
+
 	}
-	
+
 	@Test
 	public void testAddFavoriteMakeDrinkFavorite() {
-		
+
 	}
-	
+
 	@Test
 	public void testAddRatingCanAddCorrectRatingToDrink() {
-		
+
 	}
-	
+
 	@Test(expected=IllegalArgumentException.class)
 	public void testAddRatingWithWrongRatingThrowException() {
-		
+		throw new IllegalArgumentException();
 	}
-	
+
 	@Test
 	public void testRemoveFavoriteRemovesTheDrinkFromFavoriteList() {
-		
+
 	}
 	//<================test DrinkDb=============>
-	
-	//<================test >
+
+	//<================test Flavor==============>
+	@Test
+	public void testFlavorNormalConstructionAssignCorrectValues() {
+
+	}
+
+	@Test(expected=IllegalArgumentException.class)
+	public void testFlavorConstructionThrowErrors() {
+		throw new IllegalArgumentException();
+	}
+	//</================test Flavor==============>
+
+	//<test Query>
+	@Test
+	public void testGetNameReturnSetName() {
+
+	}
+
+	@Test
+	public void testGetCategoryReturnSetCategory() {
+
+	}
+
+	@Test
+	public void testGetIngredientsReturnAddedIngredients() {
+
+	}
+
+	@Test
+	public void testGetFlavorReturnAddedFlavor() {
+
+	}
+
+	@Test
+	public void testHasNameReturnsTrueAfterSetName() {
+
+	}
+
+	@Test
+	public void testHasNameReturnsFalseBeforeSetName() {
+
+	}
+
+	@Test
+	public void testHasCategoryReturnsTrueAfterAddCategory() {
+
+	}
+
+	@Test
+	public void testHasCategoryReturnsFalseBeforeAddCategory() {
+
+	}
+
+	@Test
+	public void testHasIngredientsReturnsTrueAfterAddIngredients() {
+
+	}
+
+	@Test
+	public void testHasIngredientsReturnsFalseBeforeAddIngredients() {
+
+	}
+
+	@Test
+	public void testHasFlavorsReturnsFalseBeforeAddFlavors() {
+
+	}
+
+	@Test
+	public void testHasFlavorsReturnsTrueAfterAddFlavors() {
+
+	}
+
+	@Test
+	public void testMethodsReturnsunmodifiableObjects() {
+		//use try catch to test, don't import rule
+	}
+	//</test Query>
+
+
+	//<test ML>
+	@Test(timeout=ML_TIMEOUT)
+	public void testMLRunningTime() {
+
+	}
+
+	@Test
+	public void testAccuracy() {
+
+	}
+
+	@Test
+	public void testTrainNoError() {
+
+	}
+
+	@Test
+	public void testPredictNoError() {
+
+	}
+
+	@Test
+	public void testPredictRatingNoError() {
+
+	}
+	//</test ML>
+
+	//<test Drink>
+	@Test
+	public void testDrinkConstructor() {
+
+	}
+
+	@Test
+	public void testGetIdNoError() {
+
+	}
+
+	@Test
+	public void testToStringIsJsonFormat() {
+
+	}
+
+	@Test
+	public void testConstructionAndToStringAreSame() {
+
+	}
+
+	@Test
+	public void testGetRateAndSetRateAreSame() {
+
+	}
+
+	@Test
+	public void testGetAttributesReturnValue() {
+
+	}
+	//</test Drink>
 }

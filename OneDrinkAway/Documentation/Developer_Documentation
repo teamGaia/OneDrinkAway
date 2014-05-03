@@ -15,7 +15,8 @@ hard to find on some devices, so use google if you cannot find it.
 Our application requires the appcompat_v7 library, so please download the zip if you do not 
 have it already.
 
-Next, visit our download page to find the latest source code release.
+Next, visit our download page: http://www.onedrinkaway.ava4.net/downloadPage.php to find the 
+latest source code release.
 
 Now import both projects into eclipse.
 
@@ -27,10 +28,11 @@ with a red X next to it. If you do, select it and remove it. Then click Add, and
 as a library. Press Ok and the project should be ready to run.
 
 Eclipse will automatically build the project for you, simply select the OneDrinkAway project 
-in the Package Explorer, then select Project and enable 'Build Automatically'.
+in the Package Explorer, then select Project and enable 'Build Automatically'. To run our build
+script from a terminal, execute build.bat which is located in the OneDrinkAway project.
 
-All the tests for our project can be found in src/com.onedrinkaway.test, to run a test, 
-simply select it and click run as > JUnit test.
+To run our test suite, in src/com.onedrinkaway.test, open TestSuite.java. 
+Click Run > Run as > Android JUnit Test.
 
 The installable version of an Android application is a .apk file. Eclipse automatically 
 generates the apk for a project when it is run. The apk can be found in the bin folder 
@@ -49,14 +51,15 @@ Our source code repository can be found here: https://github.com/teamGaia/OneDri
 Directory Structure:
 
 OneDrinkAway - Main project directory containing all code and resources
-src - stores packages that contain source code
-	com
-		onedrinkaway
-			app - stores source code for android app
-			common - stores source code for classes used by other packages
-			db - stores source code for the database
-			machinelearning - stores source code for ML
-			test - test suites for all packages
+	documentation - stores documents for users and developers
+	src - stores packages that contain source code
+		com
+			onedrinkaway
+				app - stores source code for android app
+				common - stores source code for classes used by other packages
+				db - stores source code for the database
+				machinelearning - stores source code for ML
+				test - test suites for all packages
 	res - stores resources files
 		drawable-* - stores .png icons of various sizes.
 		layout - stores XML files defining the layout of the app's UI
@@ -98,3 +101,12 @@ about each build can be examined by clicking on the date next to the build numbe
 	"Manage Jenkins" -> "Configure System" then scroll down to "E-Mail Notification" and hit advanced. 
 	Fill out all the fields with the appropriate information. We use the gmail SMTP server with SMTP 
 	authentication, SSL and port 465 as our SMTP port.
+
+If you have developed additional features in the OneDrinkAway app, you are welcome to submit your changes
+to our project. First, generate a full suite of tests for the new features you have implemented, similarly
+to the tests found in the test package. Then export the project as a zip or tar, and send it to 
+cse403gaia@u.washington.edu. A member of our team will get in contact with you regarding your work.
+
+Database Access:
+We are running Postgres on AWS to store cocktail information as well as aggregate user data. If you need
+access beyond what is provided in the DrinkDb class, please contact us: http://www.onedrinkaway.ava4.net/contact.php

@@ -9,11 +9,11 @@
 
 package com.onedrinkaway.app;
 
+import com.onedrinkaway.R;
+
 import android.support.v7.app.ActionBarActivity;
 import android.view.Menu;
 import android.view.MenuItem;
-
-import com.onedrinkaway.R;
 
 public abstract class OneDrinkAwayActivity extends ActionBarActivity {
 	@Override
