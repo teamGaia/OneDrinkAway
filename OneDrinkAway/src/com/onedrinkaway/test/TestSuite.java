@@ -31,8 +31,15 @@ public class TestSuite extends TestCase {
 	
 	//<Query global>
 	private Query que;
-	
 	//</Query global>
+	
+	//<Drink global>
+	private List<String> getDrinkFlavorsExpected;
+	private List<String> getDrinkCategoritsExpected;
+	private List<String> getDrinkRedientsExpected;
+	private List<String> getDrinkAttributesExpected;
+	private Drink drink;
+	//</Drink global>
 	
 	@Before
 	public void buildTest() {
@@ -53,6 +60,10 @@ public class TestSuite extends TestCase {
 		//<for Query>
 		que = new Query();
 		//</for Query>
+		
+		//<for Drink>
+		drink = new Drink();
+		//</for Drink>
 	}
 	
 	private List<String> makeList(String[] vals) {
@@ -205,7 +216,6 @@ public class TestSuite extends TestCase {
 		
 	}
 	
-	
 	@Test
 	public void testHasFlavorsReturnsFalseBeforeAddFlavors() {
 		
@@ -234,17 +244,51 @@ public class TestSuite extends TestCase {
 		
 	}
 	
+	@Test
 	public void testTrainNoError() {
 		
 	}
 	
+	@Test
 	public void testPredictNoError() {
 		
 	}
 	
+	@Test
 	public void testPredictRatingNoError() {
 		
 	}
 	//</test ML>
 	
+	//<test Drink>
+	@Test
+	public void testDrinkConstructor() {
+		
+	}
+	
+	@Test
+	public void testGetIdNoError() {
+		
+	}
+	
+	@Test
+	public void testToStringIsJsonFormat() {
+		
+	}
+	
+	@Test
+	public void testConstructionAndToStringAreSame() {
+		
+	}
+	
+	@Test
+	public void testGetRateAndSetRateAreSame() {
+		
+	}
+	
+	@Test
+	public void testGetAttributesReturnValue() {
+		
+	}
+	//</test Drink>
 }

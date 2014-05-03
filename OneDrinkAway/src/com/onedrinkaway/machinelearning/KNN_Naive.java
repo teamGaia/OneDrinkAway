@@ -6,7 +6,7 @@
 /**
  * This is the K Nearest Neighbor algorithm
  */
-package com.onedrinkaway.test;
+package com.onedrinkaway.machinelearning;
 
 import java.io.IOException;
 import java.util.Comparator;
@@ -17,8 +17,6 @@ import java.util.Queue;
 import java.util.TreeMap;
 
 import com.onedrinkaway.common.Drink;
-import com.onedrinkaway.machinelearning.Instance;
-import com.onedrinkaway.machinelearning.MLModel;
 
 
 public class KNN_Naive implements MLModel{
