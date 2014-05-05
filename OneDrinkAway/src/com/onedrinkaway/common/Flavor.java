@@ -21,17 +21,17 @@ import java.util.HashSet;
 public class Flavor {
     
     // Valid flavors:
-    public static final String sweet = "sweet";
-    public static final String citrusy = "citrusy";
-    public static final String bitter = "bitter";
-    public static final String herbal = "herbal";
-    public static final String minty = "minty";
-    public static final String fruity = "fruity";
-    public static final String sour = "sour";
-    public static final String boosy = "boosy";
-    public static final String spicy = "spicy";
-    public static final String salty = "salty";
-    public static final String creamy = "creamy";
+    public static final String SWEET = "sweet";
+    public static final String CITRUSY = "citrusy";
+    public static final String BITTER = "bitter";
+    public static final String HERBAL = "herbal";
+    public static final String MINTY = "minty";
+    public static final String FRUITY = "fruity";
+    public static final String SOUR = "sour";
+    public static final String BOOSY = "boosy";
+    public static final String SPICY = "spicy";
+    public static final String SALTY = "salty";
+    public static final String CREAMY = "creamy";
     
     public static final String[] flavorsArr = {
         sweet, citrusy, bitter, herbal, minty, fruity,
