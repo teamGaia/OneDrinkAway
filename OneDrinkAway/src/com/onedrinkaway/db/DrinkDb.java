@@ -89,5 +89,16 @@ public class DrinkDb {
         
     }
     
+    /**
+     * Gets a list of ingredients for the given drink
+     * 
+     * @param drink the drink to find the ingredients of
+     */
+    public List<String> getIngredients(Drink drink) {
+        List<String> result = new ArrayList<String>();
+        
+        return result;
+    }
+    
     
 }
