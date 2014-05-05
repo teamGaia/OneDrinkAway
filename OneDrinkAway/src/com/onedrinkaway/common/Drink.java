@@ -1,7 +1,9 @@
 package com.onedrinkaway.common;
 
+/*
 import foo.Drink.Category;
 import foo.Drink.Glass;
+*/
 
 /**
  * Represents a Drink, stores a name, rating, flavor attributes

@@ -34,8 +34,8 @@ public class Flavor {
     public static final String CREAMY = "creamy";
     
     public static final String[] flavorsArr = {
-        sweet, citrusy, bitter, herbal, minty, fruity,
-        sour, boosy, spicy, salty, creamy
+        "sweet", "citrusy", "bitter", "herbal", "minty", "fruity",
+        "sour", "boosy", "spicy", "salty", "creamy"
     };
     public static final HashSet<String> flavors =
             new HashSet<String>(Arrays.asList(flavorsArr));

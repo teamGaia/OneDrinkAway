@@ -62,7 +62,7 @@ public class TestSuite extends TestCase {
 		//</for Query>
 
 		//<for Drink>
-		drink = new Drink();
+		//drink = new Drink();
 		String[] valDrinkFlavor = {};
 		getDrinkFlavorsExpected = makeList(valDrinkFlavor);
 		String[] valDrinkCategories = {};
@@ -113,7 +113,7 @@ public class TestSuite extends TestCase {
 		}
 		List<Drink> ret = new LinkedList<Drink>();
 		for(String s : vals) {
-			ret.add(new Drink(s));
+			//ret.add(new Drink(s));
 		}
 		return ret;
 	}
@@ -275,13 +275,15 @@ public class TestSuite extends TestCase {
 
 	@Test
 	public void testGetIdNoError() {
-
+		
 	}
-
+	
+	/*
 	@Test
 	public void testToStringIsJsonFormat() {
 
 	}
+	*/
 
 	@Test
 	public void testConstructionAndToStringAreSame() {
