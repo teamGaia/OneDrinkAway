@@ -56,7 +56,7 @@ public class Drink {
   }
   
   /**
-   * Valid Categories
+   * Valid Categories 
    */
   public enum Category {
     SHAKEN, STIRRED, SHOOTER, FROZEN, ON_THE_ROCKS, HOT

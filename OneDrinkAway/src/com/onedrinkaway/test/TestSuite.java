@@ -73,7 +73,7 @@ public class TestSuite extends TestCase {
 		getDrinkAttributesExpected = makeList(valDrinkAttributes);
 		//</for Drink>
 	}
-
+ 
 	private List<String> makeList(String[] vals) {
 		if(vals == null) {
 			throw new IllegalArgumentException();
