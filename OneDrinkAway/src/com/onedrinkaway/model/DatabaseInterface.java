@@ -1,6 +1,7 @@
 package com.onedrinkaway.model;
 
 import java.util.*;
+import com.onedrinkaway.common.*;
 
 public class DatabaseInterface {
   public static List<Drink> getAllDrinks(){
@@ -23,7 +24,7 @@ public class DatabaseInterface {
     return new ArrayList<String>();
   }
   
-  public static List<String>> getIngredients(){
+  public static List<String> getIngredients(){
     return new ArrayList<String>();
   }
   
