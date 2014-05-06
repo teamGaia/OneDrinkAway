@@ -11,6 +11,6 @@ public class KNearestNeighborModel implements MLModel {
   }
   
   public double predictRating(Drink sample) {
-    return 0.0
+    return 0.0;
   }
 }
