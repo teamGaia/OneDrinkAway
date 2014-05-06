@@ -2,7 +2,7 @@
  * OneDrinkAway v0.1 (Zero-feature release) 
  */
 
-package com.onedrinkaway.machinelearning;
+package com.onedrinkaway.model.machinelearning;
 
 import java.io.IOException;
 import java.util.List;
