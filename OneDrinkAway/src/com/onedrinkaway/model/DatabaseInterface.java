@@ -6,7 +6,7 @@ import com.onedrinkaway.db.*;
 import com.onedrinkaway.model.machinelearning.*;
 
 public class DatabaseInterface {
-  private static DrinkDB temp = new DrinkDB();
+  private static DrinkDb temp = new DrinkDb();
   private static MLModel machineLearner = new KNearestNeighborModel();
   
   public static List<Drink> getAllDrinks(){
@@ -16,7 +16,7 @@ public class DatabaseInterface {
   public static List<Drink> getDrinks(Query query){
     List<Drink> drinks = temp.getDrinks(query);
     List<Drink> ratedDrinks = new ArrayList<Drink>(); // this will be changed to the new method
-    for(int i = 0; i < drinks.length; i++){
+    for(int i = 0; i < drinks.size(); i++){
       Drink d = drinks.get(i);
       if(ratedDrinks.contains(d)){
          drinks.remove(d);
@@ -26,7 +26,7 @@ public class DatabaseInterface {
     
     machineLearner.train(ratedDrinks);
     
-      
+    return null;  
   }
   
   public static List<Drink> getFavorites(){
