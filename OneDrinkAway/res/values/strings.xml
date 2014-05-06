@@ -15,5 +15,9 @@
     <string name="favorites">Favorites</string>
     <string name="advanced_search">Advanced Search</string>
     <string name="try_something_new">Try Something New!</string>
+    <string name="title_activity_home_page_help">HomePageHelp</string>
+    <string name="help_title">Help</string>
+    <string name="home_help_message">Too bad! (loser)</string>
+    <string name="okay">Okay</string>
 
 </resources>

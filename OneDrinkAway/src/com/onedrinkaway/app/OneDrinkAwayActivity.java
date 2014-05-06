@@ -9,11 +9,12 @@
 
 package com.onedrinkaway.app;
 
-import com.onedrinkaway.R;
-
+import android.app.DialogFragment;
 import android.support.v7.app.ActionBarActivity;
 import android.view.Menu;
 import android.view.MenuItem;
+
+import com.onedrinkaway.R;
 
 public abstract class OneDrinkAwayActivity extends ActionBarActivity {
 	@Override
@@ -30,7 +31,8 @@ public abstract class OneDrinkAwayActivity extends ActionBarActivity {
 		// as you specify a parent activity in AndroidManifest.xml.
 		int id = item.getItemId();
 		if (id == R.id.action_help) {
-			return true;
+			DialogFragment newFragment = new HomePageHelp();
+		    newFragment.show(getFragmentManager(), "help");
 		}
 		return super.onOptionsItemSelected(item);
 	}
