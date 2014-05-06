@@ -1,5 +1,7 @@
-package com.onedrinkaway.machinelearning;
+package com.onedrinkaway.model.machinelearning;
 
+import java.util.*;
+import com.onedrinkaway.common.*;
 
 public class KNearestNeighborModel implements MLModel {
   private List<Drink> trainingSet;
