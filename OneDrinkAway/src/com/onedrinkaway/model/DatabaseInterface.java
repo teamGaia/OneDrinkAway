@@ -26,7 +26,7 @@ public class DatabaseInterface {
     
     machineLearner.train(ratedDrinks);
     
-    return null;  
+    return null;
   }
   
   public static List<Drink> getFavorites(){
