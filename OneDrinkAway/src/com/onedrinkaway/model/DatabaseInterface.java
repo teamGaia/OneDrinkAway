@@ -2,14 +2,31 @@ package com.onedrinkaway.model;
 
 import java.util.*;
 import com.onedrinkaway.common.*;
+import com.onedrinkaway.db.*;
+import com.onedrinkaway.model.machinelearning.*;
 
 public class DatabaseInterface {
+  private static DrinkDB temp = new DrinkDB();
+  private static MLModel machineLearner = new KNearestNeighborModel();
+  
   public static List<Drink> getAllDrinks(){
-    return new ArrayList<Drink>();  
+    return temp.getAllDrinks();
   }
   
   public static List<Drink> getDrinks(Query query){
-    return new ArrayList<Drink>();
+    List<Drink> drinks = temp.getDrinks(query);
+    List<Drink> ratedDrinks = new ArrayList<Drink>(); // this will be changed to the new method
+    for(int i = 0; i < drinks.length; i++){
+      Drink d = drinks.get(i);
+      if(ratedDrinks.contains(d)){
+         drinks.remove(d);
+         i--;
+      }
+    }
+    
+    machineLearner.train(ratedDrinks);
+    
+      
   }
   
   public static List<Drink> getFavorites(){
