@@ -25,28 +25,36 @@ public class DatabaseInterface {
     }
     
     machineLearner.train(ratedDrinks);
+    Map<Double, List<Drink>> ratings = new TreeMap<Double, List<Drink>>();
+    for(Drink d : drinks){
+      double rating = machineLearner.predictRating(d);
+      if (!ratings.containsKey(rating)){
+         ratings.put(rating, new ArrayList<Drink>());
+      }
+      ratings.get(rating).add(d);
+    }
     
     return null;
   }
   
   public static List<Drink> getFavorites(){
-    return new ArrayList<Drink>();
+    return new ArrayList<Drink>();//temp.getFavorites();
   }
   
-  public static List<Flavor> getFlavors(){
-    return new ArrayList<Flavor>();
+  public static List<String> getFlavors(){
+    return temp.getFlavors();
   }
   
   public static List<String> getCategories(){
-    return new ArrayList<String>();
+    return temp.getCategories();
   }
   
   public static List<String> getIngredients(){
-    return new ArrayList<String>();
+    return temp.getIngredients();
   }
   
   public static void addFavorite(Drink favorite){
-    
+    temp.addFavorite(favorite);
   }
   
   public static void removeFavorite(Drink oldFavorite){
