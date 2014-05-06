@@ -69,4 +69,13 @@ public class Drink {
     HIGHBALL, MARTINI, SHOT, COLLINS, COCKTAIL, PINT, MUG, TALL, ROCKS
   }
   
+  public boolean equals(Object obj){
+    if (obj == null)
+      return false;
+    if (obj == this)
+      return true;
+    if(!(obj instanceof Drink))
+      return false;
+    return id == ((Drink)obj).id;
+  }
 }
