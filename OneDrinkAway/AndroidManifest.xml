@@ -38,8 +38,12 @@
             </intent-filter>
         </activity>
         <activity
-            android:name="com.onedrinkaway.app.HomePageHelp"
+            android:name="com.onedrinkaway.app.HelpDialog"
             android:label="@string/title_activity_home_page_help" >
+        </activity>
+        <activity
+            android:name="com.onedrinkaway.app.DrinkInfoPage"
+            android:label="@string/title_activity_drink_info_page" >
         </activity>
     </application>
 

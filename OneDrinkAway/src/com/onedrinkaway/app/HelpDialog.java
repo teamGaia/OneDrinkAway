@@ -8,13 +8,17 @@ import android.os.Bundle;
 
 import com.onedrinkaway.R;
 
-public class HomePageHelp extends DialogFragment {
+public class HelpDialog extends DialogFragment {	
     @Override
     public Dialog onCreateDialog(Bundle savedInstanceState) {
         // Use the Builder class for convenient dialog construction
         AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
+        
+        //Retrieve Class name for caller Activity
+        Bundle bundle = this.getArguments();
+
         builder.setTitle(R.string.help_title)
-        	   .setMessage(R.string.home_help_message)
+        	   .setMessage(bundle.getInt("helpID"))
                .setPositiveButton(R.string.okay, new DialogInterface.OnClickListener() {
                    public void onClick(DialogInterface dialog, int id) {
                        dismiss();

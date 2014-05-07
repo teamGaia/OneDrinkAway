@@ -9,7 +9,6 @@ import android.view.ViewGroup;
 import com.onedrinkaway.R;
 
 public class HomePage extends OneDrinkAwayActivity {
-
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -21,6 +20,7 @@ public class HomePage extends OneDrinkAwayActivity {
 		}
 		
 		// My code
+		helpID = R.string.home_page_help;
 		getSupportActionBar().setTitle(R.string.app_name);
 		getSupportActionBar().setDisplayHomeAsUpEnabled(false);
 	}
