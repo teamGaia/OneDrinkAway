@@ -47,6 +47,11 @@ public class HomePage extends OneDrinkAwayActivity {
 		startActivity(intent);
 	}
 
+	@Override
+	public void onBackPressed() {
+	   this.finish();
+	}
+	
 	/**
 	 * A placeholder fragment containing a simple view.
 	 */

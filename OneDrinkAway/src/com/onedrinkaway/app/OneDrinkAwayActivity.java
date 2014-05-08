@@ -49,6 +49,7 @@ public abstract class OneDrinkAwayActivity extends ActionBarActivity {
 		} else if(id == R.id.action_home) {
 			Intent goHomeIntent = new Intent(this, HomePage.class);
 			goHomeIntent.setFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
+			finish();
 			startActivity(goHomeIntent);
 		}
 		return super.onOptionsItemSelected(item);
