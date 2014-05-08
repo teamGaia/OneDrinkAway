@@ -1,7 +1,10 @@
 package com.onedrinkaway.app;
 
+import android.app.Activity;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v7.app.ActionBarActivity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -23,6 +26,14 @@ public class HomePage extends OneDrinkAwayActivity {
 		helpID = R.string.home_page_help;
 		getSupportActionBar().setTitle(R.string.app_name);
 		getSupportActionBar().setDisplayHomeAsUpEnabled(false);
+	}
+	
+	public void goToActivity(View view) {
+		Intent intent = null;
+		if (view.getId() == R.id.search_by_name) {
+			intent = new Intent(this, SearchByName.class);
+		}
+		startActivity(intent);
 	}
 
 	/**

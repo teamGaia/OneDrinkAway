@@ -20,5 +20,6 @@
     <string name="home_page_help">Too bad! (loser)</string>
     <string name="okay">Okay</string>
     <string name="title_activity_drink_info_page">DrinkInfoPage</string>
+    <string name="title_activity_search_by_name">SearchByName</string>
 
 </resources>

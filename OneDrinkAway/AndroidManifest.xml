@@ -45,6 +45,10 @@
             android:name="com.onedrinkaway.app.DrinkInfoPage"
             android:label="@string/title_activity_drink_info_page" >
         </activity>
+        <activity
+            android:name="com.onedrinkaway.app.SearchByName"
+            android:label="@string/title_activity_search_by_name" >
+        </activity>
     </application>
 
 </manifest>
