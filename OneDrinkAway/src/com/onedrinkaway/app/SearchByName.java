@@ -1,5 +1,6 @@
 package com.onedrinkaway.app;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
@@ -23,7 +24,11 @@ public class SearchByName extends OneDrinkAwayActivity {
 		helpID = R.string.search_by_name;
 	}
 
-
+	public void goToDrinkInfo(View view) {
+		Intent intent = new Intent(this, DrinkInfoPage.class);
+		startActivity(intent);
+	}
+	
 	/**
 	 * A placeholder fragment containing a simple view.
 	 */

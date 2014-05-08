@@ -46,10 +46,10 @@ public class HomePage extends OneDrinkAwayActivity {
 		}
 		startActivity(intent);
 	}
-
+	
 	@Override
 	public void onBackPressed() {
-	   this.finish();
+        moveTaskToBack(true);
 	}
 	
 	/**
