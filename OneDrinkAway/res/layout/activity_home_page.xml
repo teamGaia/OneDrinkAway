@@ -10,7 +10,7 @@
     <LinearLayout
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-
+		android:layout_marginTop="15dp"
         android:orientation="horizontal" >
 
         <TextView
@@ -52,7 +52,7 @@
     <LinearLayout 
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-
+		android:layout_marginTop="15dp"
         android:orientation="horizontal" >
 
         <TextView
@@ -98,6 +98,7 @@
     <TextView android:id="@+id/try_something_new"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginTop="15dp"
         android:layout_gravity="center"
         android:gravity="center_horizontal"
         android:drawableTop="@drawable/ic_launcher"
@@ -107,4 +108,4 @@
     <!--  </LinearLayout> -->
 
 
-</LinearLayout> 
+</LinearLayout>
