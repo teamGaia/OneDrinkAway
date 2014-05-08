@@ -49,6 +49,26 @@
             android:name="com.onedrinkaway.app.SearchByName"
             android:label="@string/title_activity_search_by_name" >
         </activity>
+        <activity
+            android:name="com.onedrinkaway.app.SearchByCategory"
+            android:label="@string/title_activity_search_by_category" >
+        </activity>
+        <activity
+            android:name="com.onedrinkaway.app.SearchByFlavor"
+            android:label="@string/title_activity_search_by_flavor" >
+        </activity>
+        <activity
+            android:name="com.onedrinkaway.app.SearchByIngredient"
+            android:label="@string/title_activity_search_by_ingredient" >
+        </activity>
+        <activity
+            android:name="com.onedrinkaway.app.FavoriteDrinks"
+            android:label="@string/title_activity_favorite_drinks" >
+        </activity>
+        <activity
+            android:name="com.onedrinkaway.app.AdvancedSearch"
+            android:label="@string/title_activity_advanced_search" >
+        </activity>
     </application>
 
 </manifest>

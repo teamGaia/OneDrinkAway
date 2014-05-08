@@ -28,8 +28,21 @@ public class HomePage extends OneDrinkAwayActivity {
 	
 	public void goToActivity(View view) {
 		Intent intent = null;
-		if (view.getId() == R.id.search_by_name) {
+		int viewID = view.getId();
+		if (viewID == R.id.search_by_name) {
 			intent = new Intent(this, SearchByName.class);
+		} else if(viewID == R.id.search_by_category) {
+			intent = new Intent(this, SearchByCategory.class);
+		} else if(viewID == R.id.search_by_flavor) {
+			intent = new Intent(this, SearchByFlavor.class);
+		} else if(viewID == R.id.search_by_ingredient) {
+			intent = new Intent(this, SearchByIngredient.class);
+		} else if(viewID == R.id.favorites) {
+			intent = new Intent(this, FavoriteDrinks.class);
+		} else if(viewID == R.id.advanced_search) {
+			intent = new Intent(this, AdvancedSearch.class);
+		} else if(viewID == R.id.try_something_new) {
+			intent = new Intent(this, DrinkInfoPage.class);
 		}
 		startActivity(intent);
 	}

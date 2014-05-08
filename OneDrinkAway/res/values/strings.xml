@@ -21,5 +21,10 @@
     <string name="okay">Okay</string>
     <string name="title_activity_drink_info_page">DrinkInfoPage</string>
     <string name="title_activity_search_by_name">SearchByName</string>
+    <string name="title_activity_search_by_category">SearchByCategory</string>
+    <string name="title_activity_search_by_flavor">SearchByFlavor</string>
+    <string name="title_activity_search_by_ingredient">SearchByIngredient</string>
+    <string name="title_activity_favorite_drinks">FavoriteDrinks</string>
+    <string name="title_activity_advanced_search">AdvancedSearch</string>
 
 </resources>
