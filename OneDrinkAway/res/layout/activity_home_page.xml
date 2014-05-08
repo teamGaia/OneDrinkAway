@@ -1,36 +1,34 @@
- <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+ <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/container"
-    android:layout_width="fill_parent"
-    android:layout_height="fill_parent"
-    android:orientation="vertical"
     tools:context=".app.HomePage"
-    tools:ignore="MergeRootFrame" >
+    tools:ignore="MergeRootFrame"
+    
+    android:layout_width="match_parent"
+    android:layout_height="match_parent" >
 
-    <LinearLayout
-        android:layout_width="fill_parent"
+    <LinearLayout android:id="@+id/top_row"
+        android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_weight="1"
+        android:layout_centerInParent="true"
         android:orientation="horizontal" >
 
         <TextView
             android:id="@+id/search_by_name"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_gravity="center"
             android:layout_weight="1"
             android:drawablePadding="5dp"
             android:drawableTop="@drawable/ic_launcher"
             android:gravity="center_horizontal"
             android:text="@string/search_by_name"
             android:onClick="goToActivity"
-			android:clickable="true" />
+            android:clickable="true" />
 
         <TextView
             android:id="@+id/search_by_category"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_gravity="center"
             android:layout_weight="1"
             android:drawablePadding="5dp"
             android:drawableTop="@drawable/ic_launcher"
@@ -41,7 +39,6 @@
             android:id="@+id/search_by_ingredient"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_gravity="center"
             android:layout_weight="1"
             android:drawablePadding="5dp"
             android:drawableTop="@drawable/ic_launcher"
@@ -49,17 +46,16 @@
             android:text="@string/search_by_ingredient" />
     </LinearLayout> 
     
-    <LinearLayout 
-        android:layout_width="fill_parent"
+    <LinearLayout
+        android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_weight="1"
+        android:layout_above="@id/top_row"
         android:orientation="horizontal" >
 
         <TextView
             android:id="@+id/search_by_flavor"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_gravity="center"
             android:layout_weight="1"
             android:drawablePadding="5dp"
             android:drawableTop="@drawable/ic_launcher"
@@ -70,7 +66,6 @@
             android:id="@+id/favorites"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_gravity="center"
             android:layout_weight="1"
             android:drawablePadding="5dp"
             android:drawableTop="@drawable/ic_launcher"
@@ -81,7 +76,6 @@
             android:id="@+id/advanced_search"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_gravity="center"
             android:layout_weight="1"
             android:drawablePadding="5dp"
             android:drawableTop="@drawable/ic_launcher"
@@ -93,11 +87,11 @@
     <TextView android:id="@+id/try_something_new"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_weight="1"
+        android:layout_alignParentBottom="true"
         android:layout_gravity="center"
         android:gravity="center_horizontal"
         android:drawableTop="@drawable/ic_launcher"
         android:drawablePadding="5dp"
         android:text="@string/try_something_new" /> 
-</LinearLayout> 
+</RelativeLayout> 
 
