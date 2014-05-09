@@ -29,5 +29,18 @@
     <string name="ingredients"><b>Ingredients</b></string>
     <string name="add_to_favorites">Add To Favorites</string>
     <string name="drink_description"><b>Description</b></string>
+    <string name="bold_user_rating"><b>User Rating</b></string>
+    <string name="flavor_sweet">Sweet</string>
+    <string name="flavor_citrusy">Citrusy</string>
+    <string name="flavor_herbal">Herbal</string>
+    <string name="flavor_minty">Minty</string>
+    <string name="flavor_fruity">Fruity</string>
+    <string name="flavor_sour">Sour</string>
+    <string name="flavor_boozy">Boozy</string>
+    <string name="flavor_spicy">Spicy</string>
+    <string name="flavor_salty">Salty</string>
+    <string name="flavor_creamy">Creamy</string>
+    
+
 
 </resources>
