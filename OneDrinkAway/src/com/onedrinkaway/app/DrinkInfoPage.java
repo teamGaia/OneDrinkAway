@@ -6,6 +6,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.RatingBar;
 import android.widget.TextView;
 
 import com.onedrinkaway.R;
@@ -24,6 +25,7 @@ public class DrinkInfoPage extends OneDrinkAwayActivity {
 		fillIngredients();
 		setGlassPicture();
 		fillDescription();
+		setRatingBar();
 		
 
 		if (savedInstanceState == null) {
@@ -61,6 +63,15 @@ public class DrinkInfoPage extends OneDrinkAwayActivity {
 	private void fillDescription() {
 		TextView descriptionTextView = (TextView) findViewById(R.id.drink_info_description);
 		descriptionTextView.append("\n" + TestData.whiskeySourDescription);
+	}
+	
+	/**
+	 * Sets RatingBar Steps to integer value and sets what current star rating should show as
+	 */
+	private void setRatingBar() {
+		RatingBar ratingBar = (RatingBar) findViewById(R.id.drink_info_rating_bar);
+		ratingBar.setStepSize((float) 1.0);
+		ratingBar.setRating((float) 2.0);  //sets rating shown
 	}
 
 	/**
