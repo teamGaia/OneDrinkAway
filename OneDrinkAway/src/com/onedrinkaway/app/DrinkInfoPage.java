@@ -23,7 +23,7 @@ public class DrinkInfoPage extends OneDrinkAwayActivity {
 		setTitle(whiskeySour.name);
 		fillIngredients();
 		setGlassPicture();
-		
+		fillDescription();
 		
 
 		if (savedInstanceState == null) {
@@ -53,6 +53,14 @@ public class DrinkInfoPage extends OneDrinkAwayActivity {
 		ImageView glassTextView = (ImageView) findViewById(R.id.drink_info_glass_type);
 		int imageID = getResources().getIdentifier("yourpackagename:drawable/ic_launcher", null, null);
 		glassTextView.setImageResource(imageID);
+	}
+	
+	/**
+	 * Fills the drink_info_description text view with the description of given drink
+	 */
+	private void fillDescription() {
+		TextView descriptionTextView = (TextView) findViewById(R.id.drink_info_description);
+		descriptionTextView.append("\n" + TestData.whiskeySourDescription);
 	}
 
 	/**
