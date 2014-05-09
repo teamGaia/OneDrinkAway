@@ -46,6 +46,9 @@ public class DrinkInfoPage extends OneDrinkAwayActivity {
 		}
 	}
 	
+	/**
+	 * Fills the drink_info_glass_type image view with image of glass for given drink
+	 */
 	private void setGlassPicture() {
 		ImageView glassTextView = (ImageView) findViewById(R.id.drink_info_glass_type);
 		int imageID = getResources().getIdentifier("yourpackagename:drawable/ic_launcher", null, null);
