@@ -19,12 +19,12 @@
     <string name="help_title">Help</string>
     <string name="home_page_help">Too bad! (loser)</string>
     <string name="okay">Okay</string>
-    <string name="title_activity_drink_info_page">DrinkInfoPage</string>
-    <string name="title_activity_search_by_name">SearchByName</string>
-    <string name="title_activity_search_by_category">SearchByCategory</string>
-    <string name="title_activity_search_by_flavor">SearchByFlavor</string>
-    <string name="title_activity_search_by_ingredient">SearchByIngredient</string>
-    <string name="title_activity_favorite_drinks">FavoriteDrinks</string>
-    <string name="title_activity_advanced_search">AdvancedSearch</string>
+    <string name="title_activity_drink_info_page">Drink Info Page</string>
+    <string name="title_activity_search_by_name">Search By Name</string>
+    <string name="title_activity_search_by_category">Search By Category</string>
+    <string name="title_activity_search_by_flavor">Search By Flavor</string>
+    <string name="title_activity_search_by_ingredient">Search By Ingredient</string>
+    <string name="title_activity_favorite_drinks">Favorite Drinks</string>
+    <string name="title_activity_advanced_search">Advanced Search</string>
 
 </resources>
