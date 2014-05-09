@@ -26,5 +26,7 @@
     <string name="title_activity_search_by_ingredient">Search By Ingredient</string>
     <string name="title_activity_favorite_drinks">Favorite Drinks</string>
     <string name="title_activity_advanced_search">Advanced Search</string>
+    <string name="ingredients"><b>Ingredients</b></string>
+    <string name="add_to_favorites">Add To Favorites</string>
 
 </resources>
