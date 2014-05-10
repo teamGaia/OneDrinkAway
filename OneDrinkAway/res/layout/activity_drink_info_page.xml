@@ -68,14 +68,6 @@
 	</LinearLayout>
 
 	<SeekBar
-	    android:id="@+id/drink_info_bitter_seekbar"
-	    android:layout_width="match_parent"
-	    android:layout_height="wrap_content" 
-	    
-	    android:max="5"
-	    
-	    />
-	<SeekBar
 	    android:id="@+id/drink_info_boozy_seekbar"
 	    android:layout_width="match_parent"
 	    android:layout_height="wrap_content" 

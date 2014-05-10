@@ -3,5 +3,47 @@
     android:id="@+id/container"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="com.onedrinkaway.app.SearchByFlavor"
-    tools:ignore="MergeRootFrame" />
+    tools:context=".app.HomePage"
+    tools:ignore="MergeRootFrame" >
+
+    <TableLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" >
+
+        <TableRow
+            android:id="@+id/tableRow1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" >
+
+            <Button
+                android:id="@+id/flavorSearchButton"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/search_button" />
+
+        </TableRow>
+
+        <TableRow
+            android:id="@+id/scrollViewTableRow"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" >
+
+            <ScrollView
+                android:id="@+id/flavorsScrollView"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_span="2" >
+
+                <TableLayout
+                    android:id="@+id/flavorsScrollViewTable"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:stretchColumns="yes" >
+
+                </TableLayout>
+            </ScrollView>
+
+        </TableRow>
+    </TableLayout>
+
+</FrameLayout>
