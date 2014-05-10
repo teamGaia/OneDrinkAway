@@ -41,15 +41,24 @@ public class SearchByFlavor extends OneDrinkAwayActivity {
 		displayFlavors();
 	}
 
+	/**
+	 * Displays each flavor textView and it's seek bar
+	 */
 	private void displayFlavors() {
 		for (int i = 0; i < flavors.length; i++) {
 			LayoutInflater inflater = (LayoutInflater) getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+			// Set the TextView in search_by_flavor_row
 			View flavorRow = inflater.inflate(R.layout.activity_search_by_flavor_row, null);
 			TextView flavorTextView = (TextView) flavorRow.findViewById(R.id.flavorTextView);
 			flavorTextView.setText(flavors[i]);
-			SeekBar seekbar = (SeekBar) flavorRow.findViewById(R.id.flavorSeekBar);
+			View flavorRow2 = inflater.inflate(R.layout.search_by_flavor_row2, null);
+			// Set the SeekBar in search_by_flavor_row2
+			SeekBar seekbar = (SeekBar) flavorRow2.findViewById(R.id.flavorSeekBar);
+			seekbar.incrementProgressBy(20);
 			seekbar.setOnSeekBarChangeListener(new flavorSeekBarListener());
-			flavorsScrollViewTable.addView(flavorRow, i);
+			// Add each row to the view
+			flavorsScrollViewTable.addView(flavorRow, i * 2);
+			flavorsScrollViewTable.addView(flavorRow2, i * 2 + 1);
 		}
 	}
 
@@ -64,10 +73,11 @@ public class SearchByFlavor extends OneDrinkAwayActivity {
 	};
 	
 	public class flavorSeekBarListener implements OnSeekBarChangeListener {
-
+		int progressChanged = 0;
+		
 		@Override
-		public void onProgressChanged(SeekBar arg0, int arg1, boolean arg2) {
-			// TODO Auto-generated method stub
+		public void onProgressChanged(SeekBar seekbar, int progress, boolean fromUser) {
+			progressChanged = progress;
 			
 		}
 

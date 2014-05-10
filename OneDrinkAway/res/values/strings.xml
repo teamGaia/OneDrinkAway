@@ -42,5 +42,12 @@
     <string name="flavor_salty">Salty</string>
     <string name="flavor_creamy">Creamy</string>
     <string name="search_button">Search</string>
+    <string name="flavor_0">0</string>
+    <string name="flavor_1">1</string>
+    <string name="flavor_2">2</string>
+    <string name="flavor_3">3</string>
+    <string name="flavor_4">4</string>
+    <string name="flavor_5">5</string>
 
 </resources>
+
