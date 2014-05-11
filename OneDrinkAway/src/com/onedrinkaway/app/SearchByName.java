@@ -24,7 +24,7 @@ public class SearchByName extends OneDrinkAwayActivity implements SearchView.OnQ
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         
-        helpID = R.string.search_by_name;
+        helpID = R.string.search_by_name_help;
         setContentView(R.layout.activity_search_by_name);
         setupSearchView();
         setupListView();
