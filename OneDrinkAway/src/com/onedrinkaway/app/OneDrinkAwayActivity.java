@@ -51,7 +51,7 @@ public abstract class OneDrinkAwayActivity extends ActionBarActivity {
 			goHomeIntent.setFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
 			finish();
 			startActivity(goHomeIntent);
-		}
+		} 
 		return super.onOptionsItemSelected(item);
 	}
 }

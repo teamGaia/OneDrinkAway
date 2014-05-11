@@ -3,6 +3,7 @@ package com.onedrinkaway.app;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
@@ -93,6 +94,15 @@ public class DrinkInfoPage extends OneDrinkAwayActivity {
 		
 	} */
 
+	@Override
+	public boolean onOptionsItemSelected(MenuItem item) {
+	    if (item.getItemId() == android.R.id.home) {
+	        onBackPressed();
+	    	return true;
+	    }
+
+	    return super.onOptionsItemSelected(item);
+	}
 	/**
 	 * A placeholder fragment containing a simple view.
 	 */
