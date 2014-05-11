@@ -1,11 +1,15 @@
 package com.onedrinkaway.app;
 
+import java.util.Map;
+
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.RatingBar;
+import android.widget.SeekBar;
 import android.widget.TextView;
 
 import com.onedrinkaway.R;
@@ -24,6 +28,8 @@ public class DrinkInfoPage extends OneDrinkAwayActivity {
 		fillIngredients();
 		setGlassPicture();
 		fillDescription();
+		setRatingBar();
+		//manageFlavorSeekBars(whiskeySour);
 		
 
 		if (savedInstanceState == null) {
@@ -62,6 +68,27 @@ public class DrinkInfoPage extends OneDrinkAwayActivity {
 		TextView descriptionTextView = (TextView) findViewById(R.id.drink_info_description);
 		descriptionTextView.append("\n" + TestData.whiskeySourDescription);
 	}
+	
+	/**
+	 * Sets RatingBar Steps to integer value and sets what current star rating should show as
+	 */
+	private void setRatingBar() {
+		RatingBar ratingBar = (RatingBar) findViewById(R.id.drink_info_rating_bar);
+		ratingBar.setStepSize((float) 1.0);
+		ratingBar.setRating((float) 2.0);  //sets rating shown
+	}
+	
+	/*private List<Seekbar> getSeekBarList(drink) {
+		
+	}
+	
+	private void manageFlavorSeekBars(Drink drink) {
+		Map<String, Integer> flavors = TestData.interpretFlavors(drink);
+		SeekBar bitter = (SeekBar) findViewById(R.id.drink_info_bitter_seekbar);
+		bitter.setEnabled(false);
+		bitter.setProgress(flavors.get("Bitter"));
+		
+	} */
 
 	/**
 	 * A placeholder fragment containing a simple view.

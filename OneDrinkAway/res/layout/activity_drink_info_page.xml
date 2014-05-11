@@ -19,7 +19,6 @@
             android:id="@+id/drink_info_ingredients"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_weight="2"
             android:layout_gravity="center"
 		    android:drawablePadding="5dp"
             android:text="@string/ingredients"
@@ -29,8 +28,7 @@
             android:id="@+id/drink_info_glass_type"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_gravity="right|top"
-            android:layout_weight="1"
+            android:gravity="right|top"
 		    android:drawablePadding="5dp"
             android:src="@drawable/ic_launcher"
             
@@ -41,7 +39,6 @@
              android:id="@+id/drink_info_add_to_favorites"
              android:layout_width="wrap_content"
              android:layout_height="wrap_content"
-             android:layout_weight="1"
              android:layout_gravity="right|bottom"
              android:text="@string/add_to_favorites"
              style="?android:attr/buttonStyleSmall"
@@ -63,16 +60,105 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="left"
-		    android:drawablePadding="5dp"
             android:text="@string/drink_description"
              />
-	  
+	 
+	    
 	    
 	</LinearLayout>
 
+	<SeekBar
+	    android:id="@+id/drink_info_boozy_seekbar"
+	    android:layout_width="match_parent"
+	    android:layout_height="wrap_content" 
+	    
+	    android:max="5"
+	    
+	    />
+	<SeekBar
+	    android:id="@+id/drink_info_citrusy_seekbar"
+	    android:layout_width="match_parent"
+	    android:layout_height="wrap_content" 
+	    
+	    android:max="5"
+	    
+	    />
+	<SeekBar
+	    android:id="@+id/drink_info_creamy_seekbar"
+	    android:layout_width="match_parent"
+	    android:layout_height="wrap_content" 
+	    
+	    android:max="5"
+	    
+	    />
+	<SeekBar
+	    android:id="@+id/drink_info_fruity_seekbar"
+	    android:layout_width="match_parent"
+	    android:layout_height="wrap_content" 
+	    
+	    android:max="5"
+	    
+	    />
+	<SeekBar
+	    android:id="@+id/drink_info_herbal_seekbar"
+	    android:layout_width="match_parent"
+	    android:layout_height="wrap_content" 
+	    
+	    android:max="5"
+	    
+	    />
+	<SeekBar
+	    android:id="@+id/drink_info_minty_seekbar"
+	    android:layout_width="match_parent"
+	    android:layout_height="wrap_content" 
+	    
+	    android:max="5"
+	    
+	    />
+	<SeekBar
+	    android:id="@+id/drink_info_salty_seekbar"
+	    android:layout_width="match_parent"
+	    android:layout_height="wrap_content" 
+	    
+	    android:max="5"
+	    
+	    />
+	<SeekBar
+	    android:id="@+id/drink_info_sour_seekbar"
+	    android:layout_width="match_parent"
+	    android:layout_height="wrap_content" 
+	    
+	    android:max="5"
+	    
+	    />
+	<SeekBar
+	    android:id="@+id/drink_info_spicy_seekbar"
+	    android:layout_width="match_parent"
+	    android:layout_height="wrap_content" 
+	    
+	    android:max="5"
+	    
+	    />
+	<SeekBar
+	    android:id="@+id/drink_info_sweet_seekbar"
+	    android:layout_width="match_parent"
+	    android:layout_height="wrap_content" 
+	    
+	    android:max="5"
+	    
+	    />
+
+	<TextView
+	    android:layout_marginTop="15dp"
+	    android:text="@string/bold_user_rating"
+	    android:layout_width="wrap_content"
+	    android:layout_height="wrap_content"
+	    />
+	
 	<RatingBar
-	    android:id="@+id/ratingBar1"
+	    android:id="@+id/drink_info_rating_bar"
 	    android:layout_width="wrap_content"
 	    android:layout_height="wrap_content" />
+	
     
 </LinearLayout>
