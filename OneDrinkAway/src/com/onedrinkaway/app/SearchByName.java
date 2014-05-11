@@ -1,17 +1,23 @@
 package com.onedrinkaway.app;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.text.TextUtils;
+import android.view.View;
+import android.widget.AdapterView;
+import android.widget.AdapterView.OnItemClickListener;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import android.widget.SearchView;
+import android.widget.TextView;
 
 import com.onedrinkaway.R;
 
 public class SearchByName extends OneDrinkAwayActivity implements SearchView.OnQueryTextListener {
 	// This is temporary!!
     private final String[] aBigAssArrayOfCheeseNames = ClassWithABigAssArrayOfCheeseNames.theBigAssArrayOfCheeseNames;
-	
+	//private final Drink[] allDrinks = (Drink[]) DatabaseInterface.getAllDrinks().toArray();
+    
 	private ListView listView;
 
     @Override
@@ -20,16 +26,8 @@ public class SearchByName extends OneDrinkAwayActivity implements SearchView.OnQ
         
         helpID = R.string.search_by_name;
         setContentView(R.layout.activity_search_by_name);
-        setupListView();
         setupSearchView();
-    }
-
-    private void setupListView() {
-    	listView = (ListView) findViewById(R.id.list_view);
-        listView.setAdapter(new ArrayAdapter<String>(this,
-                android.R.layout.simple_list_item_1,
-                aBigAssArrayOfCheeseNames));
-        listView.setTextFilterEnabled(true);
+        setupListView();
     }
     
     private void setupSearchView() {
@@ -37,8 +35,32 @@ public class SearchByName extends OneDrinkAwayActivity implements SearchView.OnQ
         srchView.setIconifiedByDefault(false);
         srchView.setOnQueryTextListener(this);
         srchView.setSubmitButtonEnabled(false);
-        //searchView.setQueryHint(getString(R.string.cheese_hunt_hint));
         srchView.setQueryHint("Enter Name Here");
+    }
+    
+    private void setupListView() {
+    	listView = (ListView) findViewById(R.id.list_view);
+        listView.setAdapter(new ArrayAdapter<String>(this,
+                R.layout.oda_list_item,
+                R.id.list_item,
+                aBigAssArrayOfCheeseNames));
+        listView.setTextFilterEnabled(true);
+        
+        listView.setOnItemClickListener(new OnItemClickListener() {
+
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position,
+                    long id) {
+            	goToDrinkInfo(((TextView) view).getText().toString());
+            }
+
+        });
+    }
+    
+    private void goToDrinkInfo(String name) {
+    	Intent intent = new Intent(this, DrinkInfoPage.class);
+    	intent.putExtra("name", name);
+    	startActivity(intent);
     }
 
     public boolean onQueryTextChange(String newText) {

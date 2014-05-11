@@ -1,7 +1,5 @@
 package com.onedrinkaway.app;
 
-import java.util.Map;
-
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
@@ -9,7 +7,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.RatingBar;
-import android.widget.SeekBar;
 import android.widget.TextView;
 
 import com.onedrinkaway.R;
@@ -24,7 +21,13 @@ public class DrinkInfoPage extends OneDrinkAwayActivity {
 		helpID = R.string.okay;
 		Drink whiskeySour = TestData.whiskeySour;
 		
-		setTitle(whiskeySour.name);
+		Bundle extras = getIntent().getExtras();
+		String name = whiskeySour.name;
+		if (extras != null) {
+			name = extras.getString("name");
+		} 
+		setTitle(name);		
+			
 		fillIngredients();
 		setGlassPicture();
 		fillDescription();
