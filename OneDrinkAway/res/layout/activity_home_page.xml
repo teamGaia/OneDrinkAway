@@ -6,87 +6,118 @@
     android:orientation="vertical"
     tools:context=".app.HomePage"
     tools:ignore="MergeRootFrame" >
-	
+
     <LinearLayout
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:layout_weight="1"
+		android:layout_marginTop="15dp"
         android:orientation="horizontal" >
 
-        <TextView android:id="@+id/search_by_name"
-            android:layout_width="wrap_content"
+        <TextView
+            android:id="@+id/search_by_name"
+            android:layout_width="0dip"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
             android:layout_weight="1"
-            android:gravity="center_horizontal"
             android:drawablePadding="5dp"
             android:drawableTop="@drawable/ic_launcher"
-            android:text="@string/search_by_name" />
+            android:gravity="center_horizontal"
+            android:text="@string/search_by_name"
+            android:onClick="goToActivity"
+			android:clickable="true" />
 
-        <TextView android:id="@+id/search_by_category"
-            android:layout_width="wrap_content"
+        <TextView
+            android:id="@+id/search_by_category"
+            android:layout_width="0dip"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
             android:layout_weight="1"
             android:drawablePadding="5dp"
             android:drawableTop="@drawable/ic_launcher"
             android:gravity="center_horizontal"
-            android:text="@string/search_by_category" />
+            android:text="@string/search_by_category" 
+            android:onClick="goToActivity"
+            android:clickable="true" />
 
-        <TextView android:id="@+id/search_by_ingredient"
-            android:layout_width="wrap_content"
+        <TextView
+            android:id="@+id/search_by_ingredient"
+            android:layout_width="0dip"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
             android:layout_weight="1"
             android:drawablePadding="5dp"
             android:drawableTop="@drawable/ic_launcher"
             android:gravity="center_horizontal"
-            android:text="@string/search_by_ingredient" />
-    </LinearLayout>
+            android:text="@string/search_by_ingredient" 
+            android:onClick="goToActivity"
+            android:clickable="true" />
+    </LinearLayout> 
     
     <LinearLayout 
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:layout_weight="1"
+		android:layout_marginTop="15dp"
         android:orientation="horizontal" >
 
-        <TextView android:id="@+id/search_by_flavor"
-            android:layout_width="wrap_content"
+        <TextView
+            android:id="@+id/search_by_flavor"
+            android:layout_width="0dip"
             android:layout_height="wrap_content"
+            android:layout_gravity="center"
             android:layout_weight="1"
             android:drawablePadding="5dp"
             android:drawableTop="@drawable/ic_launcher"
             android:gravity="center_horizontal"
-            android:text="@string/search_by_flavor" />
+            android:text="@string/search_by_flavor" 
+            android:onClick="goToActivity"
+            android:clickable="true" />
 
-        <TextView android:id="@+id/favorites"
-            android:layout_width="wrap_content"
+        <TextView
+            android:id="@+id/favorites"
+            android:layout_width="0dip"
             android:layout_height="wrap_content"
+            android:layout_gravity="center"
             android:layout_weight="1"
             android:drawablePadding="5dp"
             android:drawableTop="@drawable/ic_launcher"
             android:gravity="center_horizontal"
-            android:text="@string/favorites" />
+            android:text="@string/favorites" 
+            android:onClick="goToActivity"
+            android:clickable="true" />
 
-        <TextView android:id="@+id/advanced_search"
-            android:layout_width="wrap_content"
+        <TextView
+            android:id="@+id/advanced_search"
+            android:layout_width="0dip"
             android:layout_height="wrap_content"
+            android:layout_gravity="center"
             android:layout_weight="1"
             android:drawablePadding="5dp"
             android:drawableTop="@drawable/ic_launcher"
             android:gravity="center_horizontal"
-            android:text="@string/advanced_search" />
+            android:text="@string/advanced_search" 
+            android:onClick="goToActivity"
+            android:clickable="true" />
 
     </LinearLayout>
     
+   <!--  <LinearLayout 
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal" > -->
+        
     <TextView android:id="@+id/try_something_new"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_weight="1"
+        android:layout_marginTop="15dp"
         android:layout_gravity="center"
         android:gravity="center_horizontal"
         android:drawableTop="@drawable/ic_launcher"
         android:drawablePadding="5dp"
-        android:text="@string/try_something_new" />
-</LinearLayout>
+        android:text="@string/try_something_new" 
+        android:onClick="goToActivity"
+        android:clickable="true" />
+        
+    <!--  </LinearLayout> -->
 
+
+</LinearLayout>

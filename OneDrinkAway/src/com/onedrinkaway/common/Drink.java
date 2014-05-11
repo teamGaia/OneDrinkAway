@@ -25,7 +25,7 @@ public class Drink {
    * [4] : MINTY
    * [5] : FRUITY
    * [6] : SOUR
-   * [7] : BOOSY
+   * [7] : BOOZY
    * [8] : SPICY
    * [9] : SALTY
    * [10] : CREAMY

@@ -28,14 +28,14 @@ public class Flavor {
     public static final String MINTY = "minty";
     public static final String FRUITY = "fruity";
     public static final String SOUR = "sour";
-    public static final String BOOSY = "boosy";
+    public static final String BOOZY = "boozy";
     public static final String SPICY = "spicy";
     public static final String SALTY = "salty";
     public static final String CREAMY = "creamy";
     
     public static final String[] flavorsArr = {
         "sweet", "citrusy", "bitter", "herbal", "minty", "fruity",
-        "sour", "boosy", "spicy", "salty", "creamy"
+        "sour", "boozy", "spicy", "salty", "creamy"
     };
     public static final HashSet<String> flavors =
             new HashSet<String>(Arrays.asList(flavorsArr));

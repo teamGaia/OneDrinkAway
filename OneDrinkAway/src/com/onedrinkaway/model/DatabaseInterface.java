@@ -6,7 +6,7 @@ import com.onedrinkaway.db.*;
 import com.onedrinkaway.model.machinelearning.*;
 
 public class DatabaseInterface {
-  private static DrinkDB temp = new DrinkDB();
+  private static DrinkDb temp = new DrinkDb();
   private static MLModel machineLearner = new KNearestNeighborModel();
   
   public static List<Drink> getAllDrinks(){
@@ -16,7 +16,7 @@ public class DatabaseInterface {
   public static List<Drink> getDrinks(Query query){
     List<Drink> drinks = temp.getDrinks(query);
     List<Drink> ratedDrinks = new ArrayList<Drink>(); // this will be changed to the new method
-    for(int i = 0; i < drinks.length; i++){
+    for(int i = 0; i < drinks.size(); i++){
       Drink d = drinks.get(i);
       if(ratedDrinks.contains(d)){
          drinks.remove(d);
@@ -25,28 +25,36 @@ public class DatabaseInterface {
     }
     
     machineLearner.train(ratedDrinks);
+    Map<Double, List<Drink>> ratings = new TreeMap<Double, List<Drink>>();
+    for(Drink d : drinks){
+      double rating = machineLearner.predictRating(d);
+      if (!ratings.containsKey(rating)){
+         ratings.put(rating, new ArrayList<Drink>());
+      }
+      ratings.get(rating).add(d);
+    }
     
-      
+    return null;
   }
   
   public static List<Drink> getFavorites(){
-    return new ArrayList<Drink>();
+    return new ArrayList<Drink>();//temp.getFavorites();
   }
   
-  public static List<Flavor> getFlavors(){
-    return new ArrayList<Flavor>();
+  public static List<String> getFlavors(){
+    return temp.getFlavors();
   }
   
   public static List<String> getCategories(){
-    return new ArrayList<String>();
+    return temp.getCategories();
   }
   
   public static List<String> getIngredients(){
-    return new ArrayList<String>();
+    return temp.getIngredients();
   }
   
   public static void addFavorite(Drink favorite){
-    
+    temp.addFavorite(favorite);
   }
   
   public static void removeFavorite(Drink oldFavorite){
