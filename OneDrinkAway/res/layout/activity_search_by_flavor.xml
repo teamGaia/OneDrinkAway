@@ -34,7 +34,8 @@
                 android:id="@+id/flavors_scroll_view"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_span="2" >
+                android:layout_span="2"
+                android:layout_weight="1" >
 
                 <TableLayout
                     android:id="@+id/flavors_scroll_view_table"

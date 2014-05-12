@@ -54,7 +54,6 @@ public class SearchByFlavor extends OneDrinkAwayActivity {
 			View flavorRow2 = inflater.inflate(R.layout.activity_search_by_flavor_row2, null);
 			// Set the SeekBar in search_by_flavor_row2
 			SeekBar seekbar = (SeekBar) flavorRow2.findViewById(R.id.flavor_seek_bar);
-			seekbar.incrementProgressBy(20);
 			seekbar.setOnSeekBarChangeListener(new flavorSeekBarListener());
 			View flavorRow3 = inflater.inflate(R.layout.activity_search_by_flavor_row3, null);
 			// Add each row to the view
