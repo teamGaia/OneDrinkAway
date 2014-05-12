@@ -21,23 +21,23 @@ import java.util.HashSet;
 public class Flavor {
     
     // Valid flavors:
-    public static final String SWEET = "sweet";
-    public static final String CITRUSY = "citrusy";
-    public static final String BITTER = "bitter";
-    public static final String HERBAL = "herbal";
-    public static final String MINTY = "minty";
-    public static final String FRUITY = "fruity";
-    public static final String SOUR = "sour";
-    public static final String BOOZY = "boozy";
-    public static final String SPICY = "spicy";
-    public static final String SALTY = "salty";
-    public static final String CREAMY = "creamy";
+    public static final String SWEET = "Sweet";
+    public static final String CITRUSY = "Citrusy";
+    public static final String BITTER = "Bitter";
+    public static final String HERBAL = "Herbal";
+    public static final String MINTY = "Minty";
+    public static final String FRUITY = "Fruity";
+    public static final String SOUR = "Sour";
+    public static final String BOOZY = "Boozy";
+    public static final String SPICY = "Spicy";
+    public static final String SALTY = "Salty";
+    public static final String CREAMY = "Creamy";
     
-    public static final String[] flavorsArr = {
-        "sweet", "citrusy", "bitter", "herbal", "minty", "fruity",
-        "sour", "boozy", "spicy", "salty", "creamy"
-    };
-    public static final HashSet<String> flavors =
+    public static final String[] flavorsArr = {"Bitter", "Boozy", "Citrusy", "Creamy", 
+											   "Fruity", "Herbal", "Minty", "Salty", "Sour",
+											   "Spicy", "Sweet" };
+    
+    static final HashSet<String> flavors =
             new HashSet<String>(Arrays.asList(flavorsArr));
 
     public final String name;
@@ -56,6 +56,31 @@ public class Flavor {
             throw new IllegalArgumentException("name must be a valid flavor");
         this.name = name;
         this.value = value;
+    }
+    
+    /**
+     * @return true if the two Flavors have the same flavor name and false otherwise
+     */
+    @Override
+    public boolean equals(Object o) {
+    	if (!(o instanceof Flavor))
+    		return false;
+    	else {
+    		Flavor other = (Flavor) o;
+    		if (other.name == other.name)
+    			return true;
+    		else
+    			return false;
+    	}
+    	
+    }
+    
+    /**
+     * @return a hashCode for this Flavor
+     */
+    @Override
+    public int hashCode() {
+    	return this.name.hashCode();
     }
     
 }
