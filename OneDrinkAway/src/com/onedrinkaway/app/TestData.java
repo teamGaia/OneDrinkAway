@@ -19,22 +19,24 @@ public class TestData {
 			+ "strain into a rocks glass filled with fresh ice. Garnish with a cherry and/or lemon wedge if desired.";
 	
 	
-	public static Map<String, Integer> interpretFlavors(Drink drink) {
-		Map<String, Integer> flavors = new TreeMap<String, Integer>();
-		int[] attributes = drink.attributes;
-		flavors.put("Sweet", attributes[0] );
-		flavors.put("Citrusy", attributes[1]);
-		flavors.put("Bitter", attributes[2]);
-		flavors.put("Herbal", attributes[3]);
-		flavors.put("Minty", attributes[4]);
-		flavors.put("Fruity", attributes[5]);
-		flavors.put("Sour", attributes[6]);
-		flavors.put("Boozy", attributes[7]);
-		flavors.put("Spicy", attributes[8]);
-		flavors.put("Salty", attributes[9]);
-		flavors.put("Creamy", attributes[10]);
+	public static int[] alphabetizeAttributes(Drink drink) {
 		
-		return flavors;
+		int[] attributes = drink.attributes;
+		int[] alphabetized = new int[attributes.length];
+		alphabetized[0] = attributes[7]; //Boozy
+		alphabetized[1] = attributes[2]; //Bitter
+		alphabetized[2] = attributes[1]; //Citrusy
+		alphabetized[3] = attributes[10]; //Creamy
+		alphabetized[4] = attributes[5]; //Fruity
+		alphabetized[5] = attributes[3]; //Herbal
+		alphabetized[6] = attributes[4]; //Minty
+		alphabetized[7] = attributes[9]; //Salty
+		alphabetized[8] = attributes[6]; //Sour
+		alphabetized[9] = attributes[8]; //Spicy
+		alphabetized[10] = attributes[0]; //Sweet
+		
+		
+		return alphabetized;
 	}
 	
 }
