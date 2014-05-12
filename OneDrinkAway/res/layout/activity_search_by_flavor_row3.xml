@@ -5,44 +5,57 @@
 
     <TextView
         android:id="@+id/flavor_0"
-        android:layout_width="wrap_content"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
         android:layout_weight="1"
+        android:paddingLeft="30dp"
         android:text="@string/flavor_0" />
 
     <TextView
         android:id="@+id/flavor_1"
-        android:layout_width="wrap_content"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
         android:layout_weight="1"
+        android:paddingLeft="30dp"
         android:text="@string/flavor_1" />
 
     <TextView
         android:id="@+id/flavor_2"
-        android:layout_width="wrap_content"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
         android:layout_weight="1"
+        android:paddingLeft="30dp"
         android:text="@string/flavor_2" />
 
     <TextView
         android:id="@+id/flavor_3"
-        android:layout_width="wrap_content"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
         android:layout_weight="1"
+        android:paddingLeft="30dp"
         android:text="@string/flavor_3" />
 
     <TextView
         android:id="@+id/flavor_4"
-        android:layout_width="wrap_content"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
         android:layout_weight="1"
+        android:paddingLeft="30dp"
         android:text="@string/flavor_4" />
 
     <TextView
         android:id="@+id/flavor_5"
-        android:layout_width="wrap_content"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
         android:layout_weight="1"
+        android:paddingLeft="30dp"
+        android:paddingRight="10dp"
         android:text="@string/flavor_5" />
 
 </TableRow>
