@@ -6,7 +6,18 @@
     android:orientation="vertical"
     tools:context=".app.HomePage"
     tools:ignore="MergeRootFrame" >
+	
 
+    <ScrollView
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        
+        >
+    <LinearLayout 
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        >
     <!-- Linear Layout filled with ingredients list -->
     <LinearLayout
         android:layout_width="fill_parent"
@@ -66,87 +77,14 @@
 	    
 	    
 	</LinearLayout>
+	<TableLayout
+	    android:id="@+id/drink_info_seek_bars_layout"
+	    android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+	    
+	</TableLayout>
 
-	<SeekBar
-	    android:id="@+id/drink_info_boozy_seekbar"
-	    android:layout_width="match_parent"
-	    android:layout_height="wrap_content" 
-	    
-	    android:max="5"
-	    
-	    />
-	<SeekBar
-	    android:id="@+id/drink_info_citrusy_seekbar"
-	    android:layout_width="match_parent"
-	    android:layout_height="wrap_content" 
-	    
-	    android:max="5"
-	    
-	    />
-	<SeekBar
-	    android:id="@+id/drink_info_creamy_seekbar"
-	    android:layout_width="match_parent"
-	    android:layout_height="wrap_content" 
-	    
-	    android:max="5"
-	    
-	    />
-	<SeekBar
-	    android:id="@+id/drink_info_fruity_seekbar"
-	    android:layout_width="match_parent"
-	    android:layout_height="wrap_content" 
-	    
-	    android:max="5"
-	    
-	    />
-	<SeekBar
-	    android:id="@+id/drink_info_herbal_seekbar"
-	    android:layout_width="match_parent"
-	    android:layout_height="wrap_content" 
-	    
-	    android:max="5"
-	    
-	    />
-	<SeekBar
-	    android:id="@+id/drink_info_minty_seekbar"
-	    android:layout_width="match_parent"
-	    android:layout_height="wrap_content" 
-	    
-	    android:max="5"
-	    
-	    />
-	<SeekBar
-	    android:id="@+id/drink_info_salty_seekbar"
-	    android:layout_width="match_parent"
-	    android:layout_height="wrap_content" 
-	    
-	    android:max="5"
-	    
-	    />
-	<SeekBar
-	    android:id="@+id/drink_info_sour_seekbar"
-	    android:layout_width="match_parent"
-	    android:layout_height="wrap_content" 
-	    
-	    android:max="5"
-	    
-	    />
-	<SeekBar
-	    android:id="@+id/drink_info_spicy_seekbar"
-	    android:layout_width="match_parent"
-	    android:layout_height="wrap_content" 
-	    
-	    android:max="5"
-	    
-	    />
-	<SeekBar
-	    android:id="@+id/drink_info_sweet_seekbar"
-	    android:layout_width="match_parent"
-	    android:layout_height="wrap_content" 
-	    
-	    android:max="5"
-	    
-	    />
+
 
 	<TextView
 	    android:layout_marginTop="15dp"
@@ -160,5 +98,8 @@
 	    android:layout_width="wrap_content"
 	    android:layout_height="wrap_content" />
 	
-    
 </LinearLayout>
+</ScrollView>   
+</LinearLayout>
+
+
