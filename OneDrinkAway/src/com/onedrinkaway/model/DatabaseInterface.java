@@ -13,6 +13,10 @@ public class DatabaseInterface {
     return temp.getAllDrinks();
   }
   
+  public static void addRating(Drink d, int rating){
+	  
+  }
+  
   public static List<Drink> getDrinks(Query query){
     List<Drink> drinks = temp.getDrinks(query);
     List<Drink> ratedDrinks = new ArrayList<Drink>(); // this will be changed to the new method
@@ -39,10 +43,6 @@ public class DatabaseInterface {
   
   public static List<Drink> getFavorites(){
     return new ArrayList<Drink>();//temp.getFavorites();
-  }
-  
-  public static List<String> getFlavors(){
-    return temp.getFlavors();
   }
   
   public static List<String> getCategories(){
