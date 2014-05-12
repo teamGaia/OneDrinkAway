@@ -4,8 +4,19 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context="com.onedrinkaway.app.SearchByCategory"
-    tools:ignore="MergeRootFrame"
-    
-    android:orientation="vertical" >
-    
+    tools:ignore="MergeRootFrame">
+
+    <ScrollView
+        android:id="@+id/scrollView1"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" >
+
+        <LinearLayout android:id="@+id/category_space"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical" 
+    		android:layout_margin="10dp" >
+        </LinearLayout>
+    </ScrollView>
+
 </LinearLayout>
