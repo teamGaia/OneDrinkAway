@@ -19,7 +19,7 @@ public class FavoriteDrinks extends OneDrinkAwayActivity {
 			getSupportFragmentManager().beginTransaction()
 					.add(R.id.container, new PlaceholderFragment()).commit();
 		}
-		helpID = R.string.favorites;
+		helpID = R.string.favorite_drinks_help;
 	}
 
 

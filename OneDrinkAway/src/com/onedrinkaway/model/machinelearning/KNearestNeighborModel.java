@@ -33,7 +33,7 @@ public class KNearestNeighborModel implements MLModel {
     for(Drink d : trainingSet){
       double absDiff = calculateAbsoluteDifference(d, sample);
       double signDiff = calculateSignedDifference(d, sample);
-      rating += d.rating * absDiff / 5;
+     // rating += d.rating * absDiff / 5;
     }
     return rating / trainingSet.size();
   }

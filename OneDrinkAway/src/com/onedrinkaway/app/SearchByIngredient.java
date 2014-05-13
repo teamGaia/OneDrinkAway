@@ -58,6 +58,7 @@ public class SearchByIngredient extends OneDrinkAwayActivity implements SearchVi
         
         listView.setOnItemClickListener(new OnItemClickListener() {
 
+
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position,
                     long id) {

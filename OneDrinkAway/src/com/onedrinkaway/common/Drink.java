@@ -1,21 +1,21 @@
 package com.onedrinkaway.common;
 
-/*
-import foo.Drink.Category;
-import foo.Drink.Glass;
-*/
-
 /**
- * Represents a Drink, stores a name, rating, flavor attributes
+ * Represents a Drink, stores a name, ratings, flavor attributes
  * 
- * @author John L. Wilson
+ * @author John L. Wilson, someone else...
  *
  */
 
-public class Drink {
+public class Drink implements Comparable<Drink> {
   public final String name;
   public final int id;
-  public final double rating;
+  /** Average user rating */
+  private double avgRating;
+  /** Predicted user rating, set to -1 if it has not been set by ML */
+  public double predictedRating;
+  /** user rating, set to -1 if the user has not rated this Drink */
+  private int userRating;
   /**
    * Flavors, all [0,5]. Each index corresponds to a flavor:
    * [0] : SWEET
@@ -39,20 +39,50 @@ public class Drink {
    * Sole Constructor
    * @param name the name of this drink
    * @param id the unique id of this drink
-   * @param rating the average user rating of this drink, 
+   * @param avgRating the average user rating of this drink, 
    * @param attributes
-   * @param c the Category of this drink
-   * @param g the Glass of this drink
+   * @param category the Category of this drink
+   * @param glass the Glass of this drink
    */
-  public Drink(String name, int id, double rating, int[] attributes,
+  public Drink(String name, int id, double avgRating, int[] attributes,
                Category category, Glass glass, boolean rated) {
     this.name = name;
     this.id = id;
-    this.rating = rating;
+    this.avgRating = avgRating;
     this.attributes = attributes;
     this.category = category;
     this.glass = glass;
     this.rated = rated;
+    predictedRating = -1;
+    userRating = -1;
+  }
+  
+  /**
+   * Gets average user rating for this drink
+   */
+  public double getAvgRating() {
+      return avgRating;
+  }
+  
+  /**
+   * Gets the user rating for this drink, returns -1 if drink has not been rated
+   */
+  public int getUserRating() {
+      return userRating;
+  }
+  
+  /**
+   * Gets the rating for this Drink. Returns the rating with highest precedence.
+   * Precedence: userRating > predictedRating > avgRating
+   * @return the rating for this Drink
+   */
+  public double getRating() {
+	  if (userRating > 0) // check if user rating is set
+		  return (double) userRating;
+	  else if (predictedRating > 0) // check if predRating is set
+		  return predictedRating;
+	  else
+		  return avgRating;
   }
   
   /**
@@ -69,6 +99,16 @@ public class Drink {
     HIGHBALL, MARTINI, SHOT, COLLINS, COCKTAIL, PINT, MUG, TALL, ROCKS
   }
   
+  /**
+   * hashCode for this Drink
+   */
+  public int hashCode() {
+      return id;
+  }
+  
+  /**
+   * Returns true if obj equals this, false if not
+   */
   public boolean equals(Object obj){
     if (obj == null)
       return false;
@@ -77,5 +117,18 @@ public class Drink {
     if(!(obj instanceof Drink))
       return false;
     return id == ((Drink)obj).id;
+  }
+
+  /**
+   * Returns 1 if this is greater than other, -1 if this is less, 0 if equal
+   */
+  @Override
+  public int compareTo(Drink other) {
+      if (getRating() - other.getRating() > 0)
+          return 1;
+      else if (getRating() - other.getRating() < 0)
+          return -1;
+      else
+          return 0;
   }
 }
