@@ -1,8 +1,7 @@
 package com.onedrinkaway.app;
 
-import java.util.List;
-
 import android.content.Context;
+import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -18,10 +17,8 @@ import android.widget.TableLayout;
 import android.widget.TextView;
 
 import com.onedrinkaway.R;
-import com.onedrinkaway.common.Drink;
 import com.onedrinkaway.common.Flavor;
 import com.onedrinkaway.common.Query;
-import com.onedrinkaway.model.DatabaseInterface;
 
 public class SearchByFlavor extends OneDrinkAwayActivity {
 	
@@ -47,7 +44,7 @@ public class SearchByFlavor extends OneDrinkAwayActivity {
 		
 		flavorsScrollViewTable = (TableLayout) findViewById(R.id.flavors_scroll_view_table);
 		flavorSearchButton = (Button) findViewById(R.id.flavor_search_button);
-		flavorSearchButton.setOnClickListener(new flavorSearchButtonListener());
+		//flavorSearchButton.setOnClickListener(new flavorSearchButtonListener());
 		displayFlavors();
 	}
 
@@ -93,6 +90,7 @@ public class SearchByFlavor extends OneDrinkAwayActivity {
 		}
 	}
 
+	/*
 	// The Search button listener for Search By Flavor
 	public class flavorSearchButtonListener implements OnClickListener {
 		
@@ -104,10 +102,11 @@ public class SearchByFlavor extends OneDrinkAwayActivity {
 				error = true;
 				ViewGroup vg = (ViewGroup) findViewById(R.id.search_by_flavor);
 				vg.invalidate();
-			}*/
+			}
 				
 		}
-	};
+	}; 
+	*/
 	
 	public class FlavorSeekBarListener implements OnSeekBarChangeListener {
 		int progressChanged = 0;
@@ -142,7 +141,9 @@ public class SearchByFlavor extends OneDrinkAwayActivity {
 		
 	}
 		
-
+	public void goToResults(View view) {
+		startActivity(new Intent(this, ResultsPage.class));
+	}
 
 	/**
 	 * A placeholder fragment containing a simple view.
