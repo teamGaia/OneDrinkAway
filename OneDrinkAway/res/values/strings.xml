@@ -49,6 +49,9 @@
     <string name="flavor_4">4\n</string>
     <string name="flavor_5">5\n</string>
     <string name="search_by_name_help">Enter the name of the drink you are looking for or scroll to browse all drinks.</string>
-	<string name="flavor_profile_bold"><b>Flavor Profile</b></string>
-</resources>
+    <string name="flavor_profile_bold"><b>Flavor Profile</b></string>
+    <string name="title_activity_results_page">Results</string>
+	<string name="error_no_results_found">No Results Found\n</string>
+    <string name="results_help">qoiwjdoq iwjdqwiufh qwkufg qwouf gqwufdygq woiyqh wf</string>
 
+</resources>
