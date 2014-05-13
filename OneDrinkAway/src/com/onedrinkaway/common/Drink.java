@@ -35,7 +35,6 @@ public class Drink implements Comparable<Drink> {
   public final int[] attributes;
   public final List<String> categories;
   public final String glass;
-  public final boolean rated;
   
   /**
    * Sole Constructor
@@ -47,14 +46,13 @@ public class Drink implements Comparable<Drink> {
    * @param glass the Glass of this drink
    */
   public Drink(String name, int id, double avgRating, int[] attributes,
-               List<String> categories, String glass, boolean rated) {
+               List<String> categories, String glass) {
     this.name = name;
     this.id = id;
     this.avgRating = avgRating;
     this.attributes = attributes;
     this.categories = categories;
     this.glass = glass;
-    this.rated = rated;
     predictedRating = -1;
     userRating = -1;
   }
