@@ -3,7 +3,7 @@ package com.onedrinkaway.common;
 /**
  * Represents a Drink, stores a name, ratings, flavor attributes
  * 
- * @author John L. Wilson
+ * @author John L. Wilson, someone else...
  *
  */
 
@@ -99,6 +99,16 @@ public class Drink implements Comparable<Drink> {
     HIGHBALL, MARTINI, SHOT, COLLINS, COCKTAIL, PINT, MUG, TALL, ROCKS
   }
   
+  /**
+   * hashCode for this Drink
+   */
+  public int hashCode() {
+      return id;
+  }
+  
+  /**
+   * Returns true if obj equals this, false if not
+   */
   public boolean equals(Object obj){
     if (obj == null)
       return false;
@@ -109,7 +119,9 @@ public class Drink implements Comparable<Drink> {
     return id == ((Drink)obj).id;
   }
 
-  
+  /**
+   * Returns 1 if this is greater than other, -1 if this is less, 0 if equal
+   */
   @Override
   public int compareTo(Drink other) {
       if (getRating() - other.getRating() > 0)
