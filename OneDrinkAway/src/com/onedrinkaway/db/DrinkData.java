@@ -6,6 +6,7 @@ package com.onedrinkaway.db;
 
 import java.io.File;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
@@ -26,10 +27,14 @@ public class DrinkData {
     private HashSet<Drink> favorites;
     // set of all ingredients
     private HashSet<String> ingredients;
+    // set of all categories
+    private HashSet<String> categories;
     // maps drink names to drinks
     private HashMap<String, Drink> namesToDrinks;
     // maps DrinkId's to DrinkInfo
     private HashMap<Integer, DrinkInfo> info;
+    // set of all drinks that have been rated
+    private HashSet<Drink> ratedDrinks;
     
     /**
      * Sole Constructor
@@ -39,24 +44,122 @@ public class DrinkData {
         drinkSet = new HashSet<Drink>();
         favorites = new HashSet<Drink>();
         ingredients = new HashSet<String>();
+        categories = new HashSet<String>();
         namesToDrinks = new HashMap<String, Drink>();
         info = new HashMap<Integer, DrinkInfo>();
+        ratedDrinks = new HashSet<Drink>();
         buildFromFile();
         findDrinkInfo();
+    }
+    
+    /**
+     * Adds given rating to d. Do not call this method, rather call Drink.addRating()
+     */
+    public void addRating(Drink d, int rating) {
+        ratedDrinks.add(d);
+        // TODO: upload rating to database
+    }
+    
+    /**
+     * Adds d as a favorite
+     */
+    public void addFavorites(Drink d) {
+        favorites.add(d);
+    }
+    
+    /**
+     * Returns an unmodifiable set of all categories
+     */
+    public Set<String> getCategories() {
+        return Collections.unmodifiableSet(categories);
+    }
+    
+    /**
+     * Returns an unmodifiable set of all ingredients
+     */
+    public Set<String> getIngredients() {
+        return Collections.unmodifiableSet(ingredients);
+    }
+    
+    /**
+     * Prints names of all drinks that do not have DrinkInfo associated with them
+     */
+    public void printDrinksNeedingInfo() {
+        if (info.size() == drinkSet.size())
+            System.out.println("All drinks have DrinkInfo");
+        else {
+            System.out.println("Drinks that need DrinkInfo:");
+            for (Drink d : drinkSet) {
+                if (!info.containsKey(d.id))
+                    System.out.println(d.name);
+            }
+        }
+        System.out.println();
+    }
+    
+    /**
+     * Prints any irregular Drinks to the console
+     */
+    public void verifyDrinks() {
+        for (Drink d : drinkSet) {
+            boolean valid = true;
+            if (d.id < 0 || d.name == null || d.getAvgRating() < 0.0 || d.getAvgRating() > 5.0
+                    || d.categories.size() < 1 || d.glass == null)
+                valid = false;
+            for (int i = 0; i < d.attributes.length; i++) {
+                if (d.attributes[i] < 0 || d.attributes[i] > 5)
+                    valid = false;
+            }
+            if (!valid)
+                printDrink(d);
+                
+        }
+    }
+    
+    public void printAllCategories() {
+        for (String c : categories)
+            System.out.println(c);
+    }
+    
+    /**
+     * Prints a Drink to the console, this should be moved to a different class
+     * @param d the Drink to print
+     */
+    private void printDrink(Drink d) {
+        System.out.println("Drink name : " + d.name);
+        System.out.println("Drink id : " + d.id);
+        System.out.println("Drink avg rating : " + d.getAvgRating());
+        System.out.println("Drink glass : " + d.glass);
+        System.out.println("Categories :");
+        for (String c : d.categories)
+            System.out.println("\t" + c);
+        System.out.println("Attributes:");
+        System.out.println("\tSWEET : " + d.attributes[0]);
+        System.out.println("\tCITRUSY : " + d.attributes[1]);
+        System.out.println("\tBITTER : " + d.attributes[2]);
+        System.out.println("\tHERBAL : " + d.attributes[3]);
+        System.out.println("\tMINTY : " + d.attributes[4]);
+        System.out.println("\tFRUITY : " + d.attributes[5]);
+        System.out.println("\tSOUR : " + d.attributes[6]);
+        System.out.println("\tBOOZY : " + d.attributes[7]);
+        System.out.println("\tSPICY : " + d.attributes[8]);
+        System.out.println("\tSALTY : " + d.attributes[9]);
+        System.out.println("\tCREAMY : " + d.attributes[10]);
+        System.out.println();
     }
     
     /**
      * Returns a list of all drinks
      */
     public List<Drink> getAllDrinks() {
-        return drinkList;
+        return Collections.unmodifiableList(drinkList);
     }
     
     /**
      * Returns a set of all drink names
      */
     public Set<String> getDrinkNames() {
-        return namesToDrinks.keySet();
+        return Collections.unmodifiableSet(namesToDrinks.keySet());
     }
     
     /**
@@ -73,15 +176,13 @@ public class DrinkData {
                     String name = lines.get(0);
                     if (namesToDrinks.containsKey(name)) {
                         // we have this drink, build a DrinkInfo for it
-                        for (String s : lines)
-                            System.out.println(s);
-                        System.out.println();
                         int len = lines.size();
                         String instructions = lines.get(len - 1);
                         String garnish = lines.get(len - 2);
                         List<String> ingr = new ArrayList<String>();
                         for (int i = 1; i < len - 2; i++) {
                             ingr.add(lines.get(i));
+                            ingredients.add(lines.get(i));
                         }
                         Drink d = namesToDrinks.get(name);
                         DrinkInfo di = new DrinkInfo(ingr, null, garnish, instructions, null, d.id);
@@ -100,7 +201,7 @@ public class DrinkData {
     }
     
     /**
-     * Builds this DrinkData from file
+     * Populates data from drinks.tsv
      */
     private void buildFromFile() {
         try {
@@ -114,16 +215,18 @@ public class DrinkData {
                     // valid drink, add to list
                     int id = Integer.parseInt(tokens[0]);
                     String name = tokens[1];
-                    List<String> categories = new ArrayList<String>();
-                    for (String c : tokens[3].split(", "))
+                    List<String> cat = new ArrayList<String>();
+                    for (String c : tokens[3].split(", ")) {
+                        cat.add(c);
                         categories.add(c);
+                    }
                     String glass = tokens[4];
                     int[] attributes = new int[11];
                     for (int i = 0; i < 11; i++) {
                         attributes[i] = Integer.parseInt(tokens[i + 5]);
                     }
                     double rating = getAvgRating(id);
-                    Drink d = new Drink(name, id, rating, attributes, categories, glass);
+                    Drink d = new Drink(name, id, rating, attributes, cat, glass);
                     drinkList.add(d);
                     drinkSet.add(d);
                     namesToDrinks.put(name, d);

@@ -5,6 +5,7 @@
 package com.onedrinkaway.db;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 import android.provider.Settings.Secure;
@@ -25,27 +26,27 @@ public class DrinkDb {
 	private static DrinkData dd = new DrinkData();
     
     /**
-     * @return a list of all Ingredients
+     * @return a list contain all ingredients as Strings
      */
     public static List<String> getIngredients() {
-
-        return null;
+        List<String> result = new ArrayList<String>();
+        for (String s : dd.getIngredients())
+            result.add(s);
+        return result;
     }
     
     /**
      * @return a list of all Drinks
      */
     public static List<Drink> getAllDrinks() {
-
-        return null;
+        return new ArrayList<Drink>(dd.getAllDrinks());
     }
     
     /**
      * @return a list of all Categories
      */
     public static List<String> getCategories() {
-        
-        return null;
+        return new ArrayList<String>(dd.getCategories());
     }
     
     /**
@@ -64,7 +65,7 @@ public class DrinkDb {
      * @param drink the drink to be added
      */
     public static void addFavorite(Drink drink) {
-        
+        dd.addFavorites(drink);
     }
     
     /**

@@ -2,6 +2,8 @@ package com.onedrinkaway.common;
 
 import java.util.List;
 
+import com.onedrinkaway.db.DrinkDb;
+
 /**
  * Represents a Drink, stores a name, ratings, flavor attributes
  * 
@@ -55,6 +57,16 @@ public class Drink implements Comparable<Drink> {
     this.glass = glass;
     predictedRating = -1;
     userRating = -1;
+  }
+  
+  /**
+   * Adds a user rating to this Drink
+   * 
+   * @param score the rating to add
+   */
+  public void addUserRating(int score) {
+      userRating = score;
+      DrinkDb.addRating(this, score);
   }
   
   /**
