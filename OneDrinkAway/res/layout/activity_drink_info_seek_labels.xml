@@ -2,13 +2,16 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="fill_parent"
     android:layout_height="match_parent" 
-    android:orientation="horizontal">
+    android:layout_marginTop="15dp"
+    android:orientation="horizontal"
+    >
 
     <TextView
         android:id="@+id/flavor_0"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_weight="1"
+        android:layout_marginLeft="20dp"
         android:text="@string/flavor_0" />
 
     <TextView
@@ -16,6 +19,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_weight="1"
+        android:layout_marginLeft="20dp"
         android:text="@string/flavor_1" />
 
     <TextView
@@ -23,6 +27,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_weight="1"
+        android:layout_marginLeft="25dp"
         android:text="@string/flavor_2" />
 
     <TextView
@@ -30,6 +35,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_weight="1"
+        android:layout_marginLeft="25dp"
         android:text="@string/flavor_3" />
 
     <TextView
@@ -37,6 +43,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_weight="1"
+        android:layout_marginLeft="25dp"
         android:text="@string/flavor_4" />
 
     <TextView
@@ -44,6 +51,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_weight="1"
+        android:layout_marginLeft="25dp"
         android:text="@string/flavor_5" />
 
 </LinearLayout>
