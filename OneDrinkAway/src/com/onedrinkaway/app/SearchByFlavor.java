@@ -23,6 +23,13 @@ import com.onedrinkaway.common.Flavor;
 import com.onedrinkaway.common.Query;
 import com.onedrinkaway.model.DatabaseInterface;
 
+/**
+ * This class allows the user to enter what flavors and their intensity that they want to search by
+ * on the Search By Flavor page
+ * @author Nicole Kihara
+ *
+ */
+
 public class SearchByFlavor extends OneDrinkAwayActivity {
 	
 	// the scroll view containing the flavors and seek bars
@@ -37,6 +44,9 @@ public class SearchByFlavor extends OneDrinkAwayActivity {
 	// Error is true when no results were found
 	private boolean error;
 
+	/**
+	 * Creates the layout for Search By Flavor
+	 */
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -109,6 +119,9 @@ public class SearchByFlavor extends OneDrinkAwayActivity {
 		}
 	};
 	
+	/**
+	 * Class for a Seek Bar Listener that adjusts what flavors to search by depending
+	 */
 	public class FlavorSeekBarListener implements OnSeekBarChangeListener {
 		int progressChanged = 0;
 		String flavor;
@@ -118,7 +131,7 @@ public class SearchByFlavor extends OneDrinkAwayActivity {
 		}
 	
 		/**
-		 * Adds this flavor and its amount to the list of search flavors when the user changes
+		 * Adjusts the flavor intensity to search by when the user changes
 		 * the progress on this flavor's seek bar
 		 */
 		@Override
