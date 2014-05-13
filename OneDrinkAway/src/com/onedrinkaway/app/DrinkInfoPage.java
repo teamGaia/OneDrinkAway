@@ -12,9 +12,10 @@ import android.view.ViewGroup;
 import android.view.View.OnClickListener;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.LinearLayout.LayoutParams;
 import android.widget.RatingBar;
 import android.widget.SeekBar;
-import android.widget.TableLayout;
+import android.widget.LinearLayout;
 import android.widget.TableRow;
 import android.widget.TextView;
 
@@ -27,13 +28,13 @@ public class DrinkInfoPage extends OneDrinkAwayActivity {
 	private String[] flavors = {"Bitter", "Boozy", "Citrusy", "Creamy", 
 			"Fruity", "Herbal", "Minty", "Salty", "Sour",
 			"Spicy", "Sweet" };
-	private TableLayout seekBarView;
+	private LinearLayout seekBarView;
 	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_drink_info_page);
-		seekBarView = (TableLayout) findViewById(R.id.drink_info_seek_bars_layout);
+		seekBarView = (LinearLayout) findViewById(R.id.drink_info_seek_bars_layout);
 		helpID = R.string.okay;
 		Drink whiskeySour = TestData.whiskeySour;
 		
@@ -47,7 +48,7 @@ public class DrinkInfoPage extends OneDrinkAwayActivity {
 		fillIngredients();
 		setGlassPicture();
 		fillDescription();
-		//addSeekBarsToView(whiskeySour);
+		addSeekBarsToView(whiskeySour);
 		setRatingBar();
 		Button addToFavoritesButton = (Button) findViewById(R.id.drink_info_add_to_favorites);
 		addToFavoritesButton.setOnClickListener(new AddToFavoritesButtonListener());
@@ -117,23 +118,27 @@ public class DrinkInfoPage extends OneDrinkAwayActivity {
 		int[] attributes = TestData.alphabetizeAttributes(drink);
 		for(int i = 0; i < attributes.length; i++) {
 			if(attributes[i] != 0) {
-					LayoutInflater inflater = (LayoutInflater) getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-					// Set the TextView in search_by_flavor_row
-					View flavorRow1 = inflater.inflate(R.layout.activity_search_by_flavor_row, null); 
-					TextView flavorTextView = (TextView) flavorRow1.findViewById(R.id.flavor_text_view);
-					flavorTextView.setText(flavors[i]);
-		
-					//View flavorRow2 = inflater.inflate(R.layout.activity_search_by_flavor_row2, null);
-					// Set the SeekBar in search_by_flavor_row2
-					//SeekBar seekBar = (SeekBar) flavorRow2.findViewById(R.id.flavor_seek_bar);
-					//seekBar.setEnabled(false);
-					//seekBar.setProgress(attributes[i]);
-					//View flavorRow3 = inflater.inflate(R.layout.activity_search_by_flavor_row3, null);
 					
-					// Add each row to the view
-					//seekBarView.addView(flavorRow1, i * 3 );
-					//seekBarView.addView(flavorRow2, i * 3 + 1);
-					//seekBarView.addView(flavorRow3, i * 3 + 2);
+				
+					try {
+						LayoutParams flavTextViewParams = new LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.WRAP_CONTENT);
+						TextView flavorName = new TextView(this);
+						//flavorName.setLayoutParams(flavTextViewParams);
+						flavorName.setText(flavors[i]);
+						seekBarView.addView(flavorName);
+						
+						SeekBar seekBar = new SeekBar(this);
+						seekBar.setMax(5);
+						seekBar.setEnabled(false);
+						seekBar.setProgress(attributes[i]);
+						seekBarView.addView(seekBar);
+				
+						
+					}catch(Exception e) {
+						e.printStackTrace();
+					}
+		
+					
 				
 			}
 		}
