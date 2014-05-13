@@ -5,7 +5,9 @@
 package com.onedrinkaway.db;
 
 import java.util.ArrayList;
-import java.util.List; 
+import java.util.List;
+
+import android.provider.Settings.Secure;
 
 import com.onedrinkaway.common.Drink;
 import com.onedrinkaway.common.Query;
@@ -17,6 +19,10 @@ import com.onedrinkaway.common.Query;
  */
 
 public class DrinkDb {
+	
+	public static final String ID = Secure.ANDROID_ID;
+	
+	private static DrinkData dd = new DrinkData();
     
     /**
      * @return a list of all Ingredients
@@ -43,14 +49,6 @@ public class DrinkDb {
     }
     
     /**
-     * @return a list of all flavors
-     */
-    public static List<String> getFlavors() {
-        
-        return null;
-    }
-    
-    /**
      * Searches for Drinks that match the given query
      * 
      * @return a list drinks that match the given Query
@@ -58,6 +56,15 @@ public class DrinkDb {
     public static List<Drink> getDrinks(Query q) {
         
         return null;
+    }
+    
+    /**
+     * Adds a drink to the user's favorites list
+     * 
+     * @param drink the drink to be added
+     */
+    public static void addFavorite(Drink drink) {
+        
     }
     
     /**
@@ -72,17 +79,22 @@ public class DrinkDb {
             throw new IllegalArgumentException("score must be [1-5] inclusive");
     }
     
+    /**
+     * Gets all drinks rated by user
+     * @return a List of all drinks rated by user
+     */
     public static List<Drink> getRatedDrinks() {
-        return new ArrayList<Drink>();
+    	
+    	return null;
     }
     
     /**
-     * Adds a drink to the user's favorites list
-     * 
-     * @param drink the drink to be added
+     * Gets all drinks on users favorites list
+     * @return a List of all drinks in users favorites list
      */
-    public static void addFavorite(Drink drink) {
-        
+    public static List<Drink> getFavorites() {
+    	
+    	return null;
     }
     
     /**
@@ -92,10 +104,6 @@ public class DrinkDb {
      */
     public static void removeFavorite(Drink drink) {
         
-    }
-    
-    public static List<Drink> getFavorites() {
-        return new ArrayList<Drink>();
     }
     
     /**
