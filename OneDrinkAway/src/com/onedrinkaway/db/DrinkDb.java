@@ -21,7 +21,7 @@ public class DrinkDb {
     /**
      * @return a list of all Ingredients
      */
-    public List<String> getIngredients() {
+    public static List<String> getIngredients() {
 
         return null;
     }
@@ -29,7 +29,7 @@ public class DrinkDb {
     /**
      * @return a list of all Drinks
      */
-    public List<Drink> getAllDrinks() {
+    public static List<Drink> getAllDrinks() {
 
         return null;
     }
@@ -37,7 +37,7 @@ public class DrinkDb {
     /**
      * @return a list of all Categories
      */
-    public List<String> getCategories() {
+    public static List<String> getCategories() {
         
         return null;
     }
@@ -45,7 +45,7 @@ public class DrinkDb {
     /**
      * @return a list of all flavors
      */
-    public List<String> getFlavors() {
+    public static List<String> getFlavors() {
         
         return null;
     }
@@ -55,18 +55,9 @@ public class DrinkDb {
      * 
      * @return a list drinks that match the given Query
      */
-    public List<Drink> getDrinks(Query q) {
+    public static List<Drink> getDrinks(Query q) {
         
         return null;
-    }
-    
-    /**
-     * Adds a drink to the user's favorites list
-     * 
-     * @param drink the drink to be added
-     */
-    public void addFavorite(Drink drink) {
-        
     }
     
     /**
@@ -76,9 +67,22 @@ public class DrinkDb {
      * @param score the rating for the drink, must be [1-5] inclusive
      * @throws: IllegalArgumentException if the score is smaller than 1 or bigger than 5
      */
-    public void addRating(Drink drink, int score) {
+    public static void addRating(Drink drink, int score) {
         if (score < 1 || score > 5)
             throw new IllegalArgumentException("score must be [1-5] inclusive");
+    }
+    
+    public static List<Drink> getRatedDrinks() {
+        return new ArrayList<Drink>();
+    }
+    
+    /**
+     * Adds a drink to the user's favorites list
+     * 
+     * @param drink the drink to be added
+     */
+    public static void addFavorite(Drink drink) {
+        
     }
     
     /**
@@ -86,8 +90,12 @@ public class DrinkDb {
      * 
      * @param drink the drink to be removed
      */
-    public void removeFavorite(Drink drink) {
+    public static void removeFavorite(Drink drink) {
         
+    }
+    
+    public static List<Drink> getFavorites() {
+        return new ArrayList<Drink>();
     }
     
     /**
@@ -95,11 +103,9 @@ public class DrinkDb {
      * 
      * @param drink the drink to find the ingredients of
      */
-    public List<String> getIngredients(Drink drink) {
+    public static List<String> getIngredients(Drink drink) {
         List<String> result = new ArrayList<String>();
         
         return result;
     }
-    
-    
 }
