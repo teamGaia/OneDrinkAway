@@ -34,7 +34,7 @@ public class DrinkInfoPage extends OneDrinkAwayActivity {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_drink_info_page);
 		seekBarView = (LinearLayout) findViewById(R.id.drink_info_seek_bars_layout);
-		helpID = R.string.okay;
+		helpID = R.string.drink_info_help;
 		Drink whiskeySour = TestData.whiskeySour;
 		
 		Bundle extras = getIntent().getExtras();

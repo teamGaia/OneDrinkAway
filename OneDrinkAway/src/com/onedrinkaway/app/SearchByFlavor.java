@@ -41,7 +41,7 @@ public class SearchByFlavor extends OneDrinkAwayActivity {
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_search_by_flavor);
-		helpID = R.string.search_by_flavor;
+		helpID = R.string.search_by_flavor_help;
 		query = new Query();
 		error = false;
 		

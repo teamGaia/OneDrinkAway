@@ -19,7 +19,7 @@ public class SearchByIngredient extends OneDrinkAwayActivity {
 			getSupportFragmentManager().beginTransaction()
 					.add(R.id.container, new PlaceholderFragment()).commit();
 		}
-		helpID = R.string.search_by_ingredient;
+		helpID = R.string.search_by_ingredient_help;
 	}
 
 

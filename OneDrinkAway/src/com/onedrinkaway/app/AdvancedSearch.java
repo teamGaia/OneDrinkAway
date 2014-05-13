@@ -19,7 +19,7 @@ public class AdvancedSearch extends OneDrinkAwayActivity {
 			getSupportFragmentManager().beginTransaction()
 					.add(R.id.container, new PlaceholderFragment()).commit();
 		}
-		helpID = R.string.advanced_search;
+		helpID = R.string.advanced_search_help;
 	}
 
 
