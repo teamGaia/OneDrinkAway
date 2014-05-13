@@ -88,7 +88,9 @@
 	<RatingBar
 	    android:id="@+id/drink_info_rating_bar"
 	    android:layout_width="wrap_content"
-	    android:layout_height="wrap_content" />
+	    android:layout_height="wrap_content"
+	    android:layout_gravity="center"
+	     />
 	<LinearLayout
 	    android:id="@+id/drink_info_seek_bars_layout"
 	    android:layout_width="match_parent"
@@ -105,6 +107,14 @@
 	    
 	</LinearLayout>
 
+	<TextView
+	    android:id="@+id/drink_info_description_recognition"
+	    android:layout_width="match_parent"
+	    android:layout_height="wrap_content"
+	    android:textSize="10sp"
+	    android:text=""
+	    android:layout_marginTop="15dp"
+	   />
 
 
 
