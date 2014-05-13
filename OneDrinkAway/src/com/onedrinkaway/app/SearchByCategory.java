@@ -1,6 +1,7 @@
 package com.onedrinkaway.app;
 
 import android.app.ActionBar.LayoutParams;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
@@ -47,6 +48,10 @@ public class SearchByCategory extends OneDrinkAwayActivity {
 		}
 	}
 
+	public void goToResults(View view) {
+		startActivity(new Intent(this, ResultsPage.class));
+	}
+	
 	/**
 	 * A placeholder fragment containing a simple view.
 	 */

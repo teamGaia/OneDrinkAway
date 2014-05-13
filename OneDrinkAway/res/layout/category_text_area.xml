@@ -6,4 +6,6 @@
     android:gravity="center_horizontal"
     android:drawableTop="@drawable/ic_launcher"
     android:drawablePadding="5dip"
-    android:padding="20dip" />
+    android:padding="20dip"
+    android:clickable="true"
+    android:onClick="goToResults" />
