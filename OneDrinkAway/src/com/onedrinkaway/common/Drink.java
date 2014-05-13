@@ -1,5 +1,7 @@
 package com.onedrinkaway.common;
 
+import java.util.List;
+
 /**
  * Represents a Drink, stores a name, ratings, flavor attributes
  * 
@@ -31,8 +33,8 @@ public class Drink implements Comparable<Drink> {
    * [10] : CREAMY
    */
   public final int[] attributes;
-  public final Category category;
-  public final Glass glass;
+  public final List<String> categories;
+  public final String glass;
   public final boolean rated;
   
   /**
@@ -45,12 +47,12 @@ public class Drink implements Comparable<Drink> {
    * @param glass the Glass of this drink
    */
   public Drink(String name, int id, double avgRating, int[] attributes,
-               Category category, Glass glass, boolean rated) {
+               List<String> categories, String glass, boolean rated) {
     this.name = name;
     this.id = id;
     this.avgRating = avgRating;
     this.attributes = attributes;
-    this.category = category;
+    this.categories = categories;
     this.glass = glass;
     this.rated = rated;
     predictedRating = -1;
@@ -83,20 +85,6 @@ public class Drink implements Comparable<Drink> {
 		  return predictedRating;
 	  else
 		  return avgRating;
-  }
-  
-  /**
-   * Valid Categories 
-   */
-  public enum Category {
-    SHAKEN, STIRRED, SHOOTER, FROZEN, ON_THE_ROCKS, HOT
-  }
-  
-  /**
-   * Valid Glasses
-   */
-  public enum Glass {
-    HIGHBALL, MARTINI, SHOT, COLLINS, COCKTAIL, PINT, MUG, TALL, ROCKS
   }
   
   /**
