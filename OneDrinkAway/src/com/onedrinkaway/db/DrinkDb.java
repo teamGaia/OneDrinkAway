@@ -64,8 +64,9 @@ public class DrinkDb {
      * 
      * @param drink the drink to be added
      */
-    public static void addFavorite(Drink drink) {
-        dd.addFavorites(drink);
+    public static void addFavorite(Drink drink, int score) {
+        dd.addFavorite(drink);
+        drink.addUserRating(score);
     }
     
     /**

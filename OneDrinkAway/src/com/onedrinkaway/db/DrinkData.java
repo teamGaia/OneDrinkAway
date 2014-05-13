@@ -63,7 +63,7 @@ public class DrinkData {
     /**
      * Adds d as a favorite
      */
-    public void addFavorites(Drink d) {
+    public void addFavorite(Drink d) {
         favorites.add(d);
     }
     

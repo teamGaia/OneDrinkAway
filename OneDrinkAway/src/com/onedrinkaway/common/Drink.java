@@ -60,7 +60,7 @@ public class Drink implements Comparable<Drink> {
   }
   
   /**
-   * Adds a user rating to this Drink
+   * Adds a user rating to this Drink, do not call this, instead call AddRating in DrinkDb
    * 
    * @param score the rating to add
    */
