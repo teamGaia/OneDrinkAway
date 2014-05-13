@@ -1,6 +1,6 @@
 package com.onedrinkaway.app;
 
-import java.util.Map;
+
 
 import android.content.Context;
 import android.os.Bundle;
@@ -8,15 +8,14 @@ import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
-import android.view.ViewGroup;
 import android.view.View.OnClickListener;
+import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.LinearLayout.LayoutParams;
 import android.widget.RatingBar;
 import android.widget.SeekBar;
-import android.widget.LinearLayout;
-import android.widget.TableRow;
 import android.widget.TextView;
 
 import com.onedrinkaway.R;
@@ -48,6 +47,7 @@ public class DrinkInfoPage extends OneDrinkAwayActivity {
 		fillIngredients();
 		setGlassPicture();
 		fillDescription();
+		fillDescriptionRecognition();
 		addSeekBarsToView(whiskeySour);
 		setRatingBar();
 		Button addToFavoritesButton = (Button) findViewById(R.id.drink_info_add_to_favorites);
@@ -84,6 +84,10 @@ public class DrinkInfoPage extends OneDrinkAwayActivity {
 		glassTextView.setImageResource(imageID);
 	}
 	
+	private void fillDescriptionRecognition() {
+		TextView descriptionRecognitionTextView = (TextView) findViewById(R.id.drink_info_description_recognition);
+		descriptionRecognitionTextView.setText("Yay for description recognition!");
+	}
 	/**
 	 * Fills the drink_info_description text view with the description of given drink
 	 */
@@ -118,29 +122,23 @@ public class DrinkInfoPage extends OneDrinkAwayActivity {
 		int[] attributes = TestData.alphabetizeAttributes(drink);
 		for(int i = 0; i < attributes.length; i++) {
 			if(attributes[i] != 0) {
-					
-				
-					try {
-						LayoutParams flavTextViewParams = new LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.WRAP_CONTENT);
-						TextView flavorName = new TextView(this);
-						//flavorName.setLayoutParams(flavTextViewParams);
-						flavorName.setText(flavors[i]);
-						seekBarView.addView(flavorName);
+				TextView flavorName = new TextView(this);
 						
-						SeekBar seekBar = new SeekBar(this);
-						seekBar.setMax(5);
-						seekBar.setEnabled(false);
-						seekBar.setProgress(attributes[i]);
-						seekBarView.addView(seekBar);
-				
+				flavorName.setText(flavors[i]);
+				seekBarView.addView(flavorName);
 						
-					}catch(Exception e) {
-						e.printStackTrace();
-					}
-		
-					
+				SeekBar seekBar = new SeekBar(this);
+				seekBar.setMax(5);
+				seekBar.setEnabled(false);
+				LayoutParams sbParams = new LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.WRAP_CONTENT);
+				seekBar.setLayoutParams(sbParams);
+				seekBar.setProgress(attributes[i]);
+				seekBarView.addView(seekBar);
+				LayoutInflater inflater = (LayoutInflater) getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+				View flavorLabels = inflater.inflate(R.layout.activity_drink_info_seek_labels, null);
+				seekBarView.addView(flavorLabels);
 				
-			}
+				}
 		}
 		
 		

@@ -11,7 +11,7 @@ import com.onedrinkaway.common.Drink.Glass;
 
 public class TestData {
 	
-	public static int[] attributes = {1, 2, 3, 4, 5, 0, 1, 2, 3, 4, 5};
+	public static int[] attributes = {1, 2, 0, 0, 4, 0, 5, 3, 0, 0, 0};
 	public static Drink whiskeySour =  new Drink("Whiskey Sour", 0, 3.2, attributes, Category.ON_THE_ROCKS, Glass.ROCKS, false);
 	public static String[] whiskeySourIngredients = new String[]{"3/4 oz Fresh Lemon Juice", 
 					"3/4 ox Simple syrup", "1 1/2 oz Whiskey"};
