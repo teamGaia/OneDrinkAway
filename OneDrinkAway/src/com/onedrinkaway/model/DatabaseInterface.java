@@ -1,6 +1,7 @@
 package com.onedrinkaway.model;
 
 import java.util.*;
+
 import com.onedrinkaway.common.*;
 import com.onedrinkaway.db.*;
 import com.onedrinkaway.model.machinelearning.*;
@@ -16,6 +17,19 @@ public class DatabaseInterface {
     return DrinkDb.getAllDrinks();
   }
   
+  /**
+   * @return String array containing names of each drink in the database.
+   */
+  public static String[] getDrinkNames() {
+	  Set<String> names = DrinkDb.getDrinkNames();
+      String[] result = new String[names.size()];
+      int i = 0;
+      for (String s : names) {
+          result[i] = s;
+          i++;
+      }
+      return result;
+  }
   /**
    * @param d: the drink to be rated
    * @param rating: the rating that the user choose

@@ -78,15 +78,8 @@ public class DrinkDb {
     /**
      * @return an array containing all drink names found in database
      */
-    public static String[] getDrinkNames() {
-        Set<String> names = dd.getDrinkNames();
-        String[] result = new String[names.size()];
-        int i = 0;
-        for (String s : names) {
-            result[i] = s;
-            i++;
-        }
-        return result;
+    public static Set<String> getDrinkNames() {
+        return dd.getDrinkNames();
     }
     
     /**

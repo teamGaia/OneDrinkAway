@@ -15,11 +15,11 @@ import android.widget.TextView;
 
 import com.onedrinkaway.R;
 import com.onedrinkaway.common.Drink;
-import com.onedrinkaway.db.DrinkDb;
+import com.onedrinkaway.model.DatabaseInterface;
 //github.com/teamGaia/OneDrinkAway.git
 
 public class SearchByName extends OneDrinkAwayActivity implements SearchView.OnQueryTextListener {
-    private final String[] drinkNames = DrinkDb.getDrinkNames();
+    private final String[] drinkNames = DatabaseInterface.getDrinkNames();
     
 	private ListView listView;
 
