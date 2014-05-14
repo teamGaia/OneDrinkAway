@@ -47,7 +47,7 @@ public class DrinkInfoPage extends OneDrinkAwayActivity {
 		seekBarView = (LinearLayout) findViewById(R.id.drink_info_seek_bars_layout);
 		helpID = R.string.drink_info_help;
 
-		//drink = DatabaseInterface.getDrink();
+		//drink = DatabaseInterface.getAllDrinks()[0];
 		
 		
 		/********************************** Temp Data *******************************************************/
@@ -59,7 +59,7 @@ public class DrinkInfoPage extends OneDrinkAwayActivity {
 		String whiskeySourDescription = "Add all the ingredients to a shaker and fill with ice. Shake, and "
 				+ "strain into a rocks glass filled with fresh ice. Garnish with a cherry and/or lemon wedge if "
 				+ "desired.";
-		//drinkInfo = new DrinkInfo(whiskeySourIngredients, whiskeySourDescription, null, null, source, 0);
+		drinkInfo = new DrinkInfo(whiskeySourIngredients, whiskeySourDescription, null, null, source, 0);
 		/*************************************Temp Data *************************************************/
 
 
@@ -71,7 +71,7 @@ public class DrinkInfoPage extends OneDrinkAwayActivity {
 			
 		} 
 		
-		drinkInfo = DatabaseInterface.getDrinkInfo(drink);
+		//drinkInfo = DatabaseInterface.getDrinkInfo(drink);
 		
 		
 		setTitle(drink.name);		
@@ -100,9 +100,8 @@ public class DrinkInfoPage extends OneDrinkAwayActivity {
 	 * Appends garnish to end of ingredients list if drinkInfo.garnish !=null
 	 */
 	private void fillIngredients() {
+		TextView ingredientsTextView = (TextView) findViewById(R.id.drink_info_ingredients);
 		if(drinkInfo.ingredients != null) {
-			TextView ingredientsTextView = (TextView) findViewById(R.id.drink_info_ingredients);
-			ingredientsTextView.append("\n" + getString(R.string.ingredients)); //Ingredients bold header
 			for(int i = 0 ; i < drinkInfo.ingredients.size(); i++) {
 					ingredientsTextView.append("\n" + drinkInfo.ingredients.get(i));
 			
@@ -110,6 +109,10 @@ public class DrinkInfoPage extends OneDrinkAwayActivity {
 			if(drinkInfo.garnish != null) {
 				ingredientsTextView.append("Garnish: " + drinkInfo.garnish);
 			}
+			
+			
+		} else {
+			ingredientsTextView.setText("");
 		}
 		
 		
@@ -139,17 +142,20 @@ public class DrinkInfoPage extends OneDrinkAwayActivity {
 	 * Fills the drink_info_description text view with the description of given drink
 	 */
 	private void fillDescription() {
+		TextView descriptionTextView = (TextView) findViewById(R.id.drink_info_description);
 		if(drinkInfo.description != null) {
-			TextView descriptionTextView = (TextView) findViewById(R.id.drink_info_description);
-			descriptionTextView.append("\n" + getString(R.string.drink_description));
 			descriptionTextView.append("\n" + drinkInfo.description);
+		} else {
+			descriptionTextView.setText("");
 		}
 	}
 	
 	private void fillInstructions() {
+		TextView instructionTextView = (TextView) findViewById(R.id.drink_info_instructions);
 		if(drinkInfo.instructions != null) {
-			TextView instructionTextView = (TextView) findViewById(R.id.drink_info_instructions);
-			instructionTextView.append(getString(R.string.instructions));
+			instructionTextView.append("\n" + drinkInfo.instructions);
+		} else {
+			instructionTextView.setText("");
 		}
 	}
 	
@@ -197,7 +203,7 @@ public class DrinkInfoPage extends OneDrinkAwayActivity {
 			if(attributes[i] != 0) {
 				TextView flavorName = new TextView(this);
 						
-				flavorName.setText(flavors[i]);
+				flavorName.setText("\n" + flavors[i]);
 				seekBarView.addView(flavorName);
 				
 				//adds seek bar with max five, disabled, with given attribute (1 - 5)

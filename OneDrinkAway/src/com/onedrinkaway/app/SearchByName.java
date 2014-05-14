@@ -70,8 +70,8 @@ public class SearchByName extends OneDrinkAwayActivity implements SearchView.OnQ
     
     private void goToDrinkInfo(String name) {
     	Intent intent = new Intent(this, DrinkInfoPage.class);
-    	//Drink drink = DatabaseInterface.getDrinkInfo(name);
-    	//intent.putExtra("drink", drink);
+    	Drink drink = DatabaseInterface.getDrink(name);
+    	intent.putExtra("drink", drink);
     	startActivity(intent);
     }
 
