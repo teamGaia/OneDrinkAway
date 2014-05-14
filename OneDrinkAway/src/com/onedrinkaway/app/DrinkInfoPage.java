@@ -46,35 +46,21 @@ public class DrinkInfoPage extends OneDrinkAwayActivity {
 		setContentView(R.layout.activity_drink_info_page);
 		seekBarView = (LinearLayout) findViewById(R.id.drink_info_seek_bars_layout);
 		helpID = R.string.drink_info_help;
-		drink = DatabaseInterface.getAllDrinks().get(0);
-		drinkInfo = DatabaseInterface.getDrinkInfo(drink);
-		
-		/********************************** Temp Data *******************************************************/
-		String source = "Yay for source recognition!";
-		List<String> whiskeySourIngredients = new ArrayList<String>();
-		 whiskeySourIngredients.add("3/4 oz Fresh Lemon Juice"); 
-		 whiskeySourIngredients.add("3/4 oz Simple syrup" );
-		 whiskeySourIngredients.add("1 1/2 oz Whiskey");
-		String whiskeySourDescription = "Add all the ingredients to a shaker and fill with ice. Shake, and "
-				+ "strain into a rocks glass filled with fresh ice. Garnish with a cherry and/or lemon wedge if "
-				+ "desired.";
-		//drinkInfo = new DrinkInfo(whiskeySourIngredients, whiskeySourDescription, null, null, source, 0);
-		/*************************************Temp Data *************************************************/
 
 		
 		Bundle extras = getIntent().getExtras();
 		
 		if (extras != null) {
-			//drink = (Drink)extras.get("drink"); //for future use
-			//drinkInfo = (DrinkInfo) extras.get("drinkInfo");
+			drink = (Drink)extras.get("drink"); 
 			
-			//name = extras.getString("name");
 		} 
+		
+		drinkInfo = DatabaseInterface.getDrinkInfo(drink);
 		
 		
 		setTitle(drink.name);		
 		
-			
+		fillInstructions();
 		fillIngredients();
 		setGlassPicture();
 		fillDescription();
@@ -98,18 +84,19 @@ public class DrinkInfoPage extends OneDrinkAwayActivity {
 	 * Appends garnish to end of ingredients list if drinkInfo.garnish !=null
 	 */
 	private void fillIngredients() {
-		TextView ingredientsTextView = (TextView) findViewById(R.id.drink_info_ingredients);
-		ingredientsTextView.append("\n"); //put extra line between header and ingredients
 		if(drinkInfo.ingredients != null) {
+			TextView ingredientsTextView = (TextView) findViewById(R.id.drink_info_ingredients);
+			ingredientsTextView.append("\n" + getString(R.string.ingredients)); //Ingredients bold header
 			for(int i = 0 ; i < drinkInfo.ingredients.size(); i++) {
 					ingredientsTextView.append("\n" + drinkInfo.ingredients.get(i));
 			
 			}
+			if(drinkInfo.garnish != null) {
+				ingredientsTextView.append("Garnish: " + drinkInfo.garnish);
+			}
 		}
 		
-		if(drinkInfo.garnish != null) {
-			ingredientsTextView.append("Garnish: " + drinkInfo.garnish);
-		}
+		
 	}
 	
 	/**
@@ -125,36 +112,42 @@ public class DrinkInfoPage extends OneDrinkAwayActivity {
 	 * Cites the source of the drink description at the bottom of the page
 	 */
 	private void fillDescriptionRecognition() {
-		TextView descriptionRecognitionTextView = (TextView) findViewById(R.id.drink_info_description_recognition);
 		if(drinkInfo.source != null) {
+			TextView descriptionRecognitionTextView = 
+					(TextView) findViewById(R.id.drink_info_description_recognition);
 			descriptionRecognitionTextView.setText(drinkInfo.source);
-		} else {
-			descriptionRecognitionTextView.setText("");
-		}
-	}
-	/**
-	 * Fills the drink_info_description text view with the description of given drink
-	 */
-	private void fillDescription() {
-		TextView descriptionTextView = (TextView) findViewById(R.id.drink_info_description);
-		if(drinkInfo.description != null) {
-			descriptionTextView.append("\n" + drinkInfo.description);
 		}
 	}
 	
 	/**
-	 * Sets RatingBar Steps to integer value and sets what current star rating should show as
+	 * Fills the drink_info_description text view with the description of given drink
+	 */
+	private void fillDescription() {
+		if(drinkInfo.description != null) {
+			TextView descriptionTextView = (TextView) findViewById(R.id.drink_info_description);
+			descriptionTextView.append("\n" + getString(R.string.drink_description));
+			descriptionTextView.append("\n" + drinkInfo.description);
+		}
+	}
+	
+	private void fillInstructions() {
+		if(drinkInfo.instructions != null) {
+			TextView instructionTextView = (TextView) findViewById(R.id.drink_info_instructions);
+			instructionTextView.append(getString(R.string.instructions));
+		}
+	}
+	
+	/**
+	 * Sets RatingBar Steps to integer value and sets what current star rating should 
+	 * If user has rated, then shows user rating
+	 * otherwise if there is a predicted rating for the user it shows the predicted rating
+	 * If the other two ratings are -1 then the average user rating is shown
 	 */
 	private void setRatingBar() {
 		RatingBar ratingBar = (RatingBar) findViewById(R.id.drink_info_rating_bar);
 		ratingBar.setStepSize((float) 1.0);
-		if(drink.getUserRating() != -1) {
-			//sets rating if user has rated the drink 
-			ratingBar.setRating((float) drink.getUserRating());  
-		} else {
-			//else sets ratings to 0 stars
-			ratingBar.setRating((float) 0.0);
-		}
+		ratingBar.setRating((float) drink.getRating());
+		
 		
 		ratingBar.setOnRatingBarChangeListener(new OnRatingBarChangeListener() {
 			
@@ -177,18 +170,21 @@ public class DrinkInfoPage extends OneDrinkAwayActivity {
 	};
 
 	/**
-	 * Add seek bars that show the drink's flavor profile to view
+	 * Adds seek bars that show the drink's flavor profile to view and only adds seek bars with flavors
+	 * that are greater than 0
 	 * @param drink for which the info page consists of
 	 */
 	private void addSeekBarsToView() {
 		int[] attributes = TestData.alphabetizeAttributes(drink);
+		
 		for(int i = 0; i < attributes.length; i++) {
 			if(attributes[i] != 0) {
 				TextView flavorName = new TextView(this);
 						
 				flavorName.setText(flavors[i]);
 				seekBarView.addView(flavorName);
-						
+				
+				//adds seek bar with max five, disabled, with given attribute (1 - 5)
 				SeekBar seekBar = new SeekBar(this);
 				seekBar.setMax(5);
 				seekBar.setEnabled(false);
@@ -196,6 +192,8 @@ public class DrinkInfoPage extends OneDrinkAwayActivity {
 				seekBar.setLayoutParams(sbParams);
 				seekBar.setProgress(attributes[i]);
 				seekBarView.addView(seekBar);
+				
+				//adds 0 - 5 under each flavor seek bar
 				LayoutInflater inflater = (LayoutInflater) getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 				View flavorLabels = inflater.inflate(R.layout.activity_drink_info_seek_labels, null);
 				seekBarView.addView(flavorLabels);
@@ -205,7 +203,11 @@ public class DrinkInfoPage extends OneDrinkAwayActivity {
 		
 		
 	} 
-
+	
+	/**
+	 * Delegates action if icons in action bar are pushed
+	 * @param item the menu icon that has been selected
+	 */
 	@Override
 	public boolean onOptionsItemSelected(MenuItem item) {
 	    if (item.getItemId() == android.R.id.home) {
