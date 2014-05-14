@@ -1,8 +1,11 @@
 package com.onedrinkaway.app;
 
+import java.util.List;
+
 import android.content.Intent;
 import android.os.Bundle;
 import android.text.TextUtils;
+import android.util.SparseBooleanArray;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
@@ -16,12 +19,12 @@ import android.widget.TextView;
 
 import com.onedrinkaway.R;
 import com.onedrinkaway.common.Query;
+import com.onedrinkaway.model.DatabaseInterface;
 
 
 public class SearchByIngredient extends OneDrinkAwayActivity implements SearchView.OnQueryTextListener {
 
-	private final String[] aBigAssArrayOfCheeseNames = ClassWithABigAssArrayOfCheeseNames.theBigAssArrayOfCheeseNames;
-	//private final Drink[] allDrinks = (Drink[]) DatabaseInterface.getAllDrinks().toArray();
+	private String[] ingredients;
     
 	// The ingredients to include in the search
 	private Query query;
@@ -34,16 +37,16 @@ public class SearchByIngredient extends OneDrinkAwayActivity implements SearchVi
 		setContentView(R.layout.activity_search_by_ingredient);
 
 		helpID = R.string.search_by_ingredient;
+		query = new Query();
+		// ingredients = DatabaseInterface.getIngredients();
 		setupSearchView();
         setupListView();
     }
     
     private void setupSearchView() {
     	SearchView srchView = (SearchView) findViewById(R.id.ingredient_search_view);
-    	Button ingredientSearchButton = (Button) findViewById(R.id.search_by_ingredient_button);
         srchView.setIconifiedByDefault(false);
         srchView.setOnQueryTextListener(this);
-        srchView.setSubmitButtonEnabled(false);
         srchView.setQueryHint("Enter Ingredient Here");
         query = new Query();
     }
@@ -52,31 +55,26 @@ public class SearchByIngredient extends OneDrinkAwayActivity implements SearchVi
     	listView = (ListView) findViewById(R.id.ingredient_list_view);
         listView.setAdapter(new ArrayAdapter<String>(this,
                 R.layout.oda_ingredient_item,
-                R.id.ingredient_check_box,
-                aBigAssArrayOfCheeseNames));
+                R.id.ingredient_text_view,
+                ingredients));
         listView.setTextFilterEnabled(true);
-        
-        listView.setOnItemClickListener(new OnItemClickListener() {
-
-
-            @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position,
-                    long id) {
-            	CheckBox checkbox = (CheckBox) view;
-            	if (checkbox.isChecked())
-            		query.add(checkbox.getText().toString());
-            	// else
-            		// query.remove()
-            	goToDrinkInfo(checkbox.getText().toString());
-            }
-
-        });
+        listView.setChoiceMode(ListView.CHOICE_MODE_MULTIPLE);
     }
     
-    private void goToDrinkInfo(String name) {
-    	Intent intent = new Intent(this, DrinkInfoPage.class);
-    	intent.putExtra("name", name);
-    	startActivity(intent);
+    private void goToResults() {
+    	SparseBooleanArray checked = listView.getCheckedItemPositions();
+    	for(int i = 0; i <= checked.size(); i++) {
+            if(checked.get(i))
+            	query.add(ingredients[i]);
+    	}
+    	/*Drink[] results = DatabaseInterface.getDrinks(query);
+    	if (results.length == 0) {
+    		displayError();
+    	} else {
+        	Intent intent = new Intent(this, ResultsPage.class);
+        	intent.putExtra("results", results);
+    		startActivity(intent);
+    	} */
     }
 
     public boolean onQueryTextChange(String newText) {

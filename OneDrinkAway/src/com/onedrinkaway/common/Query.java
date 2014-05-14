@@ -34,7 +34,7 @@ public class Query {
         flavors = new ArrayList<Flavor>();
     }
     
-    /**'
+    /**
      * Sets the name in this query
      * @param name the name to be searched for
      */
