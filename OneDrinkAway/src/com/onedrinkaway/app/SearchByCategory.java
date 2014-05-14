@@ -52,7 +52,7 @@ public class SearchByCategory extends OneDrinkAwayActivity {
 	public void goToResults(View view) {
 		Intent intent = new Intent(this, ResultsPage.class);
 		String categoryName = (String) ((TextView) view).getText();
-		//intent.putExtra("title", categoryName);
+		intent.putExtra("title", categoryName);
 		startActivity(intent);
 	}
 	

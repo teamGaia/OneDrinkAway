@@ -49,18 +49,6 @@ public class DrinkInfoPage extends OneDrinkAwayActivity {
 
 		//drink = DatabaseInterface.getAllDrinks()[0];
 		
-		
-		/********************************** Temp Data *******************************************************/
-		String source = "Yay for source recognition!";
-		List<String> whiskeySourIngredients = new ArrayList<String>();
-		 whiskeySourIngredients.add("3/4 oz Fresh Lemon Juice"); 
-		 whiskeySourIngredients.add("3/4 oz Simple syrup" );
-		 whiskeySourIngredients.add("1 1/2 oz Whiskey");
-		String whiskeySourDescription = "Add all the ingredients to a shaker and fill with ice. Shake, and "
-				+ "strain into a rocks glass filled with fresh ice. Garnish with a cherry and/or lemon wedge if "
-				+ "desired.";
-		drinkInfo = new DrinkInfo(whiskeySourIngredients, whiskeySourDescription, null, null, source, 0);
-		/*************************************Temp Data *************************************************/
 
 
 		
@@ -71,7 +59,7 @@ public class DrinkInfoPage extends OneDrinkAwayActivity {
 			
 		} 
 		
-		//drinkInfo = DatabaseInterface.getDrinkInfo(drink);
+		drinkInfo = DatabaseInterface.getDrinkInfo(drink);
 		
 		
 		setTitle(drink.name);		
