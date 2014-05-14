@@ -2,6 +2,7 @@ package com.onedrinkaway.model;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -73,13 +74,47 @@ public class DatabaseInterface {
    *         sorted by the predicted rating (highest->lowest)
    */
   public static Drink[] getDrinks(Query query){
-    
-    List<Drink> filteredDrinks = new ArrayList<Drink>(DrinkDb.getAllDrinks()); // change this! -- John
-    List<Drink> ratedDrinks = new ArrayList<Drink>(DrinkDb.getRatedDrinks()); // this will be changed to the new method
-    List<Drink> unratedDrinks = getUnratedDrinks(filteredDrinks, ratedDrinks);
-    
-    
-    return getAllDrinks();
+    List<Drink> drinks = new ArrayList<Drink>(DrinkDb.getAllDrinks());
+    Iterator<Drink> iter;
+    if (query.hasCategory()) {  // iterate and filter by category
+      iter = drinks.iterator();
+      while (iter.hasNext()) {
+        Drink d = iter.next();
+        if (!d.categories.contains(query.getCategory()))
+          iter.remove();
+      }
+    }
+    if (query.hasIngredients()) { // iterate and filter by ingredients
+      iter = drinks.iterator();
+      while (iter.hasNext()) {
+        Drink d = iter.next();
+        DrinkInfo di = DrinkDb.getDrinkInfo(d);
+        List<String> drinkIngr = di.ingredients;
+        List<String> queryIngr = query.getIngredients();
+        if (!drinkIngr.containsAll(queryIngr))
+          iter.remove();
+      }
+    }
+    if (query.hasName()) { // iterate and filter by name
+      iter = drinks.iterator();
+      while (iter.hasNext()) {
+        Drink d = iter.next();
+        if (!d.name.contains(query.getName()))
+          iter.remove();
+      }
+    }
+    if (query.hasFlavors()) {
+      // Machine Learning time
+    }
+    // finally put all drinks in an array and sort
+    Drink[] result = new Drink[drinks.size()];
+    int i = 0;
+    for (Drink d : drinks) {
+      result[i] = d;
+      i++;
+    }
+    Arrays.sort(result);
+    return result;
   }
   
   private static List<Drink> getUnratedDrinks(List<Drink> allDrinks, List<Drink> ratedDrinks){
