@@ -32,6 +32,9 @@ public class DrinkDb {
 	
 	private static DrinkData dd = getDrinkData();
 	
+	/**
+	 * Deserializes and returns a DrinkData object from file
+	 */
 	public static DrinkData getDrinkData() {
 	    DrinkData drinkd = null;
 	    try {
