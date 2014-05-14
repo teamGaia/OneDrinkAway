@@ -1,5 +1,6 @@
 package com.onedrinkaway.common;
 
+import java.io.Serializable;
 import java.util.List;
 
 import com.onedrinkaway.db.DrinkDb;
@@ -11,7 +12,9 @@ import com.onedrinkaway.db.DrinkDb;
  *
  */
 
-public class Drink implements Comparable<Drink> {
+public class Drink implements Comparable<Drink>, Serializable {
+
+  private static final long serialVersionUID = -4468020931018293291L;
   public final String name;
   public final int id;
   /** Average user rating */

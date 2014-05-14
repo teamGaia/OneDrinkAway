@@ -15,12 +15,11 @@ import android.widget.TextView;
 
 import com.onedrinkaway.R;
 import com.onedrinkaway.common.Drink;
-import com.onedrinkaway.model.DatabaseInterface;
+import com.onedrinkaway.db.DrinkDb;
+//github.com/teamGaia/OneDrinkAway.git
 
 public class SearchByName extends OneDrinkAwayActivity implements SearchView.OnQueryTextListener {
-	// This is temporary!!
-    //private final String[] aBigAssArrayOfCheeseNames = ClassWithABigAssArrayOfCheeseNames.theBigAssArrayOfCheeseNames;
-	private List<Drink> allDrinks;
+    private final String[] drinkNames = DrinkDb.getDrinkNames();
     
 	private ListView listView;
 
@@ -44,11 +43,10 @@ public class SearchByName extends OneDrinkAwayActivity implements SearchView.OnQ
     
     private void setupListView() {
     	listView = (ListView) findViewById(R.id.list_view);
-    	allDrinks = DatabaseInterface.getAllDrinks();
         listView.setAdapter(new ArrayAdapter<String>(this,
                 R.layout.oda_list_item,
                 R.id.list_item,
-                getDrinkNames(allDrinks)));
+                drinkNames));
         listView.setTextFilterEnabled(true);
         
         listView.setOnItemClickListener(new OnItemClickListener() {

@@ -4,13 +4,21 @@
 
 package com.onedrinkaway.db;
 
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
+import java.util.Set;
 
+import android.content.res.AssetManager;
 import android.provider.Settings.Secure;
 
+import com.onedrinkaway.app.HomePage;
 import com.onedrinkaway.common.Drink;
+import com.onedrinkaway.common.DrinkInfo;
 import com.onedrinkaway.common.Query;
 
 /**
@@ -20,10 +28,66 @@ import com.onedrinkaway.common.Query;
  */
 
 public class DrinkDb {
-	
-	public static final String ID = Secure.ANDROID_ID;
-	
-	private static DrinkData dd = new DrinkData();
+    
+    public static final String ID = Secure.ANDROID_ID;
+    
+    private static DrinkData dd = getDrinkData();
+    
+    /**
+     * Deserializes and returns a DrinkData object from file
+     */
+    private static DrinkData getDrinkData() {
+        DrinkData drinkd = null;
+        try {
+            AssetManager assets = HomePage.appContext.getAssets();
+            InputStream is = assets.open("drinkdata.ser");
+            ObjectInputStream in = new ObjectInputStream(is);
+            drinkd = (DrinkData) in.readObject();
+            in.close();
+            System.out.println("deserialized dd");
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return drinkd;
+    }
+    
+    /**
+     * Saves DrinkData object to file, currently broken in Android
+     */
+    public static void saveDrinkData() {
+        try {
+            FileOutputStream fileOut = new FileOutputStream("drinkdata.ser");
+            ObjectOutputStream out = new ObjectOutputStream(fileOut);
+            out.writeObject(dd);
+            out.close();
+            fileOut.close();
+        } catch(IOException i) {
+            i.printStackTrace();
+        }
+    }
+    
+    /**
+     * Finds DrinkInfo for a given drink
+     * @param d the Drink to search for
+     * @return the DrinkInfo for d
+     */
+    public static DrinkInfo getDrinkInfo(Drink d) {
+        return dd.getDrinkInfo(d);
+    }
+    
+    /**
+     * @return an array containing all drink names found in database
+     */
+    public static String[] getDrinkNames() {
+        Set<String> names = dd.getDrinkNames();
+        String[] result = new String[names.size()];
+        int i = 0;
+        for (String s : names) {
+            result[i] = s;
+            i++;
+        }
+        return result;
+    }
     
     /**
      * @return a list contain all ingredients as Strings
@@ -86,8 +150,8 @@ public class DrinkDb {
      * @return a List of all drinks rated by user
      */
     public static List<Drink> getRatedDrinks() {
-    	
-    	return null;
+        
+        return null;
     }
     
     /**
@@ -95,8 +159,8 @@ public class DrinkDb {
      * @return a List of all drinks in users favorites list
      */
     public static List<Drink> getFavorites() {
-    	
-    	return null;
+        
+        return null;
     }
     
     /**
@@ -106,16 +170,5 @@ public class DrinkDb {
      */
     public static void removeFavorite(Drink drink) {
         
-    }
-    
-    /**
-     * Gets a list of ingredients for the given drink
-     * 
-     * @param drink the drink to find the ingredients of
-     */
-    public static List<String> getIngredients(Drink drink) {
-        List<String> result = new ArrayList<String>();
-        
-        return result;
     }
 }
