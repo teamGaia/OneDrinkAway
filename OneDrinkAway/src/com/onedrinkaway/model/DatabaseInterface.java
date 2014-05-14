@@ -1,10 +1,19 @@
 package com.onedrinkaway.model;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Iterator;
+import java.util.List;
+import java.util.Map;
+import java.util.Set;
+import java.util.TreeMap;
 
-import com.onedrinkaway.common.*;
-import com.onedrinkaway.db.*;
-import com.onedrinkaway.model.machinelearning.*;
+import com.onedrinkaway.common.Drink;
+import com.onedrinkaway.common.DrinkInfo;
+import com.onedrinkaway.common.Query;
+import com.onedrinkaway.db.DrinkDb;
+import com.onedrinkaway.model.machinelearning.KNearestNeighborModel;
+import com.onedrinkaway.model.machinelearning.MLModel;
 
 public class DatabaseInterface {
   private static MLModel machineLearner = new KNearestNeighborModel();
@@ -13,10 +22,32 @@ public class DatabaseInterface {
    * @return all of the drinks in the database
    *
    */
-  public static List<Drink> getAllDrinks(){
-    return DrinkDb.getAllDrinks();
+  public static Drink[] getAllDrinks(){
+    Set<Drink> drinks = DrinkDb.getAllDrinks();
+    Drink[] result = new Drink[drinks.size()];
+    int i = 0;
+    for (Drink d : drinks) {
+      result[i] = d;
+      i++;
+    }
+    Arrays.sort(result);
+    return result;
   }
   
+  /**
+   * @return String array containing names of each drink in the database.
+   */
+  public static String[] getDrinkNames() {
+	  Set<String> names = DrinkDb.getDrinkNames();
+      String[] result = new String[names.size()];
+      int i = 0;
+      for (String s : names) {
+          result[i] = s;
+          i++;
+      }
+      Arrays.sort(result);
+      return result;
+  }
   /**
    * @param d: the drink to be rated
    * @param rating: the rating that the user choose
@@ -29,12 +60,12 @@ public class DatabaseInterface {
    * @return a list of drinks that the user has not rated, 
    *         sorted by the predicted rating (highest->lowest)
    */
-  public static List<Drink> getTrySomethingNewDrinks(){
-    List<Drink> allDrinks = DrinkDb.getAllDrinks();
-    List<Drink> ratedDrinks = DrinkDb.getRatedDrinks();
+  public static Drink[] getTrySomethingNewDrinks(){
+    List<Drink> allDrinks = new ArrayList<Drink>(DrinkDb.getAllDrinks());
+    List<Drink> ratedDrinks = new ArrayList<Drink>(DrinkDb.getRatedDrinks());
     List<Drink> unratedDrinks = getUnratedDrinks(allDrinks, ratedDrinks);
     
-    return predictRatings(unratedDrinks, ratedDrinks);
+    return getAllDrinks();
   }
   
   /**
@@ -42,13 +73,48 @@ public class DatabaseInterface {
    * @return a list of drinks unrated by the user, 
    *         sorted by the predicted rating (highest->lowest)
    */
-  public static List<Drink> getDrinks(Query query){
-    List<Drink> filteredDrinks = DrinkDb.getDrinks(query);
-    List<Drink> ratedDrinks = DrinkDb.getRatedDrinks(); // this will be changed to the new method
-    List<Drink> unratedDrinks = getUnratedDrinks(filteredDrinks, ratedDrinks);
-    
-    
-    return predictRatings(unratedDrinks, ratedDrinks);
+  public static Drink[] getDrinks(Query query){
+    List<Drink> drinks = new ArrayList<Drink>(DrinkDb.getAllDrinks());
+    Iterator<Drink> iter;
+    if (query.hasCategory()) {  // iterate and filter by category
+      iter = drinks.iterator();
+      while (iter.hasNext()) {
+        Drink d = iter.next();
+        if (!d.categories.contains(query.getCategory()))
+          iter.remove();
+      }
+    }
+    if (query.hasIngredients()) { // iterate and filter by ingredients
+      iter = drinks.iterator();
+      while (iter.hasNext()) {
+        Drink d = iter.next();
+        DrinkInfo di = DrinkDb.getDrinkInfo(d);
+        List<String> drinkIngr = di.ingredients;
+        List<String> queryIngr = query.getIngredients();
+        if (!drinkIngr.containsAll(queryIngr))
+          iter.remove();
+      }
+    }
+    if (query.hasName()) { // iterate and filter by name
+      iter = drinks.iterator();
+      while (iter.hasNext()) {
+        Drink d = iter.next();
+        if (!d.name.contains(query.getName()))
+          iter.remove();
+      }
+    }
+    if (query.hasFlavors()) {
+      // Machine Learning time
+    }
+    // finally put all drinks in an array and sort
+    Drink[] result = new Drink[drinks.size()];
+    int i = 0;
+    for (Drink d : drinks) {
+      result[i] = d;
+      i++;
+    }
+    Arrays.sort(result);
+    return result;
   }
   
   private static List<Drink> getUnratedDrinks(List<Drink> allDrinks, List<Drink> ratedDrinks){
@@ -78,24 +144,55 @@ public class DatabaseInterface {
   }
   
   /**
+   * Returns the Drink corresponding to the given name
+   */
+  public static Drink getDrink(String name) {
+      return DrinkDb.getDrink(name);
+  }
+  
+  /**
    * @return a list of Drinks that the user has favorites
    */
-  public static List<Drink> getFavorites(){
-    return DrinkDb.getFavorites();
+  public static Drink[] getFavorites(){
+    Set<Drink> favs = DrinkDb.getFavorites();
+    Drink[] result = new Drink[favs.size()];
+    int i = 0;
+    for (Drink d : favs) {
+      result[i] = d;
+      i++;
+    }
+    Arrays.sort(result);
+    return result;
   }
   
   /**
    * @return a list of category names
    */
-  public static List<String> getCategories(){
-    return DrinkDb.getCategories();
+  public static String[] getCategories(){
+    Set<String> cat = DrinkDb.getCategories();
+    String[] result = new String[cat.size()];
+    int i = 0;
+    for (String s : cat) {
+      result[i] = s;
+      i++;
+    }
+    Arrays.sort(result);
+    return result;
   }
   
   /**
    * @return a list of possible ingredients
    */
-  public static List<String> getIngredients(){
-    return DrinkDb.getIngredients();
+  public static String[] getIngredients(){
+    Set<String> ingr = DrinkDb.getIngredients();
+    String[] result = new String[ingr.size()];
+    int i = 0;
+    for (String s : ingr) {
+      result[i] = s;
+      i++;
+    }
+    Arrays.sort(result);
+    return result;
   }
   
   /**
@@ -103,7 +200,7 @@ public class DatabaseInterface {
    * @param favorite the Drink that the user favorited
    */
   public static void addFavorite(Drink favorite){
-   // DrinkDb.addFavorite(favorite);
+    DrinkDb.addFavorite(favorite);
   }
   
   /**

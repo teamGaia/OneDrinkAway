@@ -19,7 +19,6 @@ import android.provider.Settings.Secure;
 import com.onedrinkaway.app.HomePage;
 import com.onedrinkaway.common.Drink;
 import com.onedrinkaway.common.DrinkInfo;
-import com.onedrinkaway.common.Query;
 
 /**
  * Stores and manages data
@@ -52,6 +51,13 @@ public class DrinkDb {
     }
     
     /**
+     * Returns the Drink corresponding to the given name
+     */
+    public static Drink getDrink(String name) {
+        return dd.getDrink(name);
+    }
+    
+    /**
      * Saves DrinkData object to file, currently broken in Android
      */
     public static void saveDrinkData() {
@@ -78,49 +84,29 @@ public class DrinkDb {
     /**
      * @return an array containing all drink names found in database
      */
-    public static String[] getDrinkNames() {
-        Set<String> names = dd.getDrinkNames();
-        String[] result = new String[names.size()];
-        int i = 0;
-        for (String s : names) {
-            result[i] = s;
-            i++;
-        }
-        return result;
+    public static Set<String> getDrinkNames() {
+        return dd.getDrinkNames();
     }
     
     /**
      * @return a list contain all ingredients as Strings
      */
-    public static List<String> getIngredients() {
-        List<String> result = new ArrayList<String>();
-        for (String s : dd.getIngredients())
-            result.add(s);
-        return result;
+    public static Set<String> getIngredients() {
+        return dd.getIngredients();
     }
     
     /**
      * @return a list of all Drinks
      */
-    public static List<Drink> getAllDrinks() {
-        return new ArrayList<Drink>(dd.getAllDrinks());
+    public static Set<Drink> getAllDrinks() {
+        return dd.getAllDrinks();
     }
     
     /**
      * @return a list of all Categories
      */
-    public static List<String> getCategories() {
-        return new ArrayList<String>(dd.getCategories());
-    }
-    
-    /**
-     * Searches for Drinks that match the given query
-     * 
-     * @return a list drinks that match the given Query
-     */
-    public static List<Drink> getDrinks(Query q) {
-        
-        return null;
+    public static Set<String> getCategories() {
+        return dd.getCategories();
     }
     
     /**
@@ -128,9 +114,8 @@ public class DrinkDb {
      * 
      * @param drink the drink to be added
      */
-    public static void addFavorite(Drink drink, int score) {
+    public static void addFavorite(Drink drink) {
         dd.addFavorite(drink);
-        drink.addUserRating(score);
     }
     
     /**
@@ -149,7 +134,7 @@ public class DrinkDb {
      * Gets all drinks rated by user
      * @return a List of all drinks rated by user
      */
-    public static List<Drink> getRatedDrinks() {
+    public static Set<Drink> getRatedDrinks() {
         
         return null;
     }
@@ -158,7 +143,7 @@ public class DrinkDb {
      * Gets all drinks on users favorites list
      * @return a List of all drinks in users favorites list
      */
-    public static List<Drink> getFavorites() {
+    public static Set<Drink> getFavorites() {
         
         return null;
     }
