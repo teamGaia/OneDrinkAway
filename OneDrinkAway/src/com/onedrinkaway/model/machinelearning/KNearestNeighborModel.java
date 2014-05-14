@@ -10,12 +10,22 @@ package com.onedrinkaway.model.machinelearning;
 
 import java.util.*;
 import java.lang.Math;
+
 import com.onedrinkaway.common.*;
 
 public class KNearestNeighborModel implements MLModel {
   private List<Drink> trainingSet;
   
-  /**
+
+
+  public KNearestNeighborModel(int i, List<Drink> trainingSet2) {
+	// TODO Auto-generated constructor stub
+  }
+  
+  public KNearestNeighborModel() {
+	  this(5, new LinkedList<Drink>());
+  }
+/**
    * @param trainingSet: list of drinks that the user has rated
    **/
   public void train(List<Drink> trainingSet) {
