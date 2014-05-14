@@ -1,9 +1,12 @@
 package com.onedrinkaway.model.machinelearning;
 
 
+
 import java.util.*;
 
 import com.onedrinkaway.common.Drink;
+
+
 
 
 
@@ -68,45 +71,24 @@ public class KNearestNeighborModel implements MLModel {
 		//</get K nearest neighbours>
 		
 		//<get average>
-		int count = topK.size();
-		double sum = 0.0;
-		while(!topK.isEmpty()) {
-			sum += topK.remove().getRating();
-		}
-		double ave = sum/count;
-		return ave;
-		//<get average>
-		//<build them into matrix>
-		/*
-		double[][] X = new double[topK.size()][];
-		double[][] Y = new double[topK.size()][1];
+		double[] labels = new double[topK.size()];
+		double[] distances = new double[topK.size()];
 		int i = 0;
 		while(!topK.isEmpty()) {
-			Drink curSelected = topK.remove();
-			//X[i] = curSelected.attributes;
-			double[] curVec = new double[curSelected.attributes.length];
-			for(int j = 0; j < curVec.length; j++) {
-				curVec[j] = (double)curSelected.attributes[j];
-			}
-			X[i] = curVec;
-			Y[i][0] = curSelected.getRating();
+			Drink curIns = topK.remove();
+			labels[i] = curIns.getRating();
+			distances[i] = getDis(curIns);
 			i++;
 		}
-		Matrix Xm = new Matrix(X);
-		Matrix Ym = new Matrix(Y);
-		Matrix Xtrans = Xm.transpose();
-		try {
-			Matrix b = Xtrans.times(Xm).inverse().times(Xtrans).times(Ym);
-			System.out.println("a");
-			double[][] x = new double[1][curIns.attributes.length];
-			Matrix xm = new Matrix(x);
-			return xm.times(b).get(0, 0);
-		} catch(Exception e) {
-			System.out.println("b");
-			return 0.0;
+		double sumDis = 0.0;
+		for(int j = 0; j < distances.length; j++) {
+			sumDis += distances[j];
 		}
-		*/
-		//</build them into matrix>
+		double predicted = 0.0;
+		for(int j = 0; j < distances.length; j++) {
+			predicted += labels[j]*(distances[distances.length-1-j]/sumDis);
+		}
+		return predicted;
   }
   
   /**
