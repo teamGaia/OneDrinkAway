@@ -20,10 +20,11 @@ public class HomePage extends OneDrinkAwayActivity {
 					.add(R.id.container, new PlaceholderFragment()).commit();
 		}
 		
-		// My code
 		helpID = R.string.home_page_help;
 		getSupportActionBar().setTitle(R.string.app_name);
 		getSupportActionBar().setDisplayHomeAsUpEnabled(false);
+		
+		// Set up Database 
 	}
 	
 	public void goToActivity(View view) {

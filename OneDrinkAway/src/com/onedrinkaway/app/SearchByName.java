@@ -1,5 +1,7 @@
 package com.onedrinkaway.app;
 
+import java.util.List;
+
 import android.content.Intent;
 import android.os.Bundle;
 import android.text.TextUtils;
@@ -12,11 +14,13 @@ import android.widget.SearchView;
 import android.widget.TextView;
 
 import com.onedrinkaway.R;
+import com.onedrinkaway.common.Drink;
+import com.onedrinkaway.model.DatabaseInterface;
 
 public class SearchByName extends OneDrinkAwayActivity implements SearchView.OnQueryTextListener {
 	// This is temporary!!
-    private final String[] aBigAssArrayOfCheeseNames = ClassWithABigAssArrayOfCheeseNames.theBigAssArrayOfCheeseNames;
-	//private final Drink[] allDrinks = (Drink[]) DatabaseInterface.getAllDrinks().toArray();
+    //private final String[] aBigAssArrayOfCheeseNames = ClassWithABigAssArrayOfCheeseNames.theBigAssArrayOfCheeseNames;
+	private List<Drink> allDrinks;
     
 	private ListView listView;
 
@@ -40,10 +44,11 @@ public class SearchByName extends OneDrinkAwayActivity implements SearchView.OnQ
     
     private void setupListView() {
     	listView = (ListView) findViewById(R.id.list_view);
+    	allDrinks = DatabaseInterface.getAllDrinks();
         listView.setAdapter(new ArrayAdapter<String>(this,
                 R.layout.oda_list_item,
                 R.id.list_item,
-                aBigAssArrayOfCheeseNames));
+                getDrinkNames(allDrinks)));
         listView.setTextFilterEnabled(true);
         
         listView.setOnItemClickListener(new OnItemClickListener() {
@@ -55,6 +60,14 @@ public class SearchByName extends OneDrinkAwayActivity implements SearchView.OnQ
             }
 
         });
+    }
+    
+    private String[] getDrinkNames(List<Drink> drinks) {
+    	String[] names = new String[drinks.size()];
+    	for (int i = 0; i < drinks.size(); i++) {
+    		names[i] = drinks.get(0).name;
+    	}
+    	return names;
     }
     
     private void goToDrinkInfo(String name) {

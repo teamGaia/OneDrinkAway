@@ -205,7 +205,7 @@ public class DrinkData {
      */
     private void buildFromFile() {
         try {
-            Scanner sc = new Scanner(new File("drinks.tsv"));
+            Scanner sc = new Scanner(new File("data/data/drinks.tsv"));
             sc.nextLine(); //throw away first line
             while (sc.hasNextLine()){
                 String s = sc.nextLine();
