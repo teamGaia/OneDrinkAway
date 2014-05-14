@@ -38,7 +38,7 @@ public class SearchByIngredient extends OneDrinkAwayActivity implements SearchVi
 
 		helpID = R.string.search_by_ingredient;
 		query = new Query();
-		// ingredients = DatabaseInterface.getIngredients();
+		ingredients = DatabaseInterface.getIngredients();
 		setupSearchView();
         setupListView();
     }
@@ -55,7 +55,6 @@ public class SearchByIngredient extends OneDrinkAwayActivity implements SearchVi
     	listView = (ListView) findViewById(R.id.ingredient_list_view);
         listView.setAdapter(new ArrayAdapter<String>(this,
                 R.layout.oda_ingredient_item,
-                R.id.ingredient_text_view,
                 ingredients));
         listView.setTextFilterEnabled(true);
         listView.setChoiceMode(ListView.CHOICE_MODE_MULTIPLE);
@@ -67,6 +66,7 @@ public class SearchByIngredient extends OneDrinkAwayActivity implements SearchVi
             if(checked.get(i))
             	query.add(ingredients[i]);
     	}
+    	
     	/*Drink[] results = DatabaseInterface.getDrinks(query);
     	if (results.length == 0) {
     		displayError();
@@ -74,7 +74,7 @@ public class SearchByIngredient extends OneDrinkAwayActivity implements SearchVi
         	Intent intent = new Intent(this, ResultsPage.class);
         	intent.putExtra("results", results);
     		startActivity(intent);
-    	} */
+    	}*/
     }
 
     public boolean onQueryTextChange(String newText) {
