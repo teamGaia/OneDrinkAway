@@ -5,7 +5,6 @@ import java.util.*;
 
 import com.onedrinkaway.common.Drink;
 
-import Jama.Matrix;
 
 
 public class KNearestNeighborModel implements MLModel {
@@ -20,6 +19,13 @@ public class KNearestNeighborModel implements MLModel {
   }
   
   /**
+   * @effect construct a 5 nearest neighbor classfier
+   */
+  public KNearestNeighborModel() {
+	  this(5);
+  }
+  
+  /**
 	 * @effect construct a K nearest neighbor classfier
 	 * @param K: number of nearest neighbor
 	 */
@@ -27,10 +33,6 @@ public class KNearestNeighborModel implements MLModel {
 	this.K = K;
   }
 	
-  public KNearestNeighborModel() {
-		this(5);
-  }
-  
 	/**
 	 * @effect construct a trained K nearest neighbor classfier
 	 * @param K: number of nearest neighbor
@@ -65,7 +67,17 @@ public class KNearestNeighborModel implements MLModel {
 		}
 		//</get K nearest neighbours>
 		
+		//<get average>
+		int count = topK.size();
+		double sum = 0.0;
+		while(!topK.isEmpty()) {
+			sum += topK.remove().getRating();
+		}
+		double ave = sum/count;
+		return ave;
+		//<get average>
 		//<build them into matrix>
+		/*
 		double[][] X = new double[topK.size()][];
 		double[][] Y = new double[topK.size()][1];
 		int i = 0;
@@ -93,7 +105,7 @@ public class KNearestNeighborModel implements MLModel {
 			System.out.println("b");
 			return 0.0;
 		}
-		
+		*/
 		//</build them into matrix>
   }
   
