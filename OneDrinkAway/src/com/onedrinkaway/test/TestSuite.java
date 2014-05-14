@@ -13,8 +13,7 @@ import org.junit.Before;
 import org.junit.Test;
 
 import com.onedrinkaway.common.Drink;
-import com.onedrinkaway.common.Drink.Category;
-import com.onedrinkaway.common.Drink.Glass;
+
 import com.onedrinkaway.common.Query;
 import com.onedrinkaway.db.DrinkDb;
 
@@ -79,7 +78,7 @@ public class TestSuite extends TestCase {
 		String[] valDrinkAttributes = {};
 		getDrinkAttributesExpected = makeList(valDrinkAttributes);
 		int[] attr = {1, 2, 3};
-		drink = new Drink("aaa", 111111, 0.9, attr, Category.SHAKEN, Glass.COCKTAIL, true);
+		//drink = new Drink("aaa", 111111, 0.9, attr, Category.SHAKEN, Glass.COCKTAIL, true);
 		//</for Drink>
 	}
 	

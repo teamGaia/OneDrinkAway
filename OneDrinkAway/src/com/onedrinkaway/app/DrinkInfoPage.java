@@ -2,6 +2,10 @@ package com.onedrinkaway.app;
 
 
 
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
+
 import android.content.Context;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -15,11 +19,15 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.LinearLayout.LayoutParams;
 import android.widget.RatingBar;
+import android.widget.RatingBar.OnRatingBarChangeListener;
 import android.widget.SeekBar;
 import android.widget.TextView;
 
 import com.onedrinkaway.R;
 import com.onedrinkaway.common.Drink;
+import com.onedrinkaway.common.DrinkInfo;
+import com.onedrinkaway.db.DrinkDb;
+import com.onedrinkaway.model.DatabaseInterface;
 
 public class DrinkInfoPage extends OneDrinkAwayActivity {
 	
@@ -29,28 +37,50 @@ public class DrinkInfoPage extends OneDrinkAwayActivity {
 			"Spicy", "Sweet" };
 	private LinearLayout seekBarView;
 	
+	private Drink drink;
+	private DrinkInfo drinkInfo;
+	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_drink_info_page);
 		seekBarView = (LinearLayout) findViewById(R.id.drink_info_seek_bars_layout);
 		helpID = R.string.drink_info_help;
-		Drink whiskeySour = TestData.whiskeySour;
+		//drink = DatabaseInterface.getAllDrinks().get(0);
+		
+		/********************************** Temp Data *******************************************************/
+		String source = "Yay for source recognition!";
+		List<String> whiskeySourIngredients = new ArrayList<String>();
+		 whiskeySourIngredients.add("3/4 oz Fresh Lemon Juice"); 
+		 whiskeySourIngredients.add("3/4 oz Simple syrup" );
+		 whiskeySourIngredients.add("1 1/2 oz Whiskey");
+		String whiskeySourDescription = "Add all the ingredients to a shaker and fill with ice. Shake, and "
+				+ "strain into a rocks glass filled with fresh ice. Garnish with a cherry and/or lemon wedge if "
+				+ "desired.";
+		drinkInfo = new DrinkInfo(whiskeySourIngredients, whiskeySourDescription, null, null, source, 0);
+		/*************************************Temp Data *************************************************/
+
 		
 		Bundle extras = getIntent().getExtras();
-		String name = whiskeySour.name;
+		
 		if (extras != null) {
-			name = extras.getString("name");
+			//drink = (Drink)extras.get("drink"); //for future use
+			//drinkInfo = (DrinkInfo) extras.get("drinkInfo");
+			
+			//name = extras.getString("name");
 		} 
-		setTitle(name);		
+		
+		setTitle("Whiskey Sour");		
+		
 			
 		fillIngredients();
 		setGlassPicture();
 		fillDescription();
 		fillDescriptionRecognition();
-		addSeekBarsToView(whiskeySour);
+		//addSeekBarsToView();
 		setRatingBar();
 		Button addToFavoritesButton = (Button) findViewById(R.id.drink_info_add_to_favorites);
+		//Add Listener to Add To Favorites button
 		addToFavoritesButton.setOnClickListener(new AddToFavoritesButtonListener());
 		
 		
@@ -66,12 +96,12 @@ public class DrinkInfoPage extends OneDrinkAwayActivity {
 	 */
 	private void fillIngredients() {
 		TextView ingredientsTextView = (TextView) findViewById(R.id.drink_info_ingredients);
-		
-		String[] ingredients = TestData.whiskeySourIngredients;
 		ingredientsTextView.append("\n"); //put extra line between header and ingredients
-		for(int i = 0 ; i < ingredients.length; i++) {
-				ingredientsTextView.append("\n" + ingredients[i]);
+		if(drinkInfo.ingredients != null) {
+			for(int i = 0 ; i < drinkInfo.ingredients.size(); i++) {
+					ingredientsTextView.append("\n" + drinkInfo.ingredients.get(i));
 			
+			}
 		}
 	}
 	
@@ -84,16 +114,25 @@ public class DrinkInfoPage extends OneDrinkAwayActivity {
 		glassTextView.setImageResource(imageID);
 	}
 	
+	/**
+	 * Cites the source of the drink description at the bottom of the page
+	 */
 	private void fillDescriptionRecognition() {
 		TextView descriptionRecognitionTextView = (TextView) findViewById(R.id.drink_info_description_recognition);
-		descriptionRecognitionTextView.setText("Yay for description recognition!");
+		if(drinkInfo.source != null) {
+			descriptionRecognitionTextView.setText(drinkInfo.source);
+		} else {
+			descriptionRecognitionTextView.setText("");
+		}
 	}
 	/**
 	 * Fills the drink_info_description text view with the description of given drink
 	 */
 	private void fillDescription() {
 		TextView descriptionTextView = (TextView) findViewById(R.id.drink_info_description);
-		descriptionTextView.append("\n" + TestData.whiskeySourDescription);
+		if(drinkInfo.description != null) {
+			descriptionTextView.append("\n" + drinkInfo.description);
+		}
 	}
 	
 	/**
@@ -103,6 +142,15 @@ public class DrinkInfoPage extends OneDrinkAwayActivity {
 		RatingBar ratingBar = (RatingBar) findViewById(R.id.drink_info_rating_bar);
 		ratingBar.setStepSize((float) 1.0);
 		ratingBar.setRating((float) 2.0);  //sets rating shown
+		ratingBar.setOnRatingBarChangeListener(new OnRatingBarChangeListener() {
+			
+			public void onRatingChanged(RatingBar ratingBar, float rating,
+				boolean fromUser) {
+	 
+				//DatabaseInterface.addRating(drink, (int)rating);
+	 
+			}
+		});
 	}
 	
 	// The Search button listener for Search By Flavor
@@ -110,7 +158,7 @@ public class DrinkInfoPage extends OneDrinkAwayActivity {
 
 		@Override
 		public void onClick(View arg0) {
-			// TODO Add Drink to Favorites list if not already in favorites list
+			//DatabaseInterface.addFavorite(drink);
 		}
 	};
 
@@ -118,7 +166,7 @@ public class DrinkInfoPage extends OneDrinkAwayActivity {
 	 * Add seek bars that show the drink's flavor profile to view
 	 * @param drink for which the info page consists of
 	 */
-	private void addSeekBarsToView(Drink drink) {
+	private void addSeekBarsToView() {
 		int[] attributes = TestData.alphabetizeAttributes(drink);
 		for(int i = 0; i < attributes.length; i++) {
 			if(attributes[i] != 0) {

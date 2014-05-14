@@ -1,25 +1,18 @@
 package com.onedrinkaway.app;
 
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.TreeMap;
 
 import com.onedrinkaway.common.Drink;
-import com.onedrinkaway.common.Drink.Category;
-import com.onedrinkaway.common.Drink.Glass;
+
 
 public class TestData {
 	
-	public static int[] attributes = {1, 2, 0, 0, 4, 0, 5, 3, 0, 0, 0};
-	public static Drink whiskeySour =  new Drink("Whiskey Sour", 0, 3.2, attributes, Category.ON_THE_ROCKS, Glass.ROCKS, false);
-	public static String[] whiskeySourIngredients = new String[]{"3/4 oz Fresh Lemon Juice", 
-					"3/4 ox Simple syrup", "1 1/2 oz Whiskey"};
-	public static String whiskeySourDescription = "Add all the ingredients to a shaker and fill with ice. Shake, and "
-			+ "strain into a rocks glass filled with fresh ice. Garnish with a cherry and/or lemon wedge if desired.";
-	
-	
-	public static int[] alphabetizeAttributes(Drink drink) {
+
+    	public static int[] alphabetizeAttributes(Drink drink) {
 		
 		int[] attributes = drink.attributes;
 		int[] alphabetized = new int[attributes.length];

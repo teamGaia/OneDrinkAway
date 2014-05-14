@@ -102,7 +102,7 @@ public class DatabaseInterface {
    * @param favorite the Drink that the user favorited
    */
   public static void addFavorite(Drink favorite){
-    DrinkDb.addFavorite(favorite);
+   // DrinkDb.addFavorite(favorite);
   }
   
   /**

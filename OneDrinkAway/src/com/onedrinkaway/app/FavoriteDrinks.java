@@ -5,6 +5,8 @@ import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ArrayAdapter;
+import android.widget.ListView;
 
 import com.onedrinkaway.R;
 
@@ -20,6 +22,8 @@ public class FavoriteDrinks extends OneDrinkAwayActivity {
 					.add(R.id.container, new PlaceholderFragment()).commit();
 		}
 		helpID = R.string.favorite_drinks_help;
+		
+
 	}
 
 
