@@ -55,6 +55,15 @@ public class DrinkData implements Serializable {
     }
     
     /**
+     * Returns the Drink corresponding to the given name
+     */
+    public Drink getDrink(String name) {
+      if (namesToDrinks.containsKey(name))
+        return namesToDrinks.get(name);
+      return null;
+    }
+    
+    /**
      * Gets the DrinkInfo for the given drink
      */
     public DrinkInfo getDrinkInfo(Drink d) {
@@ -160,8 +169,8 @@ public class DrinkData implements Serializable {
     /**
      * Returns a list of all drinks
      */
-    public List<Drink> getAllDrinks() {
-        return Collections.unmodifiableList(drinkList);
+    public Set<Drink> getAllDrinks() {
+        return Collections.unmodifiableSet(drinkSet);
     }
     
     /**

@@ -47,6 +47,22 @@ public class DrinkInfoPage extends OneDrinkAwayActivity {
 		seekBarView = (LinearLayout) findViewById(R.id.drink_info_seek_bars_layout);
 		helpID = R.string.drink_info_help;
 
+		//drink = DatabaseInterface.getDrink();
+		
+		
+		/********************************** Temp Data *******************************************************/
+		String source = "Yay for source recognition!";
+		List<String> whiskeySourIngredients = new ArrayList<String>();
+		 whiskeySourIngredients.add("3/4 oz Fresh Lemon Juice"); 
+		 whiskeySourIngredients.add("3/4 oz Simple syrup" );
+		 whiskeySourIngredients.add("1 1/2 oz Whiskey");
+		String whiskeySourDescription = "Add all the ingredients to a shaker and fill with ice. Shake, and "
+				+ "strain into a rocks glass filled with fresh ice. Garnish with a cherry and/or lemon wedge if "
+				+ "desired.";
+		//drinkInfo = new DrinkInfo(whiskeySourIngredients, whiskeySourDescription, null, null, source, 0);
+		/*************************************Temp Data *************************************************/
+
+
 		
 		Bundle extras = getIntent().getExtras();
 		
