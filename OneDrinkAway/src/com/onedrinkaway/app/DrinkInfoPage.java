@@ -47,6 +47,7 @@ public class DrinkInfoPage extends OneDrinkAwayActivity {
 		seekBarView = (LinearLayout) findViewById(R.id.drink_info_seek_bars_layout);
 		helpID = R.string.drink_info_help;
 		drink = DatabaseInterface.getAllDrinks().get(0);
+		drinkInfo = DatabaseInterface.getDrinkInfo(drink);
 		
 		/********************************** Temp Data *******************************************************/
 		String source = "Yay for source recognition!";
@@ -57,7 +58,7 @@ public class DrinkInfoPage extends OneDrinkAwayActivity {
 		String whiskeySourDescription = "Add all the ingredients to a shaker and fill with ice. Shake, and "
 				+ "strain into a rocks glass filled with fresh ice. Garnish with a cherry and/or lemon wedge if "
 				+ "desired.";
-		drinkInfo = new DrinkInfo(whiskeySourIngredients, whiskeySourDescription, null, null, source, 0);
+		//drinkInfo = new DrinkInfo(whiskeySourIngredients, whiskeySourDescription, null, null, source, 0);
 		/*************************************Temp Data *************************************************/
 
 		
@@ -94,6 +95,7 @@ public class DrinkInfoPage extends OneDrinkAwayActivity {
 	
 	/**
 	 * Fills the drink_info_ingredients TextView with given drink ingredients list
+	 * Appends garnish to end of ingredients list if drinkInfo.garnish !=null
 	 */
 	private void fillIngredients() {
 		TextView ingredientsTextView = (TextView) findViewById(R.id.drink_info_ingredients);
@@ -103,6 +105,10 @@ public class DrinkInfoPage extends OneDrinkAwayActivity {
 					ingredientsTextView.append("\n" + drinkInfo.ingredients.get(i));
 			
 			}
+		}
+		
+		if(drinkInfo.garnish != null) {
+			ingredientsTextView.append("Garnish: " + drinkInfo.garnish);
 		}
 	}
 	
