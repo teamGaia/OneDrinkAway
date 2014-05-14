@@ -20,6 +20,11 @@ public class ResultsPage extends OneDrinkAwayActivity {
 		setContentView(R.layout.activity_results_page);
 		helpID = R.string.results_help;
 
+		Bundle extras = getIntent().getExtras();
+		if (extras != null) {
+			setTitle(extras.getString("title"));
+		}
+		
         ListView view = (ListView) findViewById(R.id.list_view);
         view.setAdapter(new ArrayAdapter<String>(this,
                 R.layout.oda_result_item,
