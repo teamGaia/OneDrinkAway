@@ -1,6 +1,7 @@
 package com.onedrinkaway.model;
 
 import java.util.*;
+
 import com.onedrinkaway.common.*;
 import com.onedrinkaway.db.*;
 import com.onedrinkaway.model.machinelearning.*;
@@ -113,5 +114,15 @@ public class DatabaseInterface {
   public static void removeFavorite(Drink oldFavorite){
     DrinkDb.removeFavorite(oldFavorite);
   }
+  
+  /**
+   * Finds DrinkInfo for a given drink
+   * @param d the Drink to search for
+   * @return the DrinkInfo for d
+   */
+  public static DrinkInfo getDrinkInfo(Drink d) {
+      return DrinkDb.getDrinkInfo(d);
+  }
+  
 }
 

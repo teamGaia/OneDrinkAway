@@ -20,7 +20,7 @@
             android:layout_gravity="center"
             android:layout_weight="1"
             android:drawablePadding="5dp"
-            android:drawableTop="@drawable/logo_simple_class"
+            android:drawableTop="@drawable/logo_simple_glass"
             android:gravity="center_horizontal"
             android:text="@string/search_by_name"
             android:onClick="goToActivity"
