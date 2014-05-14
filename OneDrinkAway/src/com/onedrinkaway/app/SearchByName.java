@@ -1,5 +1,7 @@
 package com.onedrinkaway.app;
 
+import java.util.List;
+
 import android.content.Intent;
 import android.os.Bundle;
 import android.text.TextUtils;
@@ -14,12 +16,10 @@ import android.widget.TextView;
 import com.onedrinkaway.R;
 import com.onedrinkaway.common.Drink;
 import com.onedrinkaway.db.DrinkDb;
-import com.onedrinkaway.model.DatabaseInterface;
+//github.com/teamGaia/OneDrinkAway.git
 
 public class SearchByName extends OneDrinkAwayActivity implements SearchView.OnQueryTextListener {
-	// This is temporary!!
     private final String[] drinkNames = DrinkDb.getDrinkNames();
-	//private final Drink[] allDrinks = (Drink[]) DatabaseInterface.getAllDrinks().toArray();
     
 	private ListView listView;
 
@@ -58,6 +58,14 @@ public class SearchByName extends OneDrinkAwayActivity implements SearchView.OnQ
             }
 
         });
+    }
+    
+    private String[] getDrinkNames(List<Drink> drinks) {
+    	String[] names = new String[drinks.size()];
+    	for (int i = 0; i < drinks.size(); i++) {
+    		names[i] = drinks.get(0).name;
+    	}
+    	return names;
     }
     
     private void goToDrinkInfo(String name) {

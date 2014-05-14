@@ -5,8 +5,6 @@ package com.onedrinkaway.db;
  */
 
 import java.io.File;
-import java.io.FileOutputStream;
-import java.io.ObjectOutputStream;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -36,7 +34,7 @@ public class DrinkData implements Serializable {
     // maps drink names to drinks
     private HashMap<String, Drink> namesToDrinks;
     // maps DrinkId's to DrinkInfo
-    private HashMap<Integer, DrinkInfo> info;
+    private HashMap<Drink, DrinkInfo> info;
     // set of all drinks that have been rated
     private HashSet<Drink> ratedDrinks;
     
@@ -50,14 +48,21 @@ public class DrinkData implements Serializable {
         ingredients = new HashSet<String>();
         categories = new HashSet<String>();
         namesToDrinks = new HashMap<String, Drink>();
-        info = new HashMap<Integer, DrinkInfo>();
+        info = new HashMap<Drink, DrinkInfo>();
         ratedDrinks = new HashSet<Drink>();
         buildFromFile();
         findDrinkInfo();
     }
     
     /**
-     * Adds given rating to d. Do not call this method, rather call Drink.addRating()
+     * Gets the DrinkInfo for the given drink
+     */
+    public DrinkInfo getDrinkInfo(Drink d) {
+        return info.get(d);
+    }
+    
+    /**
+     * Adds given rating to d, uploads rating to database
      */
     public void addRating(Drink d, int rating) {
         ratedDrinks.add(d);
@@ -168,12 +173,15 @@ public class DrinkData implements Serializable {
     
     /**
      * Parses the master list of drink info, searching for drinks that exist in drinkSet
+     * This does not currently work on an Android device
      */
     private void findDrinkInfo() {
         try {
             Scanner sc = new Scanner(new File("IngredientsLarge.txt"));
             List<String> lines = new ArrayList<String>();
             String line = sc.nextLine();
+            String genericDesc = "This is a really nice drink, we promise!";
+            String genericCit = "Cloude Strife";
             while (sc.hasNext()) {
                 if (line.equals("")) {
                     // found end of drink, process lines
@@ -186,11 +194,11 @@ public class DrinkData implements Serializable {
                         List<String> ingr = new ArrayList<String>();
                         for (int i = 1; i < len - 2; i++) {
                             ingr.add(lines.get(i));
-                            ingredients.add(lines.get(i));
+                            addIngredient(lines.get(i));
                         }
                         Drink d = namesToDrinks.get(name);
-                        DrinkInfo di = new DrinkInfo(ingr, null, garnish, instructions, null, d.id);
-                        info.put(d.id, di);
+                        DrinkInfo di = new DrinkInfo(ingr, genericDesc, garnish, instructions, genericCit, d.id);
+                        info.put(d, di);
                     }
                     lines.clear();
                 } else {
@@ -205,11 +213,32 @@ public class DrinkData implements Serializable {
     }
     
     /**
-     * Populates data from drinks.tsv
+     * Attempts to remove an unnecessary characters from an ingredient String, and adds it
+     * to the set of unique ingredients
+     */
+    private void addIngredient(String ingredient) {
+        // search for uppercase character
+        int i = 0;
+        while (!Character.isUpperCase(ingredient.charAt(i)))
+            i++;
+        // remove first part of String, getting rid of quantity
+        ingredient = ingredient.substring(i);
+        // remove optional if it is there
+        if (ingredient.contains(" (Optional)")) {
+            ingredient = ingredient.substring(0, ingredient.length() - 10);
+        }
+        // check for splash of / dash of etc
+        if (ingredient.contains(" of "))
+            ingredient = ingredient.split(" of ")[1];
+        ingredients.add(ingredient.trim());
+    }
+    
+    /**
+     * Populates data from drinks.tsv, this does not currently work on an Android device
      */
     private void buildFromFile() {
         try {
-            Scanner sc = new Scanner(new File("drinks.tsv"));
+            Scanner sc = new Scanner(new File("data/data/drinks.tsv"));
             sc.nextLine(); //throw away first line
             while (sc.hasNextLine()){
                 String s = sc.nextLine();
@@ -219,12 +248,14 @@ public class DrinkData implements Serializable {
                     // valid drink, add to list
                     int id = Integer.parseInt(tokens[0]);
                     String name = tokens[1];
+                    // add categories
                     List<String> cat = new ArrayList<String>();
                     for (String c : tokens[3].split(", ")) {
                         cat.add(c);
                         categories.add(c);
                     }
                     String glass = tokens[4];
+                    // add attributes
                     int[] attributes = new int[11];
                     for (int i = 0; i < 11; i++) {
                         attributes[i] = Integer.parseInt(tokens[i + 5]);

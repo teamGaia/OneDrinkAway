@@ -57,6 +57,9 @@ public class Query {
     public void add(String ing) {
         ingredients.add(ing);
     }
+    public void remove(String ing) {
+        ingredients.remove(ing);
+    }
     
     /**
      * Adds a flavor to this query
