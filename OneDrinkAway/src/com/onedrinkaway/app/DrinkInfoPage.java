@@ -94,6 +94,7 @@ public class DrinkInfoPage extends OneDrinkAwayActivity {
 					ingredientsTextView.append("\n" + drinkInfo.ingredients.get(i));
 			
 			}
+			ingredientsTextView.append("\n");
 			if(drinkInfo.garnish != null) {
 				ingredientsTextView.append("Garnish: " + drinkInfo.garnish);
 			}
@@ -132,7 +133,7 @@ public class DrinkInfoPage extends OneDrinkAwayActivity {
 	private void fillDescription() {
 		TextView descriptionTextView = (TextView) findViewById(R.id.drink_info_description);
 		if(drinkInfo.description != null) {
-			descriptionTextView.append("\n" + drinkInfo.description);
+			descriptionTextView.append("\n" + drinkInfo.description + "\n");
 		} else {
 			descriptionTextView.setText("");
 		}
@@ -185,7 +186,7 @@ public class DrinkInfoPage extends OneDrinkAwayActivity {
 	 * @param drink for which the info page consists of
 	 */
 	private void addSeekBarsToView() {
-		int[] attributes = TestData.alphabetizeAttributes(drink);
+		int[] attributes = AttributeSort.alphabetizeAttributes(drink);
 		
 		for(int i = 0; i < attributes.length; i++) {
 			if(attributes[i] != 0) {
