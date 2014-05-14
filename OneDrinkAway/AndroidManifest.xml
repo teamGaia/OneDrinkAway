@@ -49,42 +49,48 @@
         </activity>
         <activity
             android:name="com.onedrinkaway.app.SearchByName"
-            android:label="@string/title_activity_search_by_name" >
+            android:label="@string/title_activity_search_by_name"
+            android:icon="@drawable/home_search_by_name" >
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="com.onedrinkaway.app.HomePage" />
         </activity>
         <activity
             android:name="com.onedrinkaway.app.SearchByCategory"
-            android:label="@string/title_activity_search_by_category" >
+            android:label="@string/title_activity_search_by_category"
+            android:icon="@drawable/logo_simple_glass" >
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="com.onedrinkaway.app.HomePage" />
         </activity>
         <activity
             android:name="com.onedrinkaway.app.SearchByFlavor"
-            android:label="@string/title_activity_search_by_flavor" >
+            android:label="@string/title_activity_search_by_flavor"
+            android:icon="@drawable/home_search_by_flavor" >
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="com.onedrinkaway.app.HomePage" />
         </activity>
         <activity
             android:name="com.onedrinkaway.app.SearchByIngredient"
-            android:label="@string/title_activity_search_by_ingredient" >
+            android:label="@string/title_activity_search_by_ingredient"
+            android:icon="@drawable/home_search_by_ingredient" >
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="com.onedrinkaway.app.HomePage" />
         </activity>
         <activity
             android:name="com.onedrinkaway.app.FavoriteDrinks"
-            android:label="@string/title_activity_favorite_drinks" >
+            android:label="@string/title_activity_favorite_drinks"
+            android:icon="@drawable/home_favorite_drinks" >
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="com.onedrinkaway.app.HomePage" />
         </activity>
         <activity
             android:name="com.onedrinkaway.app.AdvancedSearch"
-            android:label="@string/title_activity_advanced_search" >
+            android:label="@string/title_activity_advanced_search"
+            android:icon="@drawable/home_advanced_search" >
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="com.onedrinkaway.app.HomePage" />
