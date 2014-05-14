@@ -1,78 +1,112 @@
-/**
- * This class uses the K-Nearest Neighbor algorithm to  
- * determine the predicted rating for an arbitrary Drink 
- * given a list of Drinks that the user has rated
- * 
- * @author James Luey
- **/
-
 package com.onedrinkaway.model.machinelearning;
 
-import java.util.*;
-import java.lang.Math;
 
-import com.onedrinkaway.common.*;
+import java.util.*;
+
+import com.onedrinkaway.common.Drink;
+
+import Jama.Matrix;
+
 
 public class KNearestNeighborModel implements MLModel {
   private List<Drink> trainingSet;
   
-
-
-  public KNearestNeighborModel(int i, List<Drink> trainingSet2) {
-	// TODO Auto-generated constructor stub
-  }
+  private int K;
+	//private List<Instance> instances;
+  private Drink curIns;
   
-  public KNearestNeighborModel() {
-	  this(5, new LinkedList<Drink>());
-  }
-/**
-   * @param trainingSet: list of drinks that the user has rated
-   **/
   public void train(List<Drink> trainingSet) {
     this.trainingSet = trainingSet;
   }
   
   /**
-   * @param sample: the Drink to predict the rating based 
-   * off of the drinks passed in during the train method
-   * 
-   * @return the predicted rating
-   **/ 
+	 * @effect construct a K nearest neighbor classfier
+	 * @param K: number of nearest neighbor
+	 */
+  public KNearestNeighborModel(int K) {
+	this.K = K;
+  }
+	
+  public KNearestNeighborModel() {
+		this(5);
+  }
+  
+	/**
+	 * @effect construct a trained K nearest neighbor classfier
+	 * @param K: number of nearest neighbor
+	 */
+  public KNearestNeighborModel(int K, List<Drink> instances) {
+	  this(K);
+	  train(instances);
+  }
+  
   public double predictRating(Drink sample) {
-    double rating = 0.0;
-    for(Drink d : trainingSet){
-      double absDiff = calculateAbsoluteDifference(d, sample);
-      double signDiff = calculateSignedDifference(d, sample);
-     // rating += d.rating * absDiff / 5;
-    }
-    return rating / trainingSet.size();
+    //return 0.0;
+	  this.curIns = sample;
+		Queue<Drink> topK = new PriorityQueue<Drink>(1, new Comparator<Drink>() {
+			@Override
+			public int compare(Drink arg0, Drink arg1) {
+				double dis0 = getDis(arg0);
+				double dis1 = getDis(arg1);
+				if(dis0 < dis1) {
+					return 1;
+				} else if(dis0 > dis1) {
+					return -1;
+				}
+				return 0;
+			}
+		});
+		//<get K nearest neighbours>
+		for(Drink ins : trainingSet) {
+			topK.add(ins);
+			if(topK.size() > K) {
+				topK.remove();
+			}
+		}
+		//</get K nearest neighbours>
+		
+		//<build them into matrix>
+		double[][] X = new double[topK.size()][];
+		double[][] Y = new double[topK.size()][1];
+		int i = 0;
+		while(!topK.isEmpty()) {
+			Drink curSelected = topK.remove();
+			//X[i] = curSelected.attributes;
+			double[] curVec = new double[curSelected.attributes.length];
+			for(int j = 0; j < curVec.length; j++) {
+				curVec[j] = (double)curSelected.attributes[j];
+			}
+			X[i] = curVec;
+			Y[i][0] = curSelected.getRating();
+			i++;
+		}
+		Matrix Xm = new Matrix(X);
+		Matrix Ym = new Matrix(Y);
+		Matrix Xtrans = Xm.transpose();
+		try {
+			Matrix b = Xtrans.times(Xm).inverse().times(Xtrans).times(Ym);
+			System.out.println("a");
+			double[][] x = new double[1][curIns.attributes.length];
+			Matrix xm = new Matrix(x);
+			return xm.times(b).get(0, 0);
+		} catch(Exception e) {
+			System.out.println("b");
+			return 0.0;
+		}
+		
+		//</build them into matrix>
   }
   
   /**
-   * Calcualtes the unsigned distance between the two drinks' attributes'
-   * @param a: the first drink to compare
-   * @param b: the swcond drink to compare
-   * @retrun the unsigned distance between the two drinks
-   **/
-  private double calculateAbsoluteDifference(Drink a, Drink b){
-   double diff = 0.0;
-   for(int i = 0; i < a.attributes.length; i++){
-      diff += Math.pow(a.attributes[i] - b.attributes[i], 2);
-   }
-   return Math.sqrt(diff); 
-  }
-  
-  /**
-   * Calcualtes the signed distance between the two drinks' attributes'
-   * @param a: the first drink to compare
-   * @param b: the swcond drink to compare
-   * @retrun the signed distance between the two drinks
-   **/
-  private double calculateSignedDifference(Drink a, Drink b){
-   double diff = 0.0;
-   for(int i = 0; i < a.attributes.length; i++){
-     diff += a.attributes[i] - b.attributes[i];
-   }
-   return diff;
-  }
+	 * get distance between two instance
+	 * @param thisIns
+	 * @return
+	 */
+	private double getDis(Drink thisIns) {
+		double sumDis = 0.0;
+		for(int i = 0; i < thisIns.attributes.length && i < curIns.attributes.length; i++) {
+			sumDis += (thisIns.attributes[i]-curIns.attributes[i])*(thisIns.attributes[i]-curIns.attributes[i]);
+		}
+		return Math.sqrt(sumDis);
+	}
 }
