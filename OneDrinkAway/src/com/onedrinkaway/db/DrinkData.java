@@ -67,7 +67,14 @@ public class DrinkData implements Serializable {
      * Gets the DrinkInfo for the given drink
      */
     public DrinkInfo getDrinkInfo(Drink d) {
+      if (info.containsKey(d))
         return info.get(d);
+      for (Drink d2 : info.keySet()) {
+        DrinkInfo di = info.get(d2);
+        if (di.drinkId == d.id)
+          return di;
+      }
+      return null;
     }
     
     /**
@@ -247,7 +254,7 @@ public class DrinkData implements Serializable {
      */
     private void buildFromFile() {
         try {
-            Scanner sc = new Scanner(new File("data/data/drinks.tsv"));
+            Scanner sc = new Scanner(new File("drinks.tsv"));
             sc.nextLine(); //throw away first line
             while (sc.hasNextLine()){
                 String s = sc.nextLine();
