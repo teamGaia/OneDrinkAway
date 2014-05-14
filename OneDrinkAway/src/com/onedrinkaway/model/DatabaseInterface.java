@@ -59,12 +59,12 @@ public class DatabaseInterface {
    * @return a list of drinks that the user has not rated, 
    *         sorted by the predicted rating (highest->lowest)
    */
-  public static List<Drink> getTrySomethingNewDrinks(){
+  public static Drink[] getTrySomethingNewDrinks(){
     List<Drink> allDrinks = new ArrayList<Drink>(DrinkDb.getAllDrinks());
     List<Drink> ratedDrinks = new ArrayList<Drink>(DrinkDb.getRatedDrinks());
     List<Drink> unratedDrinks = getUnratedDrinks(allDrinks, ratedDrinks);
     
-    return predictRatings(unratedDrinks, ratedDrinks);
+    return getAllDrinks();
   }
   
   /**
@@ -72,13 +72,14 @@ public class DatabaseInterface {
    * @return a list of drinks unrated by the user, 
    *         sorted by the predicted rating (highest->lowest)
    */
-  public static List<Drink> getDrinks(Query query){
+  public static Drink[] getDrinks(Query query){
+    
     List<Drink> filteredDrinks = new ArrayList<Drink>(DrinkDb.getAllDrinks()); // change this! -- John
     List<Drink> ratedDrinks = new ArrayList<Drink>(DrinkDb.getRatedDrinks()); // this will be changed to the new method
     List<Drink> unratedDrinks = getUnratedDrinks(filteredDrinks, ratedDrinks);
     
     
-    return predictRatings(unratedDrinks, ratedDrinks);
+    return getAllDrinks();
   }
   
   private static List<Drink> getUnratedDrinks(List<Drink> allDrinks, List<Drink> ratedDrinks){
