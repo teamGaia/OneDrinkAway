@@ -1,10 +1,18 @@
 package com.onedrinkaway.model;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+import java.util.Map;
+import java.util.Set;
+import java.util.TreeMap;
 
-import com.onedrinkaway.common.*;
-import com.onedrinkaway.db.*;
-import com.onedrinkaway.model.machinelearning.*;
+import com.onedrinkaway.common.Drink;
+import com.onedrinkaway.common.DrinkInfo;
+import com.onedrinkaway.common.Query;
+import com.onedrinkaway.db.DrinkDb;
+import com.onedrinkaway.model.machinelearning.KNearestNeighborModel;
+import com.onedrinkaway.model.machinelearning.MLModel;
 
 public class DatabaseInterface {
   private static MLModel machineLearner = new KNearestNeighborModel();
@@ -13,8 +21,16 @@ public class DatabaseInterface {
    * @return all of the drinks in the database
    *
    */
-  public static List<Drink> getAllDrinks(){
-    return DrinkDb.getAllDrinks();
+  public static Drink[] getAllDrinks(){
+    Set<Drink> drinks = DrinkDb.getAllDrinks();
+    Drink[] result = new Drink[drinks.size()];
+    int i = 0;
+    for (Drink d : drinks) {
+      result[i] = d;
+      i++;
+    }
+    Arrays.sort(result);
+    return result;
   }
   
   /**
@@ -28,6 +44,7 @@ public class DatabaseInterface {
           result[i] = s;
           i++;
       }
+      Arrays.sort(result);
       return result;
   }
   /**
@@ -43,8 +60,8 @@ public class DatabaseInterface {
    *         sorted by the predicted rating (highest->lowest)
    */
   public static List<Drink> getTrySomethingNewDrinks(){
-    List<Drink> allDrinks = DrinkDb.getAllDrinks();
-    List<Drink> ratedDrinks = DrinkDb.getRatedDrinks();
+    List<Drink> allDrinks = new ArrayList<Drink>(DrinkDb.getAllDrinks());
+    List<Drink> ratedDrinks = new ArrayList<Drink>(DrinkDb.getRatedDrinks());
     List<Drink> unratedDrinks = getUnratedDrinks(allDrinks, ratedDrinks);
     
     return predictRatings(unratedDrinks, ratedDrinks);
@@ -56,8 +73,8 @@ public class DatabaseInterface {
    *         sorted by the predicted rating (highest->lowest)
    */
   public static List<Drink> getDrinks(Query query){
-    List<Drink> filteredDrinks = DrinkDb.getDrinks(query);
-    List<Drink> ratedDrinks = DrinkDb.getRatedDrinks(); // this will be changed to the new method
+    List<Drink> filteredDrinks = new ArrayList<Drink>(DrinkDb.getAllDrinks()); // change this! -- John
+    List<Drink> ratedDrinks = new ArrayList<Drink>(DrinkDb.getRatedDrinks()); // this will be changed to the new method
     List<Drink> unratedDrinks = getUnratedDrinks(filteredDrinks, ratedDrinks);
     
     
@@ -91,24 +108,55 @@ public class DatabaseInterface {
   }
   
   /**
+   * Returns the Drink corresponding to the given name
+   */
+  public static Drink getDrink(String name) {
+      return DrinkDb.getDrink(name);
+  }
+  
+  /**
    * @return a list of Drinks that the user has favorites
    */
-  public static List<Drink> getFavorites(){
-    return DrinkDb.getFavorites();
+  public static Drink[] getFavorites(){
+    Set<Drink> favs = DrinkDb.getFavorites();
+    Drink[] result = new Drink[favs.size()];
+    int i = 0;
+    for (Drink d : favs) {
+      result[i] = d;
+      i++;
+    }
+    Arrays.sort(result);
+    return result;
   }
   
   /**
    * @return a list of category names
    */
-  public static List<String> getCategories(){
-    return DrinkDb.getCategories();
+  public static String[] getCategories(){
+    Set<String> cat = DrinkDb.getCategories();
+    String[] result = new String[cat.size()];
+    int i = 0;
+    for (String s : cat) {
+      result[i] = s;
+      i++;
+    }
+    Arrays.sort(result);
+    return result;
   }
   
   /**
    * @return a list of possible ingredients
    */
-  public static List<String> getIngredients(){
-    return DrinkDb.getIngredients();
+  public static String[] getIngredients(){
+    Set<String> ingr = DrinkDb.getIngredients();
+    String[] result = new String[ingr.size()];
+    int i = 0;
+    for (String s : ingr) {
+      result[i] = s;
+      i++;
+    }
+    Arrays.sort(result);
+    return result;
   }
   
   /**
@@ -116,7 +164,7 @@ public class DatabaseInterface {
    * @param favorite the Drink that the user favorited
    */
   public static void addFavorite(Drink favorite){
-   // DrinkDb.addFavorite(favorite);
+    DrinkDb.addFavorite(favorite);
   }
   
   /**
