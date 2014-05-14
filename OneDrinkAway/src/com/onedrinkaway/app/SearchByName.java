@@ -1,7 +1,5 @@
 package com.onedrinkaway.app;
 
-import java.util.List;
-
 import android.content.Intent;
 import android.os.Bundle;
 import android.text.TextUtils;
@@ -16,16 +14,16 @@ import android.widget.TextView;
 import com.onedrinkaway.R;
 import com.onedrinkaway.common.Drink;
 import com.onedrinkaway.model.DatabaseInterface;
-//github.com/teamGaia/OneDrinkAway.git
 
 public class SearchByName extends OneDrinkAwayActivity implements SearchView.OnQueryTextListener {
-    private final String[] drinkNames = DatabaseInterface.getDrinkNames();
+    private String[] drinkNames;
     
 	private ListView listView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        drinkNames  = DatabaseInterface.getDrinkNames();
         
         helpID = R.string.search_by_name_help;
         setContentView(R.layout.activity_search_by_name);
@@ -59,19 +57,11 @@ public class SearchByName extends OneDrinkAwayActivity implements SearchView.OnQ
 
         });
     }
-    
-    private String[] getDrinkNames(List<Drink> drinks) {
-    	String[] names = new String[drinks.size()];
-    	for (int i = 0; i < drinks.size(); i++) {
-    		names[i] = drinks.get(0).name;
-    	}
-    	return names;
-    }
-    
+
     private void goToDrinkInfo(String name) {
     	Intent intent = new Intent(this, DrinkInfoPage.class);
-    	//Drink drink = DatabaseInterface.getDrinkInfo(name);
-    	//intent.putExtra("drink", drink);
+    	Drink drink = DatabaseInterface.getDrink(name);
+    	intent.putExtra("drink", drink);
     	startActivity(intent);
     }
 
