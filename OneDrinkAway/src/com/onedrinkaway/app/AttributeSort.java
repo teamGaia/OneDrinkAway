@@ -1,15 +1,13 @@
 package com.onedrinkaway.app;
 
-import java.util.Collections;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.TreeMap;
-
 import com.onedrinkaway.common.Drink;
 
-
-public class TestData {
+/**
+ * Sorts the attributes in Drink so that they appear in alphabetical order 
+ * @author Andrea
+ *
+ */
+public class AttributeSort {
 	
 
     	public static int[] alphabetizeAttributes(Drink drink) {
