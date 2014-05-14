@@ -57,6 +57,11 @@ public class Query {
     public void add(String ing) {
         ingredients.add(ing);
     }
+    
+    /**
+     * Removes the given ingredient from the query
+     * @param ing the ingredient to remove
+     */
     public void remove(String ing) {
         ingredients.remove(ing);
     }
