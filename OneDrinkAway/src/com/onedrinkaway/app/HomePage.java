@@ -1,5 +1,6 @@
 package com.onedrinkaway.app;
 
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -10,15 +11,21 @@ import android.view.ViewGroup;
 import com.onedrinkaway.R;
 
 public class HomePage extends OneDrinkAwayActivity {
+    
+    public static Context appContext;
+    
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_home_page);
-
+		
 		if (savedInstanceState == null) {
 			getSupportFragmentManager().beginTransaction()
 					.add(R.id.container, new PlaceholderFragment()).commit();
 		}
+		
+		// setup global context for database
+		appContext = getApplicationContext();
 		
 		// My code
 		helpID = R.string.home_page_help;

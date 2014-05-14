@@ -4,12 +4,19 @@
 
 package com.onedrinkaway.db;
 
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
+import java.util.Set;
 
+import android.content.res.AssetManager;
 import android.provider.Settings.Secure;
 
+import com.onedrinkaway.app.HomePage;
 import com.onedrinkaway.common.Drink;
 import com.onedrinkaway.common.Query;
 
@@ -23,7 +30,48 @@ public class DrinkDb {
 	
 	public static final String ID = Secure.ANDROID_ID;
 	
-	private static DrinkData dd = new DrinkData();
+	private static DrinkData dd = getDrinkData();
+	
+	public static DrinkData getDrinkData() {
+	    DrinkData drinkd = null;
+	    try {
+	        AssetManager assets = HomePage.appContext.getAssets();
+	        InputStream is = assets.open("drinkdata.ser");
+	        ObjectInputStream in = new ObjectInputStream(is);
+	        drinkd = (DrinkData) in.readObject();
+	        in.close();
+	        System.out.println("deserialized dd");
+	    } catch (Exception e) {
+	        e.printStackTrace();
+	    }
+	    return drinkd;
+	}
+	
+	public static void saveDrinkData() {
+        try {
+            FileOutputStream fileOut = new FileOutputStream("drinkdata.ser");
+            ObjectOutputStream out = new ObjectOutputStream(fileOut);
+            out.writeObject(dd);
+            out.close();
+            fileOut.close();
+        } catch(IOException i) {
+            i.printStackTrace();
+        }
+	}
+	
+	/**
+	 * @return an array containing all drink names found in database
+	 */
+	public static String[] getDrinkNames() {
+	    Set<String> names = dd.getDrinkNames();
+	    String[] result = new String[names.size()];
+	    int i = 0;
+	    for (String s : names) {
+	        result[i] = s;
+	        i++;
+	    }
+	    return result;
+	}
     
     /**
      * @return a list contain all ingredients as Strings

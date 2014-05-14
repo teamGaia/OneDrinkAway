@@ -5,6 +5,9 @@ package com.onedrinkaway.db;
  */
 
 import java.io.File;
+import java.io.FileOutputStream;
+import java.io.ObjectOutputStream;
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
@@ -17,8 +20,9 @@ import java.util.Set;
 import com.onedrinkaway.common.Drink;
 import com.onedrinkaway.common.DrinkInfo;
 
-public class DrinkData {
+public class DrinkData implements Serializable {
     
+    private static final long serialVersionUID = -8186058076202228351L;
     // list of all drink objects
     private ArrayList<Drink> drinkList;
     // hashSet of all drink objects

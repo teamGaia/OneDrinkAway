@@ -1,5 +1,6 @@
 package com.onedrinkaway.common;
 
+import java.io.Serializable;
 import java.util.Collections;
 import java.util.List;
 
@@ -11,8 +12,9 @@ import java.util.List;
  * 
  * @author John L. Wilson
  */
-public class DrinkInfo {
+public class DrinkInfo implements Serializable {
     
+    private static final long serialVersionUID = -4663291903849832155L;
     /** unmodifiable list */
     public final List<String> ingredients;
     /** Garnish for this drink, may be null */
