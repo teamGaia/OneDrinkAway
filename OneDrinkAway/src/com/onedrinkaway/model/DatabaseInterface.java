@@ -106,6 +106,9 @@ public class DatabaseInterface {
     if (query.hasFlavors()) {
       // Machine Learning time
     }
+    // more code here
+    
+    
     // finally put all drinks in an array and sort
     Drink[] result = new Drink[drinks.size()];
     int i = 0;
@@ -113,7 +116,7 @@ public class DatabaseInterface {
       result[i] = d;
       i++;
     }
-    Arrays.sort(result);
+    Arrays.sort(result); // change this maybe
     return result;
   }
   
