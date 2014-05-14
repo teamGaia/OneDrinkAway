@@ -46,7 +46,7 @@ public class DrinkInfoPage extends OneDrinkAwayActivity {
 		setContentView(R.layout.activity_drink_info_page);
 		seekBarView = (LinearLayout) findViewById(R.id.drink_info_seek_bars_layout);
 		helpID = R.string.drink_info_help;
-		//drink = DatabaseInterface.getAllDrinks().get(0);
+		drink = DatabaseInterface.getAllDrinks().get(0);
 		
 		/********************************** Temp Data *******************************************************/
 		String source = "Yay for source recognition!";
@@ -70,14 +70,15 @@ public class DrinkInfoPage extends OneDrinkAwayActivity {
 			//name = extras.getString("name");
 		} 
 		
-		setTitle("Whiskey Sour");		
+		
+		setTitle(drink.name);		
 		
 			
 		fillIngredients();
 		setGlassPicture();
 		fillDescription();
 		fillDescriptionRecognition();
-		//addSeekBarsToView();
+		addSeekBarsToView();
 		setRatingBar();
 		Button addToFavoritesButton = (Button) findViewById(R.id.drink_info_add_to_favorites);
 		//Add Listener to Add To Favorites button
@@ -141,7 +142,14 @@ public class DrinkInfoPage extends OneDrinkAwayActivity {
 	private void setRatingBar() {
 		RatingBar ratingBar = (RatingBar) findViewById(R.id.drink_info_rating_bar);
 		ratingBar.setStepSize((float) 1.0);
-		ratingBar.setRating((float) 2.0);  //sets rating shown
+		if(drink.getUserRating() != -1) {
+			//sets rating if user has rated the drink 
+			ratingBar.setRating((float) drink.getUserRating());  
+		} else {
+			//else sets ratings to 0 stars
+			ratingBar.setRating((float) 0.0);
+		}
+		
 		ratingBar.setOnRatingBarChangeListener(new OnRatingBarChangeListener() {
 			
 			public void onRatingChanged(RatingBar ratingBar, float rating,
