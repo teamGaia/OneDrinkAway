@@ -18,6 +18,7 @@ import android.widget.SearchView.OnQueryTextListener;
 import android.widget.TextView;
 
 import com.onedrinkaway.R;
+import com.onedrinkaway.common.Drink;
 import com.onedrinkaway.common.Query;
 import com.onedrinkaway.model.DatabaseInterface;
 
@@ -60,16 +61,17 @@ public class SearchByIngredient extends OneDrinkAwayActivity implements SearchVi
         listView.setChoiceMode(ListView.CHOICE_MODE_MULTIPLE);
     }
     
-    private void goToResults() {
+    public void goToResults(View view) {
     	SparseBooleanArray checked = listView.getCheckedItemPositions();
-    	for(int i = 0; i <= checked.size(); i++) {
+    	int size = listView.getCount();
+    	for(int i = 0; i < size; i++) {
             if(checked.get(i))
-            	query.add(ingredients[i]);
+            	query.add(listView.getItemAtPosition(i).toString());
     	}
-    	
-    	/*Drink[] results = DatabaseInterface.getDrinks(query);
+    	/*
+    	Drink[] results = DatabaseInterface.getDrinks(query);
     	if (results.length == 0) {
-    		displayError();
+    		// displayError();
     	} else {
         	Intent intent = new Intent(this, ResultsPage.class);
         	intent.putExtra("results", results);
