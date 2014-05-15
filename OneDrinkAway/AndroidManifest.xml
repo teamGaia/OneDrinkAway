@@ -15,7 +15,7 @@
 
     <application
         android:allowBackup="true"
-        android:icon="@drawable/ic_launcher"
+        android:icon="@drawable/home_search_by_name"
         android:label="@string/app_name"
         android:theme="@style/Theme.AppCompat.Light.DarkActionBar" >
         <uses-library android:name="android.test.runner" />
@@ -50,7 +50,7 @@
         <activity
             android:name="com.onedrinkaway.app.SearchByName"
             android:label="@string/title_activity_search_by_name"
-            android:icon="@drawable/home_search_by_name" >
+            android:icon="@drawable/logo_simple_glass" >
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="com.onedrinkaway.app.HomePage" />
@@ -58,7 +58,7 @@
         <activity
             android:name="com.onedrinkaway.app.SearchByCategory"
             android:label="@string/title_activity_search_by_category"
-            android:icon="@drawable/logo_simple_glass" >
+            android:icon="@drawable/home_search_by_category" >
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="com.onedrinkaway.app.HomePage" />

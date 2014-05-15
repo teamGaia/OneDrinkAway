@@ -9,8 +9,11 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
+import android.widget.TextView;
 
 import com.onedrinkaway.R;
+import com.onedrinkaway.common.Drink;
+import com.onedrinkaway.model.DatabaseInterface;
 
 public class ResultsPage extends OneDrinkAwayActivity {
 
@@ -43,7 +46,11 @@ public class ResultsPage extends OneDrinkAwayActivity {
 	}
 
 	public void goToDrinkInfo(View view) {
-		startActivity(new Intent(this, DrinkInfoPage.class));
+		Intent intent = new Intent(this, DrinkInfoPage.class);
+		//String name = (String) ((TextView) view).getText();
+		Drink drink = DatabaseInterface.getDrink("B-52");
+		intent.putExtra("drink", drink);
+		startActivity(intent);
 	}
 	
 	/**

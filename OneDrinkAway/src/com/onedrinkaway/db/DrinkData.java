@@ -1,10 +1,12 @@
 package com.onedrinkaway.db;
 
 /**
- * Helper for DrinkDb
+ * Helper for DrinkDb, singleton.
  */
 
-import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.InputStream;
+import java.io.ObjectInputStream;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -15,10 +17,15 @@ import java.util.Random;
 import java.util.Scanner;
 import java.util.Set;
 
+import android.content.res.AssetManager;
+
+import com.onedrinkaway.app.HomePage;
 import com.onedrinkaway.common.Drink;
 import com.onedrinkaway.common.DrinkInfo;
 
 public class DrinkData implements Serializable {
+    
+    private static DrinkData instance;
     
     private static final long serialVersionUID = -8186058076202228351L;
     // list of all drink objects
@@ -39,9 +46,9 @@ public class DrinkData implements Serializable {
     private HashSet<Drink> ratedDrinks;
     
     /**
-     * Sole Constructor
+     * Private Constructor
      */
-    public DrinkData() {
+    private DrinkData() {
         drinkList = new ArrayList<Drink>();
         drinkSet = new HashSet<Drink>();
         favorites = new HashSet<Drink>();
@@ -50,8 +57,27 @@ public class DrinkData implements Serializable {
         namesToDrinks = new HashMap<String, Drink>();
         info = new HashMap<Drink, DrinkInfo>();
         ratedDrinks = new HashSet<Drink>();
-        buildFromFile();
-        findDrinkInfo();
+    }
+    
+    /**
+     * Deserializes and returns a DrinkData object from file
+     */
+    public static DrinkData getDrinkData() {
+        if (instance == null) {
+            try { // attempt to deserialize DrinkData
+                AssetManager assets = HomePage.appContext.getAssets();
+                InputStream is = assets.open("drinkdata.ser");
+                ObjectInputStream in = new ObjectInputStream(is);
+                instance = (DrinkData) in.readObject();
+                in.close();
+                System.out.println("deserialized dd");
+            } catch (FileNotFoundException fe) { // drinkdata.ser not found, build from file
+                buildFromFile();
+            } catch (Exception e) { // something went wrong
+                e.printStackTrace();
+            }
+        }
+        return instance;
     }
     
     /**
@@ -147,6 +173,137 @@ public class DrinkData implements Serializable {
     }
     
     /**
+     * Returns a list of all drinks
+     */
+    public Set<Drink> getAllDrinks() {
+        return Collections.unmodifiableSet(drinkSet);
+    }
+    
+    /**
+     * Returns a set of all drink names
+     */
+    public Set<String> getDrinkNames() {
+        return Collections.unmodifiableSet(namesToDrinks.keySet());
+    }
+    
+    /**
+     * Builds and returns a DrinkData object from file
+     */
+    private static void buildFromFile() {
+        instance = new DrinkData();
+        try {
+            AssetManager assets = HomePage.appContext.getAssets();
+            InputStream is = assets.open("drinks.tsv");
+            Scanner sc = new Scanner(is);
+            sc.nextLine(); //throw away first line
+            while (sc.hasNextLine()){
+                String s = sc.nextLine();
+                String[] tokens = s.split("\t");
+                String complete = tokens[2];
+                if (complete.equals("1")) {
+                    // valid drink, add to list
+                    int id = Integer.parseInt(tokens[0]);
+                    String name = tokens[1];
+                    // add categories
+                    List<String> cat = new ArrayList<String>();
+                    for (String c : tokens[3].split(", ")) {
+                        cat.add(c);
+                        instance.categories.add(c);
+                    }
+                    String glass = tokens[4];
+                    // add attributes
+                    int[] attributes = new int[11];
+                    for (int i = 0; i < 11; i++) {
+                        attributes[i] = Integer.parseInt(tokens[i + 5]);
+                    }
+                    double rating = getAvgRating(id);
+                    Drink d = new Drink(name, id, rating, attributes, cat, glass);
+                    instance.drinkList.add(d);
+                    instance.drinkSet.add(d);
+                    instance.namesToDrinks.put(name, d);
+                }
+            }
+            sc.close();
+            findDrinkInfo();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+    
+    /**
+     * Parses the master list of drink info, searching for drinks that exist in drinkSet
+     * This does not currently work on an Android device
+     */
+    private static void findDrinkInfo() {
+        try {
+            AssetManager assets = HomePage.appContext.getAssets();
+            InputStream is = assets.open("RecipesBeta.txt");
+            Scanner sc = new Scanner(is);
+            List<String> lines = new ArrayList<String>();
+            String line = sc.nextLine();
+            String genericDesc = "This is a really nice drink, we promise!";
+            String genericCit = "Cloude Strife";
+            while (sc.hasNext()) {
+                if (line.equals("")) {
+                    // found end of drink, process lines
+                    String name = lines.get(0);
+                    if (instance.namesToDrinks.containsKey(name)) {
+                        // we have this drink, build a DrinkInfo for it
+                        int len = lines.size();
+                        String instructions = lines.get(len - 1);
+                        String garnish = lines.get(len - 2).substring(9); // removes "Garnish: "
+                        List<String> ingr = new ArrayList<String>();
+                        for (int i = 1; i < len - 2; i++) {
+                            ingr.add(lines.get(i));
+                            addIngredient(lines.get(i));
+                        }
+                        Drink d = instance.namesToDrinks.get(name);
+                        DrinkInfo di = new DrinkInfo(ingr, genericDesc, garnish, instructions, genericCit, d.id);
+                        instance.info.put(d, di);
+                    }
+                    lines.clear();
+                } else {
+                    lines.add(line);
+                }
+                line = sc.nextLine();
+            }
+            sc.close();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+    
+    /**
+     * Attempts to remove an unnecessary characters from an ingredient String, and adds it
+     * to the set of unique ingredients
+     */
+    private static void addIngredient(String ingredient) {
+        // search for uppercase character
+        int i = 0;
+        while (!Character.isUpperCase(ingredient.charAt(i)))
+            i++;
+        // remove first part of String, getting rid of quantity
+        ingredient = ingredient.substring(i);
+        // remove optional if it is there
+        if (ingredient.contains(" (Optional)")) {
+            ingredient = ingredient.substring(0, ingredient.length() - 10);
+        }
+        // check for splash of / dash of etc
+        if (ingredient.contains(" of "))
+            ingredient = ingredient.split(" of ")[1];
+        instance.ingredients.add(ingredient.trim());
+    }
+    
+    /**
+     * Gets average user rating for a drink
+     */
+    private static double getAvgRating(int drinkId) {
+        Random r = new Random();
+        return 3 + r.nextDouble() * 1.4;
+    }
+    
+    
+    /**
      * Prints a Drink to the console, this should be moved to a different class
      * @param d the Drink to print
      */
@@ -171,131 +328,6 @@ public class DrinkData implements Serializable {
         System.out.println("\tSALTY : " + d.attributes[9]);
         System.out.println("\tCREAMY : " + d.attributes[10]);
         System.out.println();
-    }
-    
-    /**
-     * Returns a list of all drinks
-     */
-    public Set<Drink> getAllDrinks() {
-        return Collections.unmodifiableSet(drinkSet);
-    }
-    
-    /**
-     * Returns a set of all drink names
-     */
-    public Set<String> getDrinkNames() {
-        return Collections.unmodifiableSet(namesToDrinks.keySet());
-    }
-    
-    /**
-     * Parses the master list of drink info, searching for drinks that exist in drinkSet
-     * This does not currently work on an Android device
-     */
-    private void findDrinkInfo() {
-        try {
-            Scanner sc = new Scanner(new File("IngredientsLarge.txt"));
-            List<String> lines = new ArrayList<String>();
-            String line = sc.nextLine();
-            String genericDesc = "This is a really nice drink, we promise!";
-            String genericCit = "Cloude Strife";
-            while (sc.hasNext()) {
-                if (line.equals("")) {
-                    // found end of drink, process lines
-                    String name = lines.get(0);
-                    if (namesToDrinks.containsKey(name)) {
-                        // we have this drink, build a DrinkInfo for it
-                        int len = lines.size();
-                        String instructions = lines.get(len - 1);
-                        String garnish = lines.get(len - 2);
-                        List<String> ingr = new ArrayList<String>();
-                        for (int i = 1; i < len - 2; i++) {
-                            ingr.add(lines.get(i));
-                            addIngredient(lines.get(i));
-                        }
-                        Drink d = namesToDrinks.get(name);
-                        DrinkInfo di = new DrinkInfo(ingr, genericDesc, garnish, instructions, genericCit, d.id);
-                        info.put(d, di);
-                    }
-                    lines.clear();
-                } else {
-                    lines.add(line);
-                }
-                line = sc.nextLine();
-            }
-            sc.close();
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-    }
-    
-    /**
-     * Attempts to remove an unnecessary characters from an ingredient String, and adds it
-     * to the set of unique ingredients
-     */
-    private void addIngredient(String ingredient) {
-        // search for uppercase character
-        int i = 0;
-        while (!Character.isUpperCase(ingredient.charAt(i)))
-            i++;
-        // remove first part of String, getting rid of quantity
-        ingredient = ingredient.substring(i);
-        // remove optional if it is there
-        if (ingredient.contains(" (Optional)")) {
-            ingredient = ingredient.substring(0, ingredient.length() - 10);
-        }
-        // check for splash of / dash of etc
-        if (ingredient.contains(" of "))
-            ingredient = ingredient.split(" of ")[1];
-        ingredients.add(ingredient.trim());
-    }
-    
-    /**
-     * Populates data from drinks.tsv, this does not currently work on an Android device
-     */
-    private void buildFromFile() {
-        try {
-            Scanner sc = new Scanner(new File("drinks.tsv"));
-            sc.nextLine(); //throw away first line
-            while (sc.hasNextLine()){
-                String s = sc.nextLine();
-                String[] tokens = s.split("\t");
-                String complete = tokens[2];
-                if (complete.equals("1")) {
-                    // valid drink, add to list
-                    int id = Integer.parseInt(tokens[0]);
-                    String name = tokens[1];
-                    // add categories
-                    List<String> cat = new ArrayList<String>();
-                    for (String c : tokens[3].split(", ")) {
-                        cat.add(c);
-                        categories.add(c);
-                    }
-                    String glass = tokens[4];
-                    // add attributes
-                    int[] attributes = new int[11];
-                    for (int i = 0; i < 11; i++) {
-                        attributes[i] = Integer.parseInt(tokens[i + 5]);
-                    }
-                    double rating = getAvgRating(id);
-                    Drink d = new Drink(name, id, rating, attributes, cat, glass);
-                    drinkList.add(d);
-                    drinkSet.add(d);
-                    namesToDrinks.put(name, d);
-                }
-            }
-            sc.close();
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-        
-    }
-    
-    /**
-     * Gets average user rating for a drink
-     */
-    private double getAvgRating(int drinkId) {
-        Random r = new Random();
-        return r.nextDouble() * 5;
     }
 
 }

@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 
@@ -18,11 +19,6 @@ public class HomePage extends OneDrinkAwayActivity {
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_home_page);
-		
-		if (savedInstanceState == null) {
-			getSupportFragmentManager().beginTransaction()
-					.add(R.id.container, new PlaceholderFragment()).commit();
-		}
 		
 		// setup global context for database
 		appContext = getApplicationContext();
@@ -58,6 +54,13 @@ public class HomePage extends OneDrinkAwayActivity {
         moveTaskToBack(true);
 	}
 	
+	@Override
+	public boolean onOptionsItemSelected(MenuItem item) { 
+		if (item.getItemId() != R.id.action_home) {
+			return super.onOptionsItemSelected(item);
+		}
+		return true;
+	}
 	/**
 	 * A placeholder fragment containing a simple view.
 	 */
