@@ -47,7 +47,7 @@ public class DrinkInfoPage extends OneDrinkAwayActivity {
 		seekBarView = (LinearLayout) findViewById(R.id.drink_info_seek_bars_layout);
 		helpID = R.string.drink_info_help;
 
-		//drink = DatabaseInterface.getAllDrinks()[0];
+		drink = DatabaseInterface.getDrink("Alabama Slammer");
 		
 
 
