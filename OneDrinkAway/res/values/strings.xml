@@ -17,7 +17,6 @@
     <string name="try_something_new">Try Something New!</string>
     <string name="title_activity_home_page_help">HomePageHelp</string>
     <string name="help_title">Help</string>
-    <string name="home_page_help">Too bad! (loser)</string>
     <string name="okay">Okay</string>
     <string name="title_activity_drink_info_page">Drink Info Page</string>
     <string name="title_activity_search_by_name">Search By Name</string>
@@ -61,5 +60,8 @@
 	<string name="search_by_flavor_help">Search by flavor allows you to get drink recommendations based on your flavor preferences. Slide the each seeek bar to change the flavor intensity from 0 (least intense) to 5 (most intense).</string>
 	<string name="favorite_drinks_help">Your Favorite Drinks page is where you can view, edit, and remove drinks that you have previously saved in your favorites list. You may click on any drink and you will be taken to its drink info page where you can rerate the drink at any time. Press \'Edit\' to edit and remove drinks from your list at any time.</string>
 	<string name="try_something_new_help">Try Something New is the quickest way to get drink recommendations tailored to your preferences. We evaluate your current rated drinks and recommend you drinks based on what you like and what you don\'t like.</string>
+	<string name="help_search_by_category">Press an icon to select the category of cocktail you want. Press and hold an icon to see information about that category.</string>
+	<string name="help_search_by_ingredient">Search by Ingredients allows you to get drink recommendations by selecting the ingredients you would like in your drink. \n Check each box of the ingredients you would like. To find ingredients, you can enter the ingredient name into the search box and it will filter to the ingredients that your text starts with. To revert back to browsing all ingredients, delete the text in the search box. Your checked ingredients will stay selected. Once you have selected all the ingredients you would like, press &quot;Search&quot;</string>
+	<string name="help_home_page">Welcome to OneDrinkAway, the ultimate cocktail recommendation application!\n\n<b>Browse all Drinks</b>\n\t\t&#8226;Browse all of our drink recipes in alphabetical order, as well as enter a specific drink name.\n\n<b>Search By Category</b>\n\t\t&#8226;Look for drinks by category, such as shooters, seasonal cocktails, and jello-shots.\n\n<b>Search By Ingredients</b>\n\t\t&#8226;Look for drinks by entering various ingredients.\n\n<b>Search by Flavors</b>\n\t\t&#8226;Looks for drinks by entering various flavor intensities\n\n<b>Favorite Drinks List</b>\n\t\t&#8226;Keeps track of all of your favorite drinks. You can favorite a drink when on that drink\'s info page\n\n<b>Advanced Search</b>\n\t\t&#8226;A combination of Search By Category, Ingredients, and Flavors that\'s designed for more specific searches\n\n<b>Try Something New</b>\n\t\t&#8226;Suggests a drink for the user at the touch of a button!</string>
 
 </resources>

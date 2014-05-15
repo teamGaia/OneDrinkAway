@@ -20,7 +20,7 @@ public class SearchByCategory extends OneDrinkAwayActivity {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_search_by_category);
 		
-		helpID = R.string.search_by_category;
+		helpID = R.string.help_search_by_category;
 		
 		String[] categories = DatabaseInterface.getCategories();
 		//String[] categories = TempListOfCategories.CATEGORIES; //temp

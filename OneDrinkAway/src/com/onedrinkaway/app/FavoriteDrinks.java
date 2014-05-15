@@ -17,14 +17,18 @@ public class FavoriteDrinks extends OneDrinkAwayActivity {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_favorite_drinks);
 
-		if (savedInstanceState == null) {
-			getSupportFragmentManager().beginTransaction()
-					.add(R.id.container, new PlaceholderFragment()).commit();
-		}
 		helpID = R.string.favorite_drinks_help;
+		
+		 ListView view = (ListView) findViewById(R.id.list_view_favorites);
+	        view.setAdapter(new ArrayAdapter<String>(this,
+	                R.layout.oda_result_item,
+	                R.id.result_title,
+	                tempResults.RESULTS));
 		
 
 	}
+	
+	
 
 
 

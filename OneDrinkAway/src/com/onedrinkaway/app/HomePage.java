@@ -23,7 +23,7 @@ public class HomePage extends OneDrinkAwayActivity {
 		// setup global context for database
 		appContext = getApplicationContext();
 		
-		helpID = R.string.home_page_help;
+		helpID = R.string.help_home_page;
 		getSupportActionBar().setTitle(R.string.app_name);
 		getSupportActionBar().setDisplayHomeAsUpEnabled(false);
 	}
