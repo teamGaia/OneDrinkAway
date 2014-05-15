@@ -297,7 +297,7 @@ public class DrinkData implements Serializable {
      */
     private double getAvgRating(int drinkId) {
         Random r = new Random();
-        return 3 + r.nextDouble();
+        return 3 + r.nextDouble() * 1.4;
     }
 
 }
