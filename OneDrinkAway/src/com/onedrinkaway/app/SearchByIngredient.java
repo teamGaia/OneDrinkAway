@@ -36,7 +36,7 @@ public class SearchByIngredient extends OneDrinkAwayActivity implements SearchVi
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_search_by_ingredient);
 
-		helpID = R.string.search_by_ingredient;
+		helpID = R.string.help_search_by_ingredient;
 		query = new Query();
 		ingredients = DatabaseInterface.getIngredients();
 		setupSearchView();
