@@ -1,14 +1,24 @@
 package com.onedrinkaway.app;
 
+import java.util.Arrays;
+
+import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.View.OnClickListener;
 import android.widget.ArrayAdapter;
+import android.widget.LinearLayout;
 import android.widget.ListView;
+import android.widget.RatingBar;
+import android.widget.TextView;
 
 import com.onedrinkaway.R;
+import com.onedrinkaway.common.Drink;
+import com.onedrinkaway.model.DatabaseInterface;
 
 public class FavoriteDrinks extends OneDrinkAwayActivity {
 
@@ -18,16 +28,50 @@ public class FavoriteDrinks extends OneDrinkAwayActivity {
 		setContentView(R.layout.activity_favorite_drinks);
 
 		helpID = R.string.favorite_drinks_help;
+		Drink[] tempFav = DatabaseInterface.getAllDrinks();
+		Arrays.sort(tempFav, new DrinkNameComparator());
+		LinearLayout listView = (LinearLayout) findViewById(R.id.favorites_container);
 		
-		 ListView view = (ListView) findViewById(R.id.list_view_favorites);
-	        view.setAdapter(new ArrayAdapter<String>(this,
-	                R.layout.oda_result_item,
-	                R.id.result_title,
-	                tempResults.RESULTS));
+		
+		for(Drink drink: tempFav) {
+			LayoutInflater inflater = (LayoutInflater) getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+			View listItems = inflater.inflate(R.layout.favorites_list_item, null);
+			LinearLayout favoriteListClickable = (LinearLayout) listItems.findViewById(R.id.favorite_drink_clickable);
+			favoriteListClickable.setOnClickListener(new FavoriteDrinkOnClickListener(drink));
+			TextView drinklabel = (TextView) listItems.findViewById(R.id.favorite_drink_title);
+			drinklabel.setText(drink.name);
+			RatingBar ratingBar = (RatingBar) listItems.findViewById(R.id.favorite_drink_rating);
+			ratingBar.setEnabled(false);
+			ratingBar.setRating((float) drink.getRating()); 
+			
+			listView.addView(listItems); 
+		} 
+			
+			
+	        
 		
 
 	}
 	
+	
+	// The Search button listener for Search By Flavor
+	public class FavoriteDrinkOnClickListener implements OnClickListener {
+		private Drink drink;
+		public FavoriteDrinkOnClickListener(Drink drink) {
+			this.drink = drink;
+		}
+		@Override
+		public void onClick(View arg0) {
+			goToDrinkInfo(drink);
+			
+		}
+	};
+	
+	private void goToDrinkInfo(Drink drink) {
+		Intent intent = new Intent(this, DrinkInfoPage.class);
+		intent.putExtra("drink", drink);
+		startActivity(intent);
+	}
 	
 
 

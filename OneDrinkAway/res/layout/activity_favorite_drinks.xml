@@ -7,12 +7,20 @@
     tools:context="com.onedrinkaway.app.FavoriteDrinks"
     tools:ignore="MergeRootFrame" >
 
-        
-    <ListView
-        android:id="@+id/list_view_favorites"
+     
+    <ScrollView
+        android:id="@+id/favorites_scroll_view"  
         android:layout_width="match_parent"
-        android:layout_height="0dip"
-        android:layout_weight="1" >
-    </ListView>
+        android:layout_height="wrap_content"  >
+    
+    
+    <LinearLayout
+        android:id="@+id/favorites_container"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+         >
+    </LinearLayout>
+    </ScrollView>
     
 </LinearLayout>
