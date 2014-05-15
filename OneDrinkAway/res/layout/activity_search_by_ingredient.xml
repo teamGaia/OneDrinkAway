@@ -18,6 +18,11 @@
         android:text="@string/search_button"
         android:onClick="goToResults" />
 
+    <TextView
+        android:id="@+id/ingredient_error_text_view"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" />
+
     <ListView
         android:id="@+id/ingredient_list_view"
         android:layout_width="match_parent"

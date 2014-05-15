@@ -1,13 +1,17 @@
 package com.onedrinkaway.app;
 
+
 import android.content.Intent;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.util.SparseBooleanArray;
+import android.view.Gravity;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import android.widget.SearchView;
+import android.widget.TextView;
 
 import com.onedrinkaway.R;
 import com.onedrinkaway.common.Drink;
@@ -24,12 +28,15 @@ public class SearchByIngredient extends OneDrinkAwayActivity implements SearchVi
 	
 	private ListView listView;
 	
+	private boolean error;
+	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_search_by_ingredient);
 
 		helpID = R.string.help_search_by_ingredient;
+		error = false;
 		query = new Query();
 		ingredients = DatabaseInterface.getIngredients();
 		setupSearchView();
@@ -41,7 +48,13 @@ public class SearchByIngredient extends OneDrinkAwayActivity implements SearchVi
         srchView.setIconifiedByDefault(false);
         srchView.setOnQueryTextListener(this);
         srchView.setQueryHint("Enter Ingredient Here");
-        query = new Query();
+        
+        if (error) {
+        	TextView errorTextView = (TextView) findViewById(R.id.ingredient_error_text_view);
+        	errorTextView.setText(R.string.error_no_results_found);
+			errorTextView.setGravity(Gravity.CENTER);
+			errorTextView.setTextColor(Color.parseColor("#FF0000"));
+        }
     }
     
     private void setupListView() {
@@ -64,12 +77,18 @@ public class SearchByIngredient extends OneDrinkAwayActivity implements SearchVi
     	Drink[] results = DatabaseInterface.getAllDrinks();
    
     	if (results.length == 0) {
-    		// displayError();
+    		displayError();
     	} else {
         	Intent intent = new Intent(this, ResultsPage.class);
+        	intent.putExtra("title", "Results");
         	intent.putExtra("results", results);
     		startActivity(intent);
     	}
+    }
+    
+    private void displayError() {
+    	error = true;
+    	// invalidate();
     }
 
     public boolean onQueryTextChange(String newText) {
