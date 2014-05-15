@@ -15,10 +15,17 @@ public class CategoryDialog extends DialogFragment {
         AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
         
         Bundle bundle = this.getArguments();
-        String title = bundle.getString("title");
-
-        builder.setTitle(title)
-        	   .setMessage("test, test, 123")
+        String name = bundle.getString("name");
+        
+        int messageId = 0;
+		try {
+			messageId = R.string.class.getField("category_help_" + name.replace(' ', '_')).getInt(null);
+		} catch (Exception e) {
+			e.printStackTrace();
+		} 
+        
+        builder.setTitle(name)
+        	   .setMessage(messageId)
                .setPositiveButton(R.string.okay, new DialogInterface.OnClickListener() {
                    public void onClick(DialogInterface dialog, int id) {
                        dismiss();

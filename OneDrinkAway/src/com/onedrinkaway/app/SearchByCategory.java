@@ -52,8 +52,8 @@ public class SearchByCategory extends OneDrinkAwayActivity {
 					DialogFragment newFragment = new CategoryDialog();
 					Bundle bundle = new Bundle();
 					
-					String title = (String) ((TextView) view).getText();
-					bundle.putString("title", title);
+					String name = (String) ((TextView) view).getText();
+					bundle.putString("name", name);
 					
 					newFragment.setArguments(bundle);
 				    newFragment.show(getFragmentManager(), "category help");
