@@ -1,23 +1,16 @@
 package com.onedrinkaway.app;
 
-import java.util.List;
-
 import android.content.Intent;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.util.SparseBooleanArray;
 import android.view.View;
-import android.widget.AdapterView;
-import android.widget.AdapterView.OnItemClickListener;
 import android.widget.ArrayAdapter;
-import android.widget.Button;
-import android.widget.CheckBox;
 import android.widget.ListView;
 import android.widget.SearchView;
-import android.widget.SearchView.OnQueryTextListener;
-import android.widget.TextView;
 
 import com.onedrinkaway.R;
+import com.onedrinkaway.common.Drink;
 import com.onedrinkaway.common.Query;
 import com.onedrinkaway.model.DatabaseInterface;
 
@@ -36,7 +29,7 @@ public class SearchByIngredient extends OneDrinkAwayActivity implements SearchVi
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_search_by_ingredient);
 
-		helpID = R.string.search_by_ingredient;
+		helpID = R.string.help_search_by_ingredient;
 		query = new Query();
 		ingredients = DatabaseInterface.getIngredients();
 		setupSearchView();
@@ -60,21 +53,23 @@ public class SearchByIngredient extends OneDrinkAwayActivity implements SearchVi
         listView.setChoiceMode(ListView.CHOICE_MODE_MULTIPLE);
     }
     
-    private void goToResults() {
+    public void goToResults(View view) {
     	SparseBooleanArray checked = listView.getCheckedItemPositions();
-    	for(int i = 0; i <= checked.size(); i++) {
+    	int size = listView.getCount();
+    	for(int i = 0; i < size; i++) {
             if(checked.get(i))
-            	query.add(ingredients[i]);
+            	query.add(listView.getItemAtPosition(i).toString());
     	}
     	
-    	/*Drink[] results = DatabaseInterface.getDrinks(query);
+    	Drink[] results = DatabaseInterface.getAllDrinks();
+   
     	if (results.length == 0) {
-    		displayError();
+    		// displayError();
     	} else {
         	Intent intent = new Intent(this, ResultsPage.class);
         	intent.putExtra("results", results);
     		startActivity(intent);
-    	}*/
+    	}
     }
 
     public boolean onQueryTextChange(String newText) {

@@ -1,5 +1,6 @@
 package com.onedrinkaway.app;
 
+import android.app.DialogFragment;
 import android.app.ActionBar.LayoutParams;
 import android.content.Intent;
 import android.os.Bundle;
@@ -20,7 +21,7 @@ public class SearchByCategory extends OneDrinkAwayActivity {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_search_by_category);
 		
-		helpID = R.string.search_by_category;
+		helpID = R.string.help_search_by_category;
 		
 		String[] categories = DatabaseInterface.getCategories();
 		//String[] categories = TempListOfCategories.CATEGORIES; //temp
@@ -45,6 +46,20 @@ public class SearchByCategory extends OneDrinkAwayActivity {
                     LayoutParams.MATCH_PARENT, 1.0f);
 			category.setLayoutParams(param);
 			category.setText(categories[i]);
+			category.setOnLongClickListener(new View.OnLongClickListener(){
+				@Override
+				public boolean onLongClick(View view) {
+					DialogFragment newFragment = new CategoryDialog();
+					Bundle bundle = new Bundle();
+					
+					String name = (String) ((TextView) view).getText();
+					bundle.putString("name", name);
+					
+					newFragment.setArguments(bundle);
+				    newFragment.show(getFragmentManager(), "category help");
+				    return true;
+				}
+			});
 			curRow.addView(category);
 		}
 	}
