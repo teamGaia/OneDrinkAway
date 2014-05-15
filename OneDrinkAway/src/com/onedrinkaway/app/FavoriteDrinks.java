@@ -43,6 +43,7 @@ public class FavoriteDrinks extends OneDrinkAwayActivity {
 			RatingBar ratingBar = (RatingBar) listItems.findViewById(R.id.favorite_drink_rating);
 			ratingBar.setEnabled(false);
 			ratingBar.setRating((float) drink.getRating()); 
+			ratingBar.setIsIndicator(true);
 			
 			listView.addView(listItems); 
 		} 
@@ -54,8 +55,17 @@ public class FavoriteDrinks extends OneDrinkAwayActivity {
 	}
 	
 	
-	// The Search button listener for Search By Flavor
-	public class FavoriteDrinkOnClickListener implements OnClickListener {
+
+	
+	private void goToDrinkInfo(Drink drink) {
+		Intent intent = new Intent(this, DrinkInfoPage.class);
+		intent.putExtra("drink", drink);
+		startActivity(intent);
+	}
+	
+
+	// Listener for if Drink listener gets clicked
+	private class FavoriteDrinkOnClickListener implements OnClickListener {
 		private Drink drink;
 		public FavoriteDrinkOnClickListener(Drink drink) {
 			this.drink = drink;
@@ -66,15 +76,6 @@ public class FavoriteDrinks extends OneDrinkAwayActivity {
 			
 		}
 	};
-	
-	private void goToDrinkInfo(Drink drink) {
-		Intent intent = new Intent(this, DrinkInfoPage.class);
-		intent.putExtra("drink", drink);
-		startActivity(intent);
-	}
-	
-
-
 
 
 	/**
