@@ -206,7 +206,9 @@ public class DrinkData implements Serializable {
                         // we have this drink, build a DrinkInfo for it
                         int len = lines.size();
                         String instructions = lines.get(len - 1);
-                        String garnish = lines.get(len - 2);
+                        if (instructions.contains("Comments"))
+                            instructions = instructions.split("Comments")[0];
+                        String garnish = lines.get(len - 2).substring(9); // removes "Garnish: "
                         List<String> ingr = new ArrayList<String>();
                         for (int i = 1; i < len - 2; i++) {
                             ingr.add(lines.get(i));
