@@ -75,6 +75,7 @@ public class SearchByIngredient extends OneDrinkAwayActivity implements SearchVi
     		// displayError();
     	} else {
         	Intent intent = new Intent(this, ResultsPage.class);
+        	intent.putExtra("title", "Results");
         	intent.putExtra("results", results);
     		startActivity(intent);
     	}
