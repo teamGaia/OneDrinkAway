@@ -75,8 +75,9 @@ public class SearchByCategory extends OneDrinkAwayActivity {
 		String categoryName = (String) ((TextView) view).getText();
 		query.setCategory(categoryName);
 		// Drink[] results = DatabaseInterface.getDrinks(query);
+		Drink[] results = DatabaseInterface.getAllDrinks();
 		intent.putExtra("title", categoryName);
-		// intent.putExtra("results", results);
+		intent.putExtra("results", results);
 		startActivity(intent);
 	}
 	
