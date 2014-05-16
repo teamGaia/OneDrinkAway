@@ -71,12 +71,12 @@ public class DrinkModel {
 	 * @return a list of drinks that the user has not rated, sorted by the
 	 *         predicted rating (highest->lowest)
 	 */
-	public static Drink[] getTrySomethingNewDrinks() {
+	public static void findTrySomethingNewDrinks() {
 		Drink[] allDrinks = convertDrinkSetToArray(DrinkDb.getAllDrinks());
 		Drink[] ratedDrinks = convertDrinkSetToArray(DrinkDb.getRatedDrinks());
 		Drink[] unratedDrinks = getUnratedDrinks(allDrinks, ratedDrinks);
-
-		return predictRatings(unratedDrinks, ratedDrinks);
+		
+		results = predictRatings(unratedDrinks, ratedDrinks);
 	}
 
 	/**
