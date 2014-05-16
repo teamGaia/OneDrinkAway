@@ -16,7 +16,7 @@ import android.widget.TextView;
 import com.onedrinkaway.R;
 import com.onedrinkaway.common.Drink;
 import com.onedrinkaway.common.Query;
-import com.onedrinkaway.model.DatabaseInterface;
+import com.onedrinkaway.model.DrinkModel;
 
 /**
  * This class implements the Search By Ingredient feature which allows users to select ingredients
@@ -50,7 +50,7 @@ public class SearchByIngredient extends OneDrinkAwayActivity implements SearchVi
 		helpID = R.string.help_search_by_ingredient;
 		error = false;
 		query = new Query();
-		ingredients = DatabaseInterface.getIngredients();
+		ingredients = DrinkModel.getIngredients();
 		setupSearchView();
         setupListView();
     }
@@ -99,7 +99,7 @@ public class SearchByIngredient extends OneDrinkAwayActivity implements SearchVi
             	query.add(listView.getItemAtPosition(i).toString());
     	}
     	
-    	Drink[] results = DatabaseInterface.getAllDrinks();
+    	Drink[] results = DrinkModel.getAllDrinks();
    
     	if (results.length == 0) {
     		displayError();

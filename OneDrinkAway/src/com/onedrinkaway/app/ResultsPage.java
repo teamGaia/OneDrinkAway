@@ -17,7 +17,7 @@ import android.widget.TextView;
 
 import com.onedrinkaway.R;
 import com.onedrinkaway.common.Drink;
-import com.onedrinkaway.model.DatabaseInterface;
+import com.onedrinkaway.model.DrinkModel;
 
 
 public class ResultsPage extends OneDrinkAwayActivity {
@@ -36,7 +36,7 @@ public class ResultsPage extends OneDrinkAwayActivity {
 				setTitle(title);
 			}
 			//Drink[] drinkResults = (Drink[]) extras.get("results"); 
-			Drink[] drinkResults = DatabaseInterface.getAllDrinks();
+			Drink[] drinkResults = DrinkModel.getAllDrinks();
 			
 			if(drinkResults != null) {
 				Arrays.sort(drinkResults, new DrinkNameComparator());

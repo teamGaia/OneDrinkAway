@@ -19,7 +19,6 @@ import com.onedrinkaway.R;
 // import com.onedrinkaway.common.Drink;
 import com.onedrinkaway.common.Flavor;
 import com.onedrinkaway.common.Query;
-// import com.onedrinkaway.model.DatabaseInterface;
 
 /**
  * This class allows the user to enter what flavors and their intensity that they want to search by

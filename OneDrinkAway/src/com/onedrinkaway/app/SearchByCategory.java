@@ -14,7 +14,7 @@ import android.widget.TextView;
 import com.onedrinkaway.R;
 import com.onedrinkaway.common.Drink;
 import com.onedrinkaway.common.Query;
-import com.onedrinkaway.model.DatabaseInterface;
+import com.onedrinkaway.model.DrinkModel;
 
 public class SearchByCategory extends OneDrinkAwayActivity {
 	
@@ -29,7 +29,7 @@ public class SearchByCategory extends OneDrinkAwayActivity {
 		
 		query = new Query();
 		
-		String[] categories = DatabaseInterface.getCategories();
+		String[] categories = DrinkModel.getCategories();
 		//String[] categories = TempListOfCategories.CATEGORIES; //temp
 		displayCategories(categories);
 	}
@@ -75,7 +75,7 @@ public class SearchByCategory extends OneDrinkAwayActivity {
 		String categoryName = (String) ((TextView) view).getText();
 		query.setCategory(categoryName);
 		// Drink[] results = DatabaseInterface.getDrinks(query);
-		Drink[] results = DatabaseInterface.getAllDrinks();
+		Drink[] results = DrinkModel.getAllDrinks();
 		intent.putExtra("title", categoryName);
 		intent.putExtra("results", results);
 		startActivity(intent);

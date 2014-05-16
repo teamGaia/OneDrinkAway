@@ -16,7 +16,7 @@ import android.widget.TextView;
 
 import com.onedrinkaway.R;
 import com.onedrinkaway.common.Drink;
-import com.onedrinkaway.model.DatabaseInterface;
+import com.onedrinkaway.model.DrinkModel;
 
 /**
  * Displays the Favorites drinks page for the user where they can view the drinks that they have
@@ -32,7 +32,7 @@ public class FavoriteDrinks extends OneDrinkAwayActivity {
 		setContentView(R.layout.activity_favorite_drinks);
 		helpID = R.string.favorite_drinks_help;
 		//get favorites list
-		Drink[] favoriteDrinks = DatabaseInterface.getFavorites();
+		Drink[] favoriteDrinks = DrinkModel.getFavorites();
 		if(favoriteDrinks != null) {
 			Arrays.sort(favoriteDrinks, new DrinkNameComparator());
 			LinearLayout listView = (LinearLayout) findViewById(R.id.favorites_container);

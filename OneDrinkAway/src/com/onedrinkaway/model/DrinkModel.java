@@ -13,7 +13,7 @@ import com.onedrinkaway.db.DrinkDb;
 import com.onedrinkaway.model.machinelearning.KNearestNeighborModel;
 import com.onedrinkaway.model.machinelearning.MLModel;
 
-public class DatabaseInterface {
+public class DrinkModel {
 	private static MLModel machineLearner = new KNearestNeighborModel();
 
 	/**

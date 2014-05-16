@@ -21,7 +21,7 @@ import android.widget.TextView;
 import com.onedrinkaway.R;
 import com.onedrinkaway.common.Drink;
 import com.onedrinkaway.common.DrinkInfo;
-import com.onedrinkaway.model.DatabaseInterface;
+import com.onedrinkaway.model.DrinkModel;
 
 /**
  * This class displays the ingredients, description, and flavor profiles for a Drink
@@ -49,7 +49,7 @@ public class DrinkInfoPage extends OneDrinkAwayActivity {
 		seekBarView = (LinearLayout) findViewById(R.id.drink_info_seek_bars_layout);
 		helpID = R.string.drink_info_help;
 
-		drink = DatabaseInterface.getDrink("Alabama Slammer");
+		drink = DrinkModel.getDrink("Alabama Slammer");
 		
 		Bundle extras = getIntent().getExtras();
 		
@@ -58,7 +58,7 @@ public class DrinkInfoPage extends OneDrinkAwayActivity {
 			
 		} 
 		
-		drinkInfo = DatabaseInterface.getDrinkInfo(drink);
+		drinkInfo = DrinkModel.getDrinkInfo(drink);
 		
 		
 		setTitle(drink.name);		
@@ -165,7 +165,7 @@ public class DrinkInfoPage extends OneDrinkAwayActivity {
 				boolean fromUser) {
 	 
 
-				DatabaseInterface.addRating(drink, (int)rating);
+				DrinkModel.addRating(drink, (int)rating);
 			}
 
 
@@ -177,7 +177,7 @@ public class DrinkInfoPage extends OneDrinkAwayActivity {
 
 		@Override
 		public void onClick(View arg0) {
-			DatabaseInterface.addFavorite(drink);
+			DrinkModel.addFavorite(drink);
 		}
 	}
 
