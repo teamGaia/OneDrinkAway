@@ -17,6 +17,7 @@ import android.widget.TextView;
 
 import com.onedrinkaway.R;
 import com.onedrinkaway.common.Drink;
+import com.onedrinkaway.model.DatabaseInterface;
 
 
 public class ResultsPage extends OneDrinkAwayActivity {
@@ -29,11 +30,13 @@ public class ResultsPage extends OneDrinkAwayActivity {
 		
 		Bundle extras = getIntent().getExtras();
 		if (extras != null) {
+
 			String title = extras.getString("title");
 			if(title != null) {
 				setTitle(title);
 			}
-			Drink[] drinkResults = (Drink[]) extras.get("results"); 
+			//Drink[] drinkResults = (Drink[]) extras.get("results"); 
+			Drink[] drinkResults = DatabaseInterface.getAllDrinks();
 			
 			if(drinkResults != null) {
 				Arrays.sort(drinkResults, new DrinkNameComparator());
@@ -55,9 +58,7 @@ public class ResultsPage extends OneDrinkAwayActivity {
 					listView.addView(listItems); 
 				} 
 			}
-			
-		}
-		
+		}	
 		
 
 	}
