@@ -102,6 +102,7 @@ public class SearchByFlavor extends OneDrinkAwayActivity {
 	
 	/**
 	 * Class for a Seek Bar Listener that adjusts what flavors to search by depending
+	 * on the number the user adjusts the seek bar to
 	 */
 	public class FlavorSeekBarListener implements OnSeekBarChangeListener {
 		int progressChanged = 0;
@@ -136,17 +137,26 @@ public class SearchByFlavor extends OneDrinkAwayActivity {
 		
 	}
 		
+	/**
+	 * Does the search using the flavors the user selected, then sends the results
+	 * to the results page for it to display
+	 * @param view the view from which this method was called
+	 */
 	public void goToResults(View view) {
 		Drink[] results = DatabaseInterface.getAllDrinks();
-		/* if (results.length == 0) {
-			// error = true;
+		if (results.length == 0) {
+			/* error = true;
 			LayoutInflater inflater = (LayoutInflater) getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 			View searchView = inflater.inflate(R.layout.activity_search_by_flavor, null);
-			searchView.invalidate(); 
-		} else { */
-			startActivity(new Intent(this, ResultsPage.class));
-		//}
+			searchView.invalidate(); */
+		} else { 
+	    	Intent intent = new Intent(this, ResultsPage.class);
+	    	intent.putExtra("title", "Results");
+	    	intent.putExtra("results", results);
+			startActivity(intent);
+		}
 	}
+	
 
 	/**
 	 * A placeholder fragment containing a simple view.
