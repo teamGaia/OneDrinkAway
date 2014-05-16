@@ -8,11 +8,9 @@ import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup;
 import android.view.View.OnClickListener;
-import android.widget.ArrayAdapter;
+import android.view.ViewGroup;
 import android.widget.LinearLayout;
-import android.widget.ListView;
 import android.widget.RatingBar;
 import android.widget.TextView;
 
@@ -20,19 +18,24 @@ import com.onedrinkaway.R;
 import com.onedrinkaway.common.Drink;
 import com.onedrinkaway.model.DatabaseInterface;
 
+/**
+ * Displays the Favorites drinks page for the user where they can view the drinks that they have
+ * saved.
+ * @author Andrea
+ *
+ */
 public class FavoriteDrinks extends OneDrinkAwayActivity {
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_favorite_drinks);
-
 		helpID = R.string.favorite_drinks_help;
+		//get favorites list
 		Drink[] favoriteDrinks = DatabaseInterface.getFavorites();
 		if(favoriteDrinks != null) {
 			Arrays.sort(favoriteDrinks, new DrinkNameComparator());
 			LinearLayout listView = (LinearLayout) findViewById(R.id.favorites_container);
-		
 		
 			for(int i = 0; i < favoriteDrinks.length; i++) {
 				Drink drink = favoriteDrinks[i];
@@ -49,7 +52,7 @@ public class FavoriteDrinks extends OneDrinkAwayActivity {
 					ratingBar.setEnabled(false);
 					ratingBar.setRating((float) drink.getRating()); 
 					ratingBar.setIsIndicator(true);
-			
+					//add each drink option row to the favorites page linear layout
 					listView.addView(listItems); 
 				} else {
 					break;
@@ -58,10 +61,7 @@ public class FavoriteDrinks extends OneDrinkAwayActivity {
 		}
 			
 			
-	        
-		
-
-	}
+	 }
 	
 	/**
 	 * Goes to drink info page of given drink 
@@ -74,12 +74,25 @@ public class FavoriteDrinks extends OneDrinkAwayActivity {
 	}
 	
 
-	// Listener for if Drink listener gets clicked
+	/**
+	 * Listener for if a drink in the list is selected
+	 * Goes to the corresponding drink's info page
+	 *
+	 */
 	private class FavoriteDrinkOnClickListener implements OnClickListener {
 		private Drink drink;
+		
+		/**
+		 * Constructs a listener corresponding to the given drink
+		 * @param drink the drink who's drink info page will be displayed on click
+		 */
 		public FavoriteDrinkOnClickListener(Drink drink) {
 			this.drink = drink;
 		}
+		
+		/**
+		 * Goes to the drink info page of the drink
+		 */
 		@Override
 		public void onClick(View arg0) {
 			goToDrinkInfo(drink);

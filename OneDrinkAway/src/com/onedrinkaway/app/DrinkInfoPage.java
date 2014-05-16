@@ -165,9 +165,11 @@ public class DrinkInfoPage extends OneDrinkAwayActivity {
 			public void onRatingChanged(RatingBar ratingBar, float rating,
 				boolean fromUser) {
 	 
+
 				DatabaseInterface.addRating(drink, (int)rating);
-	 
 			}
+
+
 		});
 	}
 	
@@ -178,7 +180,7 @@ public class DrinkInfoPage extends OneDrinkAwayActivity {
 		public void onClick(View arg0) {
 			DatabaseInterface.addFavorite(drink);
 		}
-	};
+	}
 
 	/**
 	 * Adds seek bars that show the drink's flavor profile to view and only adds seek bars with flavors
