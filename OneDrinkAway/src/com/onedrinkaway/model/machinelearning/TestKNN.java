@@ -18,7 +18,7 @@ public class TestKNN {
 		   Drink curDrink = buildDrink(line);
 		   trainingSet.add(curDrink);
 		}
-		KNearestNeighborModel model = new KNearestNeighborModel(5);
+		KNearestNeighborModel model = new KNearestNeighborModel(5); 
 		brTrain.close();
 		
 		BufferedReader brTest = new BufferedReader(new FileReader("test.csv"));
