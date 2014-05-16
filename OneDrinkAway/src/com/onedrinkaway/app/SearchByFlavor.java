@@ -143,7 +143,7 @@ public class SearchByFlavor extends OneDrinkAwayActivity {
 	 * @param view the view from which this method was called
 	 */
 	public void goToResults(View view) {
-		Drink[] results = DatabaseInterface.getAllDrinks();
+		Drink[] results = DatabaseInterface.getDrinks(query);
 		if (results.length == 0) {
 			/* error = true;
 			LayoutInflater inflater = (LayoutInflater) getSystemService(Context.LAYOUT_INFLATER_SERVICE);

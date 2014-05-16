@@ -99,7 +99,7 @@ public class SearchByIngredient extends OneDrinkAwayActivity implements SearchVi
             	query.add(listView.getItemAtPosition(i).toString());
     	}
     	
-    	Drink[] results = DatabaseInterface.getAllDrinks();
+    	Drink[] results = DatabaseInterface.getDrinks(query);
    
     	if (results.length == 0) {
     		displayError();

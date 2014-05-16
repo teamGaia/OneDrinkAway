@@ -15,10 +15,7 @@ public class AdvancedSearch extends OneDrinkAwayActivity {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_advanced_search);
 
-		if (savedInstanceState == null) {
-			getSupportFragmentManager().beginTransaction()
-					.add(R.id.container, new PlaceholderFragment()).commit();
-		}
+		
 		helpID = R.string.advanced_search_help;
 	}
 
