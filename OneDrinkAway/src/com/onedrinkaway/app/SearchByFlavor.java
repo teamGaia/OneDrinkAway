@@ -16,10 +16,9 @@ import android.widget.TableLayout;
 import android.widget.TextView;
 
 import com.onedrinkaway.R;
-import com.onedrinkaway.common.Drink;
+// import com.onedrinkaway.common.Drink;
 import com.onedrinkaway.common.Flavor;
 import com.onedrinkaway.common.Query;
-import com.onedrinkaway.model.DatabaseInterface;
 
 /**
  * This class allows the user to enter what flavors and their intensity that they want to search by
@@ -44,6 +43,7 @@ public class SearchByFlavor extends OneDrinkAwayActivity {
 
 	/**
 	 * Creates the layout for Search By Flavor
+	 * @param savedInstanceState: keeps the information for this activity
 	 */
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -102,11 +102,16 @@ public class SearchByFlavor extends OneDrinkAwayActivity {
 	
 	/**
 	 * Class for a Seek Bar Listener that adjusts what flavors to search by depending
+	 * on the number the user adjusts the seek bar to
 	 */
 	public class FlavorSeekBarListener implements OnSeekBarChangeListener {
 		int progressChanged = 0;
 		String flavor;
 		
+		/**
+		 * Creates a new FlavorSeekBarListener
+		 * @param flavor: the flavor this seek bar is for
+		 */
 		FlavorSeekBarListener(String flavor) {
 			this.flavor = flavor;
 		}
@@ -136,17 +141,26 @@ public class SearchByFlavor extends OneDrinkAwayActivity {
 		
 	}
 		
+	/**
+	 * Does the search using the flavors the user selected, then sends the results
+	 * to the results page for it to display
+	 * @param view the view from which this method was called
+	 */
 	public void goToResults(View view) {
-		Drink[] results = DatabaseInterface.getAllDrinks();
+		// Drink[] results = DatabaseInterface.getDrinks(query);
 		/* if (results.length == 0) {
-			// error = true;
+			error = true;
 			LayoutInflater inflater = (LayoutInflater) getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 			View searchView = inflater.inflate(R.layout.activity_search_by_flavor, null);
-			searchView.invalidate(); 
-		} else { */
-			startActivity(new Intent(this, ResultsPage.class));
-		//}
+			searchView.invalidate(); */
+		// } else { 
+	    	Intent intent = new Intent(this, ResultsPage.class);
+	    	intent.putExtra("title", "Results");
+	    	// intent.putExtra("results", results);
+			startActivity(intent);
+		// }
 	}
+	
 
 	/**
 	 * A placeholder fragment containing a simple view.

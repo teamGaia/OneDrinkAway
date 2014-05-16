@@ -13,7 +13,7 @@ import android.widget.TextView;
 
 import com.onedrinkaway.R;
 import com.onedrinkaway.common.Drink;
-import com.onedrinkaway.model.DatabaseInterface;
+import com.onedrinkaway.model.DrinkModel;
 
 public class SearchByName extends OneDrinkAwayActivity implements SearchView.OnQueryTextListener {
     private String[] drinkNames;
@@ -23,7 +23,7 @@ public class SearchByName extends OneDrinkAwayActivity implements SearchView.OnQ
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        drinkNames  = DatabaseInterface.getDrinkNames();
+        drinkNames  = DrinkModel.getDrinkNames();
         
         helpID = R.string.search_by_name_help;
         setContentView(R.layout.activity_search_by_name);
@@ -60,7 +60,7 @@ public class SearchByName extends OneDrinkAwayActivity implements SearchView.OnQ
 
     private void goToDrinkInfo(String name) {
     	Intent intent = new Intent(this, DrinkInfoPage.class);
-    	Drink drink = DatabaseInterface.getDrink(name);
+    	Drink drink = DrinkModel.getDrink(name);
     	intent.putExtra("drink", drink);
     	startActivity(intent);
     }
