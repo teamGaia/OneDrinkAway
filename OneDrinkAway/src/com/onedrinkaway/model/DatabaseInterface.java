@@ -13,12 +13,17 @@ import com.onedrinkaway.db.DrinkDb;
 import com.onedrinkaway.model.machinelearning.KNearestNeighborModel;
 import com.onedrinkaway.model.machinelearning.MLModel;
 
+/**
+ * DatabaseInterface communicates with the machine learning, database and UI and passes information between
+ * the three. DatabaseInterface also makes search queries and sends the results to the UI
+ *
+ */
 public class DatabaseInterface {
 	private static MLModel machineLearner = new KNearestNeighborModel();
 
 	/**
+	 * Returns all of the drinks in the database
 	 * @return all of the drinks in the database
-	 * 
 	 */
 	public static Drink[] getAllDrinks() {
 		Drink[] result = convertDrinkSetToArray(DrinkDb.getAllDrinks());
@@ -27,6 +32,7 @@ public class DatabaseInterface {
 	}
 
 	/**
+	 * Returns an array of the string names of all of the drinks in the database
 	 * @return String array containing names of each drink in the database.
 	 */
 	public static String[] getDrinkNames() {
@@ -36,6 +42,7 @@ public class DatabaseInterface {
 	}
 
 	/**
+	 * Adds rating to the given drink
 	 * @param d
 	 *            : the drink to be rated
 	 * @param rating
@@ -46,6 +53,8 @@ public class DatabaseInterface {
 	}
 
 	/**
+	 * Return a list of drink that the user has not rated, sorted by the predicted rating: 
+	 * highest to lowest
 	 * @return a list of drinks that the user has not rated, sorted by the
 	 *         predicted rating (highest->lowest)
 	 */
@@ -58,6 +67,7 @@ public class DatabaseInterface {
 	}
 
 	/**
+	 * Returns a list of unrated drinks that are constrained by the information in the query
 	 * @param query
 	 *            : the query to filter the result drinks by
 	 * @return a list of drinks unrated by the user, sorted by the predicted
@@ -116,7 +126,7 @@ public class DatabaseInterface {
 	}
 
 	/**
-	 * @return a list of Drinks that the user has favorites
+	 * @return a list of Drinks that the user has favorites or null if the favorites list is empty
 	 */
 	public static Drink[] getFavorites() {
 		Set<Drink> favorites = DrinkDb.getFavorites();
@@ -131,6 +141,7 @@ public class DatabaseInterface {
 	}
 
 	/**
+	 * Returns the list of drink category names
 	 * @return a list of category names
 	 */
 	public static String[] getCategories() {
@@ -140,7 +151,8 @@ public class DatabaseInterface {
 	}
 
 	/**
-	 * @return a list of possible ingredients
+	 * Returns a list of all ingredients used in drinks
+	 * @return a String[] of all ingredients used in drinks
 	 */
 	public static String[] getIngredients() {
 		String[] result = convertStringSetToArray(DrinkDb.getIngredients());
@@ -151,7 +163,7 @@ public class DatabaseInterface {
 	 * Adds the passed Drink to the user's favorites list
 	 * 
 	 * @param favorite
-	 *            the Drink that the user favorited
+	 *            the Drink that the user has added to their favorite drink list
 	 */
 	public static void addFavorite(Drink favorite) {
 		DrinkDb.addFavorite(favorite);
@@ -161,10 +173,11 @@ public class DatabaseInterface {
 	 * Removes the passed Drink from the user's favorites list
 	 * 
 	 * @param oldFavorite
-	 *            the Drink that the user no longer considers a favorite
+	 *            the Drink that the user has removed from their favorite drink list
 	 */
 	public static void removeFavorite(Drink oldFavorite) {
-		DrinkDb.removeFavorite(oldFavorite);
+		if(oldFavorite != null) 
+			DrinkDb.removeFavorite(oldFavorite);
 	}
 
 	/**
@@ -175,11 +188,15 @@ public class DatabaseInterface {
 	 * @return the DrinkInfo for d
 	 */
 	public static DrinkInfo getDrinkInfo(Drink d) {
-		return DrinkDb.getDrinkInfo(d);
+		if(d != null) 
+			return DrinkDb.getDrinkInfo(d);
+		return null;
+	
 	}
 
 	/**
-	 * filters out all of the Drinks that are in the second array from the first
+	 * Filters out all of the Drinks that are in the second array from the first
+	 * Returns an array of unrated drinks
 	 * 
 	 * @param allDrinks
 	 *            array of drinks to filter
@@ -223,6 +240,11 @@ public class DatabaseInterface {
 		return predictedDrinks;
 	}
 
+	/**
+	 * Converts the given set of drinks to an array
+	 * @param drinks the set of drinks to be converted to an array
+	 * @return Drink[] composed of the drinks originally stored in the given drinks set
+	 */
 	private static Drink[] convertDrinkSetToArray(Set<Drink> drinks) {
 		Drink[] result = new Drink[drinks.size()];
 		int i = 0;
@@ -233,6 +255,11 @@ public class DatabaseInterface {
 		return result;
 	}
 
+	/**
+	 * Converts the given set of strings to an array of strings
+	 * @param strings set of strings to be converted
+	 * @return String[] composed of all the strings in the original set
+	 */
 	private static String[] convertStringSetToArray(Set<String> strings) {
 		String[] result = new String[strings.size()];
 		int i = 0;
