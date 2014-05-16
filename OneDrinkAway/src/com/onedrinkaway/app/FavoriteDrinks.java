@@ -28,25 +28,34 @@ public class FavoriteDrinks extends OneDrinkAwayActivity {
 		setContentView(R.layout.activity_favorite_drinks);
 
 		helpID = R.string.favorite_drinks_help;
-		Drink[] tempFav = DatabaseInterface.getAllDrinks();
-		Arrays.sort(tempFav, new DrinkNameComparator());
-		LinearLayout listView = (LinearLayout) findViewById(R.id.favorites_container);
+		Drink[] favoriteDrinks = DatabaseInterface.getFavorites();
+		if(favoriteDrinks != null) {
+			Arrays.sort(favoriteDrinks, new DrinkNameComparator());
+			LinearLayout listView = (LinearLayout) findViewById(R.id.favorites_container);
 		
 		
-		for(Drink drink: tempFav) {
-			LayoutInflater inflater = (LayoutInflater) getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-			View listItems = inflater.inflate(R.layout.favorites_list_item, null);
-			LinearLayout favoriteListClickable = (LinearLayout) listItems.findViewById(R.id.favorite_drink_clickable);
-			favoriteListClickable.setOnClickListener(new FavoriteDrinkOnClickListener(drink));
-			TextView drinklabel = (TextView) listItems.findViewById(R.id.favorite_drink_title);
-			drinklabel.setText(drink.name);
-			RatingBar ratingBar = (RatingBar) listItems.findViewById(R.id.favorite_drink_rating);
-			ratingBar.setEnabled(false);
-			ratingBar.setRating((float) drink.getRating()); 
-			ratingBar.setIsIndicator(true);
+			for(int i = 0; i < favoriteDrinks.length; i++) {
+				Drink drink = favoriteDrinks[i];
+				if(drink != null) {
+					LayoutInflater inflater = (LayoutInflater) getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+					View listItems = inflater.inflate(R.layout.favorites_list_item, null);
+					LinearLayout favoriteListClickable = (LinearLayout) listItems.findViewById(R.id.favorite_drink_clickable);
+					favoriteListClickable.setOnClickListener(new FavoriteDrinkOnClickListener(drink));
+					//Set drink name
+					TextView drinklabel = (TextView) listItems.findViewById(R.id.favorite_drink_title);
+					drinklabel.setText(drink.name);
+					//Set ratings bar
+					RatingBar ratingBar = (RatingBar) listItems.findViewById(R.id.favorite_drink_rating);
+					ratingBar.setEnabled(false);
+					ratingBar.setRating((float) drink.getRating()); 
+					ratingBar.setIsIndicator(true);
 			
-			listView.addView(listItems); 
-		} 
+					listView.addView(listItems); 
+				} else {
+					break;
+				}
+			} 
+		}
 			
 			
 	        
@@ -54,9 +63,10 @@ public class FavoriteDrinks extends OneDrinkAwayActivity {
 
 	}
 	
-	
-
-	
+	/**
+	 * Goes to drink info page of given drink 
+	 * @param drink the drink in which the drink info page will appear for
+	 */
 	private void goToDrinkInfo(Drink drink) {
 		Intent intent = new Intent(this, DrinkInfoPage.class);
 		intent.putExtra("drink", drink);

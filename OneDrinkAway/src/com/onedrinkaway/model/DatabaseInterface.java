@@ -119,9 +119,15 @@ public class DatabaseInterface {
 	 * @return a list of Drinks that the user has favorites
 	 */
 	public static Drink[] getFavorites() {
-		Drink[] result = convertDrinkSetToArray(DrinkDb.getFavorites());
-		Arrays.sort(result);
-		return result;
+		Set<Drink> favorites = DrinkDb.getFavorites();
+		if(favorites != null) {
+				Drink[] result = convertDrinkSetToArray(DrinkDb.getFavorites());
+				Arrays.sort(result);
+				return result;
+		} else {
+			return null;
+		}
+			
 	}
 
 	/**

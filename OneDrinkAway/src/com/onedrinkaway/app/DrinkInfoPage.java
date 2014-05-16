@@ -165,7 +165,7 @@ public class DrinkInfoPage extends OneDrinkAwayActivity {
 			public void onRatingChanged(RatingBar ratingBar, float rating,
 				boolean fromUser) {
 	 
-				//DatabaseInterface.addRating(drink, (int)rating);
+				DatabaseInterface.addRating(drink, (int)rating);
 	 
 			}
 		});
@@ -176,7 +176,7 @@ public class DrinkInfoPage extends OneDrinkAwayActivity {
 
 		@Override
 		public void onClick(View arg0) {
-			//DatabaseInterface.addFavorite(drink);
+			DatabaseInterface.addFavorite(drink);
 		}
 	};
 
