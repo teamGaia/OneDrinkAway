@@ -31,7 +31,7 @@ public class DrinkData implements Serializable {
     // list of all drink objects
     private ArrayList<Drink> drinkList;
     // hashSet of all drink objects
-    private HashSet<Drink> drinkSet;
+    private HashSet<Drink> drinks;
     // set of all favorites
     private HashSet<Drink> favorites;
     // set of all ingredients
@@ -50,7 +50,7 @@ public class DrinkData implements Serializable {
      */
     private DrinkData() {
         drinkList = new ArrayList<Drink>();
-        drinkSet = new HashSet<Drink>();
+        drinks = new HashSet<Drink>();
         favorites = new HashSet<Drink>();
         ingredients = new HashSet<String>();
         categories = new HashSet<String>();
@@ -60,7 +60,9 @@ public class DrinkData implements Serializable {
     }
     
     /**
-     * Deserializes and returns a DrinkData object from file
+     * Deserializes and populates singleton instance. If serialized file is not found,
+     * creates a new singleton instance and populates it with data from files found in assets,
+     * drinks.tsv and Recipes.txt
      */
     public static DrinkData getDrinkData() {
         if (instance == null) {
@@ -133,50 +135,10 @@ public class DrinkData implements Serializable {
     }
     
     /**
-     * Prints names of all drinks that do not have DrinkInfo associated with them
-     */
-    public void printDrinksNeedingInfo() {
-        if (info.size() == drinkSet.size())
-            System.out.println("All drinks have DrinkInfo");
-        else {
-            System.out.println("Drinks that need DrinkInfo:");
-            for (Drink d : drinkSet) {
-                if (!info.containsKey(d.id))
-                    System.out.println(d.name);
-            }
-        }
-        System.out.println();
-    }
-    
-    /**
-     * Prints any irregular Drinks to the console
-     */
-    public void verifyDrinks() {
-        for (Drink d : drinkSet) {
-            boolean valid = true;
-            if (d.id < 0 || d.name == null || d.getAvgRating() < 0.0 || d.getAvgRating() > 5.0
-                    || d.categories.size() < 1 || d.glass == null)
-                valid = false;
-            for (int i = 0; i < d.attributes.length; i++) {
-                if (d.attributes[i] < 0 || d.attributes[i] > 5)
-                    valid = false;
-            }
-            if (!valid)
-                printDrink(d);
-                
-        }
-    }
-    
-    public void printAllCategories() {
-        for (String c : categories)
-            System.out.println(c);
-    }
-    
-    /**
-     * Returns a list of all drinks
+     * Returns a set of all drinks
      */
     public Set<Drink> getAllDrinks() {
-        return Collections.unmodifiableSet(drinkSet);
+        return Collections.unmodifiableSet(drinks);
     }
     
     /**
@@ -219,7 +181,7 @@ public class DrinkData implements Serializable {
                     double rating = getAvgRating(id);
                     Drink d = new Drink(name, id, rating, attributes, cat, glass);
                     instance.drinkList.add(d);
-                    instance.drinkSet.add(d);
+                    instance.drinks.add(d);
                     instance.namesToDrinks.put(name, d);
                 }
             }
@@ -300,34 +262,6 @@ public class DrinkData implements Serializable {
     private static double getAvgRating(int drinkId) {
         Random r = new Random();
         return 3 + r.nextDouble() * 1.4;
-    }
-    
-    
-    /**
-     * Prints a Drink to the console, this should be moved to a different class
-     * @param d the Drink to print
-     */
-    private void printDrink(Drink d) {
-        System.out.println("Drink name : " + d.name);
-        System.out.println("Drink id : " + d.id);
-        System.out.println("Drink avg rating : " + d.getAvgRating());
-        System.out.println("Drink glass : " + d.glass);
-        System.out.println("Categories :");
-        for (String c : d.categories)
-            System.out.println("\t" + c);
-        System.out.println("Attributes:");
-        System.out.println("\tSWEET : " + d.attributes[0]);
-        System.out.println("\tCITRUSY : " + d.attributes[1]);
-        System.out.println("\tBITTER : " + d.attributes[2]);
-        System.out.println("\tHERBAL : " + d.attributes[3]);
-        System.out.println("\tMINTY : " + d.attributes[4]);
-        System.out.println("\tFRUITY : " + d.attributes[5]);
-        System.out.println("\tSOUR : " + d.attributes[6]);
-        System.out.println("\tBOOZY : " + d.attributes[7]);
-        System.out.println("\tSPICY : " + d.attributes[8]);
-        System.out.println("\tSALTY : " + d.attributes[9]);
-        System.out.println("\tCREAMY : " + d.attributes[10]);
-        System.out.println();
     }
 
 }
