@@ -32,7 +32,7 @@ public class FavoriteDrinks extends OneDrinkAwayActivity {
 		Arrays.sort(tempFav, new DrinkNameComparator());
 		LinearLayout listView = (LinearLayout) findViewById(R.id.favorites_container);
 		
-		
+
 		for(Drink drink: tempFav) {
 			LayoutInflater inflater = (LayoutInflater) getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 			View listItems = inflater.inflate(R.layout.favorites_list_item, null);
@@ -46,11 +46,7 @@ public class FavoriteDrinks extends OneDrinkAwayActivity {
 			ratingBar.setIsIndicator(true);
 			
 			listView.addView(listItems); 
-		} 
-			
-			
-	        
-		
+		}		
 
 	}
 	

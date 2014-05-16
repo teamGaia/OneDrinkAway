@@ -12,9 +12,13 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.onedrinkaway.R;
+import com.onedrinkaway.common.Drink;
+import com.onedrinkaway.common.Query;
 import com.onedrinkaway.model.DatabaseInterface;
 
 public class SearchByCategory extends OneDrinkAwayActivity {
+	
+	private Query query;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -22,6 +26,8 @@ public class SearchByCategory extends OneDrinkAwayActivity {
 		setContentView(R.layout.activity_search_by_category);
 		
 		helpID = R.string.help_search_by_category;
+		
+		query = new Query();
 		
 		String[] categories = DatabaseInterface.getCategories();
 		//String[] categories = TempListOfCategories.CATEGORIES; //temp
@@ -67,7 +73,10 @@ public class SearchByCategory extends OneDrinkAwayActivity {
 	public void goToResults(View view) {
 		Intent intent = new Intent(this, ResultsPage.class);
 		String categoryName = (String) ((TextView) view).getText();
+		query.setCategory(categoryName);
+		// Drink[] results = DatabaseInterface.getDrinks(query);
 		intent.putExtra("title", categoryName);
+		// intent.putExtra("results", results);
 		startActivity(intent);
 	}
 	
