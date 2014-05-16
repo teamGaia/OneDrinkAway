@@ -1,11 +1,6 @@
 package com.onedrinkaway.app;
 
 
-
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
-
 import android.content.Context;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -26,9 +21,13 @@ import android.widget.TextView;
 import com.onedrinkaway.R;
 import com.onedrinkaway.common.Drink;
 import com.onedrinkaway.common.DrinkInfo;
-import com.onedrinkaway.db.DrinkDb;
 import com.onedrinkaway.model.DatabaseInterface;
 
+/**
+ * This class displays the ingredients, description, and flavor profiles for a Drink
+ * @author Andrea Martin
+ *
+ */
 public class DrinkInfoPage extends OneDrinkAwayActivity {
 	
 	//list of flavors to display
@@ -40,6 +39,9 @@ public class DrinkInfoPage extends OneDrinkAwayActivity {
 	private Drink drink;
 	private DrinkInfo drinkInfo;
 	
+	/**
+	 * Creates the layout for the Drink Info Page
+	 */
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -48,9 +50,6 @@ public class DrinkInfoPage extends OneDrinkAwayActivity {
 		helpID = R.string.drink_info_help;
 
 		drink = DatabaseInterface.getDrink("Alabama Slammer");
-		
-
-
 		
 		Bundle extras = getIntent().getExtras();
 		
