@@ -4,10 +4,16 @@
         android:layout_height="match_parent"
         android:orientation="vertical">
         
-    <ListView
-        android:id="@+id/list_view"
+    <ScrollView
+        android:id="@+id/results_scroll_view"  
         android:layout_width="match_parent"
-        android:layout_height="0dip"
-        android:layout_weight="1" >
-    </ListView>
+        android:layout_height="wrap_content"  >
+    <LinearLayout
+        android:id="@+id/results_container"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:orientation="vertical" >
+    </LinearLayout>
+    </ScrollView>
 </LinearLayout>

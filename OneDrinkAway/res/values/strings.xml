@@ -63,5 +63,12 @@
 	<string name="help_search_by_category">Press an icon to select the category of cocktail you want. Press and hold an icon to see information about that category.</string>
 	<string name="help_search_by_ingredient">Search by Ingredients allows you to get drink recommendations by selecting the ingredients you would like in your drink. \n Check each box of the ingredients you would like. To find ingredients, you can enter the ingredient name into the search box and it will filter to the ingredients that your text starts with. To revert back to browsing all ingredients, delete the text in the search box. Your checked ingredients will stay selected. Once you have selected all the ingredients you would like, press &quot;Search&quot;</string>
 	<string name="help_home_page">Welcome to OneDrinkAway, the ultimate cocktail recommendation application!\n\n<b>Browse all Drinks</b>\n\t\t&#8226;Browse all of our drink recipes in alphabetical order, as well as enter a specific drink name.\n\n<b>Search By Category</b>\n\t\t&#8226;Look for drinks by category, such as shooters, seasonal cocktails, and jello-shots.\n\n<b>Search By Ingredients</b>\n\t\t&#8226;Look for drinks by entering various ingredients.\n\n<b>Search by Flavors</b>\n\t\t&#8226;Looks for drinks by entering various flavor intensities\n\n<b>Favorite Drinks List</b>\n\t\t&#8226;Keeps track of all of your favorite drinks. You can favorite a drink when on that drink\'s info page\n\n<b>Advanced Search</b>\n\t\t&#8226;A combination of Search By Category, Ingredients, and Flavors that\'s designed for more specific searches\n\n<b>Try Something New</b>\n\t\t&#8226;Suggests a drink for the user at the touch of a button!</string>
+	<string name="category_help_Frozen">Frozen category help displays here</string>
+	<string name="category_help_Highball">Highball category help displays here</string>
+	<string name="category_help_Hot">Hot category help displays here</string>
+	<string name="category_help_On_the_Rocks">On the Rocks category help displays here</string>
+	<string name="category_help_Shaken">Shaken category help displays here</string>
+	<string name="category_help_Shooter">Shooter category help displays here</string>
+	<string name="category_help_Stirred">Stirred category help displays here</string>
 
 </resources>
