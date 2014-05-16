@@ -131,9 +131,9 @@ public class DrinkModel {
 	public static Drink[] getFavorites() {
 		Set<Drink> favorites = DrinkDb.getFavorites();
 		if(favorites != null) {
-				Drink[] result = convertDrinkSetToArray(DrinkDb.getFavorites());
-				Arrays.sort(result);
-				return result;
+			Drink[] result = convertDrinkSetToArray(DrinkDb.getFavorites());
+			Arrays.sort(result);
+			return result;
 		} else {
 			return null;
 		}
@@ -205,13 +205,17 @@ public class DrinkModel {
 	 * @return an array that is the subtraction of ratedDrinks from allDrinks
 	 */
 	private static Drink[] getUnratedDrinks(Drink[] allDrinks,
-											Drink[] ratedDrinks) {
+										Drink[] ratedDrinks) {
 		List<Drink> unratedDrinks = new ArrayList<Drink>();
 		for (Drink d : allDrinks) {
+			boolean flag = false;
 			for (Drink rated : ratedDrinks) {
-				if (!rated.equals(d)) {
-					unratedDrinks.add(d);
+				if (rated.equals(d)) {
+					flag = true;
 				}
+			}
+			if(!flag){
+					unratedDrinks.add(d);
 			}
 		}
 		return unratedDrinks.toArray(new Drink[unratedDrinks.size()]);
