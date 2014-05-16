@@ -8,7 +8,16 @@ import android.os.Bundle;
 
 import com.onedrinkaway.R;
 
+/**
+ * Displays a help dialog explaining what a certain feature does
+ * @author Nicole Kihara, Taylor Juve, and Andrea Martin
+ *
+ */
 public class HelpDialog extends DialogFragment {	
+	
+	/**
+	 * Opens up the dialog and displays the help for that feature
+	 */
     @Override
     public Dialog onCreateDialog(Bundle savedInstanceState) {
         // Use the Builder class for convenient dialog construction

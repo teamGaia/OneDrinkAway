@@ -8,6 +8,11 @@ import android.os.Bundle;
 
 import com.onedrinkaway.R;
 
+/**
+ * This class displays a help dialog explaining what the pressed Category is
+ * @author Taylor Juve
+ *
+ */
 public class CategoryDialog extends DialogFragment {	
     @Override
     public Dialog onCreateDialog(Bundle savedInstanceState) {

@@ -44,6 +44,7 @@ public class SearchByFlavor extends OneDrinkAwayActivity {
 
 	/**
 	 * Creates the layout for Search By Flavor
+	 * @param savedInstanceState: keeps the information for this activity
 	 */
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -108,6 +109,10 @@ public class SearchByFlavor extends OneDrinkAwayActivity {
 		int progressChanged = 0;
 		String flavor;
 		
+		/**
+		 * Creates a new FlavorSeekBarListener
+		 * @param flavor: the flavor this seek bar is for
+		 */
 		FlavorSeekBarListener(String flavor) {
 			this.flavor = flavor;
 		}

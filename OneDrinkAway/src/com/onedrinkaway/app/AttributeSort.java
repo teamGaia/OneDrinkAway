@@ -1,7 +1,5 @@
 package com.onedrinkaway.app;
 
-import java.util.Comparator;
-
 import com.onedrinkaway.common.Drink;
 
 /**
