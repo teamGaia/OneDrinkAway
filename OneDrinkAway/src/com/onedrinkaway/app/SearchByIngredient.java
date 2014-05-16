@@ -94,19 +94,20 @@ public class SearchByIngredient extends OneDrinkAwayActivity implements SearchVi
     	SparseBooleanArray checked = listView.getCheckedItemPositions();
     	int size = listView.getCount();
     	// Get all of the checked ingredients and add them to the query
+    	query = new Query(); // make sure we are starting with an empty query!!
     	for(int i = 0; i < size; i++) {
             if(checked.get(i))
             	query.add(listView.getItemAtPosition(i).toString());
     	}
     	
-    	Drink[] results = DrinkModel.getAllDrinks();
+    	boolean drinksFound = DrinkModel.searchForDrinks(query);
    
-    	if (results.length == 0) {
+    	if (!drinksFound) {
     		displayError();
     	} else {
         	Intent intent = new Intent(this, ResultsPage.class);
         	intent.putExtra("title", "Results");
-        	intent.putExtra("results", results);
+        	//intent.putExtra("results", results);
     		startActivity(intent);
     	}
     }

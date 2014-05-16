@@ -86,7 +86,7 @@ public class DrinkModel {
 	 *            : the query to filter the result drinks by
 	 * @return false if the results array is empty, true if not
 	 */
-	public static boolean getDrinks(Query query) {
+	public static boolean searchForDrinks(Query query) {
 		Set<Drink> drinks = DrinkDb.getAllDrinks();
 		Iterator<Drink> iter;
 		if (query.hasCategory()) { // iterate and filter by category
@@ -101,8 +101,7 @@ public class DrinkModel {
 			iter = drinks.iterator();
 			while (iter.hasNext()) {
 				Drink d = iter.next();
-				DrinkInfo di = DrinkDb.getDrinkInfo(d);
-				List<String> drinkIngr = di.ingredients;
+				Set<String> drinkIngr = DrinkDb.getIngredients(d);
 				List<String> queryIngr = query.getIngredients();
 				if (!drinkIngr.containsAll(queryIngr))
 					iter.remove();

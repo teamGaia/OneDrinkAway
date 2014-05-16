@@ -122,13 +122,14 @@ public class Drink implements Comparable<Drink>, Serializable {
 
   /**
    * Returns 1 if this is greater than other, -1 if this is less, 0 if equal
+   * Using this comparator sorts drinks in descending order.
    */
   @Override
   public int compareTo(Drink other) {
       if (getRating() - other.getRating() > 0)
-          return 1;
-      else if (getRating() - other.getRating() < 0)
           return -1;
+      else if (getRating() - other.getRating() < 0)
+          return 1;
       else
           return 0;
   }

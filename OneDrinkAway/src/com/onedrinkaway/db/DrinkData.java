@@ -42,6 +42,8 @@ public class DrinkData implements Serializable {
     private HashMap<Drink, DrinkInfo> info;
     // set of all drinks that have been rated
     private HashSet<Drink> ratedDrinks;
+    // map of from Drink to Ingredients List (Ingredients do not have portions
+    private HashMap<Drink, Set<String>> drinkIngredients;
     
     /**
      * Private Constructor
@@ -54,6 +56,7 @@ public class DrinkData implements Serializable {
         info = new HashMap<Drink, DrinkInfo>();
         ratedDrinks = new HashSet<Drink>();
         favorites = new HashSet<Drink>();
+        drinkIngredients = new HashMap<Drink, Set<String>>();
     }
     
     /**
@@ -95,6 +98,13 @@ public class DrinkData implements Serializable {
       if (info.containsKey(d))
         return info.get(d);
       throw new IllegalArgumentException("Invalid Drink passed to GetDrinkInfo");
+    }
+    
+    /**
+     * @return a set of Ingredients for the given drink
+     */
+    public Set<String> getIngredients(Drink d) {
+        return new HashSet<String>(drinkIngredients.get(d));
     }
     
     /**
@@ -234,11 +244,13 @@ public class DrinkData implements Serializable {
                         String instructions = lines.get(len - 1);
                         String garnish = lines.get(len - 2).substring(9); // removes "Garnish: "
                         List<String> ingr = new ArrayList<String>();
+                        // get the drink object for this DrinkInfo
+                        Drink d = instance.namesToDrinks.get(name);
                         for (int i = 1; i < len - 2; i++) {
                             ingr.add(lines.get(i));
-                            addIngredient(lines.get(i));
+                            addIngredient(d, lines.get(i));
                         }
-                        Drink d = instance.namesToDrinks.get(name);
+                        
                         DrinkInfo di = new DrinkInfo(ingr, genericDesc, garnish, instructions, genericCit, d.id);
                         instance.info.put(d, di);
                     }
@@ -258,7 +270,7 @@ public class DrinkData implements Serializable {
      * Attempts to remove an unnecessary characters from an ingredient String, and adds it
      * to the set of unique ingredients
      */
-    private static void addIngredient(String ingredient) {
+    private static void addIngredient(Drink d, String ingredient) {
         // search for uppercase character
         int i = 0;
         while (!Character.isUpperCase(ingredient.charAt(i)))
@@ -272,7 +284,13 @@ public class DrinkData implements Serializable {
         // check for splash of / dash of etc
         if (ingredient.contains(" of "))
             ingredient = ingredient.split(" of ")[1];
+        ingredient = ingredient.trim();
+        // ingredient is finally ready to add
         instance.ingredients.add(ingredient.trim());
+        if (!instance.drinkIngredients.containsKey(d)) {
+            instance.drinkIngredients.put(d, new HashSet<String>());
+        }
+        instance.drinkIngredients.get(d).add(ingredient);
     }
     
     /**

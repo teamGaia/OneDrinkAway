@@ -45,7 +45,7 @@ public class ResultsPage extends OneDrinkAwayActivity {
 			if(drinkResults != null) { // should never be null, either empty or non-empty right?
 				
 				//sort results by name
-				Arrays.sort(drinkResults, new DrinkRatingComparator());
+				//Arrays.sort(drinkResults, new DrinkRatingComparator());
 				LinearLayout listView = (LinearLayout) findViewById(R.id.results_container);
 			
 			

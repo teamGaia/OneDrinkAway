@@ -7,6 +7,7 @@ package com.onedrinkaway.db;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.ObjectOutputStream;
+import java.util.HashSet;
 import java.util.Set;
 
 import android.provider.Settings.Secure;
@@ -55,6 +56,13 @@ public class DrinkDb {
      */
     public static DrinkInfo getDrinkInfo(Drink d) {
         return dd.getDrinkInfo(d);
+    }
+    
+    /**
+     * @return a set of Ingredients for the given drink
+     */
+    public static Set<String> getIngredients(Drink d) {
+        return dd.getIngredients(d);
     }
     
     /**
