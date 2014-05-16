@@ -155,7 +155,7 @@ public class DrinkInfoPage extends OneDrinkAwayActivity {
 	 */
 	private void setRatingBar() {
 		RatingBar ratingBar = (RatingBar) findViewById(R.id.drink_info_rating_bar);
-		ratingBar.setStepSize((float) 1.0);
+		
 		ratingBar.setRating((float) drink.getRating());
 		
 		
