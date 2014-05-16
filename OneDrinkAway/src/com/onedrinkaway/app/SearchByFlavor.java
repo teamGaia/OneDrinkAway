@@ -16,10 +16,9 @@ import android.widget.TableLayout;
 import android.widget.TextView;
 
 import com.onedrinkaway.R;
-import com.onedrinkaway.common.Drink;
+// import com.onedrinkaway.common.Drink;
 import com.onedrinkaway.common.Flavor;
 import com.onedrinkaway.common.Query;
-import com.onedrinkaway.model.DatabaseInterface;
 
 /**
  * This class allows the user to enter what flavors and their intensity that they want to search by
@@ -148,18 +147,18 @@ public class SearchByFlavor extends OneDrinkAwayActivity {
 	 * @param view the view from which this method was called
 	 */
 	public void goToResults(View view) {
-		Drink[] results = DatabaseInterface.getDrinks(query);
-		if (results.length == 0) {
-			/* error = true;
+		// Drink[] results = DatabaseInterface.getDrinks(query);
+		/* if (results.length == 0) {
+			error = true;
 			LayoutInflater inflater = (LayoutInflater) getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 			View searchView = inflater.inflate(R.layout.activity_search_by_flavor, null);
 			searchView.invalidate(); */
-		} else { 
+		// } else { 
 	    	Intent intent = new Intent(this, ResultsPage.class);
 	    	intent.putExtra("title", "Results");
-	    	intent.putExtra("results", results);
+	    	// intent.putExtra("results", results);
 			startActivity(intent);
-		}
+		// }
 	}
 	
 

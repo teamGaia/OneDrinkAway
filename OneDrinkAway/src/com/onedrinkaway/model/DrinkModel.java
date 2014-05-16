@@ -18,7 +18,7 @@ import com.onedrinkaway.model.machinelearning.MLModel;
  * the three. DatabaseInterface also makes search queries and sends the results to the UI
  *
  */
-public class DatabaseInterface {
+public class DrinkModel {
 	private static MLModel machineLearner = new KNearestNeighborModel();
 
 	/**
