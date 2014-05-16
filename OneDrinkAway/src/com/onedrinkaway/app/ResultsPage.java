@@ -33,7 +33,8 @@ public class ResultsPage extends OneDrinkAwayActivity {
 		Bundle extras = getIntent().getExtras();
 		if (extras != null) {
 			setTitle(extras.getString("title"));
-			//drinkResults = (Drink[]) extras.get("results"); to be implemented when results works
+			/*if (extras.get("results") != null)
+				drinkResults = (Drink[]) extras.get("results");*/
 		}
 		
 		

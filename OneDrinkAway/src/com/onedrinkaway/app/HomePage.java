@@ -10,6 +10,8 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.onedrinkaway.R;
+import com.onedrinkaway.common.Drink;
+import com.onedrinkaway.model.DatabaseInterface;
 
 public class HomePage extends OneDrinkAwayActivity {
     
@@ -44,7 +46,10 @@ public class HomePage extends OneDrinkAwayActivity {
 		} else if(viewID == R.id.advanced_search) {
 			intent = new Intent(this, AdvancedSearch.class);
 		} else if(viewID == R.id.try_something_new) {
-			intent = new Intent(this, DrinkInfoPage.class);
+			// Drink[] results = DatabaseInterface.getTrySomethingNewDrinks();
+			intent = new Intent(this, ResultsPage.class);
+			intent.putExtra("title", "New Drinks Just For You");
+        	// intent.putExtra("results", results);
 		}
 		startActivity(intent);
 	}
