@@ -1,7 +1,5 @@
 package com.onedrinkaway.app;
 
-import java.util.Arrays;
-
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
@@ -26,6 +24,9 @@ import com.onedrinkaway.model.DrinkModel;
  */
 public class ResultsPage extends OneDrinkAwayActivity {
 
+	/**
+	 * Creates and fills the view of the Results page with the dynamic results
+	 */
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);

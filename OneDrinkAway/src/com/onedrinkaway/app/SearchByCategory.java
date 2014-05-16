@@ -1,7 +1,7 @@
 package com.onedrinkaway.app;
 
-import android.app.DialogFragment;
 import android.app.ActionBar.LayoutParams;
+import android.app.DialogFragment;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -12,14 +12,23 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.onedrinkaway.R;
-import com.onedrinkaway.common.Drink;
 import com.onedrinkaway.common.Query;
 import com.onedrinkaway.model.DrinkModel;
 
+/**
+ * SearchByCategory displays all drink categories to the user and allows the user to browse drinks
+ * based on the category they choose
+ * 
+ * @author Taylor Juve
+ *
+ */
 public class SearchByCategory extends OneDrinkAwayActivity {
 	
 	private Query query;
-
+	
+	/**
+	 * Fills the SearchByCateogry view with all content
+	 */
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -34,6 +43,10 @@ public class SearchByCategory extends OneDrinkAwayActivity {
 		displayCategories(categories);
 	}
 	
+	/**
+	 * Displays list of categories on view
+	 * @param categories list of all drink categories
+	 */
 	private void displayCategories(String[] categories) {
 		LayoutInflater inflater = LayoutInflater.from(this);
 		LinearLayout container = (LinearLayout) findViewById(R.id.category_space);
@@ -70,6 +83,10 @@ public class SearchByCategory extends OneDrinkAwayActivity {
 		}
 	}
 
+	/**
+	 * Goes to results page containing the list of drinks within the category selected
+	 * @param view
+	 */
 	public void goToResults(View view) {
 		Intent intent = new Intent(this, ResultsPage.class);
 		String categoryName = (String) ((TextView) view).getText();
@@ -81,6 +98,7 @@ public class SearchByCategory extends OneDrinkAwayActivity {
 		    startActivity(intent);
 		    
 		} else {
+			//TO BE IMPLEMENTED
 		    // no drinks found, do something else?
 		}
 	}
@@ -103,10 +121,3 @@ public class SearchByCategory extends OneDrinkAwayActivity {
 	}
 }
 
-class TempListOfCategories {
-	public static final String[] CATEGORIES = {"Martinis", "Margaritas", "Tropical", 
-		"Sours", "Screwdrivers", "Daiquiris", "On the Rocks", "Shooters", 
-		"Jello Shots", "Classic", "Holiday", "Non-Alcoholic", "Martinis", "Margaritas", "Tropical", 
-		"Sours", "Screwdrivers", "Daiquiris", "On the Rocks", "Shooters", 
-		"Jello Shots", "Classic", "Holiday", "Non-Alcoholic"};
-}

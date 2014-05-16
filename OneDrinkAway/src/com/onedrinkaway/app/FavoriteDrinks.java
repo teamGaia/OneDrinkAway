@@ -26,6 +26,9 @@ import com.onedrinkaway.model.DrinkModel;
  */
 public class FavoriteDrinks extends OneDrinkAwayActivity {
 
+	/**
+	 * Creates and fills the layour of the Favorite Drinks page
+	 */
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);

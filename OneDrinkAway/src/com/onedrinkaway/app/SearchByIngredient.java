@@ -14,7 +14,6 @@ import android.widget.SearchView;
 import android.widget.TextView;
 
 import com.onedrinkaway.R;
-import com.onedrinkaway.common.Drink;
 import com.onedrinkaway.common.Query;
 import com.onedrinkaway.model.DrinkModel;
 
