@@ -111,8 +111,7 @@ public class DrinkDb {
      * @return a List of all drinks rated by user
      */
     public static Set<Drink> getRatedDrinks() {
-        
-        return null;
+        return dd.getRatedDrinks();
     }
     
     /**
@@ -120,8 +119,7 @@ public class DrinkDb {
      * @return a List of all drinks in users favorites list
      */
     public static Set<Drink> getFavorites() {
-        
-        return null;
+        return dd.getFavorites();
     }
     
     /**
@@ -130,6 +128,6 @@ public class DrinkDb {
      * @param drink the drink to be removed
      */
     public static void removeFavorite(Drink drink) {
-        
+        dd.removeFavorite(drink);
     }
 }

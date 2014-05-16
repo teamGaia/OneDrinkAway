@@ -74,10 +74,18 @@ public class SearchByCategory extends OneDrinkAwayActivity {
 		Intent intent = new Intent(this, ResultsPage.class);
 		String categoryName = (String) ((TextView) view).getText();
 		query.setCategory(categoryName);
-		// Drink[] results = DatabaseInterface.getDrinks(query);
-		Drink[] results = DrinkModel.getAllDrinks();
+		boolean drinksFound = DrinkModel.getDrinks(query);
+		if (drinksFound) {
+		    // hurray found at least one drink, go to ResultsPage
+		    intent.putExtra("title", categoryName);
+		    startActivity(intent);
+		    
+		} else {
+		    // no drinks found, do something else?
+		}
+		//Drink[] results = DrinkModel.getAllDrinks();
 		intent.putExtra("title", categoryName);
-		intent.putExtra("results", results);
+		//intent.putExtra("results", results);
 		startActivity(intent);
 	}
 	

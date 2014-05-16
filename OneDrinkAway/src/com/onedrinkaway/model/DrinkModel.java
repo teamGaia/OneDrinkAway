@@ -20,6 +20,19 @@ import com.onedrinkaway.model.machinelearning.MLModel;
  */
 public class DrinkModel {
 	private static MLModel machineLearner = new KNearestNeighborModel();
+	
+	private static Drink[] results = null;
+	
+	/**
+	 * Gets the contents of results. If results is null, returns an empty array
+	 * @return an Array of results
+	 */
+	public static Drink[] getResults() {
+	    if (results == null)
+	        return new Drink[0];
+	    else
+	        return results;
+	}
 
 	/**
 	 * Returns all of the drinks in the database
@@ -67,14 +80,13 @@ public class DrinkModel {
 	}
 
 	/**
-	 * Returns a list of unrated drinks that are constrained by the information in the query
+	 * Searches for drinks constrained by a query.
+	 * To access the results, call getResults()
 	 * @param query
 	 *            : the query to filter the result drinks by
-	 * @return a list of drinks unrated by the user, sorted by the predicted
-	 *         rating (highest->lowest)
+	 * @return false if the results array is empty, true if not
 	 */
-	public static Drink[] getDrinks(Query query) {
-		//Set<Drink> drinks = new ArrayList<Drink>(DrinkDb.getAllDrinks());
+	public static boolean getDrinks(Query query) {
 		Set<Drink> drinks = DrinkDb.getAllDrinks();
 		Iterator<Drink> iter;
 		if (query.hasCategory()) { // iterate and filter by category
@@ -113,9 +125,8 @@ public class DrinkModel {
 		Drink[] filteredDrinks = convertDrinkSetToArray(drinks);
 		Drink[] ratedDrinks = convertDrinkSetToArray(DrinkDb.getRatedDrinks());
 		Drink[] unratedDrinks = getUnratedDrinks(filteredDrinks, ratedDrinks);
-
-		
-		return predictRatings(unratedDrinks, ratedDrinks);
+		results = predictRatings(unratedDrinks, ratedDrinks);
+		return results.length > 0;
 	}
 
 	/**

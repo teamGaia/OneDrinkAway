@@ -40,9 +40,9 @@ public class ResultsPage extends OneDrinkAwayActivity {
 				setTitle(title);
 			}
 			//Drink[] drinkResults = (Drink[]) extras.get("results"); 
-			Drink[] drinkResults = DrinkModel.getAllDrinks();
+			Drink[] drinkResults = DrinkModel.getResults();
 			
-			if(drinkResults != null) {
+			if(drinkResults != null) { // should never be null, either empty or non-empty right?
 				
 				//sort results by name
 				Arrays.sort(drinkResults, new DrinkRatingComparator());

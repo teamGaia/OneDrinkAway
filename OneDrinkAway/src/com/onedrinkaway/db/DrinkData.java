@@ -9,7 +9,6 @@ import java.io.InputStream;
 import java.io.ObjectInputStream;
 import java.io.Serializable;
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
@@ -28,8 +27,7 @@ public class DrinkData implements Serializable {
     private static DrinkData instance;
     
     private static final long serialVersionUID = -8186058076202228351L;
-    // list of all drink objects
-    private ArrayList<Drink> drinkList;
+
     // hashSet of all drink objects
     private HashSet<Drink> drinks;
     // set of all favorites
@@ -49,14 +47,13 @@ public class DrinkData implements Serializable {
      * Private Constructor
      */
     private DrinkData() {
-        drinkList = new ArrayList<Drink>();
         drinks = new HashSet<Drink>();
-        favorites = new HashSet<Drink>();
         ingredients = new HashSet<String>();
         categories = new HashSet<String>();
         namesToDrinks = new HashMap<String, Drink>();
         info = new HashMap<Drink, DrinkInfo>();
         ratedDrinks = new HashSet<Drink>();
+        favorites = new HashSet<Drink>();
     }
     
     /**
@@ -97,12 +94,7 @@ public class DrinkData implements Serializable {
     public DrinkInfo getDrinkInfo(Drink d) {
       if (info.containsKey(d))
         return info.get(d);
-      for (Drink d2 : info.keySet()) {
-        DrinkInfo di = info.get(d2);
-        if (di.drinkId == d.id)
-          return di;
-      }
-      return null;
+      throw new IllegalArgumentException("Invalid Drink passed to GetDrinkInfo");
     }
     
     /**
@@ -114,38 +106,66 @@ public class DrinkData implements Serializable {
     }
     
     /**
-     * Adds d as a favorite
+     * Adds a Drink to user's favorites list
+     * @param D the Drink to add to favorites
      */
     public void addFavorite(Drink d) {
         favorites.add(d);
     }
     
     /**
-     * Returns an unmodifiable set of all categories
+     * @return a set of all distinct categories
      */
+    @SuppressWarnings("unchecked")
     public Set<String> getCategories() {
-        return Collections.unmodifiableSet(categories);
+        return (Set<String>) categories.clone();
     }
     
     /**
-     * Returns an unmodifiable set of all ingredients
+     * @return a set of all distinct ingredients
      */
+    @SuppressWarnings("unchecked")
     public Set<String> getIngredients() {
-        return Collections.unmodifiableSet(ingredients);
+        return (Set<String>) ingredients.clone();
     }
     
     /**
-     * Returns a set of all drinks
+     * @return a set of all Drinks
      */
+    @SuppressWarnings("unchecked")
     public Set<Drink> getAllDrinks() {
-        return Collections.unmodifiableSet(drinks);
+        return (Set<Drink>) drinks.clone();
     }
     
     /**
-     * Returns a set of all drink names
+     * @return a set of all drink names
      */
     public Set<String> getDrinkNames() {
-        return Collections.unmodifiableSet(namesToDrinks.keySet());
+        return new HashSet<String>(namesToDrinks.keySet());
+    }
+    
+    /**
+     * @return Set of all drinks rated by user
+     */
+    @SuppressWarnings("unchecked")
+    public Set<Drink> getRatedDrinks() {
+        return (Set<Drink>) ratedDrinks.clone();
+    }
+
+    /**
+     * @return Set of all Drinks in user's favorites list
+     */
+    @SuppressWarnings("unchecked")
+    public Set<Drink> getFavorites() {
+        return (Set<Drink>) favorites.clone();
+    }
+
+    /**
+     * Removes a drink from favorites list
+     * @param drink the Drink to remove
+     */
+    public void removeFavorite(Drink drink) {
+        favorites.remove(drink);
     }
     
     /**
@@ -180,7 +200,6 @@ public class DrinkData implements Serializable {
                     }
                     double rating = getAvgRating(id);
                     Drink d = new Drink(name, id, rating, attributes, cat, glass);
-                    instance.drinkList.add(d);
                     instance.drinks.add(d);
                     instance.namesToDrinks.put(name, d);
                 }
@@ -263,5 +282,7 @@ public class DrinkData implements Serializable {
         Random r = new Random();
         return 3 + r.nextDouble() * 1.4;
     }
+
+
 
 }
