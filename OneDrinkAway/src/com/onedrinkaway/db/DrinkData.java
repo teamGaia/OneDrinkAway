@@ -88,7 +88,7 @@ public class DrinkData implements Serializable {
     public Drink getDrink(String name) {
       if (namesToDrinks.containsKey(name))
         return namesToDrinks.get(name);
-      return null;
+      throw new IllegalArgumentException("Invalid Drink Name");
     }
     
     /**
@@ -112,6 +112,7 @@ public class DrinkData implements Serializable {
      */
     public void addRating(Drink d, int rating) {
         ratedDrinks.add(d);
+        d.addUserRating(rating);
         // TODO: upload rating to database
     }
     
@@ -126,25 +127,22 @@ public class DrinkData implements Serializable {
     /**
      * @return a set of all distinct categories
      */
-    @SuppressWarnings("unchecked")
     public Set<String> getCategories() {
-        return (Set<String>) categories.clone();
+        return new HashSet<String>(categories);
     }
     
     /**
      * @return a set of all distinct ingredients
      */
-    @SuppressWarnings("unchecked")
     public Set<String> getIngredients() {
-        return (Set<String>) ingredients.clone();
+        return new HashSet<String>(ingredients);
     }
     
     /**
      * @return a set of all Drinks
      */
-    @SuppressWarnings("unchecked")
     public Set<Drink> getAllDrinks() {
-        return (Set<Drink>) drinks.clone();
+        return new HashSet<Drink>(drinks);
     }
     
     /**
@@ -157,17 +155,15 @@ public class DrinkData implements Serializable {
     /**
      * @return Set of all drinks rated by user
      */
-    @SuppressWarnings("unchecked")
     public Set<Drink> getRatedDrinks() {
-        return (Set<Drink>) ratedDrinks.clone();
+        return new HashSet<Drink>(ratedDrinks);
     }
 
     /**
      * @return Set of all Drinks in user's favorites list
      */
-    @SuppressWarnings("unchecked")
     public Set<Drink> getFavorites() {
-        return (Set<Drink>) favorites.clone();
+        return new HashSet<Drink>(favorites);
     }
 
     /**

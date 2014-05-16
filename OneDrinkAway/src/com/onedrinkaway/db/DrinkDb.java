@@ -7,7 +7,6 @@ package com.onedrinkaway.db;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.ObjectOutputStream;
-import java.util.HashSet;
 import java.util.Set;
 
 import android.provider.Settings.Secure;
@@ -106,12 +105,13 @@ public class DrinkDb {
      * Adds a drink rating
      * 
      * @param drink the drink to be added
-     * @param score the rating for the drink, must be [1-5] inclusive
+     * @param rating the rating for the drink, must be [1-5] inclusive
      * @throws: IllegalArgumentException if the score is smaller than 1 or bigger than 5
      */
-    public static void addRating(Drink drink, int score) {
-        if (score < 1 || score > 5)
+    public static void addRating(Drink drink, int rating) {
+        if (rating < 1 || rating > 5)
             throw new IllegalArgumentException("score must be [1-5] inclusive");
+        dd.addRating(drink, rating);
     }
     
     /**
