@@ -58,6 +58,13 @@ public class DrinkDb {
     }
     
     /**
+     * @return a set of Ingredients for the given drink
+     */
+    public static Set<String> getIngredients(Drink d) {
+        return dd.getIngredients(d);
+    }
+    
+    /**
      * @return an array containing all drink names found in database
      */
     public static Set<String> getDrinkNames() {
@@ -98,12 +105,13 @@ public class DrinkDb {
      * Adds a drink rating
      * 
      * @param drink the drink to be added
-     * @param score the rating for the drink, must be [1-5] inclusive
+     * @param rating the rating for the drink, must be [1-5] inclusive
      * @throws: IllegalArgumentException if the score is smaller than 1 or bigger than 5
      */
-    public static void addRating(Drink drink, int score) {
-        if (score < 1 || score > 5)
+    public static void addRating(Drink drink, int rating) {
+        if (rating < 1 || rating > 5)
             throw new IllegalArgumentException("score must be [1-5] inclusive");
+        dd.addRating(drink, rating);
     }
     
     /**
@@ -111,8 +119,7 @@ public class DrinkDb {
      * @return a List of all drinks rated by user
      */
     public static Set<Drink> getRatedDrinks() {
-        
-        return null;
+        return dd.getRatedDrinks();
     }
     
     /**
@@ -120,8 +127,7 @@ public class DrinkDb {
      * @return a List of all drinks in users favorites list
      */
     public static Set<Drink> getFavorites() {
-        
-        return null;
+        return dd.getFavorites();
     }
     
     /**
@@ -130,6 +136,6 @@ public class DrinkDb {
      * @param drink the drink to be removed
      */
     public static void removeFavorite(Drink drink) {
-        
+        dd.removeFavorite(drink);
     }
 }

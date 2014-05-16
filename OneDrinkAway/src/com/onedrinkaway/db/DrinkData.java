@@ -9,7 +9,6 @@ import java.io.InputStream;
 import java.io.ObjectInputStream;
 import java.io.Serializable;
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
@@ -28,8 +27,7 @@ public class DrinkData implements Serializable {
     private static DrinkData instance;
     
     private static final long serialVersionUID = -8186058076202228351L;
-    // list of all drink objects
-    private ArrayList<Drink> drinkList;
+
     // hashSet of all drink objects
     private HashSet<Drink> drinks;
     // set of all favorites
@@ -44,19 +42,21 @@ public class DrinkData implements Serializable {
     private HashMap<Drink, DrinkInfo> info;
     // set of all drinks that have been rated
     private HashSet<Drink> ratedDrinks;
+    // map of from Drink to Ingredients List (Ingredients do not have portions
+    private HashMap<Drink, Set<String>> drinkIngredients;
     
     /**
      * Private Constructor
      */
     private DrinkData() {
-        drinkList = new ArrayList<Drink>();
         drinks = new HashSet<Drink>();
-        favorites = new HashSet<Drink>();
         ingredients = new HashSet<String>();
         categories = new HashSet<String>();
         namesToDrinks = new HashMap<String, Drink>();
         info = new HashMap<Drink, DrinkInfo>();
         ratedDrinks = new HashSet<Drink>();
+        favorites = new HashSet<Drink>();
+        drinkIngredients = new HashMap<Drink, Set<String>>();
     }
     
     /**
@@ -88,7 +88,7 @@ public class DrinkData implements Serializable {
     public Drink getDrink(String name) {
       if (namesToDrinks.containsKey(name))
         return namesToDrinks.get(name);
-      return null;
+      throw new IllegalArgumentException("Invalid Drink Name");
     }
     
     /**
@@ -97,12 +97,14 @@ public class DrinkData implements Serializable {
     public DrinkInfo getDrinkInfo(Drink d) {
       if (info.containsKey(d))
         return info.get(d);
-      for (Drink d2 : info.keySet()) {
-        DrinkInfo di = info.get(d2);
-        if (di.drinkId == d.id)
-          return di;
-      }
-      return null;
+      throw new IllegalArgumentException("Invalid Drink passed to GetDrinkInfo");
+    }
+    
+    /**
+     * @return a set of Ingredients for the given drink
+     */
+    public Set<String> getIngredients(Drink d) {
+        return new HashSet<String>(drinkIngredients.get(d));
     }
     
     /**
@@ -110,42 +112,66 @@ public class DrinkData implements Serializable {
      */
     public void addRating(Drink d, int rating) {
         ratedDrinks.add(d);
+        d.addUserRating(rating);
         // TODO: upload rating to database
     }
     
     /**
-     * Adds d as a favorite
+     * Adds a Drink to user's favorites list
+     * @param D the Drink to add to favorites
      */
     public void addFavorite(Drink d) {
         favorites.add(d);
     }
     
     /**
-     * Returns an unmodifiable set of all categories
+     * @return a set of all distinct categories
      */
     public Set<String> getCategories() {
-        return Collections.unmodifiableSet(categories);
+        return new HashSet<String>(categories);
     }
     
     /**
-     * Returns an unmodifiable set of all ingredients
+     * @return a set of all distinct ingredients
      */
     public Set<String> getIngredients() {
-        return Collections.unmodifiableSet(ingredients);
+        return new HashSet<String>(ingredients);
     }
     
     /**
-     * Returns a set of all drinks
+     * @return a set of all Drinks
      */
     public Set<Drink> getAllDrinks() {
-        return Collections.unmodifiableSet(drinks);
+        return new HashSet<Drink>(drinks);
     }
     
     /**
-     * Returns a set of all drink names
+     * @return a set of all drink names
      */
     public Set<String> getDrinkNames() {
-        return Collections.unmodifiableSet(namesToDrinks.keySet());
+        return new HashSet<String>(namesToDrinks.keySet());
+    }
+    
+    /**
+     * @return Set of all drinks rated by user
+     */
+    public Set<Drink> getRatedDrinks() {
+        return new HashSet<Drink>(ratedDrinks);
+    }
+
+    /**
+     * @return Set of all Drinks in user's favorites list
+     */
+    public Set<Drink> getFavorites() {
+        return new HashSet<Drink>(favorites);
+    }
+
+    /**
+     * Removes a drink from favorites list
+     * @param drink the Drink to remove
+     */
+    public void removeFavorite(Drink drink) {
+        favorites.remove(drink);
     }
     
     /**
@@ -180,7 +206,6 @@ public class DrinkData implements Serializable {
                     }
                     double rating = getAvgRating(id);
                     Drink d = new Drink(name, id, rating, attributes, cat, glass);
-                    instance.drinkList.add(d);
                     instance.drinks.add(d);
                     instance.namesToDrinks.put(name, d);
                 }
@@ -215,11 +240,13 @@ public class DrinkData implements Serializable {
                         String instructions = lines.get(len - 1);
                         String garnish = lines.get(len - 2).substring(9); // removes "Garnish: "
                         List<String> ingr = new ArrayList<String>();
+                        // get the drink object for this DrinkInfo
+                        Drink d = instance.namesToDrinks.get(name);
                         for (int i = 1; i < len - 2; i++) {
                             ingr.add(lines.get(i));
-                            addIngredient(lines.get(i));
+                            addIngredient(d, lines.get(i));
                         }
-                        Drink d = instance.namesToDrinks.get(name);
+                        
                         DrinkInfo di = new DrinkInfo(ingr, genericDesc, garnish, instructions, genericCit, d.id);
                         instance.info.put(d, di);
                     }
@@ -239,7 +266,7 @@ public class DrinkData implements Serializable {
      * Attempts to remove an unnecessary characters from an ingredient String, and adds it
      * to the set of unique ingredients
      */
-    private static void addIngredient(String ingredient) {
+    private static void addIngredient(Drink d, String ingredient) {
         // search for uppercase character
         int i = 0;
         while (!Character.isUpperCase(ingredient.charAt(i)))
@@ -253,7 +280,13 @@ public class DrinkData implements Serializable {
         // check for splash of / dash of etc
         if (ingredient.contains(" of "))
             ingredient = ingredient.split(" of ")[1];
+        ingredient = ingredient.trim();
+        // ingredient is finally ready to add
         instance.ingredients.add(ingredient.trim());
+        if (!instance.drinkIngredients.containsKey(d)) {
+            instance.drinkIngredients.put(d, new HashSet<String>());
+        }
+        instance.drinkIngredients.get(d).add(ingredient);
     }
     
     /**
@@ -263,5 +296,7 @@ public class DrinkData implements Serializable {
         Random r = new Random();
         return 3 + r.nextDouble() * 1.4;
     }
+
+
 
 }

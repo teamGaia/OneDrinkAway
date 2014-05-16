@@ -7,7 +7,7 @@ import com.onedrinkaway.common.Drink;
 
 /**
  * Allows two drink objects to be compared by their drink String names
- * @author Andrea
+ * @author Andrea Martin
  *
  */
 public class DrinkNameComparator implements Comparator<Drink> {

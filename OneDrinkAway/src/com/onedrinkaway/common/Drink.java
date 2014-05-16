@@ -3,8 +3,6 @@ package com.onedrinkaway.common;
 import java.io.Serializable;
 import java.util.List;
 
-import com.onedrinkaway.db.DrinkDb;
-
 /**
  * Represents a Drink, stores a name, ratings, flavor attributes
  * 
@@ -63,13 +61,12 @@ public class Drink implements Comparable<Drink>, Serializable {
   }
   
   /**
-   * Adds a user rating to this Drink, do not call this, instead call AddRating in DrinkDb
+   * Adds a user rating to this Drink, do not call this, instead call AddRating in DrinkModel
    * 
    * @param score the rating to add
    */
   public void addUserRating(int score) {
       userRating = score;
-      DrinkDb.addRating(this, score);
   }
   
   /**
@@ -122,13 +119,14 @@ public class Drink implements Comparable<Drink>, Serializable {
 
   /**
    * Returns 1 if this is greater than other, -1 if this is less, 0 if equal
+   * Using this comparator sorts drinks in descending order.
    */
   @Override
   public int compareTo(Drink other) {
       if (getRating() - other.getRating() > 0)
-          return 1;
-      else if (getRating() - other.getRating() < 0)
           return -1;
+      else if (getRating() - other.getRating() < 0)
+          return 1;
       else
           return 0;
   }

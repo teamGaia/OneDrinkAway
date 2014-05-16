@@ -21,11 +21,14 @@ import com.onedrinkaway.model.DrinkModel;
 /**
  * Displays the Favorites drinks page for the user where they can view the drinks that they have
  * saved.
- * @author Andrea
+ * @author Andrea Martin
  *
  */
 public class FavoriteDrinks extends OneDrinkAwayActivity {
 
+	/**
+	 * Creates and fills the layour of the Favorite Drinks page
+	 */
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);

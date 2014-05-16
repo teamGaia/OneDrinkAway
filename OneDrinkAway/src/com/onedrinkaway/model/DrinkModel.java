@@ -13,12 +13,31 @@ import com.onedrinkaway.db.DrinkDb;
 import com.onedrinkaway.model.machinelearning.KNearestNeighborModel;
 import com.onedrinkaway.model.machinelearning.MLModel;
 
+/**
+ * DatabaseInterface communicates with the machine learning, database and UI and passes information between
+ * the three. DatabaseInterface also makes search queries and sends the results to the UI
+ *
+ */
 public class DrinkModel {
 	private static MLModel machineLearner = new KNearestNeighborModel();
+	
+	private static Drink[] results = null;
+	
+	/**
+	 * Gets the contents of results. If results is null, returns an empty array
+	 * @return an Array of results
+	 */
+	public static Drink[] getResults() {
+	    if (results == null)
+	        return new Drink[0];
+	    else
+	        return results;
+	}
 
 	/**
+	 * Returns all of the drinks in the database, sorted by their 
+	 * 	  user rating, then predicted rating, then average rating
 	 * @return all of the drinks in the database
-	 * 
 	 */
 	public static Drink[] getAllDrinks() {
 		Drink[] result = convertDrinkSetToArray(DrinkDb.getAllDrinks());
@@ -27,6 +46,7 @@ public class DrinkModel {
 	}
 
 	/**
+	 * Returns an alphabetically sorted array of the names of all of the drinks in the database
 	 * @return String array containing names of each drink in the database.
 	 */
 	public static String[] getDrinkNames() {
@@ -36,6 +56,7 @@ public class DrinkModel {
 	}
 
 	/**
+	 * Adds rating to the given drink
 	 * @param d
 	 *            : the drink to be rated
 	 * @param rating
@@ -46,25 +67,27 @@ public class DrinkModel {
 	}
 
 	/**
+	 * Return a list of drink that the user has not rated, sorted by the predicted rating: 
+	 * highest to lowest
 	 * @return a list of drinks that the user has not rated, sorted by the
 	 *         predicted rating (highest->lowest)
 	 */
-	public static Drink[] getTrySomethingNewDrinks() {
+	public static void findTrySomethingNewDrinks() {
 		Drink[] allDrinks = convertDrinkSetToArray(DrinkDb.getAllDrinks());
 		Drink[] ratedDrinks = convertDrinkSetToArray(DrinkDb.getRatedDrinks());
 		Drink[] unratedDrinks = getUnratedDrinks(allDrinks, ratedDrinks);
-
-		return predictRatings(unratedDrinks, ratedDrinks);
+		
+		results = predictRatings(unratedDrinks, ratedDrinks);
 	}
 
 	/**
+	 * Searches for drinks constrained by a query.
+	 * To access the results, call getResults()
 	 * @param query
 	 *            : the query to filter the result drinks by
-	 * @return a list of drinks unrated by the user, sorted by the predicted
-	 *         rating (highest->lowest)
+	 * @return false if the results array is empty, true if not
 	 */
-	public static Drink[] getDrinks(Query query) {
-		//Set<Drink> drinks = new ArrayList<Drink>(DrinkDb.getAllDrinks());
+	public static boolean searchForDrinks(Query query) {
 		Set<Drink> drinks = DrinkDb.getAllDrinks();
 		Iterator<Drink> iter;
 		if (query.hasCategory()) { // iterate and filter by category
@@ -79,8 +102,7 @@ public class DrinkModel {
 			iter = drinks.iterator();
 			while (iter.hasNext()) {
 				Drink d = iter.next();
-				DrinkInfo di = DrinkDb.getDrinkInfo(d);
-				List<String> drinkIngr = di.ingredients;
+				Set<String> drinkIngr = DrinkDb.getIngredients(d);
 				List<String> queryIngr = query.getIngredients();
 				if (!drinkIngr.containsAll(queryIngr))
 					iter.remove();
@@ -99,13 +121,13 @@ public class DrinkModel {
 		}
 		// more code here, set predicted ratings or whatever
 
-		// finally put all drinks in an array and sort
+		// Get everything into arrays
 		Drink[] filteredDrinks = convertDrinkSetToArray(drinks);
 		Drink[] ratedDrinks = convertDrinkSetToArray(DrinkDb.getRatedDrinks());
+		// Get all of the unrated drinks then set the predicted ratings
 		Drink[] unratedDrinks = getUnratedDrinks(filteredDrinks, ratedDrinks);
-
-		
-		return predictRatings(unratedDrinks, ratedDrinks);
+		results = predictRatings(unratedDrinks, ratedDrinks);
+		return results.length > 0;
 	}
 
 	/**
@@ -116,14 +138,14 @@ public class DrinkModel {
 	}
 
 	/**
-	 * @return a list of Drinks that the user has favorites
+	 * @return a list of Drinks that the user has favorites or null if the favorites list is empty
 	 */
 	public static Drink[] getFavorites() {
 		Set<Drink> favorites = DrinkDb.getFavorites();
 		if(favorites != null) {
-				Drink[] result = convertDrinkSetToArray(DrinkDb.getFavorites());
-				Arrays.sort(result);
-				return result;
+			Drink[] result = convertDrinkSetToArray(DrinkDb.getFavorites());
+			Arrays.sort(result);
+			return result;
 		} else {
 			return null;
 		}
@@ -131,6 +153,7 @@ public class DrinkModel {
 	}
 
 	/**
+	 * Returns an alphabetically sorted list of drink category names
 	 * @return a list of category names
 	 */
 	public static String[] getCategories() {
@@ -140,7 +163,8 @@ public class DrinkModel {
 	}
 
 	/**
-	 * @return a list of possible ingredients
+	 * Returns a list of all ingredients used in drinks
+	 * @return a String[] of all ingredients used in drinks
 	 */
 	public static String[] getIngredients() {
 		String[] result = convertStringSetToArray(DrinkDb.getIngredients());
@@ -151,7 +175,7 @@ public class DrinkModel {
 	 * Adds the passed Drink to the user's favorites list
 	 * 
 	 * @param favorite
-	 *            the Drink that the user favorited
+	 *            the Drink that the user has added to their favorite drink list
 	 */
 	public static void addFavorite(Drink favorite) {
 		DrinkDb.addFavorite(favorite);
@@ -161,10 +185,11 @@ public class DrinkModel {
 	 * Removes the passed Drink from the user's favorites list
 	 * 
 	 * @param oldFavorite
-	 *            the Drink that the user no longer considers a favorite
+	 *            the Drink that the user has removed from their favorite drink list
 	 */
 	public static void removeFavorite(Drink oldFavorite) {
-		DrinkDb.removeFavorite(oldFavorite);
+		if(oldFavorite != null) 
+			DrinkDb.removeFavorite(oldFavorite);
 	}
 
 	/**
@@ -175,11 +200,15 @@ public class DrinkModel {
 	 * @return the DrinkInfo for d
 	 */
 	public static DrinkInfo getDrinkInfo(Drink d) {
-		return DrinkDb.getDrinkInfo(d);
+		if(d != null) 
+			return DrinkDb.getDrinkInfo(d);
+		return null;
+	
 	}
 
 	/**
-	 * filters out all of the Drinks that are in the second array from the first
+	 * Filters out all of the Drinks that are in the second array from the first
+	 * Returns an array of unrated drinks
 	 * 
 	 * @param allDrinks
 	 *            array of drinks to filter
@@ -188,13 +217,17 @@ public class DrinkModel {
 	 * @return an array that is the subtraction of ratedDrinks from allDrinks
 	 */
 	private static Drink[] getUnratedDrinks(Drink[] allDrinks,
-											Drink[] ratedDrinks) {
+										Drink[] ratedDrinks) {
 		List<Drink> unratedDrinks = new ArrayList<Drink>();
 		for (Drink d : allDrinks) {
+			boolean flag = false;
 			for (Drink rated : ratedDrinks) {
-				if (!rated.equals(d)) {
-					unratedDrinks.add(d);
+				if (rated.equals(d)) {
+					flag = true;
 				}
+			}
+			if(!flag){
+					unratedDrinks.add(d);
 			}
 		}
 		return unratedDrinks.toArray(new Drink[unratedDrinks.size()]);
@@ -223,6 +256,11 @@ public class DrinkModel {
 		return predictedDrinks;
 	}
 
+	/**
+	 * Converts the given set of drinks to an array
+	 * @param drinks the set of drinks to be converted to an array
+	 * @return Drink[] composed of the drinks originally stored in the given drinks set
+	 */
 	private static Drink[] convertDrinkSetToArray(Set<Drink> drinks) {
 		Drink[] result = new Drink[drinks.size()];
 		int i = 0;
@@ -233,6 +271,11 @@ public class DrinkModel {
 		return result;
 	}
 
+	/**
+	 * Converts the given set of strings to an array of strings
+	 * @param strings set of strings to be converted
+	 * @return String[] composed of all the strings in the original set
+	 */
 	private static String[] convertStringSetToArray(Set<String> strings) {
 		String[] result = new String[strings.size()];
 		int i = 0;
