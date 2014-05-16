@@ -35,7 +35,8 @@ public class DrinkModel {
 	}
 
 	/**
-	 * Returns all of the drinks in the database
+	 * Returns all of the drinks in the database, sorted by their 
+	 * 	  user rating, then predicted rating, then average rating
 	 * @return all of the drinks in the database
 	 */
 	public static Drink[] getAllDrinks() {
@@ -45,7 +46,7 @@ public class DrinkModel {
 	}
 
 	/**
-	 * Returns an array of the string names of all of the drinks in the database
+	 * Returns an alphabetically sorted array of the names of all of the drinks in the database
 	 * @return String array containing names of each drink in the database.
 	 */
 	public static String[] getDrinkNames() {
@@ -120,9 +121,10 @@ public class DrinkModel {
 		}
 		// more code here, set predicted ratings or whatever
 
-		// finally put all drinks in an array and sort
+		// Get everything into arrays
 		Drink[] filteredDrinks = convertDrinkSetToArray(drinks);
 		Drink[] ratedDrinks = convertDrinkSetToArray(DrinkDb.getRatedDrinks());
+		// Get all of the unrated drinks then set the predicted ratings
 		Drink[] unratedDrinks = getUnratedDrinks(filteredDrinks, ratedDrinks);
 		results = predictRatings(unratedDrinks, ratedDrinks);
 		return results.length > 0;
@@ -151,7 +153,7 @@ public class DrinkModel {
 	}
 
 	/**
-	 * Returns the list of drink category names
+	 * Returns an alphabetically sorted list of drink category names
 	 * @return a list of category names
 	 */
 	public static String[] getCategories() {
