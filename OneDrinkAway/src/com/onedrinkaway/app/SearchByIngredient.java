@@ -14,8 +14,8 @@ import android.widget.SearchView;
 import android.widget.TextView;
 
 import com.onedrinkaway.R;
-import com.onedrinkaway.common.Query;
 import com.onedrinkaway.model.DrinkModel;
+import com.onedrinkaway.model.Query;
 
 /**
  * This class implements the Search By Ingredient feature which allows users to select ingredients

@@ -19,10 +19,10 @@ import android.widget.SeekBar;
 import android.widget.TextView;
 
 import com.onedrinkaway.R;
-import com.onedrinkaway.common.Drink;
-import com.onedrinkaway.common.DrinkInfo;
-import com.onedrinkaway.common.Flavor;
+import com.onedrinkaway.model.Drink;
+import com.onedrinkaway.model.DrinkInfo;
 import com.onedrinkaway.model.DrinkModel;
+import com.onedrinkaway.model.Flavor;
 
 /**
  * This class displays the ingredients, description, and flavor profiles for a Drink

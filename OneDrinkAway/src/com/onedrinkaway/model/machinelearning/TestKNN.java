@@ -5,7 +5,7 @@ import java.io.IOException;
 import java.util.LinkedList;
 import java.util.List;
 
-import com.onedrinkaway.common.Drink;
+import com.onedrinkaway.model.Drink;
 
 
 public class TestKNN {

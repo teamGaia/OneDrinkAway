@@ -1,7 +1,7 @@
 package com.onedrinkaway.app;
 import java.util.Comparator;
 
-import com.onedrinkaway.common.Drink;
+import com.onedrinkaway.model.Drink;
 
 /**
  * Compares two Drink objects by their rating intending to sort in descending order

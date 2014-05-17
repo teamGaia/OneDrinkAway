@@ -4,7 +4,7 @@ package com.onedrinkaway.model.machinelearning;
 
 import java.util.*;
 
-import com.onedrinkaway.common.Drink;
+import com.onedrinkaway.model.Drink;
 
 
 

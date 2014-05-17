@@ -16,7 +16,7 @@ import android.widget.RatingBar;
 import android.widget.TextView;
 
 import com.onedrinkaway.R;
-import com.onedrinkaway.common.Drink;
+import com.onedrinkaway.model.Drink;
 import com.onedrinkaway.model.DrinkModel;
 
 /**

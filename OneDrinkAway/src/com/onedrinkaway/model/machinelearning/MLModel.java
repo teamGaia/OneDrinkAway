@@ -6,7 +6,7 @@ package com.onedrinkaway.model.machinelearning;
 
 import java.util.List;
 
-import com.onedrinkaway.common.Drink;
+import com.onedrinkaway.model.Drink;
 
 
 public interface MLModel {

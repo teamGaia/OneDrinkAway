@@ -11,8 +11,8 @@ import java.util.Set;
 
 import android.provider.Settings.Secure;
 
-import com.onedrinkaway.common.Drink;
-import com.onedrinkaway.common.DrinkInfo;
+import com.onedrinkaway.model.Drink;
+import com.onedrinkaway.model.DrinkInfo;
 
 /**
  * Stores and manages data
