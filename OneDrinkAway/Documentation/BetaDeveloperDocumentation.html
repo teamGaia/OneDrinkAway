@@ -137,29 +137,43 @@
 
 
 <h2>Repository</h2>
+
 <p>Our repository can be <a href="https://github.com/teamGaia/OneDrinkAway">found here</a>, hosted on github.</p>
 <p>If you are new to git, a great primer can be <a href="http://www.onedrinkaway.ava4.net/contact.php">found here</a>.</p>
 <p>To push to our repository, you need to be a collaborator on our project. <a href="http://www.onedrinkaway.ava4.net/contact.php">Contact us</a> if you need to become a collaborator.</p>
+
 <h2>Branching</h2>
+
 <p>Creating a new branch is fairly easy. First, navigate to the OneDrinkAway project folder, and run:</p>
 <p>git checkout -b <branch name></p>
 <p>Replacing <branch name> with the branch name you want to create. If you are a collaborator on the OneDrinkAway project, you can push your branch to github with:</p>
 <p>git push origin <branch name></p>
+
 <h2>Merging</h2>
+
 <p>To merge your branch with master, first you need to switch back to master:</p>
 <p>git checkout master</p>
 <p>Then merge the two:</p>
 <p>git merge <branch name></p>
+
 <h2>Creating a New Release</h2>
-<p>To create a new release, visit:</p>
-<p><a href="http://www.onedrinkaway.ava4.net/contact.php">https://github.com/teamGaia/OneDrinkAway/releases/new</a></p>
--- instructions here for creating .apk and .zip</p>
+
+<p>To create a new release, use the <a href="https://github.com/teamGaia/OneDrinkAway/releases/new">github release tool.</a> Fill out the fields and click create. This will allow you to download a .zip file containing the source code for your new release. Next, build the project with eclipse or ant, as detailed above.</p>
+
 <p>Last, rename your .apk to onedrinkaway<release name>.apk, and rename your .zip to <release name>release.zip, to keep them consistent with our previous releases.</p>
+
 <p>All of our releases have release-specific user and developer documentation. To create updated documents for your new release, simply download the user and developer docs for the release you started with, and edit them to reflect the changes you have made.</p>
+
 <h2>Uploading to Our Website</h2>
-<p>Our website is currently hosted by dreamhost, and can be found at <a href="http://www.onedrinkaway.ava4.net/contact.php">www.onedrinkaway.ava4.net</a>. To publish a new release, it needs to be added to the Download page, and updated documentation should be added to the Release page. Using FileZilla or another file transfer program, connect to the dreamhost server. You will need to <a href="http://www.onedrinkaway.ava4.net/contact.php">contact us</a> to gain the proper credentials.</p>
+
+<p>Our website is currently hosted by dreamhost, and can be found at <a href="http://www.onedrinkaway.ava4.net">www.onedrinkaway.ava4.net</a>. To publish a new release, it needs to be added to the Download page, and updated documentation should be added to the Release page. Using FileZilla or another file transfer program, connect to the dreamhost server. You will need to <a href="http://www.onedrinkaway.ava4.net/contact.php">contact us</a> to gain the proper credentials.</p>
+
 <p>First, upload your .zip and .apk files to the dl folder. Next, download downloadPage.php, and add a link to each file under "Releases:" and "Source Code:". Releases are kept in descending order, so put yours at the top. Now upload your edited downloadPage.php, replacing the existing copy. Next, download releasePage.php. Now add a new heading at the top "Your Release Name", and put two paragraph tags under it, the first linking to your updated user documentation, the second linking to your updated developer documentation.</p>
+
 <p>Finally, ensure all of your changes work! We recommend starting with a clean copy of the UW CSE VM, and follow all of your developer setup instructions start to finish, ensuring you encounter no new errors along the way. Verify that your files download and import properly, and that everything displays correctly on the website.</p>
+
 <h2>Design Patterns</h2>
+
 <p>Singleton: DrinkData is our primary data structure. It stores every Drink and all it’s relevant info. We want our app to run quickly with minimal lag, so keeping local memory usage down is important. DrinkData ensures that there is only once instance of each Drink and DrinkInfo for each drink in our database, and maintains only one instance of itself. We accomplish this through a private constructor, with a few public accessor fields that only return a pointer the single private instance.</p>
+
 <p>Adapter: DrinkDb is an adapter between DrinkData and DrinkModel. It primarily functions as a collection of static classes, maintaining a static pointer to the singleton DrinkData, and passing data from DrinkData to DrinkModel. It will also send updates to the database, updating local and remote storage simultaneously.</p>
