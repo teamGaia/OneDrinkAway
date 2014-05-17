@@ -19,8 +19,8 @@ import java.util.Set;
 import android.content.res.AssetManager;
 
 import com.onedrinkaway.app.HomePage;
-import com.onedrinkaway.common.Drink;
-import com.onedrinkaway.common.DrinkInfo;
+import com.onedrinkaway.model.Drink;
+import com.onedrinkaway.model.DrinkInfo;
 
 public class DrinkData implements Serializable {
     

@@ -2,7 +2,7 @@ package com.onedrinkaway.app;
 
 import java.util.Comparator;
 
-import com.onedrinkaway.common.Drink;
+import com.onedrinkaway.model.Drink;
 
 
 /**

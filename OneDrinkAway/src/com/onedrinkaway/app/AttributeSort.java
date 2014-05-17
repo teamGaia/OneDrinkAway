@@ -1,6 +1,6 @@
 package com.onedrinkaway.app;
 
-import com.onedrinkaway.common.Drink;
+import com.onedrinkaway.model.Drink;
 
 /**
  * Sorts the attributes of a given drink alphabetically based on the flavor title that each attribute represents

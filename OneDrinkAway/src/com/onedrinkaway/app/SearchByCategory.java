@@ -12,8 +12,8 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.onedrinkaway.R;
-import com.onedrinkaway.common.Query;
 import com.onedrinkaway.model.DrinkModel;
+import com.onedrinkaway.model.Query;
 
 /**
  * SearchByCategory displays all drink categories to the user and allows the user to browse drinks
