@@ -13,7 +13,7 @@
 <ol>
 <p>Before downloading the application:</p>
 <li>In order to install the application onto your phone, you must allow side loading because you are not getting the application through Google Play. Here is a tutorial on how to change your settings to allow sideloading:
-<a href="http://phandroid.com/2013/07/20/android-101-sideloading-apps/">How To Enable Sideloading</a></li></ol>
+<a href=”http://phandroid.com/2013/07/20/android-101-sideloading-apps/”>How To Enable Sideloading</a></li></ol>
 
 
 <p><b>For downloading from an Android Device:</b></p>
@@ -86,7 +86,7 @@ Simply open the application on your Android smart-phone or tablet, and the appli
 
 
 <h3>Report a Bug (User)</h3>
-<p>If you find a bug in the application, then <a href="https://github.com/teamGaia/OneDrinkAway/issues?state=open">Here</a> is the bug form in which you can submit the bug to us.</p>
+<p>If you find a bug in the application, then <a href=”https://github.com/teamGaia/OneDrinkAway/issues?state=open”>Here</a> is the bug form in which you can submit the bug to us.</p>
 <p>Before submitting a bug:<br />
 <ol>
 <li> See if there is a bug that has a similar title. This form has all of the current bugs already listed by name with descriptions included.</li>

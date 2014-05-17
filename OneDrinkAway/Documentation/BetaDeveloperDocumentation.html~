@@ -131,7 +131,7 @@
 
 
 <h2>Testing</h2>
-<p>Our test suite is located is currently located in it’s own repository, which can be <a href="https://github.com/teamGaia/JavaUnitTests">found here.</a></p>
+<p>Our test suite is located is currently located in it’s own repository, which can be <a href=”>https://github.com/teamGaia/JavaUnitTests”>found here.</a></p>
 <p>To run our test suite, download the project as a zip, and import it into eclipse. Next, right click on the project, and select Properties. Select Java Build Path and click on the Projects tab. Click Add… and select OneDrinkAway. This will allow you imports from the OneDrinkAway project.</p>
 <p>To run our test suite, simply select a package in the UnitTests project and select run as>JUnit test.</p>
 
