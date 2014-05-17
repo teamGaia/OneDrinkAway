@@ -68,7 +68,7 @@ public class KNearestNeighborModel implements MLModel {
 		int i = 0;
 		while(!topK.isEmpty()) {
 			Drink curIns = topK.remove();
-			labels[i] = curIns.getRating();
+			labels[i] = curIns.getUserRating(); 
 			distances[i] = getDis(curIns);
 			i++;
 		}
