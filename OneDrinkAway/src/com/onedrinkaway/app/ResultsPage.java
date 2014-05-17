@@ -6,8 +6,10 @@ import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.View.OnClickListener;
+import android.view.View.OnTouchListener;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
 import android.widget.RatingBar;
@@ -56,6 +58,7 @@ public class ResultsPage extends OneDrinkAwayActivity {
 					//Add listener to each drink result
 					LinearLayout resultListClickable = (LinearLayout) listItems.findViewById(R.id.result_wrapper);
 					resultListClickable.setOnClickListener(new ResultDrinkOnClickListener(drink));
+					
 					//Add drink name to each drink result
 					TextView drinklabel = (TextView) listItems.findViewById(R.id.result_title);
 					drinklabel.setText(drink.name);
@@ -64,7 +67,7 @@ public class ResultsPage extends OneDrinkAwayActivity {
 					ratingBar.setEnabled(false);
 					ratingBar.setRating((float) drink.getRating()); 
 					ratingBar.setIsIndicator(true);
-				
+					
 					listView.addView(listItems); 
 				} 
 			}

@@ -6,6 +6,8 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Set;
 
+import android.provider.Settings.Secure;
+
 import com.onedrinkaway.common.Drink;
 import com.onedrinkaway.common.DrinkInfo;
 import com.onedrinkaway.common.Query;
