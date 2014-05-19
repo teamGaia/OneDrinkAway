@@ -1,10 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout 
     xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/result_wrapper"
     android:orientation="horizontal" 
     android:layout_width="fill_parent"
     android:layout_height="fill_parent"
-    android:padding="10dp">
+    android:padding="10dp"
+    android:background="@drawable/textlines">
     
      <ImageView android:id="@+id/imgIcon"
         android:layout_width="wrap_content"
@@ -16,11 +18,11 @@
         android:src="@drawable/ic_launcher" />
         
      <LinearLayout 
+         android:id="@+id/result_clickable"
          android:layout_height="match_parent"
          android:layout_width="wrap_content"
-         android:orientation="vertical"
-         android:onClick="goToDrinkInfo">
-         
+         android:orientation="vertical" >
+               
          <TextView android:id="@+id/result_title"
 	        android:layout_width="fill_parent"
 	        android:layout_height="wrap_content"
@@ -30,12 +32,13 @@
 	        android:layout_marginTop="5dp" />
 
 		<RatingBar 
+		    android:id="@+id/result_rating"
 		    android:layout_width="fill_parent"
 	        android:layout_height="wrap_content"
 	        android:gravity="center_vertical"
 	        android:layout_marginTop="5dp"
 	        android:layout_marginBottom="5dp"
-	        android:rating="4"
+	        android:enabled="false"
 	        android:isIndicator="true" />
      </LinearLayout>
      

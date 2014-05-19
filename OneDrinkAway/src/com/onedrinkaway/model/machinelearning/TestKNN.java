@@ -5,7 +5,7 @@ import java.io.IOException;
 import java.util.LinkedList;
 import java.util.List;
 
-import com.onedrinkaway.common.Drink;
+import com.onedrinkaway.model.Drink;
 
 
 public class TestKNN {
@@ -18,8 +18,7 @@ public class TestKNN {
 		   Drink curDrink = buildDrink(line);
 		   trainingSet.add(curDrink);
 		}
-		KNearestNeighborModel model = new KNearestNeighborModel(5);
-		model.train(trainingSet);
+		KNearestNeighborModel model = new KNearestNeighborModel(5); 
 		brTrain.close();
 		
 		BufferedReader brTest = new BufferedReader(new FileReader("test.csv"));
@@ -45,7 +44,7 @@ public class TestKNN {
 		   String[] info = line.split(",");
 		   int[] attributes = new int[info.length-1];
 		   for(int i = 1; i < info.length; i++) {
-			   attributes[i-1] = Integer.parseInt(info[i]);
+				attributes[i-1] = Integer.parseInt(info[i]);
 		   }
 		   return new Drink("aaa", 1, Double.parseDouble(info[0]), attributes, new LinkedList<String>(), "aaa");
 	}

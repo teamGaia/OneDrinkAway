@@ -4,7 +4,7 @@ package com.onedrinkaway.model.machinelearning;
 
 import java.util.*;
 
-import com.onedrinkaway.common.Drink;
+import com.onedrinkaway.model.Drink;
 
 
 
@@ -68,7 +68,7 @@ public class KNearestNeighborModel implements MLModel {
 		int i = 0;
 		while(!topK.isEmpty()) {
 			Drink curIns = topK.remove();
-			labels[i] = curIns.getRating();
+			labels[i] = curIns.getUserRating(); 
 			distances[i] = getDis(curIns);
 			i++;
 		}

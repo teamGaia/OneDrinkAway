@@ -1,11 +1,6 @@
 package com.onedrinkaway.app;
 
 
-
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
-
 import android.content.Context;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -24,22 +19,27 @@ import android.widget.SeekBar;
 import android.widget.TextView;
 
 import com.onedrinkaway.R;
-import com.onedrinkaway.common.Drink;
-import com.onedrinkaway.common.DrinkInfo;
-import com.onedrinkaway.db.DrinkDb;
-import com.onedrinkaway.model.DatabaseInterface;
+import com.onedrinkaway.model.Drink;
+import com.onedrinkaway.model.DrinkInfo;
+import com.onedrinkaway.model.DrinkModel;
+import com.onedrinkaway.model.Flavor;
 
+/**
+ * This class displays the ingredients, description, and flavor profiles for a Drink
+ * @author Andrea Martin
+ *
+ */
 public class DrinkInfoPage extends OneDrinkAwayActivity {
 	
 	//list of flavors to display
-	private String[] flavors = {"Bitter", "Boozy", "Citrusy", "Creamy", 
-			"Fruity", "Herbal", "Minty", "Salty", "Sour",
-			"Spicy", "Sweet" };
+
 	private LinearLayout seekBarView;
-	
 	private Drink drink;
 	private DrinkInfo drinkInfo;
 	
+	/**
+	 * Creates and fills the layout for the Drink Info Page
+	 */
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -47,36 +47,31 @@ public class DrinkInfoPage extends OneDrinkAwayActivity {
 		seekBarView = (LinearLayout) findViewById(R.id.drink_info_seek_bars_layout);
 		helpID = R.string.drink_info_help;
 
-		//drink = DatabaseInterface.getAllDrinks()[0];
-		
-
-
-		
 		Bundle extras = getIntent().getExtras();
 		
 		if (extras != null) {
 			drink = (Drink)extras.get("drink"); 
 			
 		} 
-		
-		drinkInfo = DatabaseInterface.getDrinkInfo(drink);
-		
-		
-		setTitle(drink.name);		
-		
-		fillInstructions();
-		fillIngredients();
-		setGlassPicture();
-		fillDescription();
-		fillDescriptionRecognition();
-		addSeekBarsToView();
-		setRatingBar();
-		Button addToFavoritesButton = (Button) findViewById(R.id.drink_info_add_to_favorites);
-		//Add Listener to Add To Favorites button
-		addToFavoritesButton.setOnClickListener(new AddToFavoritesButtonListener());
+		if(drink != null) {
+			drinkInfo = DrinkModel.getDrinkInfo(drink);
 		
 		
-
+			setTitle(drink.name);		
+		
+			fillInstructions();
+			fillIngredients();
+			setGlassPicture();
+			fillDescription();
+			fillDescriptionRecognition();
+			addSeekBarsToView();
+			setRatingBar();
+			Button addToFavoritesButton = (Button) findViewById(R.id.drink_info_add_to_favorites);
+			//Add Listener to Add To Favorites button
+			addToFavoritesButton.setOnClickListener(new AddToFavoritesButtonListener());
+		
+		
+		}
 		if (savedInstanceState == null) {
 			getSupportFragmentManager().beginTransaction()
 					.add(R.id.container, new PlaceholderFragment()).commit();
@@ -139,6 +134,10 @@ public class DrinkInfoPage extends OneDrinkAwayActivity {
 		}
 	}
 	
+	/**
+	 * Fills the drink instruction section with the given drinkInfo's instructions
+	 * Leaves blank if there are no instructions
+	 */
 	private void fillInstructions() {
 		TextView instructionTextView = (TextView) findViewById(R.id.drink_info_instructions);
 		if(drinkInfo.instructions != null) {
@@ -156,7 +155,7 @@ public class DrinkInfoPage extends OneDrinkAwayActivity {
 	 */
 	private void setRatingBar() {
 		RatingBar ratingBar = (RatingBar) findViewById(R.id.drink_info_rating_bar);
-		ratingBar.setStepSize((float) 1.0);
+		
 		ratingBar.setRating((float) drink.getRating());
 		
 		
@@ -165,9 +164,11 @@ public class DrinkInfoPage extends OneDrinkAwayActivity {
 			public void onRatingChanged(RatingBar ratingBar, float rating,
 				boolean fromUser) {
 	 
-				//DatabaseInterface.addRating(drink, (int)rating);
-	 
+
+				DrinkModel.addRating(drink, (int)rating);
 			}
+
+
 		});
 	}
 	
@@ -176,9 +177,9 @@ public class DrinkInfoPage extends OneDrinkAwayActivity {
 
 		@Override
 		public void onClick(View arg0) {
-			//DatabaseInterface.addFavorite(drink);
+			DrinkModel.addFavorite(drink);
 		}
-	};
+	}
 
 	/**
 	 * Adds seek bars that show the drink's flavor profile to view and only adds seek bars with flavors
@@ -192,7 +193,7 @@ public class DrinkInfoPage extends OneDrinkAwayActivity {
 			if(attributes[i] != 0) {
 				TextView flavorName = new TextView(this);
 						
-				flavorName.setText("\n" + flavors[i]);
+				flavorName.setText("\n" + Flavor.flavorsArr[i]);
 				seekBarView.addView(flavorName);
 				
 				//adds seek bar with max five, disabled, with given attribute (1 - 5)

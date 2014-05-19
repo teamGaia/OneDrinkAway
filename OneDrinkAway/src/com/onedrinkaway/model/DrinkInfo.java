@@ -1,4 +1,4 @@
-package com.onedrinkaway.common;
+package com.onedrinkaway.model;
 
 import java.io.Serializable;
 import java.util.Collections;

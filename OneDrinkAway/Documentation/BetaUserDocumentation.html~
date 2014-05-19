@@ -1,0 +1,101 @@
+﻿<h1>OneDrinkAway</h1>
+<h2>Team Gaia<h2>
+
+
+<h3>Product Description</h3>
+        <p>OneDrinkAway is an Android application that suggests cocktails to try based on your taste preferences. It is useful for anyone who enjoys cocktails and would like to try something new. Since the application is mobile, users can get drink suggestions anywhere, whether they are at a bar or in the kitchen.</p>
+
+
+        <p>There exist applications for smart phones that allow you to search for recipes or find a drink recipe at random, but none of them keep a list of your favorite drinks and provide better drink suggestions the more you use the application. We also have a rating system so that the more drinks you rate, the better the application gets to know you and can suggest drinks more geared toward your tastes. You do not have to waste your precious time searching through drink recipes and guessing whether or not you think you might like them; OneDrinkAway figures it out for you. Since your mood can change daily and you might be craving a different kind of cocktail some nights, our application also has a feature that allows you to enter what flavors you are looking for in a drink, and then recommends cocktails based on those.</p>
+
+
+<h3>User Installation Instructions</h3>
+<ol>
+<p>Before downloading the application:</p>
+<li>In order to install the application onto your phone, you must allow side loading because you are not getting the application through Google Play. Here is a tutorial on how to change your settings to allow sideloading:
+<a href=”http://phandroid.com/2013/07/20/android-101-sideloading-apps/”>How To Enable Sideloading</a></li></ol>
+
+
+<p><b>For downloading from an Android Device:</b></p>
+<ol>
+<li>Press the link to download the APK onto your phone through your web browser and the application will start downloading to your device.</li>
+<li>After the APK has downloaded onto your device, go into your Downloads folder and click on the icon of the file that you just downloaded. This will start the install process for the application.</li>
+</ol>
+<p><b>For downloading to a Linux machine then to an Android device:</b></p>
+<ol>
+<li>Press the link to download the APK onto your Linux machine.</li>
+<li>Plug your Android device into your Linux machine.</li>
+<li>Go into your Downloads folder on your Linux machine and right-click and copy the APK that has just downloaded.</li>
+<li>Then go to the Downloads folder in your Android directory in the file system on your Linux machine and paste in the APK. This will download the APK onto your Android.</li>
+<li>After the APK has fully downloaded onto your Android device, safely eject your Android device from your Linux.</li>
+<li>On your Android device, go to the Downloads folder and click on the icon of the file that you just downloaded. This will start the install process for the application.</li>
+
+
+<h3>How to Run the Application</h3>
+<p>
+Simply open the application on your Android smart-phone or tablet, and the application will start. There are no customizations necessary. The application keeps track of who you are based on what device you are using.</p>
+
+
+<h3>UI Concept</h3>
+<p>The homepage of the application is based around a grid-layout in order to ease the navigation through the features for you. There are different modes in which to search for drinks, and the results of the search are a list of drinks that link to the recipes for each individual drink. From the home page, you can navigate to any feature, any of the individual searches, your favorite’s list, or the help menu. From any individual feature or page, you can always go back to the last page you were on, your search constraints will be saved if you go backwards from your search results in order to easily change your search. Also, from each individual page, you can navigate to the homescreen through the icon on the top toolbar. </p>
+
+
+<h3>Opening the Application</h3>
+<p>Upon opening the application, there is no need to log in because the application already knows who you are and has all of your information saved. If you are a new user, then you can start rating drinks and the application will remember you. If you close completely out of the application, all of your activity, such as the drinks that you have rated and the drinks that you have added to your favorite’s list will be saved for next time.</p>
+
+
+<p>The home page will appear displaying an icon for each of our features. On the top navigation bar is the name of the page you are currently on, a home icon, and a help icon. The home icon can be selected from any screen in the application which will bring the user back to this home page. The help icon (question mark) can be selected from any screen in the application to get more information about the screen you are currently viewing.</p>
+
+
+<h3>Search By Name</h3>
+<p>To find a certain drink, select the “Search By Name” icon. The “Search by Name” page will appear. If you need help using this feature, select the help icon on the top navigation bar. At the top is a search bar where you can type in the name of the drink you are looking for with a list of all of our drinks in alphabetical order. The search will filter the list of drinks as you type. Select a drink to view its Drink Info Page. The Drink Info Page is described below in the “Drink Info Page” section. If you go back, the same results will be displayed.</p>
+
+
+<h3>Search By Category</h3>
+<p>To find a drink that falls into a certain category, select the “Search by Category” icon. The “Search by Category” page will appear. A series of icons will appear, each of which is a different category listed in alphabetical order. To get an explanation of how to use this feature, select the help icon. After selecting a category, the results page will appear which displays the drinks in that category. The drinks are displayed in order of how high we think you would rate them. [a]This page has the same formatting as described in the “Results Page” section below. Select the drink to view its Drink Info Page. If you go back, the same search results will be displayed.</p>
+
+
+<h3>Search By Ingredients</h3>
+<p>To find a drink that contains certain ingredients, select the “Search by Ingredients” icon. This will then bring you to the “Search by Ingredients” page. To include an ingredient in your search, select the checkbox next to it. If you do not want to scroll through the entire list of ingredients, then you may type an ingredient into the search bar at the top of the page. As you type, the ingredients list will be filtered to show only the ingredients that start with the letters that you have typed in the text box. To see all the ingredients again, simply delete all of the letters you have typed from the textbox, and all of the ingredients that you have checked will remain. Once you have checked all of the ingredients that you want to have in your drink results, press the search button. This will lead you to the results page which will list only the drinks that contain the ingredients you checked in your search. These drinks will be listed from top to bottom based on what what we think you will like the most to what we think you will like the least. The results page has the same formatting as described below in the “Results Page” section. If you would like to change your search, you may go back from the result page at anytime. The ingredients you have checked will be saved for you to make changes, or you can clear all of your checked ingredients and start again. If no results are found, you will not be brought to the results page. We are working on getting a “No Results Found” message to display.</p>
+
+
+<h3>Search By Flavors</h3>
+<p>This feature displays seek bars which are movable, but is not yet implemented and provides inaccurate search results.</p>
+
+
+<h3>Favorites Drinks</h3>
+<p>To view all of your favorite drinks, select the “Favorite Drinks” icon. Your “Favorite Drinks” will then appear with the list of all of the drinks that you have added to your favorites in alphabetical order. You may click on a drink to go to the info page at any time and from there you can change your rating for that individual drink. Removal of drinks from your favorites is not yet implemented.</p>
+
+
+<h3>Advanced Search</h3>
+ <p>This feature has not yet been implemented and displays a “Coming Soon” message.</p>
+
+
+
+
+<h3>Try Something New</h3>
+<p>To quickly find a new drink that you have not yet rated, select the “Try Something New” icon. Once you select the “Try Something New” icon, you will be immediately be directed to the results page with drinks that we think you will like the most based on all of the drinks you have already rated. This results page has the same format as the page described in the “Results Page” section below. This list of drinks will be more tailored to your taste preferences with the more drinks that you accurately rate. This is meant to be our “one-click” recommendation that quickly gives you a drink suggestions that you will like.</p>
+
+
+<h3>Results Page</h3>
+<p>The Results Page displays a list of the drinks with our predicted rating for you. </p>
+
+
+<h3>Drink Info Page</h3>
+<p>This page displays a drink’s ingredients, description, instructions, and the flavor profile. Under the instructions there are stars displayed which you can select and thus rate the drink. If you have previously rated the drink that you are currently viewing, you can re-rate the drink. Under the Android Icon (soon to be image of the drink glass) is a “Add to Favorites” button that when selected, adds this drink to your Favorite Drinks list for future viewing. However, your ratings and favorites will be lost once you restart the app. We are working on fixing this for the feature-complete release.</p>
+
+
+<h3>Report a Bug (User)</h3>
+<p>If you find a bug in the application, then <a href=”https://github.com/teamGaia/OneDrinkAway/issues?state=open”>Here</a> is the bug form in which you can submit the bug to us.</p>
+<p>Before submitting a bug:<br />
+<ol>
+<li> See if there is a bug that has a similar title. This form has all of the current bugs already listed by name with descriptions included.</li>
+</ol></p>
+<p>
+To submit a bug report:<br />
+<ol>
+<li>Create a new issue.</li>
+<li>Label the issue as a bug.</li>
+<li>Give the issue a title that will be a descriptive name of the bug you are reporting.</li>
+<li>Write a detailed description of what you were doing when the bug appeared and what exactly the bug is and submit.</li>
+</ol></p>

@@ -10,11 +10,20 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.onedrinkaway.R;
+import com.onedrinkaway.model.DrinkModel;
 
+/**
+ * Displays the main Home Screen of the OneDrinkAway application
+ * @author Nicole Kihara, Andrea Martin, and Taylor Juve
+ *
+ */
 public class HomePage extends OneDrinkAwayActivity {
     
     public static Context appContext;
     
+    /**
+     * Creates the layout for the Home Screen
+     */
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -23,11 +32,15 @@ public class HomePage extends OneDrinkAwayActivity {
 		// setup global context for database
 		appContext = getApplicationContext();
 		
-		helpID = R.string.home_page_help;
+		helpID = R.string.help_home_page;
 		getSupportActionBar().setTitle(R.string.app_name);
 		getSupportActionBar().setDisplayHomeAsUpEnabled(false);
 	}
 	
+	/**
+	 * Goes to the screen of the feature the user pressed
+	 * @param view
+	 */
 	public void goToActivity(View view) {
 		Intent intent = null;
 		int viewID = view.getId();
@@ -44,16 +57,24 @@ public class HomePage extends OneDrinkAwayActivity {
 		} else if(viewID == R.id.advanced_search) {
 			intent = new Intent(this, AdvancedSearch.class);
 		} else if(viewID == R.id.try_something_new) {
-			intent = new Intent(this, DrinkInfoPage.class);
+			DrinkModel.findTrySomethingNewDrinks();
+			intent = new Intent(this, ResultsPage.class);
+			intent.putExtra("title", "New Drinks Just For You");
 		}
 		startActivity(intent);
 	}
 	
+	/**
+	 * A back button listener
+	 */
 	@Override
 	public void onBackPressed() {
         moveTaskToBack(true);
 	}
 	
+	/**
+	 * The menu options listener
+	 */
 	@Override
 	public boolean onOptionsItemSelected(MenuItem item) { 
 		if (item.getItemId() != R.id.action_home) {

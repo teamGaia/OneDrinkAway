@@ -6,17 +6,13 @@ package com.onedrinkaway.db;
 
 import java.io.FileOutputStream;
 import java.io.IOException;
-import java.io.InputStream;
-import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.util.Set;
 
-import android.content.res.AssetManager;
 import android.provider.Settings.Secure;
 
-import com.onedrinkaway.app.HomePage;
-import com.onedrinkaway.common.Drink;
-import com.onedrinkaway.common.DrinkInfo;
+import com.onedrinkaway.model.Drink;
+import com.onedrinkaway.model.DrinkInfo;
 
 /**
  * Stores and manages data
@@ -28,25 +24,7 @@ public class DrinkDb {
     
     public static final String ID = Secure.ANDROID_ID;
     
-    private static DrinkData dd = getDrinkData();
-    
-    /**
-     * Deserializes and returns a DrinkData object from file
-     */
-    private static DrinkData getDrinkData() {
-        DrinkData drinkd = null;
-        try {
-            AssetManager assets = HomePage.appContext.getAssets();
-            InputStream is = assets.open("drinkdata.ser");
-            ObjectInputStream in = new ObjectInputStream(is);
-            drinkd = (DrinkData) in.readObject();
-            in.close();
-            System.out.println("deserialized dd");
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-        return drinkd;
-    }
+    private static DrinkData dd = DrinkData.getDrinkData();
     
     /**
      * Returns the Drink corresponding to the given name
@@ -77,6 +55,13 @@ public class DrinkDb {
      */
     public static DrinkInfo getDrinkInfo(Drink d) {
         return dd.getDrinkInfo(d);
+    }
+    
+    /**
+     * @return a set of Ingredients for the given drink
+     */
+    public static Set<String> getIngredients(Drink d) {
+        return dd.getIngredients(d);
     }
     
     /**
@@ -120,12 +105,13 @@ public class DrinkDb {
      * Adds a drink rating
      * 
      * @param drink the drink to be added
-     * @param score the rating for the drink, must be [1-5] inclusive
+     * @param rating the rating for the drink, must be [1-5] inclusive
      * @throws: IllegalArgumentException if the score is smaller than 1 or bigger than 5
      */
-    public static void addRating(Drink drink, int score) {
-        if (score < 1 || score > 5)
+    public static void addRating(Drink drink, int rating) {
+        if (rating < 1 || rating > 5)
             throw new IllegalArgumentException("score must be [1-5] inclusive");
+        dd.addRating(drink, rating);
     }
     
     /**
@@ -133,8 +119,7 @@ public class DrinkDb {
      * @return a List of all drinks rated by user
      */
     public static Set<Drink> getRatedDrinks() {
-        
-        return null;
+        return dd.getRatedDrinks();
     }
     
     /**
@@ -142,8 +127,7 @@ public class DrinkDb {
      * @return a List of all drinks in users favorites list
      */
     public static Set<Drink> getFavorites() {
-        
-        return null;
+        return dd.getFavorites();
     }
     
     /**
@@ -152,6 +136,6 @@ public class DrinkDb {
      * @param drink the drink to be removed
      */
     public static void removeFavorite(Drink drink) {
-        
+        dd.removeFavorite(drink);
     }
 }

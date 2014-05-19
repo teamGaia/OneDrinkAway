@@ -2,7 +2,7 @@
  * OneDrinkAway v0.1 (Zero-feature release) 
  */
 
-package com.onedrinkaway.common;
+package com.onedrinkaway.model;
 
 import java.util.Arrays;
 import java.util.HashSet;
