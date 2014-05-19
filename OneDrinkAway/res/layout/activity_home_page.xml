@@ -11,7 +11,8 @@
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
 		android:layout_marginTop="15dp"
-        android:orientation="horizontal" >
+        android:orientation="horizontal" 
+        android:layout_weight="1" >
 
         <TextView
             android:id="@+id/search_by_name"
@@ -57,7 +58,8 @@
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
 		android:layout_marginTop="15dp"
-        android:orientation="horizontal" >
+        android:orientation="horizontal"
+        android:layout_weight="1" >
 
         <TextView
             android:id="@+id/search_by_flavor"
@@ -108,9 +110,9 @@
     <TextView android:id="@+id/try_something_new"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="15dp"
+        android:layout_weight="2"
+        android:layout_marginTop="50dp"
         android:layout_gravity="center"
-        android:gravity="center_horizontal"
         android:drawableTop="@drawable/home_try_something_new"
         android:drawablePadding="5dp"
         android:text="@string/try_something_new" 

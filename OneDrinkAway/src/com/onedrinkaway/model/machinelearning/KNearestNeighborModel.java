@@ -4,50 +4,42 @@ package com.onedrinkaway.model.machinelearning;
 
 import java.util.*;
 
-import com.onedrinkaway.common.Drink;
+import com.onedrinkaway.model.Drink;
 
 
 
 
 
 public class KNearestNeighborModel implements MLModel {
-  private List<Drink> trainingSet;
+	private List<Drink> trainingSet;
   
-  private int K;
+	private int K;
 	//private List<Instance> instances;
-  private Drink curIns;
+	private Drink curIns;
   
-  public void train(List<Drink> trainingSet) {
-    this.trainingSet = trainingSet;
-  }
+
   
   /**
    * @effect construct a 5 nearest neighbor classfier
    */
-  public KNearestNeighborModel() {
-	  this(5);
-  }
+	public KNearestNeighborModel() {
+		this(5);
+	}
   
-  /**
+  	/**
 	 * @effect construct a K nearest neighbor classfier
 	 * @param K: number of nearest neighbor
 	 */
-  public KNearestNeighborModel(int K) {
-	this.K = K;
-  }
+	public KNearestNeighborModel(int K) {
+		this.K = K;
+	}
 	
-	/**
-	 * @effect construct a trained K nearest neighbor classfier
-	 * @param K: number of nearest neighbor
-	 */
-  public KNearestNeighborModel(int K, List<Drink> instances) {
-	  this(K);
-	  train(instances);
-  }
-  
-  public double predictRating(Drink sample) {
-    //return 0.0;
-	  this.curIns = sample;
+	public void train(List<Drink> trainingSet) {
+		this.trainingSet = trainingSet;
+	}
+
+	public double predictRating(Drink sample) {
+		this.curIns = sample;
 		Queue<Drink> topK = new PriorityQueue<Drink>(1, new Comparator<Drink>() {
 			@Override
 			public int compare(Drink arg0, Drink arg1) {
@@ -69,14 +61,14 @@ public class KNearestNeighborModel implements MLModel {
 			}
 		}
 		//</get K nearest neighbours>
-		
+			
 		//<get average>
 		double[] labels = new double[topK.size()];
 		double[] distances = new double[topK.size()];
 		int i = 0;
 		while(!topK.isEmpty()) {
 			Drink curIns = topK.remove();
-			labels[i] = curIns.getRating();
+			labels[i] = curIns.getUserRating(); 
 			distances[i] = getDis(curIns);
 			i++;
 		}
@@ -89,7 +81,7 @@ public class KNearestNeighborModel implements MLModel {
 			predicted += labels[j]*(distances[distances.length-1-j]/sumDis);
 		}
 		return predicted;
-  }
+	}
   
   /**
 	 * get distance between two instance

@@ -8,17 +8,24 @@ import android.view.ViewGroup;
 
 import com.onedrinkaway.R;
 
+/**
+ * This class implements the Advanced Search feature which allows the user to
+ * search by flavors, category, name, and ingredients all at once
+ * @author nicolekihara
+ *
+ */
+
 public class AdvancedSearch extends OneDrinkAwayActivity {
 
+	/**
+	 * Creates the layout for Advanced Search
+	 */
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_advanced_search);
 
-		if (savedInstanceState == null) {
-			getSupportFragmentManager().beginTransaction()
-					.add(R.id.container, new PlaceholderFragment()).commit();
-		}
+		
 		helpID = R.string.advanced_search_help;
 	}
 

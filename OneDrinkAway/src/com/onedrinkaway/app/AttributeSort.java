@@ -1,15 +1,19 @@
 package com.onedrinkaway.app;
 
-import com.onedrinkaway.common.Drink;
+import com.onedrinkaway.model.Drink;
 
 /**
- * Sorts the attributes in Drink so that they appear in alphabetical order 
+ * Sorts the attributes of a given drink alphabetically based on the flavor title that each attribute represents
  * @author Andrea
  *
  */
 public class AttributeSort {
 	
-
+		/**
+		 * Returns the attributes int[] of the given drink sorted alphabetically by flavor title
+		 * @param drink the drink in which attributes to be sorted
+		 * @return returns the attributes of the given drink sorted by flavor title
+		 */
     	public static int[] alphabetizeAttributes(Drink drink) {
 		
 		int[] attributes = drink.attributes;
@@ -29,5 +33,8 @@ public class AttributeSort {
 		
 		return alphabetized;
 	}
+    
+  
+
 	
 }

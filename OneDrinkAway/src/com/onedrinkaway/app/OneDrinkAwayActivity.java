@@ -18,9 +18,19 @@ import android.view.MenuItem;
 
 import com.onedrinkaway.R;
 
+/**
+ * This class contains the Tool Bar on the top of every screen. The tool bar contains
+ * the back button, name of the page, help icon, and home icon
+ * @author Nicole Kihara, Andrea Martin, and Taylor Juve
+ *
+ */
 public abstract class OneDrinkAwayActivity extends ActionBarActivity {
 	protected int helpID;
 	
+	/**
+	 * Creates the tool bar menu
+	 * @param menu: the menu to create
+	 */
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
 		// Inflate the menu; this adds items to the action bar if it is present.
@@ -28,6 +38,11 @@ public abstract class OneDrinkAwayActivity extends ActionBarActivity {
 		return true;
 	}
 
+	/**
+	 * Displays the help screen if the user pressed the help icon, or goes to
+	 * the home screen if the user pressed home
+	 * @param item: the menu icon that was pressed
+	 */
 	@Override
 	public boolean onOptionsItemSelected(MenuItem item) {
 		// Handle action bar item clicks here. The action bar will
@@ -54,4 +69,6 @@ public abstract class OneDrinkAwayActivity extends ActionBarActivity {
 		} 
 		return super.onOptionsItemSelected(item);
 	}
+	
+	
 }
