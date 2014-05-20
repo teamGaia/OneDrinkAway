@@ -124,8 +124,8 @@ public class DrinkModel {
 		Drink[] filteredDrinks = convertDrinkSetToArray(drinks);
 		Drink[] ratedDrinks = convertDrinkSetToArray(DrinkDb.getRatedDrinks());
 		// Get all of the unrated drinks then set the predicted ratings
-		Drink[] unratedDrinks = getUnratedDrinks(filteredDrinks, ratedDrinks);
-		results = predictRatings(unratedDrinks, ratedDrinks);
+		//Drink[] unratedDrinks = getUnratedDrinks(filteredDrinks, ratedDrinks);
+		results = predictRatings(filteredDrinks, ratedDrinks);
 		return results.length > 0;
 	}
 
