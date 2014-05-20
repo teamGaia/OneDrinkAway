@@ -17,6 +17,7 @@ import android.widget.RatingBar;
 import android.widget.RatingBar.OnRatingBarChangeListener;
 import android.widget.SeekBar;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.onedrinkaway.R;
 import com.onedrinkaway.model.Drink;
@@ -155,7 +156,9 @@ public class DrinkInfoPage extends OneDrinkAwayActivity {
 	 */
 	private void setRatingBar() {
 		RatingBar ratingBar = (RatingBar) findViewById(R.id.drink_info_rating_bar);
+		String typeRating = drink.getRatingType();
 		
+
 		ratingBar.setRating((float) drink.getRating());
 		
 		
@@ -165,7 +168,7 @@ public class DrinkInfoPage extends OneDrinkAwayActivity {
 				boolean fromUser) {
 	 
 
-				DrinkModel.addRating(drink, (int)rating);
+				DrinkModel.addRating(drink, (int)Math.ceil(rating));
 			}
 
 
@@ -178,6 +181,8 @@ public class DrinkInfoPage extends OneDrinkAwayActivity {
 		@Override
 		public void onClick(View arg0) {
 			DrinkModel.addFavorite(drink);
+			Toast.makeText(getApplicationContext(), 
+                    drink.name + " was added to your favorites", Toast.LENGTH_LONG).show();
 		}
 	}
 
