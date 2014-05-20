@@ -1,6 +1,10 @@
 package com.onedrinkaway.app;
 
+import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 import android.content.Context;
 import android.content.Intent;
@@ -10,6 +14,8 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
+import android.widget.Button;
+import android.widget.CheckBox;
 import android.widget.LinearLayout;
 import android.widget.RatingBar;
 import android.widget.TextView;
@@ -25,9 +31,12 @@ import com.onedrinkaway.model.DrinkModel;
  *
  */
 public class FavoriteDrinks extends OneDrinkAwayActivity {
+	
+	//Maps the view of each favorite drink to the drink that it displays
+	private Map<View, Drink> favoriteItems;
 
 	/**
-	 * Creates and fills the layour of the Favorite Drinks page
+	 * Creates and fills the layout of the Favorite Drinks page
 	 */
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -36,8 +45,15 @@ public class FavoriteDrinks extends OneDrinkAwayActivity {
 		helpID = R.string.favorite_drinks_help;
 		//get favorites list
 		Drink[] favoriteDrinks = DrinkModel.getFavorites();
+		
+		favoriteItems = new HashMap<View, Drink>();
+		
 		if(favoriteDrinks != null) {
 			Arrays.sort(favoriteDrinks, new DrinkNameComparator());
+			addButtonListeners();
+			
+			
+			//container holding each favorite item linear layout
 			LinearLayout listView = (LinearLayout) findViewById(R.id.favorites_container);
 		
 			for(int i = 0; i < favoriteDrinks.length; i++) {
@@ -57,6 +73,7 @@ public class FavoriteDrinks extends OneDrinkAwayActivity {
 					ratingBar.setIsIndicator(true);
 					//add each drink option row to the favorites page linear layout
 					listView.addView(listItems); 
+					favoriteItems.put(listItems, drink);
 				} else {
 					break;
 				}
@@ -65,6 +82,18 @@ public class FavoriteDrinks extends OneDrinkAwayActivity {
 			
 			
 	 }
+	
+	/**
+	 * Adds listeners to buttons in the edit button bar
+	 */
+	private void addButtonListeners() {
+		Button editButton = (Button) findViewById(R.id.favorites_edit_button);
+		editButton.setOnClickListener(new EditFavoritesOnClickListener());
+		Button removeButton = (Button) findViewById(R.id.favorites_remove_button);
+		removeButton.setOnClickListener(new RemoveFavoritesOnClickListener());
+		Button doneButton = (Button) findViewById(R.id.favorites_done_button);
+		doneButton.setOnClickListener(new DoneOnClickListener());
+	}
 	
 	/**
 	 * Goes to drink info page of given drink 
@@ -76,7 +105,102 @@ public class FavoriteDrinks extends OneDrinkAwayActivity {
 		startActivity(intent);
 	}
 	
+	/**
+	 * Displays checkboxes to remove items from favorites list
+	 */
+	private void displayEditView() {
+		for (View favoriteView: favoriteItems.keySet()) {
+			CheckBox checkBox = (CheckBox) favoriteView.findViewById(R.id.favorites_checkbox);
+			checkBox.setVisibility(View.VISIBLE);
+			//display remove button
+			Button removeButton = (Button) findViewById(R.id.favorites_remove_button);
+			removeButton.setVisibility(View.VISIBLE);
+			Button doneButton = (Button) findViewById(R.id.favorites_done_button);
+			doneButton.setVisibility(View.VISIBLE);
+		}
+	}
+	
+	
+	/**
+	 * Listener for the Done button
+	 * Displays original Favorite's page view
+	 */
+	private class DoneOnClickListener implements OnClickListener {
 
+		
+		/**
+		 * Displays original Favorite's page view
+		 */
+		@Override
+		public void onClick(View arg0) {
+			displayOriginalView();
+
+		}
+	}
+	
+	/**
+	 * Display default Favorite's page view
+	 */
+	private void displayOriginalView() {
+		//set done and remove buttons to invisible
+		Button removeButton = (Button) findViewById(R.id.favorites_remove_button);
+		Button doneButton = (Button) findViewById(R.id.favorites_done_button);
+		removeButton.setVisibility(View.INVISIBLE);
+		doneButton.setVisibility(View.INVISIBLE);
+		
+		//make each checkbox invisible
+		for (View favoriteView: favoriteItems.keySet()) {
+			CheckBox checkBox = (CheckBox) favoriteView.findViewById(R.id.favorites_checkbox);
+			checkBox.setVisibility(View.GONE);
+		}
+		
+		
+	}
+	
+	/**
+	 * Listener for the Edit button
+	 * Displays checkboxes for each drink view and display the remove button and done button
+	 */
+	private class EditFavoritesOnClickListener implements OnClickListener {
+
+		
+		/**
+		 * Displays checkboxes for each drink view and displays the remove button and done button
+		 */
+		@Override
+		public void onClick(View arg0) {
+			displayEditView();
+			
+		}
+	}
+	
+	/**
+	 * Listener for Remove button
+	 * On click it removes each drink from the view and user's favorite list if the
+	 * checkbox of the drink's view is checked
+	 *
+	 */
+	private class RemoveFavoritesOnClickListener implements OnClickListener {
+		
+		/**
+		 * Removes the View of each drink if the corresponding checkbox is checked
+		 * Removes the corresponding drink from the user's favorite's list if the checkbox is checked
+		 */
+		@Override
+		public void onClick(View arg0) {
+			for (View favoriteView: favoriteItems.keySet()) {
+				CheckBox checkBox = (CheckBox) favoriteView.findViewById(R.id.favorites_checkbox);
+				if(checkBox.isChecked()) {
+					favoriteView.setVisibility(View.GONE);
+					DrinkModel.removeFavorite(favoriteItems.get(favoriteView));
+					//favoriteItems.remove(favoriteView);
+					
+				}
+			}
+			
+		}
+		
+	}
 	/**
 	 * Listener for if a drink in the list is selected
 	 * Goes to the corresponding drink's info page

@@ -98,6 +98,22 @@ public class Drink implements Comparable<Drink>, Serializable {
   }
   
   /**
+   * Returns a string representing the type of rating that getRating() returns
+   * Precedence: userRating > predictedRating > avgRating
+   * @return "user" if user rating is set
+   * 		 "predicted" if user rating is set and user rating is not set
+   * 		 "average" if user and predicted rating are not set
+   */
+  public String getRatingType() {
+	  if (userRating > 0) // check if user rating is set
+		  return "user";
+	  else if (predictedRating > 0) // check if predRating is set
+		  return "predicted";
+	  else
+		  return "average";
+  }
+  
+  /**
    * hashCode for this Drink
    */
   public int hashCode() {

@@ -72,5 +72,8 @@
     <string name="category_help_Stirred">Stirred category help displays here</string>
     <string name="advanced_search_coming_soon">Coming Soon to an App Near You!</string>
     <string name="title_activity_try_something_new">TrySomethingNew</string>
+    <string name="edit">Edit</string>
+    <string name="remove">Remove</string>
+    <string name="done">Done</string>
 
 </resources>
