@@ -76,8 +76,11 @@ public class DrinkModel {
 		Drink[] allDrinks = convertDrinkSetToArray(DrinkDb.getAllDrinks());
 		Drink[] ratedDrinks = convertDrinkSetToArray(DrinkDb.getRatedDrinks());
 		Drink[] unratedDrinks = getUnratedDrinks(allDrinks, ratedDrinks);
-		
 		Drink[] ratings = predictRatings(unratedDrinks, ratedDrinks);
+		if(ratings.length <= 5){
+			results = ratings;
+			return;
+		}
 		results = new Drink[5];
 		results[0] = ratings[0];
 		
@@ -87,7 +90,7 @@ public class DrinkModel {
 		while(i < 5){
 			List<Drink> overThreshold = new ArrayList<Drink>();
 			for(Drink d : ratings){
-				if(d.predictedRating > threshHold && d.predictedRating < threshHold + 1.0){
+				if(d.getRating() > threshHold && d.getRating() < threshHold + 1.0){
 					overThreshold.add(d);
 				}
 			}
