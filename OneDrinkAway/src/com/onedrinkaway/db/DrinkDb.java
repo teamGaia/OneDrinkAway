@@ -138,4 +138,12 @@ public class DrinkDb {
     public static void removeFavorite(Drink drink) {
         dd.removeFavorite(drink);
     }
+    
+    /**
+     * For testing purposes.
+     * Allows tests to setup DrinkData outside of Android environment
+     */
+    public static void setDrinkData(DrinkData newD) {
+        dd = newD;
+    }
 }
