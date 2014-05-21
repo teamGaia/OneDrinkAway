@@ -95,7 +95,7 @@ public class ResultsPage extends OneDrinkAwayActivity {
 	 */
 	private void goToDrinkInfo(Drink drink) {
 		Intent intent = new Intent(this, DrinkInfoPage.class);
-		intent.putExtra("drink", drink);
+		intent.putExtra("drink", drink.name);
 		startActivity(intent);
 	}
 	

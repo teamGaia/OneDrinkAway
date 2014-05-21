@@ -24,6 +24,7 @@
             android:drawableTop="@drawable/logo_simple_glass"
             android:gravity="center_horizontal"
             android:text="@string/search_by_name"
+            android:textSize="18sp"
             android:onClick="goToActivity"
 			android:clickable="true" />
 
@@ -37,6 +38,7 @@
             android:drawableTop="@drawable/home_search_by_category"
             android:gravity="center_horizontal"
             android:text="@string/search_by_category" 
+            android:textSize="18sp"
             android:onClick="goToActivity"
             android:clickable="true" />
 
@@ -49,6 +51,7 @@
             android:drawablePadding="5dp"
             android:drawableTop="@drawable/home_search_by_ingredient"
             android:gravity="center_horizontal"
+            android:textSize="18sp"
             android:text="@string/search_by_ingredient" 
             android:onClick="goToActivity"
             android:clickable="true" />
@@ -71,6 +74,7 @@
             android:drawableTop="@drawable/home_search_by_flavor"
             android:gravity="center_horizontal"
             android:text="@string/search_by_flavor" 
+            android:textSize="18sp"
             android:onClick="goToActivity"
             android:clickable="true" />
 
@@ -84,6 +88,7 @@
             android:drawableTop="@drawable/home_favorite_drinks"
             android:gravity="center_horizontal"
             android:text="@string/favorites" 
+            android:textSize="18sp"
             android:onClick="goToActivity"
             android:clickable="true" />
 
@@ -97,6 +102,7 @@
             android:drawableTop="@drawable/home_advanced_search"
             android:gravity="center_horizontal"
             android:text="@string/advanced_search" 
+            android:textSize="18sp"
             android:onClick="goToActivity"
             android:clickable="true" />
 
@@ -116,6 +122,7 @@
         android:drawableTop="@drawable/home_try_something_new"
         android:drawablePadding="5dp"
         android:text="@string/try_something_new" 
+        android:textSize="18sp"
         android:onClick="goToActivity"
         android:clickable="true" />
         

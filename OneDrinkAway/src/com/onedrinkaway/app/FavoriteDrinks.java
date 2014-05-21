@@ -14,6 +14,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
+import android.view.ViewGroup.LayoutParams;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.LinearLayout;
@@ -47,15 +48,12 @@ public class FavoriteDrinks extends OneDrinkAwayActivity {
 		Drink[] favoriteDrinks = DrinkModel.getFavorites();
 		
 		favoriteItems = new HashMap<View, Drink>();
-		
-		if(favoriteDrinks != null) {
+		//container holding each favorite item linear layout
+		LinearLayout listView = (LinearLayout) findViewById(R.id.favorites_container);
+		if(favoriteDrinks.length != 0) {
 			Arrays.sort(favoriteDrinks, new DrinkNameComparator());
 			addButtonListeners();
 			
-			
-			//container holding each favorite item linear layout
-			LinearLayout listView = (LinearLayout) findViewById(R.id.favorites_container);
-		
 			for(int i = 0; i < favoriteDrinks.length; i++) {
 				Drink drink = favoriteDrinks[i];
 				if(drink != null) {
@@ -77,11 +75,15 @@ public class FavoriteDrinks extends OneDrinkAwayActivity {
 				} else {
 					break;
 				}
+			
 			} 
+		} else { //favorites list is empty
+			TextView emptyFavoritesTextView = (TextView) findViewById(R.id.favorites_empty_text_view);
+			emptyFavoritesTextView.setVisibility(View.VISIBLE);
+			
 		}
-			
-			
-	 }
+	
+	}
 	
 	/**
 	 * Adds listeners to buttons in the edit button bar
@@ -89,6 +91,7 @@ public class FavoriteDrinks extends OneDrinkAwayActivity {
 	private void addButtonListeners() {
 		Button editButton = (Button) findViewById(R.id.favorites_edit_button);
 		editButton.setOnClickListener(new EditFavoritesOnClickListener());
+		editButton.setVisibility(View.VISIBLE);
 		Button removeButton = (Button) findViewById(R.id.favorites_remove_button);
 		removeButton.setOnClickListener(new RemoveFavoritesOnClickListener());
 		Button doneButton = (Button) findViewById(R.id.favorites_done_button);
@@ -101,7 +104,7 @@ public class FavoriteDrinks extends OneDrinkAwayActivity {
 	 */
 	private void goToDrinkInfo(Drink drink) {
 		Intent intent = new Intent(this, DrinkInfoPage.class);
-		intent.putExtra("drink", drink);
+		intent.putExtra("drink", drink.name);
 		startActivity(intent);
 	}
 	
