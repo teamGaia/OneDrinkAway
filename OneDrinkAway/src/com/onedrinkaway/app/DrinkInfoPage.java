@@ -51,8 +51,8 @@ public class DrinkInfoPage extends OneDrinkAwayActivity {
 		Bundle extras = getIntent().getExtras();
 		
 		if (extras != null) {
-			drink = (Drink)extras.get("drink"); 
-			
+			String name = (String)extras.get("drink");
+			drink = DrinkModel.getDrink(name);
 		} 
 		if(drink != null) {
 			drinkInfo = DrinkModel.getDrinkInfo(drink);
