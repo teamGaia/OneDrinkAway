@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Random;
 import java.util.Set;
 
 import android.provider.Settings.Secure;
@@ -75,8 +76,33 @@ public class DrinkModel {
 		Drink[] allDrinks = convertDrinkSetToArray(DrinkDb.getAllDrinks());
 		Drink[] ratedDrinks = convertDrinkSetToArray(DrinkDb.getRatedDrinks());
 		Drink[] unratedDrinks = getUnratedDrinks(allDrinks, ratedDrinks);
+		Drink[] ratings = predictRatings(unratedDrinks, ratedDrinks);
+		if(ratings.length <= 5){
+			results = ratings;
+			return;
+		}
+		results = new Drink[5];
+		results[0] = ratings[0];
 		
-		results = predictRatings(unratedDrinks, ratedDrinks);
+		Random r = new Random();
+		int i = 1;
+		double threshHold = 4.0;
+		while(i < 5){
+			List<Drink> overThreshold = new ArrayList<Drink>();
+			for(Drink d : ratings){
+				if(d.getRating() > threshHold && d.getRating() < threshHold + 1.0){
+					overThreshold.add(d);
+				}
+			}
+			threshHold--;
+			while(!overThreshold.isEmpty() && i < 5){
+				int index = r.nextInt(overThreshold.size());
+				Drink chosen = overThreshold.remove(index);
+				results[i] = chosen;
+				i++;
+			}
+		}
+		
 	}
 
 	/**
@@ -116,7 +142,20 @@ public class DrinkModel {
 			}
 		}
 		if (query.hasFlavors()) {
-			// Machine Learning time
+			List<Flavor> flavors = query.getFlavors();
+			List<String> flavorNames = Arrays.asList(Flavor.flavorsArr); 
+			iter = drinks.iterator();
+			while(iter.hasNext()){
+				Drink d = iter.next();
+				for(Flavor f : flavors){
+					int flavorIndex = flavorNames.indexOf(f.name);
+					int drinkFlavorValue = d.attributes[flavorIndex]; 
+					if(drinkFlavorValue > f.value + 1 || drinkFlavorValue < f.value - 1){
+						iter.remove();
+						break;
+					}
+				}
+			}
 		}
 		// more code here, set predicted ratings or whatever
 

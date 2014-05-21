@@ -17,6 +17,7 @@ import android.widget.TextView;
 
 import com.onedrinkaway.R;
 // import com.onedrinkaway.common.Drink;
+import com.onedrinkaway.model.DrinkModel;
 import com.onedrinkaway.model.Flavor;
 import com.onedrinkaway.model.Query;
 
@@ -52,10 +53,13 @@ public class SearchByFlavor extends OneDrinkAwayActivity {
 		helpID = R.string.search_by_flavor_help;
 		query = new Query();
 		error = false;
-		
+		setUpView();
+	}
+	
+	private void setUpView() {		
 		flavorsScrollViewTable = (TableLayout) findViewById(R.id.flavors_scroll_view_table);
 		flavorSearchButton = (Button) findViewById(R.id.flavor_search_button);
-		displayFlavors();
+		displayFlavors();	
 	}
 
 	/**
@@ -63,16 +67,13 @@ public class SearchByFlavor extends OneDrinkAwayActivity {
 	 */
 	private void displayFlavors() {
 		LayoutInflater inflater = (LayoutInflater) getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-		boolean displayError = false;
 		if (error) {	// the last search was false
 			error = false;
-			// add a "No Results Found" textview
-			TextView errorTextView = new TextView(this);
+			// set "No Results Found" textview
+			TextView errorTextView = (TextView) findViewById(R.id.error_text_view);
 			errorTextView.setText(R.string.error_no_results_found);
 			errorTextView.setGravity(Gravity.CENTER);
 			errorTextView.setTextColor(Color.parseColor("#FF0000"));
-			flavorsScrollViewTable.addView(errorTextView, 0);
-			displayError = true;
 		}
 			
 		for (int i = 0; i < Flavor.flavorsArr.length; i++) {
@@ -86,17 +87,9 @@ public class SearchByFlavor extends OneDrinkAwayActivity {
 			seekbar.setOnSeekBarChangeListener(new FlavorSeekBarListener(Flavor.flavorsArr[i]));
 			View flavorRow3 = inflater.inflate(R.layout.activity_search_by_flavor_row3, null);
 			// Add each row to the view
-			int j = i * 3;
-			int k = i * 3 + 1;
-			int l = i * 3 + 2;
-			if (displayError) {
-				j++;
-				k++;
-				l++;
-			}
-			flavorsScrollViewTable.addView(flavorRow, j);
-			flavorsScrollViewTable.addView(flavorRow2, k);
-			flavorsScrollViewTable.addView(flavorRow3, l);
+			flavorsScrollViewTable.addView(flavorRow, i * 3);
+			flavorsScrollViewTable.addView(flavorRow2, i * 3 + 1);
+			flavorsScrollViewTable.addView(flavorRow3, i * 3 + 2);
 		}
 	}
 	
@@ -147,18 +140,16 @@ public class SearchByFlavor extends OneDrinkAwayActivity {
 	 * @param view the view from which this method was called
 	 */
 	public void goToResults(View view) {
-		// Drink[] results = DatabaseInterface.getDrinks(query);
-		/* if (results.length == 0) {
+		boolean drinksFound = DrinkModel.searchForDrinks(query);
+		query = new Query();
+		if (!drinksFound) {
 			error = true;
-			LayoutInflater inflater = (LayoutInflater) getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-			View searchView = inflater.inflate(R.layout.activity_search_by_flavor, null);
-			searchView.invalidate(); */
-		// } else { 
+			setUpView();
+		} else { 
 	    	Intent intent = new Intent(this, ResultsPage.class);
 	    	intent.putExtra("title", "Results");
-	    	// intent.putExtra("results", results);
 			startActivity(intent);
-		// }
+		}
 	}
 	
 

@@ -28,9 +28,6 @@ public class SearchByIngredient extends OneDrinkAwayActivity implements SearchVi
 
 	// The ingredients to include in the search
 	private String[] ingredients;
-    
-	// The query to do the search
-	private Query query;
 	
 	// The list of ingredients to search by
 	private ListView listView;
@@ -48,7 +45,6 @@ public class SearchByIngredient extends OneDrinkAwayActivity implements SearchVi
 
 		helpID = R.string.help_search_by_ingredient;
 		error = false;
-		query = new Query();
 		ingredients = DrinkModel.getIngredients();
 		setupSearchView();
         setupListView();
@@ -93,31 +89,22 @@ public class SearchByIngredient extends OneDrinkAwayActivity implements SearchVi
     	SparseBooleanArray checked = listView.getCheckedItemPositions();
     	int size = listView.getCount();
     	// Get all of the checked ingredients and add them to the query
-    	query = new Query(); // make sure we are starting with an empty query!!
+    	Query query = new Query(); // make sure we are starting with an empty query!!
     	for(int i = 0; i < size; i++) {
             if(checked.get(i))
             	query.add(listView.getItemAtPosition(i).toString());
     	}
     	
     	boolean drinksFound = DrinkModel.searchForDrinks(query);
-   
     	if (!drinksFound) {
-    		displayError();
+    		error = true;		
+    		setupSearchView();
+            setupListView();
     	} else {
         	Intent intent = new Intent(this, ResultsPage.class);
         	intent.putExtra("title", "Results");
-        	//intent.putExtra("results", results);
     		startActivity(intent);
     	}
-    }
-    
-    /**
-     * Displays a no results found error message if no drinks were found matching the
-     * search query
-     */
-    private void displayError() {
-    	error = true;
-    	// invalidate();
     }
 
     /**
