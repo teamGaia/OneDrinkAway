@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -16,10 +17,10 @@ import android.widget.TableLayout;
 import android.widget.TextView;
 
 import com.onedrinkaway.R;
-// import com.onedrinkaway.common.Drink;
 import com.onedrinkaway.model.DrinkModel;
 import com.onedrinkaway.model.Flavor;
 import com.onedrinkaway.model.Query;
+// import com.onedrinkaway.common.Drink;
 
 /**
  * This class allows the user to enter what flavors and their intensity that they want to search by
@@ -118,7 +119,9 @@ public class SearchByFlavor extends OneDrinkAwayActivity {
 			progressChanged = progress;
 			Flavor newFlavor = new Flavor(flavor, progressChanged);
 			query.add(newFlavor);
+			Log.i("Query size", query.getFlavors().size() + "");
 		}
+		
 
 		@Override
 		public void onStartTrackingTouch(SeekBar arg0) {
@@ -141,6 +144,9 @@ public class SearchByFlavor extends OneDrinkAwayActivity {
 	 */
 	public void goToResults(View view) {
 		boolean drinksFound = DrinkModel.searchForDrinks(query);
+		for (Flavor f : query.getFlavors()) {
+			Log.i("Flavor", f.name + ": " + f.value + " " + query.getFlavors().size());
+		}
 		query = new Query();
 		if (!drinksFound) {
 			error = true;
