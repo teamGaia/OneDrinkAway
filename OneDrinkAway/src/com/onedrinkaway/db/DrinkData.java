@@ -67,8 +67,7 @@ public class DrinkData implements Serializable {
     public static DrinkData getDrinkData() {
         if (instance == null) {
             try { // attempt to deserialize DrinkData
-                AssetManager assets = HomePage.appContext.getAssets();
-                InputStream is = assets.open("drinkdata.ser");
+                InputStream is = HomePage.appContext.openFileInput("drinkdata.ser");
                 ObjectInputStream in = new ObjectInputStream(is);
                 instance = (DrinkData) in.readObject();
                 in.close();
