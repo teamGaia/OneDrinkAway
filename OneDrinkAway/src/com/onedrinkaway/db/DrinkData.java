@@ -89,40 +89,41 @@ public class DrinkData implements Serializable {
         return instance;
     }
     
+    /**
+     * Resets singleton instance to a new DrinkData from given streams
+     */
     public static DrinkData getDrinkData(InputStream drinkIs, InputStream drinkInfoIs) {
-        if (instance == null) {
-            instance = new DrinkData();
-            Scanner sc = new Scanner(drinkIs);
-            sc.nextLine(); //throw away first line
-            while (sc.hasNextLine()){
-                String s = sc.nextLine();
-                String[] tokens = s.split("\t");
-                String complete = tokens[2];
-                if (complete.equals("1")) {
-                    // valid drink, add to list
-                    int id = Integer.parseInt(tokens[0]);
-                    String name = tokens[1];
-                    // add categories
-                    List<String> cat = new ArrayList<String>();
-                    for (String c : tokens[3].split(", ")) {
-                        cat.add(c);
-                        instance.categories.add(c);
-                    }
-                    String glass = tokens[4];
-                    // add attributes
-                    int[] attributes = new int[11];
-                    for (int i = 0; i < 11; i++) {
-                        attributes[i] = Integer.parseInt(tokens[i + 5]);
-                    }
-                    double rating = getAvgRating(id);
-                    Drink d = new Drink(name, id, rating, attributes, cat, glass);
-                    instance.drinks.add(d);
-                    instance.namesToDrinks.put(name, d);
+        instance = new DrinkData();
+        Scanner sc = new Scanner(drinkIs);
+        sc.nextLine(); //throw away first line
+        while (sc.hasNextLine()){
+            String s = sc.nextLine();
+            String[] tokens = s.split("\t");
+            String complete = tokens[2];
+            if (complete.equals("1")) {
+                // valid drink, add to list
+                int id = Integer.parseInt(tokens[0]);
+                String name = tokens[1];
+                // add categories
+                List<String> cat = new ArrayList<String>();
+                for (String c : tokens[3].split(", ")) {
+                    cat.add(c);
+                    instance.categories.add(c);
                 }
+                String glass = tokens[4];
+                // add attributes
+                int[] attributes = new int[11];
+                for (int i = 0; i < 11; i++) {
+                    attributes[i] = Integer.parseInt(tokens[i + 5]);
+                }
+                double rating = getAvgRating(id);
+                Drink d = new Drink(name, id, rating, attributes, cat, glass);
+                instance.drinks.add(d);
+                instance.namesToDrinks.put(name, d);
             }
-            sc.close();
-            findDrinkInfo(drinkInfoIs);
         }
+        sc.close();
+        findDrinkInfo(drinkInfoIs);
         return instance;
     }
     
