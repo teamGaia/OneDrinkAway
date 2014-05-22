@@ -8,7 +8,7 @@ import android.os.Bundle;
 
 import com.onedrinkaway.R;
 
-public class NewUserDialog extends DialogFragment {	
+public class NewUserWhyDialog extends DialogFragment {	
 	
 	/**
 	 * Opens up the dialog and displays the help for that feature
@@ -17,24 +17,21 @@ public class NewUserDialog extends DialogFragment {
     public Dialog onCreateDialog(Bundle savedInstanceState) {
         // Use the Builder class for convenient dialog construction
         AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
+        
+        //Retrieve Class name for caller Activity
+        // Bundle bundle = this.getArguments();
 
-        builder.setTitle(R.string.welcome_dialog)
-        	   .setMessage(R.string.welcome_dialog_message)
-               .setPositiveButton(R.string.sure, new DialogInterface.OnClickListener() {
+        builder.setTitle(R.string.why)
+        	   .setMessage(R.string.why_message)
+               .setPositiveButton(R.string.rate_drinks, new DialogInterface.OnClickListener() {
                    public void onClick(DialogInterface dialog, int id) {
-                	   // Intent intent = new Intent(getBaseContext(), NewUserRatingActivity.class);    
-                	   // startActivity(i);
+                	// Intent intent = new Intent(getBaseContext(), NewUserRatingActivity.class);    
+                	// startActivity(intent);
                    }
                })
                .setNegativeButton(R.string.no, new DialogInterface.OnClickListener() {
                    public void onClick(DialogInterface dialog, int id) {
                 	   dismiss();
-                   }
-               })
-               .setNeutralButton(R.string.why, new DialogInterface.OnClickListener() {
-                   public void onClick(DialogInterface dialog, int id) {
-                	   DialogFragment newFragment = new NewUserWhyDialog();
-                	   newFragment.show(getFragmentManager(), "newUserWhy");
                    }
                });
         // Create the AlertDialog object and return it

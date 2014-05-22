@@ -46,14 +46,14 @@ public class HomePage extends OneDrinkAwayActivity {
 
 		SharedPreferences settings = getSharedPreferences(PREFS_NAME, 0);
 
-		if (settings.getBoolean("my_first_time", true)) {
-		    //the app is being launched for first time, do something        
+		// if (settings.getBoolean("my_first_time", true)) {
+		    //the app is being launched for first time launch new user dialog       
 			DialogFragment newFragment = new NewUserDialog();
-		    newFragment.show(getFragmentManager(), "help");
+		    newFragment.show(getFragmentManager(), "newUser");
 
 		    // record the fact that the app has been started at least once
-		    settings.edit().putBoolean("my_first_time", false).commit(); 
-		}
+		    //settings.edit().putBoolean("my_first_time", false).commit(); 
+		//}
 	}
 	
 	/**
