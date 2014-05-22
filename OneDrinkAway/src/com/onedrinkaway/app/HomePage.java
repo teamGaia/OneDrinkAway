@@ -41,6 +41,10 @@ public class HomePage extends OneDrinkAwayActivity {
 		checkNewUser();
 	}
 	
+	/**
+	 * Checks if this user is using the app for the first time, if so,
+	 * brings up the NewUserDialog asking if they want to rate some drinks
+	 */
 	private void checkNewUser() {
 		final String PREFS_NAME = "MyPrefsFile";
 
