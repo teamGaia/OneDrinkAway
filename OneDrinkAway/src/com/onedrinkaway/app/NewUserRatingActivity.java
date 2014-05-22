@@ -1,12 +1,11 @@
 package com.onedrinkaway.app;
 
 import android.os.Bundle;
-import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentTabHost;
 
 import com.onedrinkaway.R;
 
-public class NewUserRatingActivity extends FragmentActivity {
+public class NewUserRatingActivity extends OneDrinkAwayActivity {
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
