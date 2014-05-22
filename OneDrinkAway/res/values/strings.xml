@@ -81,4 +81,5 @@
     <string name="why">Why?</string>
     <string name="no">No Thanks</string>
     <string name="rate_drinks">Rate Drinks!</string>
+    <string name="bold_predicted_rating"><b>Predicted Rating</b></string>
 </resources>

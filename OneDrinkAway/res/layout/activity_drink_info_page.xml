@@ -104,10 +104,30 @@
 	    />
 	
 	<RatingBar
-	    android:id="@+id/drink_info_rating_bar"
+	    android:id="@+id/drink_info_user_rating_bar"
+	    style="@style/GoldRatingBar"
 	    android:layout_width="wrap_content"
 	    android:layout_height="wrap_content"
 	    android:layout_gravity="center"
+	    android:stepSize="1.0"
+	     />
+	
+	<TextView
+	    android:id="@+id/drink_info_predicted_text_view"
+	    android:layout_marginTop="15dp"
+	    android:text="@string/bold_predicted_rating"
+	    android:layout_width="wrap_content"
+	    android:layout_height="wrap_content"
+	    />
+	
+		<RatingBar
+	    android:id="@+id/drink_info_predicted_rating_bar"
+	    style="@style/RedRatingBar"
+	    android:layout_width="wrap_content"
+	    android:layout_height="wrap_content"
+	    android:layout_gravity="center"
+	    android:enabled="false"
+	    android:isIndicator="true"
 	     />
 	<LinearLayout
 	    android:id="@+id/drink_info_seek_bars_layout"

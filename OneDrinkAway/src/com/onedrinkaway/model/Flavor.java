@@ -67,10 +67,7 @@ public class Flavor {
     		return false;
     	else {
     		Flavor other = (Flavor) o;
-    		if (other.name == other.name)
-    			return true;
-    		else
-    			return false;
+    		return this.name.equals(other.name);
     	}
     	
     }

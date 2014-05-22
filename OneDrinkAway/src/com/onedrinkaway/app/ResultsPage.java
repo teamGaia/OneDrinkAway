@@ -63,10 +63,7 @@ public class ResultsPage extends OneDrinkAwayActivity {
 					TextView drinklabel = (TextView) listItems.findViewById(R.id.result_title);
 					drinklabel.setText(drink.name);
 					//Add rating bar to show rating for each drink result
-					RatingBar ratingBar = (RatingBar) listItems.findViewById(R.id.result_rating);
-					ratingBar.setEnabled(false);
-					ratingBar.setRating((float) drink.getRating()); 
-					ratingBar.setIsIndicator(true);
+					setRatingBar(listItems, drink);
 					
 					listView.addView(listItems); 
 				} 
@@ -74,6 +71,28 @@ public class ResultsPage extends OneDrinkAwayActivity {
 		}	
 		
 
+	}
+	
+	/**
+	 * Distinguishes whether to use user rating bar or predicted rating bar and sets the correct one
+	 * @param listItems favorites_list_item View
+	 * @para drink the favorite drink being displayed for the particular listItems View
+	 */
+	private void setRatingBar(View listItems, Drink drink) {
+		RatingBar userRatingBar = (RatingBar) listItems.findViewById(R.id.result_user_rating);
+		RatingBar predictedRatingBar = (RatingBar) listItems.findViewById(R.id.result_predicted_rating);
+		RatingBar ratingBar;
+		String typeRating = drink.getRatingType();
+		if(typeRating.equals("user")) {
+			predictedRatingBar.setVisibility(View.GONE);
+			ratingBar = userRatingBar;
+		} else {
+			userRatingBar.setVisibility(View.GONE);
+			ratingBar = predictedRatingBar;
+		}
+		ratingBar.setEnabled(false);
+		ratingBar.setRating((float) drink.getRating()); 
+		ratingBar.setIsIndicator(true);
 	}
 	/**
 	 * Goes home if the house icon is pressed, displays help if the question mark is pressed
