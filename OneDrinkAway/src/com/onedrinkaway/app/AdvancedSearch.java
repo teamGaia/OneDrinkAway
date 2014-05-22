@@ -1,10 +1,7 @@
 package com.onedrinkaway.app;
 
 import android.os.Bundle;
-import android.support.v4.app.Fragment;
-import android.view.LayoutInflater;
-import android.view.View;
-import android.view.ViewGroup;
+import android.support.v4.app.FragmentTabHost;
 
 import com.onedrinkaway.R;
 
@@ -17,35 +14,19 @@ import com.onedrinkaway.R;
 
 public class AdvancedSearch extends OneDrinkAwayActivity {
 
-	/**
-	 * Creates the layout for Advanced Search
-	 */
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		setContentView(R.layout.activity_advanced_search);
-
+		setContentView(R.layout.activity_new_user_rating);
 		
-		helpID = R.string.advanced_search_help;
+		FragmentTabHost mTabHost = (FragmentTabHost)findViewById(android.R.id.tabhost);
+        mTabHost.setup(this, getSupportFragmentManager(), R.id.realtabcontent);
+
+        mTabHost.addTab(mTabHost.newTabSpec("tab1").setIndicator("Category"),
+            CategoryFragment.class, null);
+        mTabHost.addTab(mTabHost.newTabSpec("tab2").setIndicator("Ingredients"),
+            IngredientFragment.class, null);
+        mTabHost.addTab(mTabHost.newTabSpec("tab3").setIndicator("Flavors"),
+            FlavorFragment.class, null);
 	}
-
-
-
-	/**
-	 * A placeholder fragment containing a simple view.
-	 */
-	public static class PlaceholderFragment extends Fragment {
-
-		public PlaceholderFragment() {
-		}
-
-		@Override
-		public View onCreateView(LayoutInflater inflater, ViewGroup container,
-				Bundle savedInstanceState) {
-			View rootView = inflater.inflate(R.layout.fragment_advanced_search,
-					container, false);
-			return rootView;
-		}
-	}
-
 }
