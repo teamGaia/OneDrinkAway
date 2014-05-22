@@ -5,8 +5,11 @@ package com.onedrinkaway.db;
  */
 
 import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
 import java.io.InputStream;
 import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -16,6 +19,7 @@ import java.util.Random;
 import java.util.Scanner;
 import java.util.Set;
 
+import android.content.Context;
 import android.content.res.AssetManager;
 
 import com.onedrinkaway.app.HomePage;
@@ -25,6 +29,9 @@ import com.onedrinkaway.model.DrinkInfo;
 public class DrinkData implements Serializable {
     
     private static DrinkData instance;
+    
+    // When debug == true, doesn't save any data, must be used outside of Android
+    private boolean debug = false;
     
     private static final long serialVersionUID = -8186058076202228351L;
 
@@ -89,7 +96,16 @@ public class DrinkData implements Serializable {
     }
     
     /**
-     * Resets singleton instance to a new DrinkData from given streams
+     * For testing
+     * @param debug
+     */
+    public void setDebug() {
+        debug = true;
+    }
+    
+    /**
+     * For testing purposes,resets singleton instance from given streams
+     * Also enter debug mode, which doesn't write any data to disc
      */
     public static DrinkData getDrinkData(InputStream drinkIs, InputStream drinkInfoIs) {
         instance = new DrinkData();
@@ -158,6 +174,8 @@ public class DrinkData implements Serializable {
         ratedDrinks.add(d);
         d.addUserRating(rating);
         // TODO: upload rating to database
+        if (!debug)
+            saveDrinkData();
     }
     
     /**
@@ -166,6 +184,8 @@ public class DrinkData implements Serializable {
      */
     public void addFavorite(Drink d) {
         favorites.add(d);
+        if (!debug)
+            saveDrinkData();
     }
     
     /**
@@ -216,6 +236,8 @@ public class DrinkData implements Serializable {
      */
     public void removeFavorite(Drink drink) {
         favorites.remove(drink);
+        if (!debug)
+            saveDrinkData();
     }
     
     /**
@@ -282,6 +304,21 @@ public class DrinkData implements Serializable {
             instance.drinkIngredients.put(d, new HashSet<String>());
         }
         instance.drinkIngredients.get(d).add(ingredient);
+    }
+    
+    /**
+     * Serializes DrinkData, saving it's current state
+     */
+    public void saveDrinkData() {
+        try {
+            FileOutputStream fos = HomePage.appContext.openFileOutput("drinkdata.ser", Context.MODE_PRIVATE);
+            ObjectOutputStream out = new ObjectOutputStream(fos);
+            out.writeObject(this);
+            out.close();
+            fos.close();
+        } catch(IOException i) {
+            i.printStackTrace();
+        }
     }
     
     /**

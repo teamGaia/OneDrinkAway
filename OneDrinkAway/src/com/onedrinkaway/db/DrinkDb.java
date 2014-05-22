@@ -4,15 +4,10 @@
 
 package com.onedrinkaway.db;
 
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.io.ObjectOutputStream;
 import java.util.Set;
 
-import android.content.Context;
 import android.provider.Settings.Secure;
 
-import com.onedrinkaway.app.HomePage;
 import com.onedrinkaway.model.Drink;
 import com.onedrinkaway.model.DrinkInfo;
 
@@ -35,20 +30,7 @@ public class DrinkDb {
         return dd.getDrink(name);
     }
     
-    /**
-     * Serializes DrinkData, saving it's current state
-     */
-    public static void saveDrinkData() {
-        try {
-            FileOutputStream fos = HomePage.appContext.openFileOutput("drinkdata.ser", Context.MODE_PRIVATE);
-            ObjectOutputStream out = new ObjectOutputStream(fos);
-            out.writeObject(dd);
-            out.close();
-            fos.close();
-        } catch(IOException i) {
-            i.printStackTrace();
-        }
-    }
+    
     
     /**
      * Finds DrinkInfo for a given drink
@@ -101,7 +83,7 @@ public class DrinkDb {
      */
     public static void addFavorite(Drink drink) {
         dd.addFavorite(drink);
-        saveDrinkData();
+        
     }
     
     /**
@@ -115,7 +97,7 @@ public class DrinkDb {
         if (rating < 1 || rating > 5)
             throw new IllegalArgumentException("score must be [1-5] inclusive");
         dd.addRating(drink, rating);
-        saveDrinkData();
+        
     }
     
     /**
@@ -141,7 +123,7 @@ public class DrinkDb {
      */
     public static void removeFavorite(Drink drink) {
         dd.removeFavorite(drink);
-        saveDrinkData();
+        
     }
     
     /**
@@ -150,5 +132,6 @@ public class DrinkDb {
      */
     public static void setDrinkData(DrinkData newD) {
         dd = newD;
+        dd.setDebug();
     }
 }
