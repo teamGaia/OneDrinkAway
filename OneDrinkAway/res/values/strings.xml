@@ -76,5 +76,7 @@
     <string name="remove">Remove</string>
     <string name="done">Done</string>
     <string name="empty_favorites">Your favorite drink list is currently empty.</string>
+    <string name="title_activity_new_user_rating">NewUserRatingActivity</string>
+    <string name="title_activity_tabs_fragment">TabsFragment</string>
 
 </resources>

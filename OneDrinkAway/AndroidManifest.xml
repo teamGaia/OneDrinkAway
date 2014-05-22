@@ -106,6 +106,14 @@
             android:name="com.onedrinkaway.TrySomethingNew"
             android:label="@string/title_activity_try_something_new" >
         </activity>
+        <activity
+            android:name="com.onedrinkaway.app.NewUserRatingActivity"
+            android:label="@string/title_activity_new_user_rating" >
+        </activity>
+        <activity
+            android:name="com.onedrinkaway.app.NewUserRateByName"
+            android:label="@string/title_activity_tabs_fragment" >
+        </activity>
     </application>
 
 </manifest>
