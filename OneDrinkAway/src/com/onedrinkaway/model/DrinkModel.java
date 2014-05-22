@@ -89,8 +89,10 @@ public class DrinkModel {
 		double threshHold = 4.0;
 		while(i < 5){
 			List<Drink> overThreshold = new ArrayList<Drink>();
-			for(Drink d : ratings){
-				if(d.getRating() > threshHold && d.getRating() < threshHold + 1.0){
+			for(Drink d : ratings){ 
+				if(d.getRating() > threshHold && 
+				   d.getRating() < threshHold + 1.0 &&
+				   !d.equals(results[0])){
 					overThreshold.add(d);
 				}
 			}
