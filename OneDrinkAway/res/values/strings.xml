@@ -76,7 +76,13 @@
     <string name="remove">Remove</string>
     <string name="done">Done</string>
     <string name="empty_favorites">Your favorite drink list is currently empty.</string>
-    <string name="title_activity_new_user_rating">NewUserRatingActivity</string>
-    <string name="title_activity_tabs_fragment">TabsFragment</string>
-
+    <string name="welcome_dialog">Welcome</string>
+    <string name="welcome_dialog_message">Welcome To One Drink Away! Rate some drinks to get started.</string>
+    <string name="why">Why?</string>
+    <string name="no">No Thanks</string>
+    <string name="sure">Sure!</string>
+    <string name="rate_drinks">Rate Drinks!</string>
+    <string name="bold_predicted_rating"><b>Predicted Rating</b></string>
+    <string name="why_message">Rating drinks allows us to make the best possible recommendations for you. If you do not rate any drinks, our suggestions will not be as accurate.</string>
+	<string name="title_activity_new_user_rating">Welcome to OneDrinkAway!</string>
 </resources>

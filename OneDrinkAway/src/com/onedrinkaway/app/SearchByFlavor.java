@@ -148,6 +148,7 @@ public class SearchByFlavor extends OneDrinkAwayActivity {
 			Log.i("Flavor", f.name + ": " + f.value + " " + query.getFlavors().size());
 		}
 		query = new Query();
+		
 		if (!drinksFound) {
 			error = true;
 			setUpView();

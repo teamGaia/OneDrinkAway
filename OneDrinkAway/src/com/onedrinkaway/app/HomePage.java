@@ -1,7 +1,9 @@
 package com.onedrinkaway.app;
 
+import android.app.DialogFragment;
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
@@ -35,6 +37,27 @@ public class HomePage extends OneDrinkAwayActivity {
 		helpID = R.string.help_home_page;
 		getSupportActionBar().setTitle(R.string.app_name);
 		getSupportActionBar().setDisplayHomeAsUpEnabled(false);
+		
+		checkNewUser();
+	}
+	
+	/**
+	 * Checks if this user is using the app for the first time, if so,
+	 * brings up the NewUserDialog asking if they want to rate some drinks
+	 */
+	private void checkNewUser() {
+		final String PREFS_NAME = "MyPrefsFile";
+
+		SharedPreferences settings = getSharedPreferences(PREFS_NAME, 0);
+
+		// if (settings.getBoolean("my_first_time", true)) {
+		    //the app is being launched for first time launch new user dialog       
+			DialogFragment newFragment = new NewUserDialog();
+		    newFragment.show(getFragmentManager(), "newUser");
+
+		    // record the fact that the app has been started at least once
+		    //settings.edit().putBoolean("my_first_time", false).commit(); 
+		//}
 	}
 	
 	/**

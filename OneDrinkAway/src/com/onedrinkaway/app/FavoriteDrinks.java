@@ -64,11 +64,9 @@ public class FavoriteDrinks extends OneDrinkAwayActivity {
 					//Set drink name
 					TextView drinklabel = (TextView) listItems.findViewById(R.id.favorite_drink_title);
 					drinklabel.setText(drink.name);
-					//Set ratings bar
-					RatingBar ratingBar = (RatingBar) listItems.findViewById(R.id.favorite_drink_rating);
-					ratingBar.setEnabled(false);
-					ratingBar.setRating((float) drink.getRating()); 
-					ratingBar.setIsIndicator(true);
+					
+					setRatingBar(listItems, drink);
+					
 					//add each drink option row to the favorites page linear layout
 					listView.addView(listItems); 
 					favoriteItems.put(listItems, drink);
@@ -83,6 +81,28 @@ public class FavoriteDrinks extends OneDrinkAwayActivity {
 			
 		}
 	
+	}
+	
+	/**
+	 * Distinguishes whether to use user rating bar or predicted rating bar and sets the correct one
+	 * @param listItems favorites_list_item View
+	 * @para drink the favorite drink being displayed for the particular listItems View
+	 */
+	private void setRatingBar(View listItems, Drink drink) {
+		RatingBar userRatingBar = (RatingBar) listItems.findViewById(R.id.favorite_user_drink_rating);
+		RatingBar predictedRatingBar = (RatingBar) listItems.findViewById(R.id.favorite_predicted_drink_rating);
+		RatingBar ratingBar;
+		String typeRating = drink.getRatingType();
+		if(typeRating.equals("user")) {
+			predictedRatingBar.setVisibility(View.GONE);
+			ratingBar = userRatingBar;
+		} else {
+			userRatingBar.setVisibility(View.GONE);
+			ratingBar = predictedRatingBar;
+		}
+		ratingBar.setEnabled(false);
+		ratingBar.setRating((float) drink.getRating()); 
+		ratingBar.setIsIndicator(true);
 	}
 	
 	/**

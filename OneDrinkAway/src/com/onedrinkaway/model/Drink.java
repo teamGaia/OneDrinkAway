@@ -61,7 +61,11 @@ public class Drink implements Comparable<Drink>, Serializable {
   }
   
   /**
-   * Adds a user rating to this Drink, do not call this, instead call AddRating in DrinkModel
+   * DO NOT CALL THIS. Call AddRating in DrinkModel instead.
+   * 
+   * This should only be called by DrinkData
+   * 
+   * Adds a user rating to this Drink.
    * 
    * @param score the rating to add
    */
@@ -82,6 +86,7 @@ public class Drink implements Comparable<Drink>, Serializable {
   public int getUserRating() {
       return userRating;
   }
+  
   
   /**
    * Gets the rating for this Drink. Returns the rating with highest precedence.

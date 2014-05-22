@@ -155,20 +155,32 @@ public class DrinkInfoPage extends OneDrinkAwayActivity {
 	 * If the other two ratings are -1 then the average user rating is shown
 	 */
 	private void setRatingBar() {
-		RatingBar ratingBar = (RatingBar) findViewById(R.id.drink_info_rating_bar);
+		RatingBar userRatingBar = (RatingBar) findViewById(R.id.drink_info_user_rating_bar);
+		RatingBar predictedRatingBar = (RatingBar) findViewById(R.id.drink_info_predicted_rating_bar);
 		String typeRating = drink.getRatingType();
+		Float rating = (float) drink.getRating();
 		
+		if(typeRating.equals("user")) { //user rating is set
+			userRatingBar.setRating(rating);
+			predictedRatingBar.setVisibility(View.GONE);
+			TextView predictedRatingLabel = (TextView) findViewById(R.id.drink_info_predicted_text_view);
+			predictedRatingLabel.setVisibility(View.GONE);
+			
+		} else {
+			userRatingBar.setRating((float)0.0);
+			predictedRatingBar.setRating(rating);
+		}
 
-		ratingBar.setRating((float) drink.getRating());
 		
 		
-		ratingBar.setOnRatingBarChangeListener(new OnRatingBarChangeListener() {
+		
+		userRatingBar.setOnRatingBarChangeListener(new OnRatingBarChangeListener() {
 			
 			public void onRatingChanged(RatingBar ratingBar, float rating,
 				boolean fromUser) {
 	 
-
-				DrinkModel.addRating(drink, (int)Math.ceil(rating));
+				if(rating != 0) 
+					DrinkModel.addRating(drink, (int)Math.ceil(rating));
 			}
 
 
