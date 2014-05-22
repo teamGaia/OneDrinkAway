@@ -76,5 +76,9 @@
     <string name="remove">Remove</string>
     <string name="done">Done</string>
     <string name="empty_favorites">Your favorite drink list is currently empty.</string>
-
+    <string name="welcome_dialog">Welcome</string>
+    <string name="welcome_dialog_message">Welcome To One Drink Away! Rate some drinks to get started.</string>
+    <string name="why">Why?</string>
+    <string name="no">No Thanks</string>
+    <string name="rate_drinks">Rate Drinks!</string>
 </resources>

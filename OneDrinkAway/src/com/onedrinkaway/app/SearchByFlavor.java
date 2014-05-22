@@ -142,6 +142,7 @@ public class SearchByFlavor extends OneDrinkAwayActivity {
 	public void goToResults(View view) {
 		boolean drinksFound = DrinkModel.searchForDrinks(query);
 		query = new Query();
+		
 		if (!drinksFound) {
 			error = true;
 			setUpView();
