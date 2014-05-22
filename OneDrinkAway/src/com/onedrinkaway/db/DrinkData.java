@@ -1,7 +1,9 @@
 package com.onedrinkaway.db;
 
 /**
- * Helper for DrinkDb, singleton.
+ * Helper for DrinkDb, singleton. Main data structure.
+ * Attempts to deserialize itself, falling back to database if serialized image is not available.
+ * If data connection fails, reads in data from text.
  */
 
 import java.io.FileNotFoundException;
