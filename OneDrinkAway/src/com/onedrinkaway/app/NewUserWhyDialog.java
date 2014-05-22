@@ -4,6 +4,7 @@ import android.app.AlertDialog;
 import android.app.Dialog;
 import android.app.DialogFragment;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.os.Bundle;
 
 import com.onedrinkaway.R;
@@ -34,8 +35,8 @@ public class NewUserWhyDialog extends DialogFragment {
             	    * NewUserRatingActivity to rate some drinks
             	    */
                    public void onClick(DialogInterface dialog, int id) {
-                	// Intent intent = new Intent(getBaseContext(), NewUserRatingActivity.class);    
-                	// startActivity(intent);
+                	   Intent intent = new Intent(getActivity(), NewUserRatingActivity.class);    
+                	   startActivity(intent);
                    }
                })
                .setNegativeButton(R.string.no, new DialogInterface.OnClickListener() {
