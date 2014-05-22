@@ -3,7 +3,9 @@ package com.onedrinkaway.app;
 import android.app.AlertDialog;
 import android.app.Dialog;
 import android.app.DialogFragment;
+import android.content.Context;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.os.Bundle;
 
 import com.onedrinkaway.R;
@@ -31,8 +33,8 @@ public class NewUserDialog extends DialogFragment {
             	    * The "Sure!" button listener that brings the user to the NewUserRatingActivity
             	    */
                    public void onClick(DialogInterface dialog, int id) {
-                	   // Intent intent = new Intent(getBaseContext(), NewUserRatingActivity.class);    
-                	   // startActivity(i);
+                	   Intent intent = new Intent(getActivity(), NewUserRatingActivity.class);    
+                	   startActivity(intent);
                    }
                })
                .setNegativeButton(R.string.no, new DialogInterface.OnClickListener() {
