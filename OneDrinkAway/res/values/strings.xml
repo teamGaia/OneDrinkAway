@@ -76,5 +76,6 @@
     <string name="remove">Remove</string>
     <string name="done">Done</string>
     <string name="empty_favorites">Your favorite drink list is currently empty.</string>
+    <string name="bold_predicted_rating"><b>Predicted Rating</b></string>
 
 </resources>

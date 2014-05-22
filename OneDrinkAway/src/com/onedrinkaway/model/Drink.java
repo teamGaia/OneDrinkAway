@@ -83,6 +83,7 @@ public class Drink implements Comparable<Drink>, Serializable {
       return userRating;
   }
   
+  
   /**
    * Gets the rating for this Drink. Returns the rating with highest precedence.
    * Precedence: userRating > predictedRating > avgRating
