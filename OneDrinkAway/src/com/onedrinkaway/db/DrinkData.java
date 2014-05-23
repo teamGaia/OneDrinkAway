@@ -21,12 +21,13 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 import java.util.Queue;
-import java.util.Scanner;
 import java.util.Set;
+
 import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.res.AssetManager;
 import android.os.AsyncTask;
+
 import com.onedrinkaway.app.HomePage;
 import com.onedrinkaway.model.Drink;
 import com.onedrinkaway.model.DrinkInfo;
@@ -41,6 +42,8 @@ public class DrinkData implements Serializable {
     private boolean debug = false;
     
     private static final long serialVersionUID = -8186058076202228351L;
+    
+    private String userId;
 
     // hashSet of all drink objects
     private HashSet<Drink> drinks;
@@ -80,7 +83,7 @@ public class DrinkData implements Serializable {
      * Deserializes and populates singleton instance if found. Then updates from database
      * Asynchronously. Must be called within Android.
      */
-    public static DrinkData getDrinkData() {
+    public static DrinkData getDrinkData(String userId) {
         // Run in non-main thread, allows asynchronous access
         //StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
         //StrictMode.setThreadPolicy(policy);
@@ -89,8 +92,9 @@ public class DrinkData implements Serializable {
             if (!deserialize()) {
                 instance = new DrinkData();
             }
-            instance.updateInstanceAsync(null);
+            instance.updateInstanceAsync();
         }
+        instance.userId = userId;
         return instance;
     }
     
@@ -98,9 +102,10 @@ public class DrinkData implements Serializable {
      * Sets up DrinkData from database and return singleton instance, should work 
      * outside Android. Must call debug as well
      */
-    public static DrinkData getDrinkDataDB(String password) {
+    public static DrinkData getDrinkDataDB(String userId) {
         instance = new DrinkData();
-        updateInstance(password, "test");
+        instance.userId = userId;
+        updateInstance();
         return instance;
     }
     
@@ -212,9 +217,9 @@ public class DrinkData implements Serializable {
     }
     
     /**
-     * Serializes DrinkData, saving it's current state
+     * Serializes DrinkData, saving it's current state, if not in debug mode.
      */
-    public void saveDrinkData() {
+    private void saveDrinkData() {
         if (!debug) {
             new DbUpdate().execute("uploadDrinks");
             try {
@@ -230,17 +235,32 @@ public class DrinkData implements Serializable {
     }
     
     /**
+     * Serializes DrinkData, saving it's current state to given outputstream
+     */
+    public void saveDrinkDataDebug(FileOutputStream fos) {
+        //new DbUpdate().execute("uploadDrinks");
+        try {
+            ObjectOutputStream out = new ObjectOutputStream(fos);
+            out.writeObject(this);
+            out.close();
+            fos.close();
+        } catch(IOException i) {
+            i.printStackTrace();
+        }
+    }
+    
+    /**
      * Pulls data from Database and updates instance
      */
-    private void updateInstanceAsync(String password) {
+    private void updateInstanceAsync() {
         new DbUpdate().execute("update");
     }
     
     /**
      * Gets average user rating for a drink
      */
-    private static double getAvgRating(int drinkId, String password) throws Exception {
-        getConnection(password);
+    private static double getAvgRating(int drinkId) throws Exception {
+        getConnection();
         String ratingSQL = "SELECT AVG(rating) FROM RATING GROUP BY drinkid HAVING drinkid = " + drinkId;
         Statement stmt = conn.createStatement();
         ResultSet rs = stmt.executeQuery(ratingSQL);
@@ -261,6 +281,16 @@ public class DrinkData implements Serializable {
             return true;
         } catch (Exception e) {
             e.printStackTrace();
+            try {
+                AssetManager assets = HomePage.appContext.getAssets();
+                InputStream is = assets.open("drinkdata.ser");
+                ObjectInputStream in = new ObjectInputStream(is);
+                instance = (DrinkData) in.readObject();
+                in.close();
+                return true;
+            } catch (Exception e2) {
+                e2.printStackTrace();
+            }
             return false;
         }
     }
@@ -291,12 +321,12 @@ public class DrinkData implements Serializable {
      * Searches for and returns a set of the users favorites found in database
      * @return a set of drinkids
      */
-    private static Set<Integer> getFavoritesDb(String password, String userId) {
+    private static Set<Integer> getFavoritesDb() {
         Set<Integer> result = new HashSet<Integer>();
         try {
-            getConnection(password);
+            getConnection();
             Statement stmt = conn.createStatement();
-            String sql = "SELECT drinkid FROM FAVORITE WHERE userid = '" + userId + "'";
+            String sql = "SELECT drinkid FROM FAVORITE WHERE userid = '" + instance.userId + "'";
             ResultSet rs = stmt.executeQuery(sql);
             while (rs.next()) {
                 result.add(rs.getInt(1));
@@ -312,12 +342,12 @@ public class DrinkData implements Serializable {
      * @return a map of drinkid->rating
      */
     @SuppressLint("UseSparseArrays")
-    private static Map<Integer, Integer> getRatingsDb(String password, String userId) {
+    private static Map<Integer, Integer> getRatingsDb() {
         Map<Integer, Integer> idToRating = new HashMap<Integer, Integer>();
         try {
-            getConnection(password);
+            getConnection();
             Statement stmt = conn.createStatement();
-            String sql = "SELECT drinkid, rating FROM RATING WHERE userid = '" + userId + "'";
+            String sql = "SELECT drinkid, rating FROM RATING WHERE userid = '" + instance.userId + "'";
             ResultSet rs = stmt.executeQuery(sql);
             while (rs.next()) {
                 int drinkid = rs.getInt(1);
@@ -334,15 +364,9 @@ public class DrinkData implements Serializable {
      * Attempts to establish connection to database
      * @throws Exception if connection fails
      */
-    private static void getConnection(String password) throws Exception {
+    private static void getConnection() throws Exception {
         if (conn == null) {
-            if (password == null) {
-                AssetManager assets = HomePage.appContext.getAssets();
-                InputStream pwd = assets.open("pwd.txt");
-                Scanner sc = new Scanner(pwd);
-                password = sc.next();
-                sc.close();
-            }
+            String password = "ghghghgh1";
             String dbName = "onedrinkaway"; 
             String userName = "teamgaia"; 
             String hostname = "onedrinkaway.ctfs3q1wopmj.us-west-2.rds.amazonaws.com";
@@ -362,7 +386,7 @@ public class DrinkData implements Serializable {
      */
     private static void uploadDrinks() {
         try {
-            getConnection(null);
+            getConnection();
             Statement stmt = conn.createStatement();
             long startTime = System.currentTimeMillis();
             long duration = 0;
@@ -371,18 +395,18 @@ public class DrinkData implements Serializable {
                 try {
                     if (d.getUserRating() > -1) {
                         String remSQL = "DELETE FROM RATING WHERE drinkid = " + d.id +
-                                " AND userid = '" + DrinkDb.USER_ID + "'";
+                                " AND userid = '" + instance.userId + "'";
                         stmt.executeUpdate(remSQL);
                         String addSQL = "INSERT INTO RATING VALUES (" + d.id + ", " + 
-                                        d.getUserRating() + ", '" + DrinkDb.USER_ID + "')";
+                                        d.getUserRating() + ", '" + instance.userId + "')";
                         stmt.executeUpdate(addSQL);
                     }
                     String remSQL = "DELETE FROM FAVORITE WHERE drinkid = " + d.id +
-                            " AND userid = '" + DrinkDb.USER_ID + "'";
+                            " AND userid = '" + instance.userId + "'";
                     stmt.executeUpdate(remSQL);
                     if (instance.favorites.contains(d)) {
                         String addSQL = "INSERT INTO FAVORITE VALUES (" + d.id + ", '" +
-                                        DrinkDb.USER_ID + "')";
+                                        instance.userId + "')";
                         stmt.executeUpdate(addSQL);
                     }
                 } catch (Exception e) {
@@ -399,12 +423,12 @@ public class DrinkData implements Serializable {
     /**
      * Pulls data from Database and updates instance
      */
-    private static void updateInstance(String password, String userId) {
+    private static void updateInstance() {
         try {
-            getConnection(password);
+            getConnection();
             Statement stmt = conn.createStatement();
-            Set<Integer> favs = getFavoritesDb(password, userId);
-            Map<Integer, Integer> ratings = getRatingsDb(password, userId);
+            Set<Integer> favs = getFavoritesDb();
+            Map<Integer, Integer> ratings = getRatingsDb();
             String drinkSQL = "SELECT * FROM DRINK";
             ResultSet drinkRS = stmt.executeQuery(drinkSQL);
             while (drinkRS.next()) {
@@ -421,7 +445,7 @@ public class DrinkData implements Serializable {
                     for (int i = 0; i < 11; i++) {
                         att[i] = drinkRS.getInt(i + 8);
                     }
-                    double avg = getAvgRating(id, password);
+                    double avg = getAvgRating(id);
                     // get categories
                     List<String> categoriesList = new ArrayList<String>();
                     String csql = "SELECT * FROM CATEGORY WHERE drinkid = " + id;
@@ -462,7 +486,7 @@ public class DrinkData implements Serializable {
         @Override
         protected Void doInBackground(String... params) {
             if (params[0].equals("update"))
-                updateInstance(null, DrinkDb.USER_ID);
+                updateInstance();
             else if (params[0].equals("uploadDrinks")) {
                 uploadDrinks();
             }
