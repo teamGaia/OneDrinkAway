@@ -17,7 +17,7 @@ public class AdvancedSearch extends OneDrinkAwayActivity {
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		setContentView(R.layout.activity_new_user_rating);
+		setContentView(R.layout.activity_advanced_search);
 		
 		FragmentTabHost mTabHost = (FragmentTabHost)findViewById(android.R.id.tabhost);
         mTabHost.setup(this, getSupportFragmentManager(), R.id.realtabcontent);
