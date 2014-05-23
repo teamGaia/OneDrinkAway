@@ -1,5 +1,6 @@
 package com.onedrinkaway.app;
 
+import android.app.Activity;
 import android.content.Context;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -16,14 +17,15 @@ import com.onedrinkaway.R;
 import com.onedrinkaway.model.Flavor;
 
 public class FlavorFragment extends Fragment {
+	private Activity parentActivity; //TODO
 	private TableLayout flavorsScrollViewTable;
-	
 	private Button flavorSearchButton;
 	
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 	    View view = inflater.inflate(R.layout.fragment_flavor, null);
 	   
+	    
 		setUpView(view);
 		displayFlavors();	
 		
@@ -79,21 +81,15 @@ public class FlavorFragment extends Fragment {
 		public void onProgressChanged(SeekBar seekbar, int progress, boolean fromUser) {
 			progressChanged = progress;
 			Flavor newFlavor = new Flavor(flavor, progressChanged);
-//			query.add(newFlavor);
-//			Log.i("Query size", query.getFlavors().size() + "");
+			AdvancedSearch as = (AdvancedSearch) getActivity();
+			as.query.add(newFlavor);
 		}
 		
 
 		@Override
-		public void onStartTrackingTouch(SeekBar arg0) {
-			// TODO Auto-generated method stub
-			
-		}
+		public void onStartTrackingTouch(SeekBar arg0) {}
 
 		@Override
-		public void onStopTrackingTouch(SeekBar seekBar) {
-			// TODO Auto-generated method stub
-			
-		}
+		public void onStopTrackingTouch(SeekBar seekBar) {}
 	}
 }

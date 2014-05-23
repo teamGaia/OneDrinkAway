@@ -1,7 +1,7 @@
 package com.onedrinkaway.app;
 
-import android.app.DialogFragment;
 import android.app.ActionBar.LayoutParams;
+import android.app.DialogFragment;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
@@ -42,6 +42,7 @@ public class CategoryFragment extends Fragment {
                     LayoutParams.MATCH_PARENT,
                     LayoutParams.MATCH_PARENT, 1.0f);
 			category.setLayoutParams(param);
+			category.setId(categories[i].hashCode());
 			category.setText(categories[i]);
 			category.setOnLongClickListener(new View.OnLongClickListener(){
 				@Override
@@ -60,5 +61,4 @@ public class CategoryFragment extends Fragment {
 			curRow.addView(category);
 		}
 	}
-	
 }

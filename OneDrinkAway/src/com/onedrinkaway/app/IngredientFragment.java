@@ -6,13 +6,17 @@ import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
+import android.widget.AdapterView.OnItemClickListener;
 import android.widget.ArrayAdapter;
+import android.widget.CheckedTextView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.SearchView;
 
 import com.onedrinkaway.R;
 import com.onedrinkaway.model.DrinkModel;
+import com.onedrinkaway.model.Query;
 
 public class IngredientFragment extends Fragment implements SearchView.OnQueryTextListener {
 	private String[] ingredients;
@@ -49,6 +53,20 @@ public class IngredientFragment extends Fragment implements SearchView.OnQueryTe
                ingredients));
        listView.setTextFilterEnabled(true);
        listView.setChoiceMode(ListView.CHOICE_MODE_MULTIPLE);
+       listView.setOnItemClickListener(new OnItemClickListener() {
+    	   @Override
+           public void onItemClick(AdapterView<?> parent, View v, int position, long id) {
+    		   AdvancedSearch as = (AdvancedSearch) getActivity();
+    		   Query query = as.query;
+    		   String checkedIngr = (String) ((CheckedTextView) v).getText();
+
+    		   if (query.getIngredients().contains(checkedIngr)) {
+    			   query.remove(checkedIngr);
+    		   } else {
+    			   query.add(checkedIngr);
+    		   }
+           }
+       });
    }
 
    public boolean onQueryTextChange(String newText) {

@@ -8,4 +8,4 @@
     android:drawablePadding="5dip"
     android:padding="20dip"
     android:clickable="true"
-    android:onClick="goToResults" />
+    android:onClick="categorySelected" />
