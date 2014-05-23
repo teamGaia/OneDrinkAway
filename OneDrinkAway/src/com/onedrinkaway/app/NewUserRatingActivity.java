@@ -12,6 +12,9 @@ import com.onedrinkaway.R;
  */
 public class NewUserRatingActivity extends OneDrinkAwayActivity {
 
+	/**
+	 * Creates the layout for the page, adds the Find and Rate tab and the Rate Common Drinks tab
+	 */
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);

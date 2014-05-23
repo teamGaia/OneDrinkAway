@@ -12,7 +12,7 @@ import com.onedrinkaway.model.DrinkModel;
 
 /**
  * This class implements the Advanced Search feature which allows the user to
- * search by flavors, category, name, and ingredients all at once
+ * search by flavors, category, and ingredients all at once
  * @author nicolekihara
  *
  */

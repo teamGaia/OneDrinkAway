@@ -17,15 +17,24 @@ import android.widget.RatingBar.OnRatingBarChangeListener;
 import com.onedrinkaway.R;
 import com.onedrinkaway.model.DrinkModel;
 
+/**
+ * The page that displays when a new user wants to rate drinks and presses the Rate By Name tab.
+ * It allows the user to look at all of our drinks and rate them.
+ * @author Andrea Martin
+ *
+ */
 public class NewUserRateByName extends Fragment {
 	//temp string names of common drinks
 	private String[] allDrinks;
 	
 	//maps id value of rating bar to its drink name
 	private Map<RatingBar, String> ratingBarsMap;
+	
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 		allDrinks = DrinkModel.getDrinkNames();
+		
+		// Sort the arrays alphabetically
 		Arrays.sort(allDrinks);
 		ratingBarsMap = new HashMap<RatingBar, String>();
 	   LinearLayout newUserCommonView = 
@@ -33,6 +42,7 @@ public class NewUserRateByName extends Fragment {
 	   
 	   LinearLayout drinkContainer = (LinearLayout) newUserCommonView.findViewById(R.id.rate_by_name_container);
 	   
+	   // Display each drink name and rating bar
 	   for(int i = 0; i < allDrinks.length; i++) {
 		   LinearLayout rateDrink = (LinearLayout) inflater.inflate(R.layout.common_drinks, null);
 		   TextView commonDrinkTitle = (TextView) rateDrink.findViewById(R.id.common_drink_title);
@@ -44,8 +54,12 @@ public class NewUserRateByName extends Fragment {
 		   ratingBar.setStepSize((float)1.0);
 		   ratingBar.setRating((float) 0.0);
 		
+		   // Set the rating bar listener
 		   ratingBar.setOnRatingBarChangeListener(new OnRatingBarChangeListener() {
 				
+			   /**
+			    * Stores the user's rating when they press 1 to 5 stars on the rating bar
+			    */
 				public void onRatingChanged(RatingBar ratingBar, float rating,
 					boolean fromUser) {
 		 
