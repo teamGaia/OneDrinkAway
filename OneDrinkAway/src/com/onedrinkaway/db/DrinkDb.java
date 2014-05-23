@@ -29,9 +29,10 @@ public class DrinkDb {
         // Run in non-main thread, allows asynchronous access
         //StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
         //StrictMode.setThreadPolicy(policy);
-        dd = DrinkData.getDrinkData();
         USER_ID = Secure.getString(HomePage.appContext.getContentResolver(),
                 Secure.ANDROID_ID);
+        dd = DrinkData.getDrinkData(USER_ID);
+        
         open = true;
     }
     
