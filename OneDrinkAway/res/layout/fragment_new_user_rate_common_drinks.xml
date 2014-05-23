@@ -6,9 +6,20 @@
         android:orientation="vertical"
         tools:context=".DeviceFragment" >
 
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Rate common drinks fragment!" />
+    <ScrollView 
+        android:id="@+id/common_drink_scroll_view"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content">
+        
+        <LinearLayout
+            android:id="@+id/common_drink_container"
+            android:layout_height="wrap_content"
+            android:layout_width="fill_parent"
+            android:orientation="vertical"
+            >
+            
+        </LinearLayout>
+        
+    </ScrollView>
 
 </LinearLayout>

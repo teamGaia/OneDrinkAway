@@ -85,4 +85,5 @@
     <string name="bold_predicted_rating"><b>Predicted Rating</b></string>
     <string name="why_message">Rating drinks allows us to make the best possible recommendations for you. If you do not rate any drinks, our suggestions will not be as accurate.</string>
 	<string name="title_activity_new_user_rating">Welcome to OneDrinkAway!</string>
+	<string name="finish">Finish</string>
 </resources>
