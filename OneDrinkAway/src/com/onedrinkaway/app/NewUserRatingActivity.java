@@ -1,7 +1,9 @@
 package com.onedrinkaway.app;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.FragmentTabHost;
+import android.view.View;
 
 import com.onedrinkaway.R;
 
@@ -19,5 +21,11 @@ public class NewUserRatingActivity extends OneDrinkAwayActivity {
             NewUserRateByName.class, null);
         mTabHost.addTab(mTabHost.newTabSpec("tab2").setIndicator("Rate Common Drinks"),
             NewUserRateCommonDrinks.class, null);
+        
+	}
+	
+	public void goHome(View view) {
+		Intent intent = new Intent(this, HomePage.class);
+		startActivity(intent);
 	}
 }
