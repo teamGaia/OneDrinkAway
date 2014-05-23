@@ -7,6 +7,9 @@ import android.view.View;
 
 import com.onedrinkaway.R;
 
+/**
+ * Shows the new user two ways to rate common drinks, by name and by common drinks
+ */
 public class NewUserRatingActivity extends OneDrinkAwayActivity {
 
 	@Override
@@ -24,6 +27,10 @@ public class NewUserRatingActivity extends OneDrinkAwayActivity {
         
 	}
 	
+	/**
+	 * Goes home when a user clicks finish
+	 * @param view View of the finish button
+	 */
 	public void goHome(View view) {
 		Intent intent = new Intent(this, HomePage.class);
 		startActivity(intent);

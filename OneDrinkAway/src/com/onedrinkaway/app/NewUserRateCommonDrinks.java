@@ -19,6 +19,7 @@ import com.onedrinkaway.model.DrinkModel;
 
 public class NewUserRateCommonDrinks extends Fragment {
 	
+	//temp string names of common drinks
 	private String[] commonDrinks = {"Gin and Tonic", "Apple Martini", "White Russian", "Rum and Coke", "Mojito", "Daiquiri",
 									"Lemon Drop", "Bloody Mary"};
 	

@@ -6,9 +6,20 @@
         android:orientation="vertical"
         tools:context=".DeviceFragment" >
 
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Rate by name fragement!" />
+    <ScrollView 
+        android:id="@+id/rate_by_name_scroll_view"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content">
+        
+        <LinearLayout
+            android:id="@+id/rate_by_name_container"
+            android:layout_height="wrap_content"
+            android:layout_width="fill_parent"
+            android:orientation="vertical"
+            >
+            
+        </LinearLayout>
+        
+    </ScrollView>
 
 </LinearLayout>
