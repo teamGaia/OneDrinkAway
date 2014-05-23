@@ -20,8 +20,7 @@ import com.onedrinkaway.model.DrinkInfo;
 
 public class DrinkDb {
     
-    public static final String USER_ID = Secure.getString(HomePage.appContext.getContentResolver(),
-                                         Secure.ANDROID_ID);
+    public static String USER_ID = null;
     private static DrinkData dd = null;
     // true if dd has been loaded, false if not
     private static boolean open;
@@ -31,6 +30,8 @@ public class DrinkDb {
         //StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
         //StrictMode.setThreadPolicy(policy);
         dd = DrinkData.getDrinkData();
+        USER_ID = Secure.getString(HomePage.appContext.getContentResolver(),
+                Secure.ANDROID_ID);
         open = true;
     }
     

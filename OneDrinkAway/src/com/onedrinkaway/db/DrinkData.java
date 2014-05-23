@@ -100,7 +100,7 @@ public class DrinkData implements Serializable {
      */
     public static DrinkData getDrinkDataDB(String password) {
         instance = new DrinkData();
-        updateInstance(password);
+        updateInstance(password, "test");
         return instance;
     }
     
@@ -291,12 +291,12 @@ public class DrinkData implements Serializable {
      * Searches for and returns a set of the users favorites found in database
      * @return a set of drinkids
      */
-    private static Set<Integer> getFavoritesDb() {
+    private static Set<Integer> getFavoritesDb(String password, String userId) {
         Set<Integer> result = new HashSet<Integer>();
         try {
-            getConnection(null);
+            getConnection(password);
             Statement stmt = conn.createStatement();
-            String sql = "SELECT drinkid FROM FAVORITE WHERE userid = '" + DrinkDb.USER_ID + "'";
+            String sql = "SELECT drinkid FROM FAVORITE WHERE userid = '" + userId + "'";
             ResultSet rs = stmt.executeQuery(sql);
             while (rs.next()) {
                 result.add(rs.getInt(1));
@@ -312,12 +312,12 @@ public class DrinkData implements Serializable {
      * @return a map of drinkid->rating
      */
     @SuppressLint("UseSparseArrays")
-    private static Map<Integer, Integer> getRatingsDb() {
+    private static Map<Integer, Integer> getRatingsDb(String password, String userId) {
         Map<Integer, Integer> idToRating = new HashMap<Integer, Integer>();
         try {
-            getConnection(null);
+            getConnection(password);
             Statement stmt = conn.createStatement();
-            String sql = "SELECT drinkid, rating FROM RATING WHERE userid = '" + DrinkDb.USER_ID + "'";
+            String sql = "SELECT drinkid, rating FROM RATING WHERE userid = '" + userId + "'";
             ResultSet rs = stmt.executeQuery(sql);
             while (rs.next()) {
                 int drinkid = rs.getInt(1);
@@ -399,12 +399,12 @@ public class DrinkData implements Serializable {
     /**
      * Pulls data from Database and updates instance
      */
-    private static void updateInstance(String password) {
+    private static void updateInstance(String password, String userId) {
         try {
             getConnection(password);
             Statement stmt = conn.createStatement();
-            Set<Integer> favs = getFavoritesDb();
-            Map<Integer, Integer> ratings = getRatingsDb();
+            Set<Integer> favs = getFavoritesDb(password, userId);
+            Map<Integer, Integer> ratings = getRatingsDb(password, userId);
             String drinkSQL = "SELECT * FROM DRINK";
             ResultSet drinkRS = stmt.executeQuery(drinkSQL);
             while (drinkRS.next()) {
@@ -462,7 +462,7 @@ public class DrinkData implements Serializable {
         @Override
         protected Void doInBackground(String... params) {
             if (params[0].equals("update"))
-                updateInstance(null);
+                updateInstance(null, DrinkDb.USER_ID);
             else if (params[0].equals("uploadDrinks")) {
                 uploadDrinks();
             }
