@@ -91,7 +91,7 @@ public class DrinkModel {
 			List<Drink> overThreshold = new ArrayList<Drink>();
 			for(Drink d : ratings){ 
 				if(d.getRating() > threshHold && 
-				   d.getRating() < threshHold + 1.0 &&
+				   d.getRating() <= threshHold + 1.0 &&
 				   !d.equals(results[0])){
 					overThreshold.add(d);
 				}
