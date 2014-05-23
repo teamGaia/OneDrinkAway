@@ -4,30 +4,38 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-<LinearLayout
-    android:orientation="vertical"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent">
-
-    <TabWidget
-        android:id="@android:id/tabs"
-
-        android:orientation="horizontal"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_weight="0"/>
-
-    <FrameLayout
-        android:id="@android:id/tabcontent"
-        android:layout_width="0dp"
-        android:layout_height="0dp"
-        android:layout_weight="0"/>
-
-    <FrameLayout
-        android:id="@+id/realtabcontent"
-        android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_weight="1"/>
-
-</LinearLayout>
+	<LinearLayout
+	    android:orientation="vertical"
+	    android:layout_width="match_parent"
+	    android:layout_height="match_parent">
+	
+	    <TabWidget android:id="@android:id/tabs"
+	        android:orientation="horizontal"
+	        android:layout_width="match_parent"
+	        android:layout_height="wrap_content"
+	        android:layout_weight="0"/>
+	
+	    <FrameLayout android:id="@android:id/tabcontent"
+	        android:layout_width="0dp"
+	        android:layout_height="0dp"
+	        android:layout_weight="0"/>
+	
+	    <FrameLayout android:id="@+id/realtabcontent"
+	        android:layout_width="match_parent"
+	        android:layout_height="0dp"
+	        android:layout_weight="1"/>
+	    
+	    <LinearLayout android:id="@+id/new_user_button_bar"
+	        android:layout_width="fill_parent"
+	        android:layout_height="wrap_content"
+	        style="@android:style/ButtonBar" >
+	        
+	        <Button android:id="@+id/new_user_done_button"
+	           android:layout_width="match_parent"
+	           android:layout_height="match_parent"
+	           android:text="@string/search_button" 
+	           android:onClick="goToResults" />
+	    
+	    </LinearLayout>
+	</LinearLayout>
 </android.support.v4.app.FragmentTabHost>

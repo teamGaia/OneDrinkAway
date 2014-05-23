@@ -1,9 +1,14 @@
 package com.onedrinkaway.app;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.FragmentTabHost;
+import android.view.View;
+import android.widget.TextView;
+import android.widget.Toast;
 
 import com.onedrinkaway.R;
+import com.onedrinkaway.model.DrinkModel;
 
 /**
  * This class implements the Advanced Search feature which allows the user to
@@ -28,5 +33,20 @@ public class AdvancedSearch extends OneDrinkAwayActivity {
             IngredientFragment.class, null);
         mTabHost.addTab(mTabHost.newTabSpec("tab3").setIndicator("Flavors"),
             FlavorFragment.class, null);
+	}
+	
+	public void goToResults(View view) {
+//		Intent intent = new Intent(this, ResultsPage.class);
+//		String categoryName = (String) ((TextView) view).getText();
+//		query.setCategory(categoryName);
+//		boolean drinksFound = DrinkModel.searchForDrinks(query);
+//		if (drinksFound) {
+//		    // hurray found at least one drink, go to ResultsPage
+//		    intent.putExtra("title", categoryName);
+//		    startActivity(intent);
+//		    
+//		} else {
+			Toast.makeText(getApplicationContext(), "No results found!", Toast.LENGTH_LONG).show();
+//		}
 	}
 }
