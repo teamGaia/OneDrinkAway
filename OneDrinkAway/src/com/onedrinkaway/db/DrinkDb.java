@@ -8,6 +8,7 @@ import java.util.Set;
 
 import android.provider.Settings.Secure;
 
+import com.onedrinkaway.app.HomePage;
 import com.onedrinkaway.model.Drink;
 import com.onedrinkaway.model.DrinkInfo;
 
@@ -19,7 +20,8 @@ import com.onedrinkaway.model.DrinkInfo;
 
 public class DrinkDb {
     
-    public static final String ID = Secure.ANDROID_ID;
+    public static final String USER_ID = Secure.getString(HomePage.appContext.getContentResolver(),
+                                         Secure.ANDROID_ID);
     private static DrinkData dd = null;
     // true if dd has been loaded, false if not
     private static boolean open;
