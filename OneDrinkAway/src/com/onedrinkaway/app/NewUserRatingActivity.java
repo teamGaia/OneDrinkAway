@@ -17,6 +17,8 @@ public class NewUserRatingActivity extends OneDrinkAwayActivity {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_new_user_rating);
 		
+		helpID = R.string.new_user_help;
+		
 		FragmentTabHost mTabHost = (FragmentTabHost)findViewById(android.R.id.tabhost);
         mTabHost.setup(this, getSupportFragmentManager(), R.id.realtabcontent);
 

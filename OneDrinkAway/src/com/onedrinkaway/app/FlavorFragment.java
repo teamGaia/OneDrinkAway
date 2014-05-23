@@ -3,18 +3,16 @@ package com.onedrinkaway.app;
 import android.content.Context;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.SeekBar;
+import android.widget.SeekBar.OnSeekBarChangeListener;
 import android.widget.TableLayout;
 import android.widget.TextView;
-import android.widget.SeekBar.OnSeekBarChangeListener;
 
 import com.onedrinkaway.R;
-import com.onedrinkaway.app.SearchByFlavor.FlavorSeekBarListener;
 import com.onedrinkaway.model.Flavor;
 
 public class FlavorFragment extends Fragment {
