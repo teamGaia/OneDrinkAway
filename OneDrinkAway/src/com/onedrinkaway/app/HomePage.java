@@ -12,6 +12,7 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.onedrinkaway.R;
+import com.onedrinkaway.db.DrinkDb;
 import com.onedrinkaway.model.DrinkModel;
 
 /**
@@ -34,11 +35,13 @@ public class HomePage extends OneDrinkAwayActivity {
 		// setup global context for database
 		appContext = getApplicationContext();
 		
+		
 		helpID = R.string.help_home_page;
 		getSupportActionBar().setTitle(R.string.app_name);
 		getSupportActionBar().setDisplayHomeAsUpEnabled(false);
-		
+
 		checkNewUser();
+	    DrinkDb.open();
 	}
 	
 	/**

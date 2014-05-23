@@ -2,8 +2,6 @@ package com.onedrinkaway.db;
 
 /**
  * Helper for DrinkDb, singleton. Main data structure.
- * Attempts to deserialize itself, falling back to database if serialized image is not available.
- * If data connection fails, reads in data from text.
  */
 
 import java.io.FileOutputStream;
@@ -26,7 +24,7 @@ import java.util.Set;
 
 import android.content.Context;
 import android.content.res.AssetManager;
-import android.os.StrictMode;
+import android.os.AsyncTask;
 
 import com.onedrinkaway.app.HomePage;
 import com.onedrinkaway.model.Drink;
@@ -37,11 +35,11 @@ public class DrinkData implements Serializable {
     private static DrinkData instance;
     
     private static Connection conn;
-    
     private static Statement stmt;
     
     // When debug == true, doesn't save any data, must be used outside of Android
     private boolean debug = false;
+    private DbUpdate updater;
     
     private static final long serialVersionUID = -8186058076202228351L;
 
@@ -77,28 +75,30 @@ public class DrinkData implements Serializable {
     }
     
     /**
-     * Deserializes and populates singleton instance. If serialized file is not found,
-     * creates a new singleton instance and populates it with data from files found in assets,
-     * drinks.tsv and Recipes.txt
+     * Deserializes and populates singleton instance if found. Then updates from database
+     * Asynchronously. Must be called within Android.
      */
     public static DrinkData getDrinkData() {
-        StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
-        StrictMode.setThreadPolicy(policy);
+        // Run in non-main thread, allows asynchronous access
+        //StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
+        //StrictMode.setThreadPolicy(policy);
+        // Build and update instance
         if (instance == null) {
-            if (deserialize()) {
-            } else if (buildFromDB()) {
-            } else {
-                buildFromFile();
+            if (!deserialize()) {
+                instance = new DrinkData();
             }
+            updateInstanceAsync(null);
         }
         return instance;
     }
     
     /**
-     * Sets up DrinkData from database and return singleton instance
+     * Sets up DrinkData from database and return singleton instance, should work 
+     * outside Android. Must call debug as well
      */
     public static DrinkData getDrinkDataDB(String password) {
-        buildFromDB(password);
+        instance = new DrinkData();
+        updateInstance(password);
         return instance;
     }
     
@@ -225,62 +225,64 @@ public class DrinkData implements Serializable {
         }
     }
     
-    private static boolean buildFromDB() {
-        return buildFromDB(null);
+    /**
+     * Pulls data from Database and updates instance
+     */
+    private static void updateInstanceAsync(String password) {
+        instance.getUpdater();
+        instance.updater.execute("");
     }
     
-    private static boolean buildFromDB(String password) {
+    private void getUpdater() {
+        if (updater == null)
+            updater = new DbUpdate();
+    }
+    
+    /**
+     * Gets average user rating for a drink
+     */
+    private static double getAvgRating(int drinkId) {
+        Random r = new Random();
+        return 3 + r.nextDouble() * 1.4;
+    }
+    
+    /**
+     * Attempts to deserialize DrinkData
+     * @return true if successful, false if not
+     */
+    private static boolean deserialize() {
         try {
-            getConnection(password);
-            instance = new DrinkData();
-            String sql = "SELECT * FROM DRINK";
-            ResultSet rs = stmt.executeQuery(sql);
-            while (rs.next()) {
-                // get basic info from Drinks
-                int id = rs.getInt(1);
-                String name = rs.getString(2);
-                String glass = rs.getString(3);
-                String garnish = rs.getString(4);
-                String description = rs.getString(5);
-                String instructions = rs.getString(6);
-                String source = rs.getString(7);
-                int[] att = new int[11];
-                for (int i = 0; i < 11; i++) {
-                    att[i] = rs.getInt(i + 8);
-                }
-                double avg = getAvgRating(id);
-                // get categories
-                List<String> categoriesList = new ArrayList<String>();
-                String csql = "SELECT * FROM CATEGORY WHERE drinkid = " + id;
-                Statement cstmt = conn.createStatement();
-                ResultSet crs = cstmt.executeQuery(csql);
-                while (crs.next()) {
-                    String category = crs.getString(2);
-                    categoriesList.add(category);
-                    instance.categories.add(category);
-                }
-                // now setup drink
-                Drink d = new Drink(name, id, avg, att, categoriesList, glass);
-                List<String> ingr = new ArrayList<String>(); // ingredients list for drinkInfo
-                String isql = "SELECT * FROM INGREDIENT WHERE drinkid = " + id;
-                Statement istmt = conn.createStatement();
-                ResultSet irs = istmt.executeQuery(isql);
-                while (irs.next()) {
-                    instance.addIngredientTrimed(d, irs.getString(2));
-                    ingr.add(irs.getString(3));
-                }
-                DrinkInfo di = new DrinkInfo(ingr, description, garnish, instructions, source, d.id);
-                instance.info.put(d, di);
-                instance.drinks.add(d);
-                instance.namesToDrinks.put(d.name, d);
-            }
-            
-            
+            InputStream is = HomePage.appContext.openFileInput("drinkdata.ser");
+            ObjectInputStream in = new ObjectInputStream(is);
+            instance = (DrinkData) in.readObject();
+            in.close();
             return true;
         } catch (Exception e) {
             e.printStackTrace();
             return false;
         }
+    }
+    
+    /**
+     * Adds given drink to "drinks" and "namesToDrinks"
+     */
+    private void addDrink(Drink d, DrinkInfo di) {
+        drinks.add(d);
+        namesToDrinks.put(d.name, d);
+        info.put(d, di);
+    }
+    
+    /**
+     * Stores given ingredients, corresponding to given Drink
+     * @param d the drink
+     * @param ingr the ingredient without portions
+     */
+    private void addIngredient(Drink d, String ingredient) {
+        ingredients.add(ingredient.trim());
+        if (!drinkIngredients.containsKey(d)) {
+            drinkIngredients.put(d, new HashSet<String>());
+        }
+        drinkIngredients.get(d).add(ingredient);
     }
     
     /**
@@ -307,175 +309,72 @@ public class DrinkData implements Serializable {
             Class.forName("com.mysql.jdbc.Driver");
             conn = DriverManager.getConnection(jdbcUrl);
             stmt = conn.createStatement();
-            
         }
     }
     
     /**
-     * Gets average user rating for a drink
+     * Pulls data from Database and updates instance
      */
-    private static double getAvgRating(int drinkId) {
-        Random r = new Random();
-        return 3 + r.nextDouble() * 1.4;
-    }
-    
-    /**
-     * Attempts to build DrinkData from files
-     * @return true if successful, false if not
-     */
-    private static boolean buildFromFile() {
+    private static void updateInstance(String password) {
         try {
-            AssetManager assets = HomePage.appContext.getAssets();
-            InputStream drinkIs = assets.open("drinks.tsv");
-            InputStream drinkInfoIs = assets.open("RecipesBeta.txt");
-            getDrinkData(drinkIs, drinkInfoIs);
-            return true;
-        } catch (Exception e) {
-            e.printStackTrace();
-            return false;
-        }
-    }
-    
-    /**
-     * Attempts to deserialize DrinkData
-     * @return true if successful, false if not
-     */
-    private static boolean deserialize() {
-        try {
-            InputStream is = HomePage.appContext.openFileInput("drinkdata.ser");
-            ObjectInputStream in = new ObjectInputStream(is);
-            instance = (DrinkData) in.readObject();
-            in.close();
-            return true;
-        } catch (Exception e) {
-            e.printStackTrace();
-            return false;
-        }
-    }
-    
-    /**
-     * Adds given drink to "drinks" and "namesToDrinks"
-     */
-    private void addDrink(Drink d) {
-        drinks.add(d);
-        namesToDrinks.put(d.name, d);
-    }
-    
-    /**
-     * Stores given ingredients, corresponding to given Drink
-     * @param d the drink
-     * @param ingr the ingredient without portions
-     */
-    private void addIngredientTrimed(Drink d, String ingredient) {
-        ingredients.add(ingredient.trim());
-        if (!drinkIngredients.containsKey(d)) {
-            drinkIngredients.put(d, new HashSet<String>());
-        }
-        drinkIngredients.get(d).add(ingredient);
-    }
-    
-    /**
-     * For testing purposes,resets singleton instance from given streams
-     * Also enter debug mode, which doesn't write any data to disc
-     */
-    public static DrinkData getDrinkData(InputStream drinkIs, InputStream drinkInfoIs) {
-        instance = new DrinkData();
-        Scanner sc = new Scanner(drinkIs);
-        sc.nextLine(); //throw away first line
-        while (sc.hasNextLine()){
-            String s = sc.nextLine();
-            String[] tokens = s.split("\t");
-            String complete = tokens[2];
-            if (complete.equals("1")) {
-                // valid drink, add to list
-                int id = Integer.parseInt(tokens[0]);
-                String name = tokens[1];
-                // add categories
-                List<String> cat = new ArrayList<String>();
-                for (String c : tokens[3].split(", ")) {
-                    cat.add(c);
-                    instance.categories.add(c);
-                }
-                String glass = tokens[4];
-                // add attributes
-                int[] attributes = new int[11];
-                for (int i = 0; i < 11; i++) {
-                    attributes[i] = Integer.parseInt(tokens[i + 5]);
-                }
-                double rating = getAvgRating(id);
-                Drink d = new Drink(name, id, rating, attributes, cat, glass);
-                instance.addDrink(d);
-            }
-        }
-        sc.close();
-        findDrinkInfo(drinkInfoIs);
-        return instance;
-    }
-    
-    /**
-     * Parses the master list of drink info, searching for drinks that exist in drinkSet
-     * This does not currently work on an Android device
-     */
-    private static void findDrinkInfo(InputStream is) {
-        Scanner sc = new Scanner(is);
-        List<String> lines = new ArrayList<String>();
-        String line = sc.nextLine();
-        String genericDesc = "This is a really nice drink, we promise!";
-        String genericCit = "Cloude Strife";
-        while (sc.hasNext()) {
-            if (line.equals("")) {
-                // found end of drink, process lines
-                String name = lines.get(0);
-                if (instance.namesToDrinks.containsKey(name)) {
-                    // we have this drink, build a DrinkInfo for it
-                    int len = lines.size();
-                    String instructions = lines.get(len - 1);
-                    String garnish = lines.get(len - 2).substring(9); // removes "Garnish: "
-                    List<String> ingr = new ArrayList<String>();
-                    // get the drink object for this DrinkInfo
-                    Drink d = instance.namesToDrinks.get(name);
-                    for (int i = 1; i < len - 2; i++) {
-                        ingr.add(lines.get(i));
-                        instance.addIngredient(d, lines.get(i));
+            getConnection(password);
+            String drinkSQL = "SELECT * FROM DRINK";
+            ResultSet drinkRS = stmt.executeQuery(drinkSQL);
+            while (drinkRS.next()) {
+                // get basic info from Drinks
+                String name = drinkRS.getString(2);
+                if (!instance.namesToDrinks.containsKey(name)) {
+                    int id = drinkRS.getInt(1);
+                    String glass = drinkRS.getString(3);
+                    String garnish = drinkRS.getString(4);
+                    String description = drinkRS.getString(5);
+                    String instructions = drinkRS.getString(6);
+                    String source = drinkRS.getString(7);
+                    int[] att = new int[11];
+                    for (int i = 0; i < 11; i++) {
+                        att[i] = drinkRS.getInt(i + 8);
                     }
-                    
-                    DrinkInfo di = new DrinkInfo(ingr, genericDesc, garnish, instructions, genericCit, d.id);
-                    instance.info.put(d, di);
+                    double avg = getAvgRating(id);
+                    // get categories
+                    List<String> categoriesList = new ArrayList<String>();
+                    String csql = "SELECT * FROM CATEGORY WHERE drinkid = " + id;
+                    Statement cstmt = conn.createStatement();
+                    ResultSet crs = cstmt.executeQuery(csql);
+                    while (crs.next()) {
+                        String category = crs.getString(2);
+                        categoriesList.add(category);
+                        instance.categories.add(category);
+                    }
+                    // finally have our drink
+                    Drink d = new Drink(name, id, avg, att, categoriesList, glass);
+                    List<String> ingr = new ArrayList<String>(); // ingredients list for drinkInfo
+                    String isql = "SELECT * FROM INGREDIENT WHERE drinkid = " + id;
+                    Statement istmt = conn.createStatement();
+                    ResultSet irs = istmt.executeQuery(isql);
+                    while (irs.next()) {
+                        instance.addIngredient(d, irs.getString(2));
+                        ingr.add(irs.getString(3));
+                    }
+                    DrinkInfo di = new DrinkInfo(ingr, description, garnish, instructions, source, d.id);
+                    instance.addDrink(d, di);
                 }
-                lines.clear();
-            } else {
-                lines.add(line);
             }
-            line = sc.nextLine();
+        } catch (Exception e) {
+            e.printStackTrace();
         }
-        sc.close();
     }
     
-    /**
-     * Attempts to remove an unnecessary characters from an ingredient String, and adds it
-     * to the set of unique ingredients
-     */
-    private void addIngredient(Drink d, String ingredient) {
-        // search for uppercase character
-        int i = 0;
-        while (!Character.isUpperCase(ingredient.charAt(i)))
-            i++;
-        // remove first part of String, getting rid of quantity
-        ingredient = ingredient.substring(i);
-        // remove optional if it is there
-        if (ingredient.contains(" (Optional)")) {
-            ingredient = ingredient.substring(0, ingredient.length() - 10);
+    private class DbUpdate extends AsyncTask<String, Void, Void> implements Serializable {
+        
+        private static final long serialVersionUID = -2632208847918637444L;
+
+        @Override
+        protected Void doInBackground(String... params) {
+            updateInstance(null);
+            return null;
         }
-        // check for splash of / dash of etc
-        if (ingredient.contains(" of "))
-            ingredient = ingredient.split(" of ")[1];
-        ingredient = ingredient.trim();
-        // ingredient is finally ready to add
-        instance.addIngredientTrimed(d, ingredient);
+
     }
     
-    
-
-
 
 }
