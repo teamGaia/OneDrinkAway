@@ -434,6 +434,7 @@ public class DrinkData implements Serializable {
             while (drinkRS.next()) {
                 // get basic info from Drinks
                 String name = drinkRS.getString(2);
+                Drink d;
                 if (!instance.namesToDrinks.containsKey(name)) {
                     int id = drinkRS.getInt(1);
                     String glass = drinkRS.getString(3);
@@ -457,7 +458,7 @@ public class DrinkData implements Serializable {
                         instance.categories.add(category);
                     }
                     // finally have our drink
-                    Drink d = new Drink(name, id, avg, att, categoriesList, glass);
+                    d = new Drink(name, id, avg, att, categoriesList, glass);
                     List<String> ingr = new ArrayList<String>(); // ingredients list for drinkInfo
                     String isql = "SELECT * FROM INGREDIENT WHERE drinkid = " + id;
                     Statement istmt = conn.createStatement();
@@ -468,11 +469,14 @@ public class DrinkData implements Serializable {
                     }
                     DrinkInfo di = new DrinkInfo(ingr, description, garnish, instructions, source, d.id);
                     instance.addDrink(d, di);
-                    if (favs.contains(d.id))
-                        instance.favorites.add(d);
-                    if (ratings.containsKey(d.id))
-                        d.addUserRating(ratings.get(d.id));
+                    
+                } else {
+                    d = instance.namesToDrinks.get(name);
                 }
+                if (favs.contains(d.id))
+                    instance.favorites.add(d);
+                if (ratings.containsKey(d.id))
+                    d.addUserRating(ratings.get(d.id));
             }
         } catch (Exception e) {
             e.printStackTrace();
