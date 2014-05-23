@@ -137,6 +137,13 @@ public class Drink implements Comparable<Drink>, Serializable {
       return false;
     return id == ((Drink)obj).id;
   }
+  
+  /**
+   * Sets this drinks average rating
+   */
+  public void setAvgRating(double rating) {
+      this.avgRating = rating;
+  }
 
   /**
    * Returns 1 if this is greater than other, -1 if this is less, 0 if equal

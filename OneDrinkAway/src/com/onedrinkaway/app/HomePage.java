@@ -12,6 +12,7 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.onedrinkaway.R;
+import com.onedrinkaway.db.DrinkDb;
 import com.onedrinkaway.model.DrinkModel;
 
 /**
@@ -34,11 +35,13 @@ public class HomePage extends OneDrinkAwayActivity {
 		// setup global context for database
 		appContext = getApplicationContext();
 		
+		
 		helpID = R.string.help_home_page;
 		getSupportActionBar().setTitle(R.string.app_name);
 		getSupportActionBar().setDisplayHomeAsUpEnabled(false);
-		
+
 		checkNewUser();
+	    DrinkDb.open();
 	}
 	
 	/**
@@ -50,14 +53,14 @@ public class HomePage extends OneDrinkAwayActivity {
 
 		SharedPreferences settings = getSharedPreferences(PREFS_NAME, 0);
 
-		// if (settings.getBoolean("my_first_time", true)) {
+		if (settings.getBoolean("my_first_time", true)) {
 		    //the app is being launched for first time launch new user dialog       
 			DialogFragment newFragment = new NewUserDialog();
 		    newFragment.show(getFragmentManager(), "newUser");
 
 		    // record the fact that the app has been started at least once
-		    //settings.edit().putBoolean("my_first_time", false).commit(); 
-		//}
+		    settings.edit().putBoolean("my_first_time", false).commit(); 
+		}
 	}
 	
 	/**

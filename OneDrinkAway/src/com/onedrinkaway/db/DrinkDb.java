@@ -8,6 +8,7 @@ import java.util.Set;
 
 import android.provider.Settings.Secure;
 
+import com.onedrinkaway.app.HomePage;
 import com.onedrinkaway.model.Drink;
 import com.onedrinkaway.model.DrinkInfo;
 
@@ -19,18 +20,29 @@ import com.onedrinkaway.model.DrinkInfo;
 
 public class DrinkDb {
     
-    public static final String ID = Secure.ANDROID_ID;
+    public static String USER_ID = null;
+    private static DrinkData dd = null;
+    // true if dd has been loaded, false if not
+    private static boolean open;
     
-    private static DrinkData dd = DrinkData.getDrinkData();
+    public static void open() {
+        // Run in non-main thread, allows asynchronous access
+        //StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
+        //StrictMode.setThreadPolicy(policy);
+        dd = DrinkData.getDrinkData();
+        USER_ID = Secure.getString(HomePage.appContext.getContentResolver(),
+                Secure.ANDROID_ID);
+        open = true;
+    }
     
     /**
      * Returns the Drink corresponding to the given name
      */
     public static Drink getDrink(String name) {
+        if (!open)
+            open();
         return dd.getDrink(name);
     }
-    
-    
     
     /**
      * Finds DrinkInfo for a given drink
@@ -38,6 +50,8 @@ public class DrinkDb {
      * @return the DrinkInfo for d
      */
     public static DrinkInfo getDrinkInfo(Drink d) {
+        if (!open)
+            open();
         return dd.getDrinkInfo(d);
     }
     
@@ -45,6 +59,8 @@ public class DrinkDb {
      * @return a set of Ingredients for the given drink
      */
     public static Set<String> getIngredients(Drink d) {
+        if (!open)
+            open();
         return dd.getIngredients(d);
     }
     
@@ -52,6 +68,8 @@ public class DrinkDb {
      * @return an array containing all drink names found in database
      */
     public static Set<String> getDrinkNames() {
+        if (!open)
+            open();
         return dd.getDrinkNames();
     }
     
@@ -59,6 +77,8 @@ public class DrinkDb {
      * @return a list contain all ingredients as Strings
      */
     public static Set<String> getIngredients() {
+        if (!open)
+            open();
         return dd.getIngredients();
     }
     
@@ -66,6 +86,8 @@ public class DrinkDb {
      * @return a list of all Drinks
      */
     public static Set<Drink> getAllDrinks() {
+        if (!open)
+            open();
         return dd.getAllDrinks();
     }
     
@@ -73,6 +95,8 @@ public class DrinkDb {
      * @return a list of all Categories
      */
     public static Set<String> getCategories() {
+        if (!open)
+            open();
         return dd.getCategories();
     }
     
@@ -82,6 +106,8 @@ public class DrinkDb {
      * @param drink the drink to be added
      */
     public static void addFavorite(Drink drink) {
+        if (!open)
+            open();
         dd.addFavorite(drink);
         
     }
@@ -94,6 +120,8 @@ public class DrinkDb {
      * @throws: IllegalArgumentException if the score is smaller than 1 or bigger than 5
      */
     public static void addRating(Drink drink, int rating) {
+        if (!open)
+            open();
         if (rating < 1 || rating > 5)
             throw new IllegalArgumentException("score must be [1-5] inclusive");
         dd.addRating(drink, rating);
@@ -105,6 +133,8 @@ public class DrinkDb {
      * @return a List of all drinks rated by user
      */
     public static Set<Drink> getRatedDrinks() {
+        if (!open)
+            open();
         return dd.getRatedDrinks();
     }
     
@@ -113,6 +143,8 @@ public class DrinkDb {
      * @return a List of all drinks in users favorites list
      */
     public static Set<Drink> getFavorites() {
+        if (!open)
+            open();
         return dd.getFavorites();
     }
     
@@ -122,6 +154,8 @@ public class DrinkDb {
      * @param drink the drink to be removed
      */
     public static void removeFavorite(Drink drink) {
+        if (!open)
+            open();
         dd.removeFavorite(drink);
         
     }
@@ -131,6 +165,7 @@ public class DrinkDb {
      * Allows tests to setup DrinkData outside of Android environment
      */
     public static void setDrinkData(DrinkData newD) {
+        open = true;
         dd = newD;
         dd.setDebug();
     }
