@@ -1,6 +1,7 @@
 package com.onedrinkaway.app;
 
-import android.app.Activity;
+import java.util.List;
+
 import android.content.Context;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -17,18 +18,14 @@ import com.onedrinkaway.R;
 import com.onedrinkaway.model.Flavor;
 
 public class FlavorFragment extends Fragment {
-	private Activity parentActivity; //TODO
 	private TableLayout flavorsScrollViewTable;
 	private Button flavorSearchButton;
 	
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 	    View view = inflater.inflate(R.layout.fragment_flavor, null);
-	   
-	    
 		setUpView(view);
 		displayFlavors();	
-		
 		return view;
 	}
 	
@@ -48,6 +45,7 @@ public class FlavorFragment extends Fragment {
 			View flavorRow2 = inflater.inflate(R.layout.activity_search_by_flavor_row2, null);
 			// Set the SeekBar in search_by_flavor_row2
 			SeekBar seekbar = (SeekBar) flavorRow2.findViewById(R.id.flavor_seek_bar);
+			seekbar.setId(Flavor.flavorsArr[i].hashCode());
 			seekbar.setOnSeekBarChangeListener(new FlavorSeekBarListener(Flavor.flavorsArr[i]));
 			View flavorRow3 = inflater.inflate(R.layout.activity_search_by_flavor_row3, null);
 			// Add each row to the view
@@ -55,6 +53,20 @@ public class FlavorFragment extends Fragment {
 			flavorsScrollViewTable.addView(flavorRow2, i * 3 + 1);
 			flavorsScrollViewTable.addView(flavorRow3, i * 3 + 2);
 		}
+	}
+	
+	@Override
+    public void onActivityCreated(Bundle savedInstanceState) {
+        super.onActivityCreated(savedInstanceState);
+        AdvancedSearch as = (AdvancedSearch) getActivity();
+        List<Flavor> selectedFlavs = as.query.getFlavors();
+        for (int i = 0; i < selectedFlavs.size(); i++) {
+        	Flavor flav = selectedFlavs.get(i);
+        	SeekBar seekbar = (SeekBar) as.findViewById(flav.name.hashCode());
+        	if (seekbar != null) {
+        		seekbar.setProgress(flav.value);
+        	}
+        }
 	}
 	
 	/**
@@ -79,8 +91,7 @@ public class FlavorFragment extends Fragment {
 		 */
 		@Override
 		public void onProgressChanged(SeekBar seekbar, int progress, boolean fromUser) {
-			progressChanged = progress;
-			Flavor newFlavor = new Flavor(flavor, progressChanged);
+			Flavor newFlavor = new Flavor(flavor, progress);
 			AdvancedSearch as = (AdvancedSearch) getActivity();
 			as.query.add(newFlavor);
 		}

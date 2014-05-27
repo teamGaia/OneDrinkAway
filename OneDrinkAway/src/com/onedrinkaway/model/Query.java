@@ -71,13 +71,15 @@ public class Query {
      * @param fv the flavor to be searched for
      */
     public void add(Flavor fv) {		
-    	if (!flavors.contains(fv))  // add this new flavor
+    	if (fv.value == 0) {
+    		flavors.remove(flavors.indexOf(fv));
+    	} else if (!flavors.contains(fv)) {  // add this new flavor
 			flavors.add(fv);
-		else {  // remove the old flavor and replace it with this new value
+    	} else {  // remove the old flavor and replace it with this new value
 			int index = flavors.indexOf(fv);
 			flavors.remove(index);
 			flavors.add(fv);
-		}
+    	}
     }
     
     /**

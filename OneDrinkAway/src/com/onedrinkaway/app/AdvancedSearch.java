@@ -61,13 +61,15 @@ public class AdvancedSearch extends OneDrinkAwayActivity {
 				int viewID = getResources().getIdentifier("" + oldCatID, "id", "com.onedrinkaway");
 				
 				TextView tv = (TextView) findViewById(viewID);
-				if (tv != null)
-					tv.setBackgroundDrawable(getResources().getDrawable(R.drawable.border));		
+				if (tv != null) {
+					tv.setBackgroundDrawable(null);
+					view.setBackgroundDrawable(getResources().getDrawable(R.drawable.border));	
+				}				
 			}
 		}
 	}
 	
-	private int indexOfCategory(String cat) {
+	public int indexOfCategory(String cat) {
 		for (int i = 0; i < categories.length; i++) {
 			if (categories[i].equals(cat)) {
 				return i;
