@@ -1,5 +1,7 @@
 package com.onedrinkaway.app;
 
+import java.util.Arrays;
+
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
@@ -76,7 +78,24 @@ public class SearchByFlavor extends OneDrinkAwayActivity {
 			errorTextView.setGravity(Gravity.CENTER);
 			errorTextView.setTextColor(Color.parseColor("#FF0000"));
 		}
-			
+		String[] flavors = Arrays.copyOf(Flavor.flavorsArr, Flavor.flavorsArr.length);
+		Arrays.sort(flavors);
+		for (int i = 0; i < flavors.length; i++) {
+			// Set the TextView in search_by_flavor_row
+			View flavorRow = inflater.inflate(R.layout.activity_search_by_flavor_row, null);
+			TextView flavorTextView = (TextView) flavorRow.findViewById(R.id.flavor_text_view);
+			flavorTextView.setText(flavors[i]);
+			View flavorRow2 = inflater.inflate(R.layout.activity_search_by_flavor_row2, null);
+			// Set the SeekBar in search_by_flavor_row2
+			SeekBar seekbar = (SeekBar) flavorRow2.findViewById(R.id.flavor_seek_bar);
+			seekbar.setOnSeekBarChangeListener(new FlavorSeekBarListener(flavors[i]));
+			View flavorRow3 = inflater.inflate(R.layout.activity_search_by_flavor_row3, null);
+			// Add each row to the view
+			flavorsScrollViewTable.addView(flavorRow, i * 3);
+			flavorsScrollViewTable.addView(flavorRow2, i * 3 + 1);
+			flavorsScrollViewTable.addView(flavorRow3, i * 3 + 2);
+		}
+		/*
 		for (int i = 0; i < Flavor.flavorsArr.length; i++) {
 			// Set the TextView in search_by_flavor_row
 			View flavorRow = inflater.inflate(R.layout.activity_search_by_flavor_row, null);
@@ -91,7 +110,7 @@ public class SearchByFlavor extends OneDrinkAwayActivity {
 			flavorsScrollViewTable.addView(flavorRow, i * 3);
 			flavorsScrollViewTable.addView(flavorRow2, i * 3 + 1);
 			flavorsScrollViewTable.addView(flavorRow3, i * 3 + 2);
-		}
+		}*/
 	}
 	
 	/**
