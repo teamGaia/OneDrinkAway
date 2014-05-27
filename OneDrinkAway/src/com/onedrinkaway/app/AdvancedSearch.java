@@ -1,6 +1,5 @@
 package com.onedrinkaway.app;
 
-import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.FragmentTabHost;
@@ -22,7 +21,8 @@ import com.onedrinkaway.model.Query;
  */
 
 public class AdvancedSearch extends OneDrinkAwayActivity {
-	Query query;
+	public Query query;
+	private String[] categories;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -30,6 +30,7 @@ public class AdvancedSearch extends OneDrinkAwayActivity {
 		setContentView(R.layout.activity_advanced_search);
 		helpID = R.string.advanced_search_help;
 		query = new Query();
+		categories = DrinkModel.getCategories();
 		
 		FragmentTabHost mTabHost = (FragmentTabHost)findViewById(android.R.id.tabhost);
         mTabHost.setup(this, getSupportFragmentManager(), R.id.realtabcontent);
@@ -42,27 +43,37 @@ public class AdvancedSearch extends OneDrinkAwayActivity {
             FlavorFragment.class, null);
 	}
 	
-	@SuppressLint("NewApi")
+	@SuppressWarnings("deprecation") 
 	public void categorySelected(View view) {
-		String newCategory = (String) ((TextView) view).getText();
+		String selectedCat = (String) ((TextView) view).getText();
 		
-		if (query.hasCategory()) {
-			String oldCategory = query.getCategory();
-			String oldCatID = oldCategory.hashCode() + "";
-			int viewID = getResources().getIdentifier(oldCatID, "id", "com.onedrinkaway");
-			TextView tv = (TextView) findViewById(viewID);
-			if (tv != null)
-				tv.setBackground(null);
-		}
-		
-		if (newCategory.equals(query.hasCategory())) {
-			query.setCategory(null); // Unselect category
+		if (!query.hasCategory()) {
+			query.setCategory(selectedCat);
+			view.setBackgroundDrawable(getResources().getDrawable(R.drawable.border));		
 		} else {
-			query.setCategory(newCategory);
-			view.setBackground(getResources().getDrawable(R.drawable.border));
+			String oldCategory = query.getCategory();
+			if (selectedCat.equals(oldCategory)) {
+				query.setCategory(null);
+				view.setBackgroundDrawable(null);
+			} else {
+				query.setCategory(selectedCat);
+				int oldCatID = indexOfCategory(oldCategory);
+				int viewID = getResources().getIdentifier("" + oldCatID, "id", "com.onedrinkaway");
+				
+				TextView tv = (TextView) findViewById(viewID);
+				if (tv != null)
+					tv.setBackgroundDrawable(getResources().getDrawable(R.drawable.border));		
+			}
 		}
-		
-		Toast.makeText(getApplicationContext(), newCategory + " was selected!", Toast.LENGTH_LONG).show();
+	}
+	
+	private int indexOfCategory(String cat) {
+		for (int i = 0; i < categories.length; i++) {
+			if (categories[i].equals(cat)) {
+				return i;
+			}
+		}
+		return -1;
 	}
 	
 	public void goToResults(View view) {
@@ -73,7 +84,6 @@ public class AdvancedSearch extends OneDrinkAwayActivity {
     		Log.d("Ingredients", ingr);
     	for (Flavor flav : query.getFlavors())
     		Log.d("Flavors", flav.name + ": " + flav.value);
-	
     	
     	
 		if (DrinkModel.searchForDrinks(query)) {

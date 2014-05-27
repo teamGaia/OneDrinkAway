@@ -42,7 +42,7 @@ public class CategoryFragment extends Fragment {
                     LayoutParams.MATCH_PARENT,
                     LayoutParams.MATCH_PARENT, 1.0f);
 			category.setLayoutParams(param);
-			category.setId(categories[i].hashCode());
+			category.setId(i);
 			category.setText(categories[i]);
 			category.setOnLongClickListener(new View.OnLongClickListener(){
 				@Override
