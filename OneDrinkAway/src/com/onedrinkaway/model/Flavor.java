@@ -72,6 +72,11 @@ public class Flavor {
     	
     }
     
+    @Override
+    public String toString(){
+    	return name + ": " + value;
+    }
+    
     /**
      * @return a hashCode for this Flavor
      */
