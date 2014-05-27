@@ -422,17 +422,17 @@ public class DrinkData implements Serializable {
             // map of user rated drinks, drinkid->rating
             Map<Integer, Integer> ratings = getRatingsDb();
             HashMap<String, String> datamap = gson.fromJson(data, new TypeToken<HashMap<String, String>>() {}.getType());
+            // got this far, go ahead and dump old data
+            instance = new DrinkData();
             for (String key : datamap.keySet()) {
                 Drink d = gson.fromJson(key, new TypeToken<Drink>() {}.getType());
                 DrinkInfo di = gson.fromJson(datamap.get(key), new TypeToken<DrinkInfo>() {}.getType());
-                if (!instance.namesToDrinks.containsKey(d.name)) {
-                    // add drink to instance
-                    instance.addDrink(d, di);
-                    for (String ingredient : di.ingredients)
-                        instance.addIngredient(d, stripPortions(ingredient));
-                    for (String category : d.categories)
-                        instance.categories.add(category);
-                }
+                // add drink to instance
+                instance.addDrink(d, di);
+                for (String ingredient : di.ingredients)
+                    instance.addIngredient(d, stripPortions(ingredient));
+                for (String category : d.categories)
+                    instance.categories.add(category);
                 if (favs.contains(d.id))
                     instance.favorites.add(d);
                 if (ratings.containsKey(d.id)) {
@@ -440,7 +440,6 @@ public class DrinkData implements Serializable {
                     d.addUserRating(ratings.get(d.id));
                 }
             }
-            
         } catch (Exception e) {
             e.printStackTrace();
         }
