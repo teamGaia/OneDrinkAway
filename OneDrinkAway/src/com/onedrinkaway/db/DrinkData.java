@@ -440,7 +440,7 @@ public class DrinkData implements Serializable {
                     d.addUserRating(ratings.get(d.id));
                 }
             }
-            instance.saveDrinkData();
+            
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -475,9 +475,10 @@ public class DrinkData implements Serializable {
 
         @Override
         protected Void doInBackground(String... params) {
-            if (params[0].equals("update"))
+            if (params[0].equals("update")) {
                 updateInstance();
-            else if (params[0].equals("uploadDrinks")) {
+                instance.saveDrinkData();
+            } else if (params[0].equals("uploadDrinks")) {
                 uploadDrinks();
             }
             return null;
