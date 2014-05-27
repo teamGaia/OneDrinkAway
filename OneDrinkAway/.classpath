@@ -7,6 +7,6 @@
 	<classpathentry kind="con" path="com.android.ide.eclipse.adt.ANDROID_FRAMEWORK"/>
 	<classpathentry kind="con" path="org.eclipse.jdt.junit.JUNIT_CONTAINER/4"/>
 	<classpathentry kind="lib" path="libs/Jama-1.0.3.jar"/>
-	<classpathentry exported="true" kind="lib" path="/Users/nicolekihara/Documents/workspace/mysql-connector-java-3.0.17-ga-bin.jar"/>
+	<classpathentry kind="lib" path="C:/Users/Taylor Juve/Documents/School/CSE 403/OneDrinkAway/mysql-connector-java-3.0.17-ga/mysql-connector-java-3.0.17-ga-bin.jar"/>
 	<classpathentry kind="output" path="bin/classes"/>
 </classpath>

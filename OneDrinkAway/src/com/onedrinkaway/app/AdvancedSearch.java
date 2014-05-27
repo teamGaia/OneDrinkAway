@@ -89,7 +89,9 @@ public class AdvancedSearch extends OneDrinkAwayActivity {
     	
     	
 		if (DrinkModel.searchForDrinks(query)) {
-		    startActivity(new Intent(this, ResultsPage.class));
+			Intent goToResults = new Intent(this, ResultsPage.class);
+			goToResults.putExtra("title", "Results");
+		    startActivity(goToResults);
 		} else {
 			Toast.makeText(getApplicationContext(), "No results found!", Toast.LENGTH_LONG).show();
 		}
