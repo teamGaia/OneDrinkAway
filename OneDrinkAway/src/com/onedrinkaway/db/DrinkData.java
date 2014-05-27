@@ -4,21 +4,20 @@ package com.onedrinkaway.db;
  * Helper for DrinkDb, singleton. Main data structure.
  */
 
+import java.io.BufferedReader;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.InputStreamReader;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.io.Serializable;
-import java.sql.Connection;
-import java.sql.DriverManager;
-import java.sql.ResultSet;
-import java.sql.Statement;
-import java.util.ArrayList;
+import java.net.URL;
+import java.net.URLConnection;
+import java.net.URLEncoder;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.LinkedList;
-import java.util.List;
 import java.util.Map;
 import java.util.Queue;
 import java.util.Set;
@@ -28,6 +27,8 @@ import android.content.Context;
 import android.content.res.AssetManager;
 import android.os.AsyncTask;
 
+import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
 import com.onedrinkaway.app.HomePage;
 import com.onedrinkaway.model.Drink;
 import com.onedrinkaway.model.DrinkInfo;
@@ -36,14 +37,15 @@ public class DrinkData implements Serializable {
     
     private static DrinkData instance;
     
-    private static Connection conn;
-    
     // When debug == true, doesn't save any data, must be used outside of Android
     private boolean debug = false;
     
     private static final long serialVersionUID = -8186058076202228351L;
     
     private String userId;
+    
+    private static String hostUrl = "http://54.200.252.24:8080/DrinkDbServer";
+    private static String charset = "UTF-8";
 
     // hashSet of all drink objects
     private HashSet<Drink> drinks;
@@ -84,9 +86,6 @@ public class DrinkData implements Serializable {
      * Asynchronously. Must be called within Android.
      */
     public static DrinkData getDrinkData(String userId) {
-        // Run in non-main thread, allows asynchronous access
-        //StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
-        //StrictMode.setThreadPolicy(policy);
         // Build and update instance
         if (instance == null) {
             if (!deserialize()) {
@@ -257,18 +256,6 @@ public class DrinkData implements Serializable {
     }
     
     /**
-     * Gets average user rating for a drink
-     */
-    private static double getAvgRating(int drinkId) throws Exception {
-        getConnection();
-        String ratingSQL = "SELECT AVG(rating) FROM RATING GROUP BY drinkid HAVING drinkid = " + drinkId;
-        Statement stmt = conn.createStatement();
-        ResultSet rs = stmt.executeQuery(ratingSQL);
-        rs.next();
-        return rs.getDouble(1);
-    }
-    
-    /**
      * Attempts to deserialize DrinkData
      * @return true if successful, false if not
      */
@@ -310,7 +297,7 @@ public class DrinkData implements Serializable {
      * @param ingr the ingredient without portions
      */
     private void addIngredient(Drink d, String ingredient) {
-        ingredients.add(ingredient.trim());
+        ingredients.add(ingredient);
         if (!drinkIngredients.containsKey(d)) {
             drinkIngredients.put(d, new HashSet<String>());
         }
@@ -324,12 +311,20 @@ public class DrinkData implements Serializable {
     private static Set<Integer> getFavoritesDb() {
         Set<Integer> result = new HashSet<Integer>();
         try {
-            getConnection();
-            Statement stmt = conn.createStatement();
-            String sql = "SELECT drinkid FROM FAVORITE WHERE userid = '" + instance.userId + "'";
-            ResultSet rs = stmt.executeQuery(sql);
-            while (rs.next()) {
-                result.add(rs.getInt(1));
+            String url = hostUrl + "/getuserfavorites";
+
+            String query = String.format("%s", URLEncoder.encode(instance.userId, charset));
+            
+            URLConnection connection = new URL(url + "?" + query).openConnection();
+            connection.setRequestProperty("Accept-Charset", charset);
+            InputStream response = connection.getInputStream();
+            BufferedReader reader = new BufferedReader(new InputStreamReader(response, charset));
+            String data = reader.readLine();
+            if (data.length() != 0) {
+                String[] ids = data.split(",");
+                for (String id : ids) {
+                    result.add(Integer.parseInt(id));
+                }
             }
         } catch (Exception e) {
             e.printStackTrace();
@@ -343,41 +338,28 @@ public class DrinkData implements Serializable {
      */
     @SuppressLint("UseSparseArrays")
     private static Map<Integer, Integer> getRatingsDb() {
-        Map<Integer, Integer> idToRating = new HashMap<Integer, Integer>();
+        Map<Integer, Integer> result = new HashMap<Integer, Integer>();
         try {
-            getConnection();
-            Statement stmt = conn.createStatement();
-            String sql = "SELECT drinkid, rating FROM RATING WHERE userid = '" + instance.userId + "'";
-            ResultSet rs = stmt.executeQuery(sql);
-            while (rs.next()) {
-                int drinkid = rs.getInt(1);
-                int rating = rs.getInt(2);
-                idToRating.put(drinkid, rating);
+            String url = hostUrl + "/getuserratings";
+
+            String query = String.format("%s", URLEncoder.encode(instance.userId, charset));
+            
+            URLConnection connection = new URL(url + "?" + query).openConnection();
+            connection.setRequestProperty("Accept-Charset", charset);
+            InputStream response = connection.getInputStream();
+            BufferedReader reader = new BufferedReader(new InputStreamReader(response, charset));
+            String data = reader.readLine();
+            if (data.length() != 0) {
+                String[] ids = data.split(",");
+                for (String id : ids) {
+                    String[] tokens = id.split(":");
+                    result.put(Integer.parseInt(tokens[0]), Integer.parseInt(tokens[1]));
+                }
             }
         } catch (Exception e) {
             e.printStackTrace();
         }
-        return idToRating;
-    }
-    
-    /**
-     * Attempts to establish connection to database
-     * @throws Exception if connection fails
-     */
-    private static void getConnection() throws Exception {
-        if (conn == null) {
-            String password = "ghghghgh1";
-            String dbName = "onedrinkaway"; 
-            String userName = "teamgaia"; 
-            String hostname = "onedrinkaway.ctfs3q1wopmj.us-west-2.rds.amazonaws.com";
-            String port = "3306";
-            
-            String jdbcUrl = "jdbc:mysql://" + hostname + ":"
-            + port + "/" + dbName + "?user=" + userName + "&password=" + password;
-            
-            Class.forName("com.mysql.jdbc.Driver");
-            conn = DriverManager.getConnection(jdbcUrl);
-        }
+        return result;
     }
     
     /**
@@ -386,28 +368,33 @@ public class DrinkData implements Serializable {
      */
     private static void uploadDrinks() {
         try {
-            getConnection();
-            Statement stmt = conn.createStatement();
             long startTime = System.currentTimeMillis();
             long duration = 0;
             while (!instance.uploadQ.isEmpty() && duration < 5000) {
                 Drink d = instance.uploadQ.remove();
                 try {
-                    if (d.getUserRating() > -1) {
-                        String remSQL = "DELETE FROM RATING WHERE drinkid = " + d.id +
-                                " AND userid = '" + instance.userId + "'";
-                        stmt.executeUpdate(remSQL);
-                        String addSQL = "INSERT INTO RATING VALUES (" + d.id + ", " + 
-                                        d.getUserRating() + ", '" + instance.userId + "')";
-                        stmt.executeUpdate(addSQL);
-                    }
-                    String remSQL = "DELETE FROM FAVORITE WHERE drinkid = " + d.id +
-                            " AND userid = '" + instance.userId + "'";
-                    stmt.executeUpdate(remSQL);
                     if (instance.favorites.contains(d)) {
-                        String addSQL = "INSERT INTO FAVORITE VALUES (" + d.id + ", '" +
-                                        instance.userId + "')";
-                        stmt.executeUpdate(addSQL);
+                        String url = hostUrl + "/addfavorite";
+
+                        String query = String.format("%s&%s", 
+                             URLEncoder.encode(instance.userId, charset), 
+                             URLEncoder.encode("" + d.id, charset));
+                        
+                        URLConnection connection = new URL(url + "?" + query).openConnection();
+                        connection.setRequestProperty("Accept-Charset", charset);
+                        connection.getInputStream();
+                    }
+                    if (instance.ratedDrinks.contains(d)) {
+                        String url = hostUrl + "/adduserrating";
+
+                        String query = String.format("%s&%s&%s", 
+                                URLEncoder.encode(instance.userId, charset), 
+                                URLEncoder.encode("" + d.id, charset),
+                                URLEncoder.encode("" + d.getUserRating(), charset));
+                        
+                        URLConnection connection = new URL(url + "?" + query).openConnection();
+                        connection.setRequestProperty("Accept-Charset", charset);
+                        connection.getInputStream();
                     }
                 } catch (Exception e) {
                     e.printStackTrace();
@@ -425,62 +412,61 @@ public class DrinkData implements Serializable {
      */
     private static void updateInstance() {
         try {
-            getConnection();
-            Statement stmt = conn.createStatement();
+            String url = hostUrl + "/getalldrinks";
+            InputStream response = new URL(url).openStream();
+            BufferedReader reader = new BufferedReader(new InputStreamReader(response, charset));
+            String data = reader.readLine();
+            Gson gson = new Gson();
+            // set of user favorited drinkids
             Set<Integer> favs = getFavoritesDb();
+            // map of user rated drinks, drinkid->rating
             Map<Integer, Integer> ratings = getRatingsDb();
-            String drinkSQL = "SELECT * FROM DRINK";
-            ResultSet drinkRS = stmt.executeQuery(drinkSQL);
-            while (drinkRS.next()) {
-                // get basic info from Drinks
-                String name = drinkRS.getString(2);
-                Drink d;
-                if (!instance.namesToDrinks.containsKey(name)) {
-                    int id = drinkRS.getInt(1);
-                    String glass = drinkRS.getString(3);
-                    String garnish = drinkRS.getString(4);
-                    String description = drinkRS.getString(5);
-                    String instructions = drinkRS.getString(6);
-                    String source = drinkRS.getString(7);
-                    int[] att = new int[11];
-                    for (int i = 0; i < 11; i++) {
-                        att[i] = drinkRS.getInt(i + 8);
-                    }
-                    double avg = getAvgRating(id);
-                    // get categories
-                    List<String> categoriesList = new ArrayList<String>();
-                    String csql = "SELECT * FROM CATEGORY WHERE drinkid = " + id;
-                    Statement cstmt = conn.createStatement();
-                    ResultSet crs = cstmt.executeQuery(csql);
-                    while (crs.next()) {
-                        String category = crs.getString(2);
-                        categoriesList.add(category);
-                        instance.categories.add(category);
-                    }
-                    // finally have our drink
-                    d = new Drink(name, id, avg, att, categoriesList, glass);
-                    List<String> ingr = new ArrayList<String>(); // ingredients list for drinkInfo
-                    String isql = "SELECT * FROM INGREDIENT WHERE drinkid = " + id;
-                    Statement istmt = conn.createStatement();
-                    ResultSet irs = istmt.executeQuery(isql);
-                    while (irs.next()) {
-                        instance.addIngredient(d, irs.getString(2));
-                        ingr.add(irs.getString(3));
-                    }
-                    DrinkInfo di = new DrinkInfo(ingr, description, garnish, instructions, source, d.id);
+            HashMap<String, String> datamap = gson.fromJson(data, new TypeToken<HashMap<String, String>>() {}.getType());
+            for (String key : datamap.keySet()) {
+                Drink d = gson.fromJson(key, new TypeToken<Drink>() {}.getType());
+                DrinkInfo di = gson.fromJson(datamap.get(key), new TypeToken<DrinkInfo>() {}.getType());
+                if (!instance.namesToDrinks.containsKey(d.name)) {
+                    // add drink to instance
                     instance.addDrink(d, di);
-                    
-                } else {
-                    d = instance.namesToDrinks.get(name);
+                    for (String ingredient : di.ingredients)
+                        instance.addIngredient(d, stripPortions(ingredient));
+                    for (String category : d.categories)
+                        instance.categories.add(category);
                 }
                 if (favs.contains(d.id))
                     instance.favorites.add(d);
-                if (ratings.containsKey(d.id))
+                if (ratings.containsKey(d.id)) {
+                    instance.ratedDrinks.add(d);
                     d.addUserRating(ratings.get(d.id));
+                }
             }
+            instance.saveDrinkData();
         } catch (Exception e) {
             e.printStackTrace();
         }
+    }
+    
+    /**
+     * Attempts to remove an unnecessary characters from an ingredient String, and adds it
+     * to the set of unique ingredients
+     */
+    private static String stripPortions(String ingredient) {
+        // search for uppercase character
+        int i = 0;
+        while (!Character.isUpperCase(ingredient.charAt(i)))
+            i++;
+        // remove first part of String, getting rid of quantity
+        ingredient = ingredient.substring(i);
+        // remove optional if it is there
+        if (ingredient.contains(" (Optional)")) {
+            ingredient = ingredient.substring(0, ingredient.length() - 10);
+        }
+        // check for splash of / dash of etc
+        if (ingredient.contains(" of "))
+            ingredient = ingredient.split(" of ")[1];
+        ingredient = ingredient.trim();
+        // ingredient is finally ready to add
+        return ingredient;
     }
     
     private class DbUpdate extends AsyncTask<String, Void, Void> implements Serializable {
