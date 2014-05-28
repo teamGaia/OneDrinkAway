@@ -4,7 +4,7 @@
     android:id="@+id/result_wrapper"
     android:orientation="horizontal" 
     android:layout_width="fill_parent"
-    android:layout_height="fill_parent"
+    android:layout_height="wrap_content"
     android:padding="10dp"
     android:background="@drawable/textlines">
     
@@ -19,7 +19,7 @@
         
      <LinearLayout 
          android:id="@+id/result_clickable"
-         android:layout_height="match_parent"
+         android:layout_height="wrap_content"
          android:layout_width="wrap_content"
          android:orientation="vertical" >
                
@@ -34,20 +34,22 @@
 		<RatingBar 
 		    android:id="@+id/result_user_rating"
 		    style="@style/GoldRatingBar"
-		    android:layout_width="fill_parent"
+		    android:layout_width="wrap_content"
 	        android:layout_height="wrap_content"
 	        android:gravity="center_vertical"
 	        android:layout_marginTop="5dp"
 	        android:layout_marginBottom="5dp"
 	        android:enabled="false"
-	        android:isIndicator="true" />
+	        android:isIndicator="true"
+	        android:numStars="5" />
 		
 		<RatingBar 
 		    android:id="@+id/result_predicted_rating"
 		    style="@style/RedRatingBar"
-		    android:layout_width="fill_parent"
+		    android:layout_width="wrap_content"
 	        android:layout_height="wrap_content"
 	        android:gravity="center_vertical"
+	        android:numStars="5"
 	        android:layout_marginTop="5dp"
 	        android:layout_marginBottom="5dp"
 	        android:enabled="false"

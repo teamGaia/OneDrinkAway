@@ -97,7 +97,7 @@ public class DrinkInfoPage extends OneDrinkAwayActivity {
 
 			}
 			ingredientsTextView.append("\n");
-			if (drinkInfo.garnish != null) {
+			if (!drinkInfo.garnish.equals("No Garnish")) {
 				ingredientsTextView.append("Garnish: " + drinkInfo.garnish);
 			}
 
