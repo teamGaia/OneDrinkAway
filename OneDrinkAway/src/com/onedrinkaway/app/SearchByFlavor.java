@@ -95,22 +95,6 @@ public class SearchByFlavor extends OneDrinkAwayActivity {
 			flavorsScrollViewTable.addView(flavorRow2, i * 3 + 1);
 			flavorsScrollViewTable.addView(flavorRow3, i * 3 + 2);
 		}
-		/*
-		for (int i = 0; i < Flavor.flavorsArr.length; i++) {
-			// Set the TextView in search_by_flavor_row
-			View flavorRow = inflater.inflate(R.layout.activity_search_by_flavor_row, null);
-			TextView flavorTextView = (TextView) flavorRow.findViewById(R.id.flavor_text_view);
-			flavorTextView.setText(Flavor.flavorsArr[i]);
-			View flavorRow2 = inflater.inflate(R.layout.activity_search_by_flavor_row2, null);
-			// Set the SeekBar in search_by_flavor_row2
-			SeekBar seekbar = (SeekBar) flavorRow2.findViewById(R.id.flavor_seek_bar);
-			seekbar.setOnSeekBarChangeListener(new FlavorSeekBarListener(Flavor.flavorsArr[i]));
-			View flavorRow3 = inflater.inflate(R.layout.activity_search_by_flavor_row3, null);
-			// Add each row to the view
-			flavorsScrollViewTable.addView(flavorRow, i * 3);
-			flavorsScrollViewTable.addView(flavorRow2, i * 3 + 1);
-			flavorsScrollViewTable.addView(flavorRow3, i * 3 + 2);
-		}*/
 	}
 	
 	/**

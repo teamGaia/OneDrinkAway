@@ -218,7 +218,6 @@ public class DrinkInfoPage extends OneDrinkAwayActivity {
 			if (attributes[i] != 0) {
 				TextView flavorName = new TextView(this);
 
-				// flavorName.setText("\n" + Flavor.flavorsArr[i]);
 				flavorName.setText("\n" + flavors[i]);
 				seekBarView.addView(flavorName);
 
