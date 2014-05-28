@@ -145,15 +145,16 @@ public class SearchByFlavor extends OneDrinkAwayActivity {
 				Flavor queryFlavor = new Flavor(flavor, progress);
 				query.add(queryFlavor);
 			}
-			
 		}
+			
+
 		boolean drinksFound = DrinkModel.searchForDrinks(query);
 		
 		/*for (Flavor f : query.getFlavors()) {
 			Log.i("Flavor", f.name + ": " + f.value + " " + query.getFlavors().size());
 		} */
 		
-		
+
 		if (!drinksFound) {
 			Toast.makeText(getApplicationContext(),
 					"No results found!",

@@ -10,6 +10,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.onedrinkaway.R;
 import com.onedrinkaway.model.DrinkModel;
@@ -87,7 +88,7 @@ public class SearchByCategory extends OneDrinkAwayActivity {
 	 * Goes to results page containing the list of drinks within the category selected
 	 * @param view
 	 */
-	public void goToResults(View view) {
+	public void categorySelected(View view) {
 		Intent intent = new Intent(this, ResultsPage.class);
 		String categoryName = (String) ((TextView) view).getText();
 		query.setCategory(categoryName);
@@ -96,10 +97,8 @@ public class SearchByCategory extends OneDrinkAwayActivity {
 		    // hurray found at least one drink, go to ResultsPage
 		    intent.putExtra("title", categoryName);
 		    startActivity(intent);
-		    
 		} else {
-			//TO BE IMPLEMENTED
-		    // no drinks found, do something else?
+			Toast.makeText(getApplicationContext(), "No results found!", Toast.LENGTH_LONG).show();
 		}
 	}
 	
