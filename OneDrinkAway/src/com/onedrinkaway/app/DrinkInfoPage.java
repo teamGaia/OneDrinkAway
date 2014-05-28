@@ -2,6 +2,7 @@ package com.onedrinkaway.app;
 
 import java.util.Arrays;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -80,6 +81,8 @@ public class DrinkInfoPage extends OneDrinkAwayActivity {
 					.add(R.id.container, new PlaceholderFragment()).commit();
 		}
 	}
+	
+
 
 	/**
 	 * Fills the drink_info_ingredients TextView with given drink ingredients
@@ -94,7 +97,7 @@ public class DrinkInfoPage extends OneDrinkAwayActivity {
 
 			}
 			ingredientsTextView.append("\n");
-			if (drinkInfo.garnish != null) {
+			if (!drinkInfo.garnish.equals("No Garnish")) {
 				ingredientsTextView.append("Garnish: " + drinkInfo.garnish);
 			}
 
@@ -105,14 +108,14 @@ public class DrinkInfoPage extends OneDrinkAwayActivity {
 	}
 
 	/**
-	 * Fills the drink_info_glass_type image view with image of glass for given
-	 * drink
+	 * Fills the drink_info_glass_type image view with image of glass for given drink
 	 */
+	@SuppressLint("DefaultLocale")
 	private void setGlassPicture() {
-		ImageView glassTextView = (ImageView) findViewById(R.id.drink_info_glass_type);
-		int imageID = getResources().getIdentifier(
-				"yourpackagename:drawable/ic_launcher", null, null);
-		glassTextView.setImageResource(imageID);
+		ImageView glassImageView = (ImageView) findViewById(R.id.drink_info_glass_type);
+		String glassString = drink.glass.toLowerCase() + "_glass";
+		int imageID = getResources().getIdentifier("com.onedrinkaway:drawable/" + glassString, null, null);
+		glassImageView.setImageResource(imageID);
 	}
 
 	/**
@@ -215,7 +218,6 @@ public class DrinkInfoPage extends OneDrinkAwayActivity {
 			if (attributes[i] != 0) {
 				TextView flavorName = new TextView(this);
 
-				// flavorName.setText("\n" + Flavor.flavorsArr[i]);
 				flavorName.setText("\n" + flavors[i]);
 				seekBarView.addView(flavorName);
 

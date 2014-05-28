@@ -13,7 +13,7 @@
         android:visibility="gone"
         />
         
-     <ImageView android:id="@+id/imgIcon"
+     <ImageView android:id="@+id/favorite_glass_image"
         android:layout_width="wrap_content"
         android:layout_height="fill_parent"
         android:gravity="center_vertical"
@@ -44,7 +44,7 @@
 		<RatingBar 
 		    android:id="@+id/favorite_user_drink_rating"
 		    style="@style/GoldRatingBar"
-		    android:layout_width="fill_parent"
+		    android:layout_width="wrap_content"
 	        android:layout_height="wrap_content"
 	        android:gravity="center_vertical"
 	        android:layout_marginTop="5dp"
@@ -56,11 +56,12 @@
 		<RatingBar 
 		    android:id="@+id/favorite_predicted_drink_rating"
 		    style="@style/RedRatingBar"
-		    android:layout_width="fill_parent"
+		    android:layout_width="wrap_content"
 	        android:layout_height="wrap_content"
 	        android:gravity="center_vertical"
 	        android:layout_marginTop="5dp"
 	        android:layout_marginBottom="5dp"
+	        android:numStars="5"
 	        android:enabled="false"
 	        android:clickable="false"
 	        />

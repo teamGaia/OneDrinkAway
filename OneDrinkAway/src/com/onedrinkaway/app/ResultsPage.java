@@ -9,6 +9,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RatingBar;
 import android.widget.TextView;
@@ -62,6 +63,7 @@ public class ResultsPage extends OneDrinkAwayActivity {
 					drinklabel.setText(drink.name);
 					//Add rating bar to show rating for each drink result
 					setRatingBar(listItems, drink);
+					setGlassPicture(listItems, drink);
 					
 					listView.addView(listItems); 
 				} 
@@ -104,6 +106,20 @@ public class ResultsPage extends OneDrinkAwayActivity {
 	    }
 
 	    return super.onOptionsItemSelected(item);
+	}
+	
+	
+	/**
+	 * Fills the drink_info_glass_type image view with image of glass for given drink
+	 * @param listItems the View that contains the ImageView of the glass image
+	 * @param drink the drink that listItems represents
+	 */
+	@SuppressWarnings("unused")
+	private void setGlassPicture(View listItems, Drink drink) {
+		ImageView glassImageView = (ImageView) listItems.findViewById(R.id.result_glass_image);
+		String glassString = drink.glass.toLowerCase() + "_glass";
+		int imageID = getResources().getIdentifier("com.onedrinkaway:drawable/" + glassString, null, null);
+		glassImageView.setImageResource(imageID);
 	}
 	
 	/**
