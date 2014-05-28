@@ -14,6 +14,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.SeekBar;
+import android.widget.Toast;
 import android.widget.SeekBar.OnSeekBarChangeListener;
 import android.widget.TableLayout;
 import android.widget.TextView;
@@ -162,19 +163,17 @@ public class SearchByFlavor extends OneDrinkAwayActivity {
 	 * @param view the view from which this method was called
 	 */
 	public void goToResults(View view) {
-		boolean drinksFound = DrinkModel.searchForDrinks(query);
+		// For debugging purposes
 		for (Flavor f : query.getFlavors()) {
-			Log.i("Flavor", f.name + ": " + f.value + " " + query.getFlavors().size());
+			Log.i("Flavor", f.name + ": " + f.value);
 		}
-		query = new Query();
 		
-		if (!drinksFound) {
-			error = true;
-			setUpView();
-		} else { 
-	    	Intent intent = new Intent(this, ResultsPage.class);
+		if (DrinkModel.searchForDrinks(query)) { // true if drinks found
+			Intent intent = new Intent(this, ResultsPage.class);
 	    	intent.putExtra("title", "Results");
 			startActivity(intent);
+		} else { 
+			Toast.makeText(getApplicationContext(), "No results found!", Toast.LENGTH_LONG).show();
 		}
 	}
 	
