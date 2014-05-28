@@ -66,8 +66,6 @@ public class DrinkInfoPage extends OneDrinkAwayActivity {
 			fillInstructions();
 			fillIngredients();
 			setGlassPicture();
-			fillDescription();
-			fillDescriptionRecognition();
 			addSeekBarsToView();
 			setRatingBar();
 			Button addToFavoritesButton = (Button) findViewById(R.id.drink_info_add_to_favorites);
@@ -97,7 +95,10 @@ public class DrinkInfoPage extends OneDrinkAwayActivity {
 
 			}
 			ingredientsTextView.append("\n");
-			if (!drinkInfo.garnish.equals("No Garnish")) {
+			String testNoGarnish = drinkInfo.garnish.toLowerCase();
+			testNoGarnish.trim();
+			testNoGarnish.toLowerCase();
+			if (!testNoGarnish.equals("no garnish")) {
 				ingredientsTextView.append("Garnish: " + drinkInfo.garnish);
 			}
 
@@ -118,28 +119,6 @@ public class DrinkInfoPage extends OneDrinkAwayActivity {
 		glassImageView.setImageResource(imageID);
 	}
 
-	/**
-	 * Cites the source of the drink description at the bottom of the page
-	 */
-	private void fillDescriptionRecognition() {
-		if (drinkInfo.source != null) {
-			TextView descriptionRecognitionTextView = (TextView) findViewById(R.id.drink_info_description_recognition);
-			descriptionRecognitionTextView.setText(drinkInfo.source);
-		}
-	}
-
-	/**
-	 * Fills the drink_info_description text view with the description of given
-	 * drink
-	 */
-	private void fillDescription() {
-		TextView descriptionTextView = (TextView) findViewById(R.id.drink_info_description);
-		if (drinkInfo.description != null) {
-			descriptionTextView.append("\n" + drinkInfo.description + "\n");
-		} else {
-			descriptionTextView.setText("");
-		}
-	}
 
 	/**
 	 * Fills the drink instruction section with the given drinkInfo's

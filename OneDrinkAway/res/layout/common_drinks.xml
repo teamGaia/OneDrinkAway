@@ -8,7 +8,7 @@
     android:padding="10dp"
     android:background="@drawable/textlines">
     
-     <ImageView android:id="@+id/imgIcon"
+     <ImageView android:id="@+id/common_drink_image"
         android:layout_width="wrap_content"
         android:layout_height="fill_parent"
         android:gravity="center_vertical"
@@ -35,12 +35,13 @@
 			<RatingBar 
 		    android:id="@+id/common_drink_rating_bar"
 		    style="@style/GoldRatingBar"
-		    android:layout_width="fill_parent"
+		    android:layout_width="wrap_content"
 	        android:layout_height="wrap_content"
 	        android:gravity="center_vertical"
 	        android:layout_marginTop="5dp"
 	        android:layout_marginBottom="5dp"
 	        android:enabled="true"
+	        android:numStars="5"
 	        android:isIndicator="false" />
 </LinearLayout>
      

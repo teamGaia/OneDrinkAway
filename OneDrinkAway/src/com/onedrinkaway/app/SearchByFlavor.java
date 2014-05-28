@@ -1,6 +1,8 @@
 package com.onedrinkaway.app;
 
 import java.util.Arrays;
+import java.util.HashMap;
+import java.util.Map;
 
 import android.content.Context;
 import android.content.Intent;
@@ -14,6 +16,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.SeekBar;
+import android.widget.Toast;
 import android.widget.SeekBar.OnSeekBarChangeListener;
 import android.widget.TableLayout;
 import android.widget.TextView;
@@ -38,12 +41,9 @@ public class SearchByFlavor extends OneDrinkAwayActivity {
 	
 	// The Search button that enters the user's search
 	Button flavorSearchButton;
-
-	// The flavors to include in the search
-	private Query query;
 	
-	// Error is true when no results were found
-	private boolean error;
+	// Maps flavor string name to its current seekbar progress
+	private Map<String, SeekBar> flavorSettings;
 
 	/**
 	 * Creates the layout for Search By Flavor
@@ -54,8 +54,7 @@ public class SearchByFlavor extends OneDrinkAwayActivity {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_search_by_flavor);
 		helpID = R.string.search_by_flavor_help;
-		query = new Query();
-		error = false;
+		flavorSettings = new HashMap<String, SeekBar>();
 		setUpView();
 	}
 	
@@ -70,14 +69,6 @@ public class SearchByFlavor extends OneDrinkAwayActivity {
 	 */
 	private void displayFlavors() {
 		LayoutInflater inflater = (LayoutInflater) getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-		if (error) {	// the last search was false
-			error = false;
-			// set "No Results Found" textview
-			TextView errorTextView = (TextView) findViewById(R.id.error_text_view);
-			errorTextView.setText(R.string.error_no_results_found);
-			errorTextView.setGravity(Gravity.CENTER);
-			errorTextView.setTextColor(Color.parseColor("#FF0000"));
-		}
 		String[] flavors = Arrays.copyOf(Flavor.flavorsArr, Flavor.flavorsArr.length);
 		Arrays.sort(flavors);
 		for (int i = 0; i < flavors.length; i++) {
@@ -90,6 +81,7 @@ public class SearchByFlavor extends OneDrinkAwayActivity {
 			SeekBar seekbar = (SeekBar) flavorRow2.findViewById(R.id.flavor_seek_bar);
 			seekbar.setOnSeekBarChangeListener(new FlavorSeekBarListener(flavors[i]));
 			View flavorRow3 = inflater.inflate(R.layout.activity_search_by_flavor_row3, null);
+			flavorSettings.put(flavors[i], seekbar);
 			// Add each row to the view
 			flavorsScrollViewTable.addView(flavorRow, i * 3);
 			flavorsScrollViewTable.addView(flavorRow2, i * 3 + 1);
@@ -120,9 +112,9 @@ public class SearchByFlavor extends OneDrinkAwayActivity {
 		@Override
 		public void onProgressChanged(SeekBar seekbar, int progress, boolean fromUser) {
 			progressChanged = progress;
-			Flavor newFlavor = new Flavor(flavor, progressChanged);
-			query.add(newFlavor);
-			Log.i("Query size", query.getFlavors().size() + "");
+			
+			//query.add(newFlavor);
+			//Log.i("Query size", query.getFlavors().size() + "");
 		}
 		
 
@@ -146,15 +138,27 @@ public class SearchByFlavor extends OneDrinkAwayActivity {
 	 * @param view the view from which this method was called
 	 */
 	public void goToResults(View view) {
-		boolean drinksFound = DrinkModel.searchForDrinks(query);
-		for (Flavor f : query.getFlavors()) {
-			Log.i("Flavor", f.name + ": " + f.value + " " + query.getFlavors().size());
+		Query query = new Query();
+		for(String flavor: flavorSettings.keySet()) {
+			int progress = flavorSettings.get(flavor).getProgress();
+			if(progress != 0) {
+				Flavor queryFlavor = new Flavor(flavor, progress);
+				query.add(queryFlavor);
+			}
+			
 		}
-		query = new Query();
+		boolean drinksFound = DrinkModel.searchForDrinks(query);
+		
+		/*for (Flavor f : query.getFlavors()) {
+			Log.i("Flavor", f.name + ": " + f.value + " " + query.getFlavors().size());
+		} */
+		
 		
 		if (!drinksFound) {
-			error = true;
-			setUpView();
+			Toast.makeText(getApplicationContext(),
+					"No results found!",
+					Toast.LENGTH_LONG).show();
+
 		} else { 
 	    	Intent intent = new Intent(this, ResultsPage.class);
 	    	intent.putExtra("title", "Results");

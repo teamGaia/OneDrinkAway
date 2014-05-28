@@ -51,7 +51,7 @@
             android:scaleType="fitXY"
             android:adjustViewBounds="true"
             android:layout_gravity="center_horizontal"
-            android:src="@drawable/ic_launcher"
+            android:src="@drawable/rocks_glass"
             
             
              />
@@ -81,15 +81,6 @@
 		android:layout_marginTop="15dp"
         android:orientation="vertical" > 
         
-	    
-	    <TextView
-            android:id="@+id/drink_info_description"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="left"
-            android:textSize="16sp"
-            android:text="@string/drink_description"
-             />
 	    
 	    <TextView
             android:id="@+id/drink_info_instructions"
@@ -155,14 +146,6 @@
 	    
 	</LinearLayout>
 
-	<TextView
-	    android:id="@+id/drink_info_description_recognition"
-	    android:layout_width="match_parent"
-	    android:layout_height="wrap_content"
-	    android:textSize="10sp"
-	    android:text=""
-	    android:layout_marginTop="15dp"
-	   />
 
 
 
