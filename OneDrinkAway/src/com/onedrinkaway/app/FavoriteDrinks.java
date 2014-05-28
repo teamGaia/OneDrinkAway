@@ -4,6 +4,7 @@ import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
@@ -14,6 +15,7 @@ import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.CheckBox;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RatingBar;
 import android.widget.TextView;
@@ -63,10 +65,12 @@ public class FavoriteDrinks extends OneDrinkAwayActivity {
 					drinklabel.setText(drink.name);
 					
 					setRatingBar(listItems, drink);
+					setGlassPicture(listItems, drink);
 					
 					//add each drink option row to the favorites page linear layout
 					listView.addView(listItems); 
 					favoriteItems.put(listItems, drink);
+					
 				} else {
 					break;
 				}
@@ -113,6 +117,19 @@ public class FavoriteDrinks extends OneDrinkAwayActivity {
 		removeButton.setOnClickListener(new RemoveFavoritesOnClickListener());
 		Button doneButton = (Button) findViewById(R.id.favorites_done_button);
 		doneButton.setOnClickListener(new DoneOnClickListener());
+	}
+	
+	/**
+	 * Fills the drink_info_glass_type image view with image of glass for given drink
+	 * @param listItems the View that contains the ImageView of the glass image
+	 * @param drink the drink that listItems represents
+	 */
+	@SuppressLint("DefaultLocale")
+	private void setGlassPicture(View listItems, Drink drink) {
+		ImageView glassImageView = (ImageView) listItems.findViewById(R.id.favorite_glass_image);
+		String glassString = drink.glass.toLowerCase() + "_glass";
+		int imageID = getResources().getIdentifier("com.onedrinkaway:drawable/" + glassString, null, null);
+		glassImageView.setImageResource(imageID);
 	}
 	
 	/**

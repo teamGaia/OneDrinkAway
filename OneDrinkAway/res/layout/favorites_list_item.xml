@@ -13,7 +13,7 @@
         android:visibility="gone"
         />
         
-     <ImageView android:id="@+id/imgIcon"
+     <ImageView android:id="@+id/favorite_glass_image"
         android:layout_width="wrap_content"
         android:layout_height="fill_parent"
         android:gravity="center_vertical"
