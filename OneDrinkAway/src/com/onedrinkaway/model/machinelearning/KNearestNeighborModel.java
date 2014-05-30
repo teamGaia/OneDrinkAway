@@ -1,27 +1,26 @@
+/**
+ * Class for predicting ratings of drinks based off of 
+ * their similarity to the k most similar drinks in the 
+ * training set. The distances are calculated based off
+ * of the Euclidean distance between the attributes of
+ * the drinks.
+ */
+
 package com.onedrinkaway.model.machinelearning;
 
-
-
 import java.util.*;
-
 import com.onedrinkaway.model.Drink;
-
-
-
-
 
 public class KNearestNeighborModel implements MLModel {
 	private List<Drink> trainingSet;
   
 	private int K;
-	//private List<Instance> instances;
 	private Drink curIns;
+ 
   
-
-  
-  /**
-   * @effect construct a 5 nearest neighbor classfier
-   */
+	/**
+   	  * @effect construct a 5 nearest neighbor classfier
+   	  */
 	public KNearestNeighborModel() {
 		this(5);
 	}
@@ -83,7 +82,7 @@ public class KNearestNeighborModel implements MLModel {
 		return predicted;
 	}
   
-  /**
+  	/**
 	 * get distance between two instance
 	 * @param thisIns
 	 * @return

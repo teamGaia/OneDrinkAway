@@ -23,8 +23,6 @@ import com.onedrinkaway.model.DrinkModel;
 /**
  * The page that displays when a new user wants to rate drinks and presses the Rate By Name tab.
  * It allows the user to look at all of our drinks and rate them.
- * @author Andrea Martin
- *
  */
 public class NewUserRateByName extends Fragment {
 	//temp string names of common drinks
