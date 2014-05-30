@@ -16,21 +16,30 @@ import android.widget.TextView;
 import com.onedrinkaway.R;
 import com.onedrinkaway.model.Flavor;
 
+/**
+ * This class allows the user to enter what flavors and their intensity that they want to search by
+ * on Advanced Search
+ * @author Taylor Juve
+ *
+ */
+
 public class FlavorFragment extends Fragment {
 	private TableLayout flavorsScrollViewTable;
 	
+	/**
+	 * Fills this FlavorFragment view with all content
+	 */
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 	    View view = inflater.inflate(R.layout.fragment_flavor, null);
-		setUpView(view);
+		flavorsScrollViewTable = (TableLayout) view.findViewById(R.id.flavors_scroll_view_table);
 		displayFlavors();	
 		return view;
 	}
 	
-	private void setUpView(View view) {		
-		flavorsScrollViewTable = (TableLayout) view.findViewById(R.id.flavors_scroll_view_table);
-	}
-
+	/**
+	 * Displays each flavor textView and it's seek bar
+	 */
 	private void displayFlavors() {
 		LayoutInflater inflater = (LayoutInflater) getActivity().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 			
@@ -52,6 +61,9 @@ public class FlavorFragment extends Fragment {
 		}
 	}
 	
+	/**
+	 * Updates this FlavorFragment's view to reflect the user's previous selections
+	 */
 	@Override
     public void onActivityCreated(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);

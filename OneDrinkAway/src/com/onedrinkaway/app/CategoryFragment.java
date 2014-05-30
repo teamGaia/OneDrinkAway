@@ -1,7 +1,6 @@
 package com.onedrinkaway.app;
 
 import android.app.ActionBar.LayoutParams;
-import android.app.Activity;
 import android.app.DialogFragment;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -10,12 +9,23 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.onedrinkaway.R;
 import com.onedrinkaway.model.DrinkModel;
 
+/**
+ * SearchByCategory displays all drink categories to the user and allows the user to browse drinks
+ * based on the category they choose
+ * 
+ * @author Taylor Juve
+ *
+ */
+
 public class CategoryFragment extends Fragment {
+	
+	/**
+	 * Fills the CategoryFragment view with all content
+	 */
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 	   LinearLayout ll = (LinearLayout) inflater.inflate(R.layout.fragment_category, null);
@@ -24,6 +34,10 @@ public class CategoryFragment extends Fragment {
        return ll;
     }
 	
+	/**
+	 * Displays list of categories on view
+	 * @param categories list of all drink categories
+	 */
 	private void displayCategories(String[] categories, LinearLayout ll) {
 		LayoutInflater inflater = LayoutInflater.from(getActivity());
 		LinearLayout container = (LinearLayout) ll.findViewById(R.id.category_space);
@@ -71,6 +85,9 @@ public class CategoryFragment extends Fragment {
 		}
 	}
 
+	/**
+	 * Updates this CategoryFragment's view to reflect the user's previous selections
+	 */
 	@SuppressWarnings("deprecation")
 	@Override
     public void onActivityCreated(Bundle savedInstanceState) {

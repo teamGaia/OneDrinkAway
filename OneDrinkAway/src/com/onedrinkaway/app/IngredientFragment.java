@@ -18,10 +18,20 @@ import android.widget.ListView;
 import com.onedrinkaway.R;
 import com.onedrinkaway.model.DrinkModel;
 
+/**
+ * This class implements the Search By Ingredient feature which allows users to select ingredients
+ * they want to include in the cocktail they are looking for
+ * @author Nicole Kihara
+ *
+ */
+
 public class IngredientFragment extends Fragment {
 	// Custom array adapter which keeps track of which ingredients are checked
 	IngredientsArrayAdapter myArrayAdapter;
 
+	/**
+	 * Fills this IngredientFragment view with all content
+	 */
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 	   LinearLayout ll = (LinearLayout) inflater.inflate(R.layout.fragment_ingredient, null);
