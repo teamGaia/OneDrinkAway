@@ -23,6 +23,8 @@ public class DrinkModel {
 	
 	private static Drink[] results = null;
 	
+	private static Query mostRecentQuery;
+	
 	/**
 	 * Gets the contents of results. If results is null, returns an empty array
 	 * @return an Array of results
@@ -73,21 +75,23 @@ public class DrinkModel {
 	 *         predicted rating (highest->lowest)
 	 */
 	public static void findTrySomethingNewDrinks() {
+		int numDrinks = 20; 
+		
 		Drink[] allDrinks = convertDrinkSetToArray(DrinkDb.getAllDrinks());
 		Drink[] ratedDrinks = convertDrinkSetToArray(DrinkDb.getRatedDrinks());
 		Drink[] unratedDrinks = getUnratedDrinks(allDrinks, ratedDrinks);
 		Drink[] ratings = predictRatings(unratedDrinks, ratedDrinks);
-		if(ratings.length <= 5){
+		if(ratings.length <= numDrinks){
 			results = ratings;
 			return;
 		}
-		results = new Drink[5];
+		results = new Drink[numDrinks];
 		results[0] = ratings[0];
 		
 		Random r = new Random();
 		int i = 1;
 		double threshHold = 4.0;
-		while(i < 5){
+		while(i < numDrinks){
 			List<Drink> overThreshold = new ArrayList<Drink>();
 			for(Drink d : ratings){ 
 				if(d.getRating() > threshHold && 
@@ -97,7 +101,7 @@ public class DrinkModel {
 				}
 			}
 			threshHold--;
-			while(!overThreshold.isEmpty() && i < 5){
+			while(!overThreshold.isEmpty() && i < numDrinks){
 				int index = r.nextInt(overThreshold.size());
 				Drink chosen = overThreshold.remove(index);
 				results[i] = chosen;
@@ -115,6 +119,8 @@ public class DrinkModel {
 	 * @return false if the results array is empty, true if not
 	 */
 	public static boolean searchForDrinks(Query query) {
+		mostRecentQuery = query;
+		
 		Set<Drink> drinks = DrinkDb.getAllDrinks();
 		Iterator<Drink> iter;
 		if (query.hasCategory()) { // iterate and filter by category
@@ -168,6 +174,10 @@ public class DrinkModel {
 		//Drink[] unratedDrinks = getUnratedDrinks(filteredDrinks, ratedDrinks);
 		results = predictRatings(filteredDrinks, ratedDrinks);
 		return results.length > 0;
+	}
+	
+	public static boolean retryMostRecentSearch() {
+		return searchForDrinks(mostRecentQuery);
 	}
 
 	/**
