@@ -6,20 +6,16 @@ import java.util.Map;
 
 import android.content.Context;
 import android.content.Intent;
-import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
-import android.util.Log;
-import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.SeekBar;
-import android.widget.Toast;
-import android.widget.SeekBar.OnSeekBarChangeListener;
 import android.widget.TableLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.onedrinkaway.R;
 import com.onedrinkaway.model.DrinkModel;
@@ -79,7 +75,6 @@ public class SearchByFlavor extends OneDrinkAwayActivity {
 			View flavorRow2 = inflater.inflate(R.layout.activity_search_by_flavor_row2, null);
 			// Set the SeekBar in search_by_flavor_row2
 			SeekBar seekbar = (SeekBar) flavorRow2.findViewById(R.id.flavor_seek_bar);
-			seekbar.setOnSeekBarChangeListener(new FlavorSeekBarListener(flavors[i]));
 			View flavorRow3 = inflater.inflate(R.layout.activity_search_by_flavor_row3, null);
 			flavorSettings.put(flavors[i], seekbar);
 			// Add each row to the view
@@ -87,49 +82,6 @@ public class SearchByFlavor extends OneDrinkAwayActivity {
 			flavorsScrollViewTable.addView(flavorRow2, i * 3 + 1);
 			flavorsScrollViewTable.addView(flavorRow3, i * 3 + 2);
 		}
-	}
-	
-	/**
-	 * Class for a Seek Bar Listener that adjusts what flavors to search by depending
-	 * on the number the user adjusts the seek bar to
-	 */
-	public class FlavorSeekBarListener implements OnSeekBarChangeListener {
-		int progressChanged = 0;
-		String flavor;
-		
-		/**
-		 * Creates a new FlavorSeekBarListener
-		 * @param flavor: the flavor this seek bar is for
-		 */
-		FlavorSeekBarListener(String flavor) {
-			this.flavor = flavor;
-		}
-	
-		/**
-		 * Adjusts the flavor intensity to search by when the user changes
-		 * the progress on this flavor's seek bar
-		 */
-		@Override
-		public void onProgressChanged(SeekBar seekbar, int progress, boolean fromUser) {
-			progressChanged = progress;
-			
-			//query.add(newFlavor);
-			//Log.i("Query size", query.getFlavors().size() + "");
-		}
-		
-
-		@Override
-		public void onStartTrackingTouch(SeekBar arg0) {
-			// TODO Auto-generated method stub
-			
-		}
-
-		@Override
-		public void onStopTrackingTouch(SeekBar seekBar) {
-			// TODO Auto-generated method stub
-			
-		}
-		
 	}
 		
 	/**
@@ -149,10 +101,6 @@ public class SearchByFlavor extends OneDrinkAwayActivity {
 			
 
 		boolean drinksFound = DrinkModel.searchForDrinks(query);
-		
-		/*for (Flavor f : query.getFlavors()) {
-			Log.i("Flavor", f.name + ": " + f.value + " " + query.getFlavors().size());
-		} */
 		
 
 		if (!drinksFound) {

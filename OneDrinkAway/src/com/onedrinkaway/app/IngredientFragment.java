@@ -1,33 +1,32 @@
 package com.onedrinkaway.app;
 
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
-import android.text.TextUtils;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.AdapterView;
-import android.widget.AdapterView.OnItemClickListener;
-import android.widget.ArrayAdapter;
-import android.widget.CheckedTextView;
+import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.ListView;
-import android.widget.SearchView;
 
 import com.onedrinkaway.R;
 import com.onedrinkaway.model.DrinkModel;
-import com.onedrinkaway.model.Query;
 
-public class IngredientFragment extends Fragment implements SearchView.OnQueryTextListener {
-	private String[] ingredients;
-	private ListView listView;
+public class IngredientFragment extends Fragment {
+	// Custom array adapter which keeps track of which ingredients are checked
+	IngredientsArrayAdapter myArrayAdapter;
 
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 	   LinearLayout ll = (LinearLayout) inflater.inflate(R.layout.fragment_ingredient, null);
 	   
-	   ingredients = DrinkModel.getIngredients();
-	   setupSearchView(ll);
+	   setupSearchBox(ll);
        setupListView(ll);
        
        return ll;
@@ -36,49 +35,50 @@ public class IngredientFragment extends Fragment implements SearchView.OnQueryTe
 	/**
 	 * Displays the Search Bar that appears at the top of the screen
 	 */
-   private void setupSearchView(LinearLayout ll) {
-   	   SearchView srchView = (SearchView) ll.findViewById(R.id.ingredient_search_view);
-       srchView.setIconifiedByDefault(false);
-       srchView.setOnQueryTextListener(this);
-       srchView.setQueryHint("Enter Ingredient Here");
+   private void setupSearchBox(LinearLayout ll) {
+	   EditText searchBox = (EditText) ll.findViewById(R.id.fragment_ingredient_search_box);
+   	// A TextWatcher is a listener for the searchBox
+       searchBox.addTextChangedListener(new TextWatcher() {
+       	 
+       	/**
+       	 * When a user enters text in the text box, this filters the list of ingedients
+       	 * to display
+       	 */
+       	 public void onTextChanged(CharSequence s, int start, int before, int count) {
+       		 //get the text in the EditText
+       		 myArrayAdapter.filterIngredients(s);
+       	 }
+
+       	 @Override
+       	 public void beforeTextChanged(CharSequence s, int start, int count,
+       	     int after) {
+       	 }
+
+       	 @Override
+       	 public void afterTextChanged(Editable arg0) {
+	        		 // TODO Auto-generated method stub
+       	 }
+       });
+      
    }
    
    /**
     * Displays the list of ingredients to choose from in a scrolling list view
     */
    private void setupListView(LinearLayout ll) {
-   	   listView = (ListView) ll.findViewById(R.id.ingredient_list_view);
-       listView.setAdapter(new ArrayAdapter<String>(getActivity(),
-               R.layout.oda_ingredient_item,
-               ingredients));
-       listView.setTextFilterEnabled(true);
-       listView.setChoiceMode(ListView.CHOICE_MODE_MULTIPLE);
-       listView.setOnItemClickListener(new OnItemClickListener() {
-    	   @Override
-           public void onItemClick(AdapterView<?> parent, View v, int position, long id) {
-    		   AdvancedSearch as = (AdvancedSearch) getActivity();
-    		   Query query = as.query;
-    		   String checkedIngr = (String) ((CheckedTextView) v).getText();
+	   ListView listView = (ListView) ll.findViewById(R.id.ingredient_list_view);
+	   List<String> ingredientsList = new ArrayList<String>();
+	   ingredientsList.addAll(Arrays.asList(DrinkModel.getIngredients()));
+	   myArrayAdapter = new IngredientsArrayAdapter(
+			   getActivity(),
+			   R.layout.oda_ingredient_item,
+			   R.id.ingredient_check_box,
+			   ingredientsList,
+			   listView
+			   );
 
-    		   if (query.getIngredients().contains(checkedIngr)) {
-    			   query.remove(checkedIngr);
-    		   } else {
-    			   query.add(checkedIngr);
-    		   }
-           }
-       });
-   }
-
-   public boolean onQueryTextChange(String newText) {
-       if (TextUtils.isEmpty(newText)) {
-           listView.clearTextFilter();
-       } else {
-           listView.setFilterText(newText.toString());
-       }
-       return true;
-   }
-
-   public boolean onQueryTextSubmit(String query) {
-       return false;
+	   listView.setAdapter(myArrayAdapter);
+	   listView.setTextFilterEnabled(true);
+	   listView.setChoiceMode(ListView.CHOICE_MODE_MULTIPLE);
    }
 }
