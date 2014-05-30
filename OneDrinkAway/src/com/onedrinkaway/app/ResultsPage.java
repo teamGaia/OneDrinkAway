@@ -1,7 +1,9 @@
 package com.onedrinkaway.app;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
+import android.os.Build;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
@@ -9,6 +11,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
+import android.view.Window;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RatingBar;
@@ -28,6 +31,7 @@ public class ResultsPage extends OneDrinkAwayActivity {
 	/**
 	 * Creates and fills the view of the Results page with the dynamic results
 	 */
+	@SuppressLint("NewApi")
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -40,6 +44,12 @@ public class ResultsPage extends OneDrinkAwayActivity {
 			String title = extras.getString("title");
 			if(title != null) {
 				setTitle(title);
+				if (!title.equals("Results") && android.os.Build.VERSION.SDK_INT >= 14) {
+					// It's a category
+					String iconIdName = "ic_" + title.replace(' ', '_').toLowerCase();
+					int iconId = getResources().getIdentifier(iconIdName, "drawable", getPackageName());
+					getActionBar().setIcon(iconId);
+				}
 			}
 			//Drink[] drinkResults = (Drink[]) extras.get("results"); 
 			Drink[] drinkResults = DrinkModel.getResults();
