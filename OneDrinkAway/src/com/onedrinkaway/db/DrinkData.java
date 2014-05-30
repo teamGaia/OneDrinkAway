@@ -167,6 +167,8 @@ public class DrinkData implements Serializable {
      * @return a set of all distinct categories
      */
     public Set<String> getCategories() {
+        categories.remove("Classic");
+        categories.remove("Tropical");
         return new HashSet<String>(categories);
     }
     
