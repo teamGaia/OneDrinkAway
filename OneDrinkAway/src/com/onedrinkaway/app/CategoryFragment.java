@@ -48,7 +48,7 @@ public class CategoryFragment extends Fragment {
 			int iconId = getResources().getIdentifier(iconIdName, "drawable", getActivity().getPackageName());
 			if (iconId == 0) {
 				// Category icon doesn't exist, use default cocktail glass instead
-				category.setCompoundDrawablesWithIntrinsicBounds(0, R.drawable.cocktail_glass, 0, 0);
+				category.setCompoundDrawablesWithIntrinsicBounds(0, R.drawable.ic_martini, 0, 0);
 			} else {
 				category.setCompoundDrawablesWithIntrinsicBounds(0, iconId, 0, 0);
 			}
