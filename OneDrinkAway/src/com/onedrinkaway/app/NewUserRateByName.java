@@ -4,11 +4,13 @@ import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
 
+import android.annotation.SuppressLint;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RatingBar;
 import android.widget.RatingBar.OnRatingBarChangeListener;
@@ -48,11 +50,11 @@ public class NewUserRateByName extends Fragment {
 	   
 	   // Display each drink name and rating bar
 	   for(int i = 0; i < allDrinks.length; i++) {
-		   LinearLayout rateDrink = (LinearLayout) inflater.inflate(R.layout.common_drinks, null);
-		   TextView commonDrinkTitle = (TextView) rateDrink.findViewById(R.id.common_drink_title);
+		   LinearLayout rateDrinkItem = (LinearLayout) inflater.inflate(R.layout.common_drinks, null);
+		   TextView commonDrinkTitle = (TextView) rateDrinkItem.findViewById(R.id.common_drink_title);
 		   commonDrinkTitle.setText(allDrinks[i].name);
 		   
-		   RatingBar ratingBar = (RatingBar) rateDrink.findViewById(R.id.common_drink_rating_bar);
+		   RatingBar ratingBar = (RatingBar) rateDrinkItem.findViewById(R.id.common_drink_rating_bar);
 		   ratingBar.setId(i);
 		   
 		   ratingBar.setNumStars(5);
@@ -78,10 +80,29 @@ public class NewUserRateByName extends Fragment {
 		   
 		   	});
 		   ratingBarsMap.put(ratingBar, allDrinks[i].name);
-		   drinkContainer.addView(rateDrink);
+		   setGlassPicture(rateDrinkItem, allDrinks[i]);
+		   drinkContainer.addView(rateDrinkItem);
 	   }
 	   
 	   return newUserCommonView;
+	}
+	
+	/**
+	 * Fills each  drink image view with image of glass for given drink
+	 * @param listItems the View that contains the ImageView of the glass image
+	 * @param drink the drink that listItems represents
+	 */
+	@SuppressLint("DefaultLocale")
+	private void setGlassPicture(View listItems, Drink drink) {
+		ImageView glassImageView = (ImageView) listItems.findViewById(R.id.common_drink_image);
+
+		int imageID = getResources().getIdentifier("com.onedrinkaway:drawable/" + drink.image, null, null);
+		
+		if(imageID == 0) {
+			String glassString = drink.glass.toLowerCase() + "_glass";
+			imageID = getResources().getIdentifier("com.onedrinkaway:drawable/" + glassString, null, null);
+		}
+		glassImageView.setImageResource(imageID);
 	}
 	
 	 public void onActivityCreated(Bundle savedInstanceState) {

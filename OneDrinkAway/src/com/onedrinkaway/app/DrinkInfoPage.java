@@ -114,9 +114,14 @@ public class DrinkInfoPage extends OneDrinkAwayActivity {
 	@SuppressLint("DefaultLocale")
 	private void setGlassPicture() {
 		ImageView glassImageView = (ImageView) findViewById(R.id.drink_info_glass_type);
-		String glassString = drink.glass.toLowerCase() + "_glass";
-		int imageID = getResources().getIdentifier("com.onedrinkaway:drawable/" + glassString, null, null);
+		int imageID = getResources().getIdentifier("com.onedrinkaway:drawable/" + drink.image, null, null);
+		
+		if(imageID == 0) {
+			String glassString = drink.glass.toLowerCase() + "_glass";
+			imageID = getResources().getIdentifier("com.onedrinkaway:drawable/" + glassString, null, null);
+		}
 		glassImageView.setImageResource(imageID);
+		
 	}
 
 

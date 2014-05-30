@@ -120,16 +120,22 @@ public class ResultsPage extends OneDrinkAwayActivity {
 	
 	
 	/**
-	 * Fills the drink_info_glass_type image view with image of glass for given drink
+	 * Fills each result item image view with image of glass for given drink
 	 * @param listItems the View that contains the ImageView of the glass image
 	 * @param drink the drink that listItems represents
 	 */
-	@SuppressWarnings("unused")
+	@SuppressLint("DefaultLocale")
 	private void setGlassPicture(View listItems, Drink drink) {
 		ImageView glassImageView = (ImageView) listItems.findViewById(R.id.result_glass_image);
-		String glassString = drink.glass.toLowerCase() + "_glass";
-		int imageID = getResources().getIdentifier("com.onedrinkaway:drawable/" + glassString, null, null);
+		int imageID = getResources().getIdentifier("com.onedrinkaway:drawable/" + drink.image, null, null);
+		
+		if(imageID == 0) {
+			String glassString = drink.glass.toLowerCase() + "_glass";
+			imageID = getResources().getIdentifier("com.onedrinkaway:drawable/" + glassString, null, null);
+		}
 		glassImageView.setImageResource(imageID);
+		
+
 	}
 	
 	/**
