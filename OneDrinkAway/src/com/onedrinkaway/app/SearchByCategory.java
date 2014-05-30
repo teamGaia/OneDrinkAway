@@ -69,7 +69,12 @@ public class SearchByCategory extends OneDrinkAwayActivity {
 			
 			String iconIdName = "ic_" + categories[i].replace(' ', '_').toLowerCase();
 			int iconId = getResources().getIdentifier(iconIdName, "drawable", getPackageName());
-			category.setCompoundDrawablesWithIntrinsicBounds(0, iconId, 0, 0);
+			if (iconId == 0) {
+				// Category icon doesn't exist, use default cocktail glass instead
+				category.setCompoundDrawablesWithIntrinsicBounds(0, R.drawable.cocktail_glass, 0, 0);
+			} else {
+				category.setCompoundDrawablesWithIntrinsicBounds(0, iconId, 0, 0);
+			}
 			
 			category.setOnLongClickListener(new View.OnLongClickListener(){
 				@Override
