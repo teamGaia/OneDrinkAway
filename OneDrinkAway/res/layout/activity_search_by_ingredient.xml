@@ -2,27 +2,19 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:orientation="vertical">   
-
-    
-    <SearchView
-        android:id="@+id/ingredient_search_view"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content" >
-
-    </SearchView>
+        android:orientation="vertical">
 
     <TableRow
         android:id="@+id/tableRow1"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_weight="0.01" >
+        android:layout_height="wrap_content" >
 
-        <TextView
-            android:id="@+id/ingredient_error_text_view"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_weight="1" />
+    	<EditText
+    	    android:id="@+id/searchBox"
+    	    android:layout_width="wrap_content"
+    	    android:layout_height="wrap_content"
+    	    android:layout_weight="1"
+    	    android:hint="@string/ingredients_edit_text" />
 
         <Button
             android:id="@+id/ingredient_search_button"
@@ -31,6 +23,18 @@
             android:onClick="goToResults"
             android:text="@string/search_button" />
 
+    </TableRow>
+    
+    <TableRow
+            android:id="@+id/tableRow2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" >
+        
+        <TextView
+            android:id="@+id/ingredient_error_text_view"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1" />
     </TableRow>
 
     <ListView

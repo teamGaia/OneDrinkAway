@@ -91,5 +91,6 @@
     <string name="why_message">Rating drinks allows us to make the best possible recommendations for you. If you do not rate any drinks, our suggestions will not be as accurate.</string>
 	<string name="title_activity_new_user_rating">Welcome to OneDrinkAway!</string>
 	<string name="finish">Finish</string>
+	<string name="ingredients_edit_text">Enter an Ingredient Here</string>
 	<string name="new_user_help">To rate our most common drinks, press the Rate Common Drinks tab. To look at all of the drinks in our database, press the Find and Rate tab. To rate a drink, press the number of stars you want to rate it on the rating bar below the name of the drink. When you are finished rating drinks, press the "Finish" button.</string>
 </resources>
