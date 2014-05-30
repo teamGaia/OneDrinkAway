@@ -27,6 +27,8 @@ public class SearchByCategory extends OneDrinkAwayActivity {
 	
 	private Query query;
 	
+	public static boolean firstTime = false;
+	
 	/**
 	 * Fills the SearchByCateogry view with all content
 	 */
@@ -91,6 +93,13 @@ public class SearchByCategory extends OneDrinkAwayActivity {
 				}
 			});
 			curRow.addView(category);
+		}
+		
+		// user is opening the app for the first time, display explanation toast
+		if (firstTime) {
+			// it is not the first time anymore
+			firstTime = false;
+			Toast.makeText(getApplicationContext(), "Press and hold on a category to view a description", Toast.LENGTH_LONG).show();
 		}
 	}
 

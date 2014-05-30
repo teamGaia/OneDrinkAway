@@ -8,7 +8,6 @@ import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
 import android.widget.SeekBar;
 import android.widget.SeekBar.OnSeekBarChangeListener;
 import android.widget.TableLayout;
@@ -19,7 +18,6 @@ import com.onedrinkaway.model.Flavor;
 
 public class FlavorFragment extends Fragment {
 	private TableLayout flavorsScrollViewTable;
-	private Button flavorSearchButton;
 	
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -31,7 +29,6 @@ public class FlavorFragment extends Fragment {
 	
 	private void setUpView(View view) {		
 		flavorsScrollViewTable = (TableLayout) view.findViewById(R.id.flavors_scroll_view_table);
-		flavorSearchButton = (Button) view.findViewById(R.id.flavor_search_button);
 	}
 
 	private void displayFlavors() {

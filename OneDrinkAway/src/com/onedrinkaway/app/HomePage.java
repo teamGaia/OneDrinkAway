@@ -57,6 +57,9 @@ public class HomePage extends OneDrinkAwayActivity {
 		    //the app is being launched for first time launch new user dialog       
 			DialogFragment newFragment = new NewUserDialog();
 		    newFragment.show(getFragmentManager(), "newUser");
+		    
+		    // Tell search by category this is the first time the user installed the app
+		    SearchByCategory.firstTime = true;
 
 		    // record the fact that the app has been started at least once
 		    settings.edit().putBoolean("my_first_time", false).commit(); 
