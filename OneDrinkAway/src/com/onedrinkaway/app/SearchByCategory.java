@@ -1,8 +1,12 @@
 package com.onedrinkaway.app;
 
+import java.util.Locale;
+
 import android.app.ActionBar.LayoutParams;
 import android.app.DialogFragment;
 import android.content.Intent;
+import android.content.res.Resources;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
@@ -66,6 +70,11 @@ public class SearchByCategory extends OneDrinkAwayActivity {
                     LayoutParams.MATCH_PARENT, 1.0f);
 			category.setLayoutParams(param);
 			category.setText(categories[i]);
+			
+			String iconIdName = "ic_" + categories[i].replace(' ', '_').toLowerCase();
+			int iconId = getResources().getIdentifier(iconIdName, "drawable", getPackageName());
+			category.setCompoundDrawablesWithIntrinsicBounds(0, iconId, 0, 0);
+			
 			category.setOnLongClickListener(new View.OnLongClickListener(){
 				@Override
 				public boolean onLongClick(View view) {
