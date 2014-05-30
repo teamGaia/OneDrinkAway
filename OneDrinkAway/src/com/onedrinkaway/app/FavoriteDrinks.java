@@ -127,9 +127,14 @@ public class FavoriteDrinks extends OneDrinkAwayActivity {
 	@SuppressLint("DefaultLocale")
 	private void setGlassPicture(View listItems, Drink drink) {
 		ImageView glassImageView = (ImageView) listItems.findViewById(R.id.favorite_glass_image);
-		String glassString = drink.glass.toLowerCase() + "_glass";
-		int imageID = getResources().getIdentifier("com.onedrinkaway:drawable/" + glassString, null, null);
+		int imageID = getResources().getIdentifier("com.onedrinkaway:drawable/" + drink.image, null, null);
+		
+		if(imageID == 0) {
+			String glassString = drink.glass.toLowerCase() + "_glass";
+			imageID = getResources().getIdentifier("com.onedrinkaway:drawable/" + glassString, null, null);
+		}
 		glassImageView.setImageResource(imageID);
+		
 	}
 	
 	/**

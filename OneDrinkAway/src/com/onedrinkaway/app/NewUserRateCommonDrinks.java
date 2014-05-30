@@ -4,11 +4,13 @@ import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
 
+import android.annotation.SuppressLint;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RatingBar;
 import android.widget.RatingBar.OnRatingBarChangeListener;
@@ -67,6 +69,7 @@ public class NewUserRateCommonDrinks extends Fragment {
 		   
 		   		});
 		   ratingBarsMap.put(ratingBar, commonDrinks[i]);
+		   setGlassPicture(commonDrink, DrinkModel.getDrink(commonDrinks[i]));
 		   commonDrinkContainer.addView(commonDrink);
 	   }
 	   
@@ -81,6 +84,23 @@ public class NewUserRateCommonDrinks extends Fragment {
 		
 		Arrays.sort(popDrinks);
 		return popDrinks; 
+	}
+	
+	/**
+	 * Fills each common drink image view with image of glass for given drink
+	 * @param listItems the View that contains the ImageView of the glass image
+	 * @param drink the drink that listItems represents
+	 */
+	@SuppressLint("DefaultLocale")
+	private void setGlassPicture(View listItems, Drink drink) {
+		ImageView glassImageView = (ImageView) listItems.findViewById(R.id.common_drink_image);
+		int imageID = getResources().getIdentifier("com.onedrinkaway:drawable/" + drink.image, null, null);
+		
+		if(imageID == 0) {
+			String glassString = drink.glass.toLowerCase() + "_glass";
+			imageID = getResources().getIdentifier("com.onedrinkaway:drawable/" + glassString, null, null);
+		}
+		glassImageView.setImageResource(imageID);
 	}
 	
 	public void onActivityCreated(Bundle savedInstanceState) {
