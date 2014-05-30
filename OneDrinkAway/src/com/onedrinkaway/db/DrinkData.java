@@ -1,9 +1,5 @@
 package com.onedrinkaway.db;
 
-/**
- * Helper for DrinkDb, singleton. Main data structure.
- */
-
 import java.io.BufferedReader;
 import java.io.FileOutputStream;
 import java.io.IOException;
@@ -32,6 +28,15 @@ import com.google.gson.reflect.TypeToken;
 import com.onedrinkaway.app.HomePage;
 import com.onedrinkaway.model.Drink;
 import com.onedrinkaway.model.DrinkInfo;
+
+/**
+ * Helper for DrinkDb, singleton, main data structure.
+ * Stores all Drink, DrinkInfo and relevant data including categories, ingredients etc.
+ * Loads itself from disc on startup, then updates from database.
+ * When a favorite is added or removed, or a drink is rated, attempts to upload the data to the
+ * database. If uploads fail, tries again when a rating or favorite is modified. After these
+ * operations it writes its state to disc.
+ */
 
 public class DrinkData implements Serializable {
     
