@@ -424,24 +424,37 @@ public class DrinkData implements Serializable {
             // map of user rated drinks, drinkid->rating
             Map<Integer, Integer> ratings = getRatingsDb();
             HashMap<String, String> datamap = gson.fromJson(data, new TypeToken<HashMap<String, String>>() {}.getType());
-            // got this far, go ahead and dump old data
-            instance = new DrinkData();
+            // create new DrinkData to replace instance
+            DrinkData newInstance = new DrinkData();
             for (String key : datamap.keySet()) {
                 Drink d = gson.fromJson(key, new TypeToken<Drink>() {}.getType());
                 DrinkInfo di = gson.fromJson(datamap.get(key), new TypeToken<DrinkInfo>() {}.getType());
                 // add drink to instance
-                instance.addDrink(d, di);
+                newInstance.addDrink(d, di);
                 for (String ingredient : di.ingredients)
-                    instance.addIngredient(d, stripPortions(ingredient));
+                    newInstance.addIngredient(d, stripPortions(ingredient));
                 for (String category : d.categories)
-                    instance.categories.add(category);
+                    newInstance.categories.add(category);
                 if (favs.contains(d.id))
-                    instance.favorites.add(d);
+                    newInstance.favorites.add(d);
                 if (ratings.containsKey(d.id)) {
-                    instance.ratedDrinks.add(d);
+                    newInstance.ratedDrinks.add(d);
                     d.addUserRating(ratings.get(d.id));
                 }
             }
+            // now check if user has added any ratings or favorites while we were busy
+            // lock instance while we do this, shouldn't take long.
+            synchronized(instance) {
+                for (Drink d : instance.favorites) {
+                    newInstance.favorites.add(d);
+                }
+                for (Drink d : instance.ratedDrinks) {
+                    newInstance.ratedDrinks.add(d);
+                    Drink newD = newInstance.namesToDrinks.get(d.name);
+                    newD.addUserRating(d.getUserRating());
+                }
+            }
+            instance = newInstance;
         } catch (Exception e) {
             e.printStackTrace();
         }
