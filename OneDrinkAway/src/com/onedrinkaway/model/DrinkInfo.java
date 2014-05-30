@@ -17,13 +17,8 @@ public class DrinkInfo implements Serializable {
     private static final long serialVersionUID = -4663291903849832155L;
     /** unmodifiable list */
     public final List<String> ingredients;
-    /** Garnish for this drink, may be null */
+    /** Garnish for this drink, may be null or "No Garnish" */
     public final String garnish;
-    /** description for this drink */
-    public final String description;
-    /** source for description, may be null */
-    public final String source;
-    /** drink instructions, may be null */
     public final String instructions;
     public final int drinkId;
     
@@ -35,13 +30,10 @@ public class DrinkInfo implements Serializable {
      * @param source the source of the description
      * @param drinkId the drinkId this DrinkInfo corresponds to
      */
-    public DrinkInfo(List<String> ingredients, String description, String garnish,
-            String instructions, String citation, int drinkId) {
+    public DrinkInfo(List<String> ingredients, String garnish, String instructions, int drinkId) {
         this.ingredients = Collections.unmodifiableList(ingredients);
         this.garnish = garnish;
-        this.description = description;
         this.instructions = instructions;
-        this.source = citation;
         this.drinkId = drinkId;
     }
 

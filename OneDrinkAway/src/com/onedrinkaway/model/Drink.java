@@ -38,6 +38,7 @@ public class Drink implements Comparable<Drink>, Serializable {
   public final int[] attributes;
   public final List<String> categories;
   public final String glass;
+  public final String image;
   
   /**
    * Sole Constructor
@@ -49,7 +50,7 @@ public class Drink implements Comparable<Drink>, Serializable {
    * @param glass the Glass of this drink
    */
   public Drink(String name, int id, double avgRating, int[] attributes,
-               List<String> categories, String glass) {
+               List<String> categories, String glass, String image) {
     this.name = name;
     this.id = id;
     this.avgRating = avgRating;
@@ -58,6 +59,7 @@ public class Drink implements Comparable<Drink>, Serializable {
     this.glass = glass;
     predictedRating = -1;
     userRating = -1;
+    this.image = image;
   }
   
   /**
