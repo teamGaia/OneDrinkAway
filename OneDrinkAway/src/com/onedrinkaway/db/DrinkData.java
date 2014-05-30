@@ -81,7 +81,7 @@ public class DrinkData implements Serializable {
     /**
      * Private Constructor
      */
-    private DrinkData() {
+    private DrinkData(String userId) {
         drinks = new HashSet<Drink>();
         ingredients = new HashSet<String>();
         categories = new HashSet<String>();
@@ -92,6 +92,7 @@ public class DrinkData implements Serializable {
         drinkIngredients = new HashMap<Drink, Set<String>>();
         uploadQ = new LinkedList<Drink>();
         LAST_SAVE = 0;
+        this.userId = userId;
     }
     
     /**
@@ -102,8 +103,9 @@ public class DrinkData implements Serializable {
         // Build and update instance
         if (instance == null) {
             if (!deserialize()) {
-                instance = new DrinkData();
+                instance = new DrinkData(userId);
             }
+            instance.userId = userId;
             instance.updateInstanceAsync();
         }
         instance.userId = userId;
@@ -115,7 +117,7 @@ public class DrinkData implements Serializable {
      * outside Android. Must call debug as well
      */
     public static DrinkData getDrinkDataDB(String userId) {
-        instance = new DrinkData();
+        instance = new DrinkData(userId);
         instance.userId = userId;
         updateInstance();
         return instance;
@@ -341,7 +343,7 @@ public class DrinkData implements Serializable {
      * @return a map of drinkid->rating
      */
     @SuppressLint("UseSparseArrays")
-    private static Map<Integer, Integer> getRatingsDb() {
+    private static Map<Integer, Integer> getUserRatingsDb() {
         Map<Integer, Integer> result = new HashMap<Integer, Integer>();
         try {
             String url = hostUrl + "/getuserratings";
@@ -358,6 +360,34 @@ public class DrinkData implements Serializable {
                 for (String id : ids) {
                     String[] tokens = id.split(":");
                     result.put(Integer.parseInt(tokens[0]), Integer.parseInt(tokens[1]));
+                }
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return result;
+    }
+    
+    /**
+     * Searches for and returns users ratings from database
+     * @return a map of drinkid->rating
+     */
+    @SuppressLint("UseSparseArrays")
+    private static Map<Integer, Double> getAvgRatingsDb() {
+        Map<Integer, Double> result = new HashMap<Integer, Double>();
+        try {
+            String url = hostUrl + "/getavgratings";
+            
+            URLConnection connection = new URL(url).openConnection();
+            connection.setRequestProperty("Accept-Charset", charset);
+            InputStream response = connection.getInputStream();
+            BufferedReader reader = new BufferedReader(new InputStreamReader(response, charset));
+            String data = reader.readLine();
+            if (data.length() != 0) {
+                String[] ids = data.split(",");
+                for (String id : ids) {
+                    String[] tokens = id.split(":");
+                    result.put(Integer.parseInt(tokens[0]), Double.parseDouble(tokens[1]));
                 }
             }
         } catch (Exception e) {
@@ -425,29 +455,39 @@ public class DrinkData implements Serializable {
             // set of user favorited drinkids
             Set<Integer> favs = getFavoritesDb();
             // map of user rated drinks, drinkid->rating
-            Map<Integer, Integer> ratings = getRatingsDb();
+            Map<Integer, Integer> ratings = getUserRatingsDb();
             HashMap<String, String> datamap = gson.fromJson(data, new TypeToken<HashMap<String, String>>() {}.getType());
-            // create new DrinkData to replace instance
-            DrinkData newInstance = new DrinkData();
             for (String key : datamap.keySet()) {
                 Drink d = gson.fromJson(key, new TypeToken<Drink>() {}.getType());
                 DrinkInfo di = gson.fromJson(datamap.get(key), new TypeToken<DrinkInfo>() {}.getType());
-                // add drink to instance
-                newInstance.addDrink(d, di);
-                for (String ingredient : di.ingredients)
-                    newInstance.addIngredient(d, stripPortions(ingredient));
-                for (String category : d.categories)
-                    newInstance.categories.add(category);
+                if (!instance.namesToDrinks.containsKey(d.name)) {
+                    instance.addDrink(d, di);
+                    for (String ingredient : di.ingredients)
+                        instance.addIngredient(d, stripPortions(ingredient));
+                    for (String category : d.categories)
+                        instance.categories.add(category);
+                }
                 if (favs.contains(d.id))
-                    newInstance.favorites.add(d);
+                    instance.favorites.add(d);
                 if (ratings.containsKey(d.id)) {
-                    newInstance.ratedDrinks.add(d);
+                    Set<Drink> ratedDrinks = instance.ratedDrinks;
+                    ratedDrinks.add(d);
                     d.addUserRating(ratings.get(d.id));
                 }
             }
-            instance = newInstance;
+            updateRatings();
         } catch (Exception e) {
             e.printStackTrace();
+        }
+    }
+    
+    /**
+     * Updates average user ratings on all drinks in dataset
+     */
+    private static void updateRatings() {
+        Map<Integer, Double> ratings = getAvgRatingsDb();
+        for (Drink d : instance.drinks) {
+            d.setAvgRating(ratings.get(d.id));
         }
     }
     

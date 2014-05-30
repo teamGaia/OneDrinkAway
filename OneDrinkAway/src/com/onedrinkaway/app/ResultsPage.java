@@ -5,6 +5,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
@@ -50,17 +51,27 @@ public class ResultsPage extends OneDrinkAwayActivity {
 					getActionBar().setIcon(iconId);
 				}
 			}
-			//Drink[] drinkResults = (Drink[]) extras.get("results"); 
-			Drink[] drinkResults = DrinkModel.getResults();
+			displayResults();
+		}	
+	}
+    
+    private void displayResults() {
+    	//Drink[] drinkResults = (Drink[]) extras.get("results"); 
+    	
+		Drink[] drinkResults = DrinkModel.getResults();
+		
+		if(drinkResults != null) { // should never be null, either empty or non-empty right?
 			
-			if(drinkResults != null) { // should never be null, either empty or non-empty right?
+			//sort results by name
+			//Arrays.sort(drinkResults, new DrinkRatingComparator());
+			LinearLayout listView = (LinearLayout) findViewById(R.id.results_container);
+		
+			int drinksRemaining = 5;
+			int i = 0;
+			while (drinksRemaining > 0) {
+				Drink drink = drinkResults[i];
 				
-				//sort results by name
-				//Arrays.sort(drinkResults, new DrinkRatingComparator());
-				LinearLayout listView = (LinearLayout) findViewById(R.id.results_container);
-			
-			
-				for(Drink drink: drinkResults) {
+				if (!drink.getRatingType().equals("user")) {
 					LayoutInflater inflater = (LayoutInflater) getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 					View listItems = inflater.inflate(R.layout.oda_result_item, null);
 					//Add listener to each drink result
@@ -75,13 +86,12 @@ public class ResultsPage extends OneDrinkAwayActivity {
 					setGlassPicture(listItems, drink);
 					
 					listView.addView(listItems); 
-				} 
-			}
-		}	
-		
-
-	}
-	
+					drinksRemaining--;
+				}
+				i++;
+			} 
+		}
+    }
 	/**
 	 * Distinguishes whether to use user rating bar or predicted rating bar and sets the correct one
 	 * @param listItems favorites_list_item View
@@ -93,6 +103,8 @@ public class ResultsPage extends OneDrinkAwayActivity {
 		RatingBar ratingBar;
 		String typeRating = drink.getRatingType();
 		if(typeRating.equals("user")) {
+			Log.d("Tag ________", "user");
+			userRatingBar.setVisibility(View.VISIBLE);
 			predictedRatingBar.setVisibility(View.GONE);
 			ratingBar = userRatingBar;
 		} else {
@@ -103,6 +115,7 @@ public class ResultsPage extends OneDrinkAwayActivity {
 		ratingBar.setRating((float) drink.getRating()); 
 		ratingBar.setIsIndicator(true);
 	}
+	
 	/**
 	 * Goes home if the house icon is pressed, displays help if the question mark is pressed
 	 * and goes to the previous page if the back button is pressed
