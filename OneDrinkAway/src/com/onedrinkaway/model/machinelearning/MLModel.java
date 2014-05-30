@@ -1,5 +1,8 @@
 /**
- * OneDrinkAway v0.1 (Zero-feature release) 
+ * Interface for machine learning algorithms to be used for 
+ * classfying drinks. This interface allows machine learning 
+ * algorithms to be easily swapped out for different algorithms 
+ * as long as the new algorithm follows this interface.
  */
 
 package com.onedrinkaway.model.machinelearning;
