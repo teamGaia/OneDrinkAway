@@ -12,6 +12,6 @@
 			<attribute name="owner.project.facets" value="java"/>
 		</attributes>
 	</classpathentry>
-	<classpathentry exported="true" kind="lib" path="/Users/nicolekihara/Documents/workspace2/google-gson-2.2.4/gson-2.2.4.jar"/>
+	<classpathentry exported="true" kind="lib" path="libs/gson-2.2.4.jar"/>
 	<classpathentry kind="output" path="bin/classes"/>
 </classpath>
