@@ -40,6 +40,13 @@ public class DrinkData implements Serializable {
     // When debug == true, doesn't save any data, must be used outside of Android
     private boolean debug = false;
     
+    // Timeout for uploads
+    private static final long UPLOAD_TIMEOUT = 5000;
+    // Pause between saving state
+    private static final long SAVE_DELAY = 5000;
+    // timestamp of last time data was saved to disc
+    private static long LAST_SAVE;
+    
     private static final long serialVersionUID = -8186058076202228351L;
     
     private String userId;
@@ -79,6 +86,7 @@ public class DrinkData implements Serializable {
         favorites = new HashSet<Drink>();
         drinkIngredients = new HashMap<Drink, Set<String>>();
         uploadQ = new LinkedList<Drink>();
+        LAST_SAVE = 0;
     }
     
     /**
@@ -109,8 +117,7 @@ public class DrinkData implements Serializable {
     }
     
     /**
-     * For testing
-     * @param debug
+     * For testing, debug implies we are running outside of Android
      */
     public void setDebug() {
         debug = true;
@@ -141,26 +148,6 @@ public class DrinkData implements Serializable {
      */
     public Set<String> getIngredients(Drink d) {
         return new HashSet<String>(drinkIngredients.get(d));
-    }
-    
-    /**
-     * Adds given rating to d, uploads rating to database
-     */
-    public void addRating(Drink d, int rating) {
-        ratedDrinks.add(d);
-        d.addUserRating(rating);
-        uploadQ.add(d);
-        saveDrinkData();
-    }
-    
-    /**
-     * Adds a Drink to user's favorites list
-     * @param D the Drink to add to favorites
-     */
-    public void addFavorite(Drink d) {
-        favorites.add(d);
-        uploadQ.add(d);
-        saveDrinkData();
     }
     
     /**
@@ -206,6 +193,26 @@ public class DrinkData implements Serializable {
     public Set<Drink> getFavorites() {
         return new HashSet<Drink>(favorites);
     }
+    
+    /**
+     * Adds given rating to d, uploads rating to database
+     */
+    public void addRating(Drink d, int rating) {
+        ratedDrinks.add(d);
+        d.addUserRating(rating);
+        uploadQ.add(d);
+        instance.updateDrinksAsync();
+    }
+    
+    /**
+     * Adds a Drink to user's favorites list
+     * @param D the Drink to add to favorites
+     */
+    public void addFavorite(Drink d) {
+        favorites.add(d);
+        uploadQ.add(d);
+        instance.updateDrinksAsync();
+    }
 
     /**
      * Removes a drink from favorites list
@@ -214,7 +221,7 @@ public class DrinkData implements Serializable {
     public void removeFavorite(Drink d) {
         favorites.remove(d);
         uploadQ.add(d);
-        saveDrinkData();
+        instance.updateDrinksAsync();
     }
     
     /**
@@ -222,7 +229,6 @@ public class DrinkData implements Serializable {
      */
     private void saveDrinkData() {
         if (!debug) {
-            new DbUpdate().execute("uploadDrinks");
             try {
                 FileOutputStream fos = HomePage.appContext.openFileOutput("drinkdata.ser", Context.MODE_PRIVATE);
                 ObjectOutputStream out = new ObjectOutputStream(fos);
@@ -251,14 +257,8 @@ public class DrinkData implements Serializable {
     }
     
     /**
-     * Pulls data from Database and updates instance
-     */
-    private void updateInstanceAsync() {
-        new DbUpdate().execute("update");
-    }
-    
-    /**
-     * Attempts to deserialize DrinkData
+     * Attempts to deserialize DrinkData, first checks internal storage, then reverts to assets folder
+     * 
      * @return true if successful, false if not
      */
     private static boolean deserialize() {
@@ -269,7 +269,6 @@ public class DrinkData implements Serializable {
             in.close();
             return true;
         } catch (Exception e) {
-            e.printStackTrace();
             try {
                 AssetManager assets = HomePage.appContext.getAssets();
                 InputStream is = assets.open("drinkdata.ser");
@@ -366,13 +365,13 @@ public class DrinkData implements Serializable {
     
     /**
      * Uploads drink ratings and favorites, waiting to be uploaded
-     * Tries for 5 seconds, then gives up to try again later
+     * Tries for UPLOAD_TIMEOUT milliseconds, then gives up to try again later
      */
     private static void uploadDrinks() {
         try {
             long startTime = System.currentTimeMillis();
             long duration = 0;
-            while (!instance.uploadQ.isEmpty() && duration < 5000) {
+            while (!instance.uploadQ.isEmpty() && duration < UPLOAD_TIMEOUT) {
                 Drink d = instance.uploadQ.remove();
                 try {
                     if (instance.favorites.contains(d)) {
@@ -442,18 +441,6 @@ public class DrinkData implements Serializable {
                     d.addUserRating(ratings.get(d.id));
                 }
             }
-            // now check if user has added any ratings or favorites while we were busy
-            // lock instance while we do this, shouldn't take long.
-            synchronized(instance) {
-                for (Drink d : instance.favorites) {
-                    newInstance.favorites.add(d);
-                }
-                for (Drink d : instance.ratedDrinks) {
-                    newInstance.ratedDrinks.add(d);
-                    Drink newD = newInstance.namesToDrinks.get(d.name);
-                    newD.addUserRating(d.getUserRating());
-                }
-            }
             instance = newInstance;
         } catch (Exception e) {
             e.printStackTrace();
@@ -483,17 +470,42 @@ public class DrinkData implements Serializable {
         return ingredient;
     }
     
+    /**
+     * Updates drink info in database asynchronously
+     */
+    private void updateDrinksAsync() {
+        new DbUpdate().execute("uploadDrinks");
+    }
+    
+    /**
+     * Pulls data from Database and updates instance
+     */
+    private void updateInstanceAsync() {
+        new DbUpdate().execute("update");
+    }
+    
+    /**
+     * Asynchronous task manager, runs data connections in background.
+     */
     private class DbUpdate extends AsyncTask<String, Void, Void> implements Serializable {
         
         private static final long serialVersionUID = -2632208847918637444L;
 
+        /**
+         * Runs update in background, then saves DrinkData to disc.
+         * Param "update" updates entire DrinkData instance.
+         * Param "uploadDrinks" attempts to send all uploadQ ratings and favorites to database
+         */
         @Override
         protected Void doInBackground(String... params) {
             if (params[0].equals("update")) {
                 updateInstance();
-                instance.saveDrinkData();
             } else if (params[0].equals("uploadDrinks")) {
                 uploadDrinks();
+            }
+            if (System.currentTimeMillis() - LAST_SAVE > SAVE_DELAY) {
+                instance.saveDrinkData();
+                LAST_SAVE = System.currentTimeMillis();
             }
             return null;
         }
