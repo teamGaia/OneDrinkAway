@@ -154,8 +154,6 @@ public class DrinkData implements Serializable {
      * @return a set of all distinct categories
      */
     public Set<String> getCategories() {
-        categories.remove("Classic");
-        categories.remove("Tropical");
         return new HashSet<String>(categories);
     }
     
@@ -245,7 +243,6 @@ public class DrinkData implements Serializable {
      * Serializes DrinkData, saving it's current state to given outputstream
      */
     public void saveDrinkDataDebug(FileOutputStream fos) {
-        //new DbUpdate().execute("uploadDrinks");
         try {
             ObjectOutputStream out = new ObjectOutputStream(fos);
             out.writeObject(this);
@@ -257,7 +254,8 @@ public class DrinkData implements Serializable {
     }
     
     /**
-     * Attempts to deserialize DrinkData, first checks internal storage, then reverts to assets folder
+     * Attempts to deserialize DrinkData from Android internal memory. On a fresh install,
+     * this file will not be found. In that case, it loads from the assets folder.
      * 
      * @return true if successful, false if not
      */
@@ -399,6 +397,7 @@ public class DrinkData implements Serializable {
                     }
                 } catch (Exception e) {
                     e.printStackTrace();
+                    instance.uploadQ.add(d);
                 } finally {
                     duration = System.currentTimeMillis() - startTime;
                 }
@@ -474,14 +473,16 @@ public class DrinkData implements Serializable {
      * Updates drink info in database asynchronously
      */
     private void updateDrinksAsync() {
-        new DbUpdate().execute("uploadDrinks");
+        if (!debug)
+            new DbUpdate().execute("uploadDrinks");
     }
     
     /**
      * Pulls data from Database and updates instance
      */
     private void updateInstanceAsync() {
-        new DbUpdate().execute("update");
+        if (!debug)
+            new DbUpdate().execute("update");
     }
     
     /**
