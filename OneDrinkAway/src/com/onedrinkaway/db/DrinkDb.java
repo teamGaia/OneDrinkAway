@@ -13,26 +13,26 @@ import com.onedrinkaway.model.Drink;
 import com.onedrinkaway.model.DrinkInfo;
 
 /**
- * Stores and manages data
+ * Stores and manages data through a collection of static methods
  * 
  * @author John L. Wilson
  */
 
 public class DrinkDb {
-    
+    // Android device id
     public static String USER_ID = null;
+    // singleton DrinkData instance
     private static DrinkData dd = null;
     // true if dd has been loaded, false if not
     private static boolean open;
     
+    /**
+     * Gets DrinkDb ready for use. Loads DrinkData and USER_ID
+     */
     public static void open() {
-        // Run in non-main thread, allows asynchronous access
-        //StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
-        //StrictMode.setThreadPolicy(policy);
         USER_ID = Secure.getString(HomePage.appContext.getContentResolver(),
                 Secure.ANDROID_ID);
         dd = DrinkData.getDrinkData(USER_ID);
-        
         open = true;
     }
     
@@ -42,9 +42,11 @@ public class DrinkDb {
     public static Drink getDrink(String name) {
         if (!open)
             open();
-        return dd.getDrink(name);
+        synchronized (dd) {
+            return dd.getDrink(name);
+        }
     }
-    
+
     /**
      * Finds DrinkInfo for a given drink
      * @param d the Drink to search for
@@ -53,7 +55,9 @@ public class DrinkDb {
     public static DrinkInfo getDrinkInfo(Drink d) {
         if (!open)
             open();
-        return dd.getDrinkInfo(d);
+        synchronized (dd) {
+            return dd.getDrinkInfo(d);
+        }
     }
     
     /**
@@ -62,7 +66,9 @@ public class DrinkDb {
     public static Set<String> getIngredients(Drink d) {
         if (!open)
             open();
-        return dd.getIngredients(d);
+        synchronized (dd) {
+            return dd.getIngredients(d);
+        }
     }
     
     /**
@@ -71,7 +77,9 @@ public class DrinkDb {
     public static Set<String> getDrinkNames() {
         if (!open)
             open();
-        return dd.getDrinkNames();
+        synchronized (dd) {
+            return dd.getDrinkNames();
+        }
     }
     
     /**
@@ -80,7 +88,9 @@ public class DrinkDb {
     public static Set<String> getIngredients() {
         if (!open)
             open();
-        return dd.getIngredients();
+        synchronized (dd) {
+            return dd.getIngredients();
+        }
     }
     
     /**
@@ -89,7 +99,9 @@ public class DrinkDb {
     public static Set<Drink> getAllDrinks() {
         if (!open)
             open();
-        return dd.getAllDrinks();
+        synchronized (dd) {
+            return dd.getAllDrinks();
+        }
     }
     
     /**
@@ -98,7 +110,9 @@ public class DrinkDb {
     public static Set<String> getCategories() {
         if (!open)
             open();
-        return dd.getCategories();
+        synchronized (dd) {
+            return dd.getCategories();
+        }
     }
     
     /**
@@ -110,7 +124,6 @@ public class DrinkDb {
         if (!open)
             open();
         dd.addFavorite(drink);
-        
     }
     
     /**
@@ -126,7 +139,6 @@ public class DrinkDb {
         if (rating < 1 || rating > 5)
             throw new IllegalArgumentException("score must be [1-5] inclusive");
         dd.addRating(drink, rating);
-        
     }
     
     /**
@@ -136,7 +148,9 @@ public class DrinkDb {
     public static Set<Drink> getRatedDrinks() {
         if (!open)
             open();
-        return dd.getRatedDrinks();
+        synchronized (dd) {
+            return dd.getRatedDrinks();
+        }
     }
     
     /**
@@ -146,7 +160,9 @@ public class DrinkDb {
     public static Set<Drink> getFavorites() {
         if (!open)
             open();
-        return dd.getFavorites();
+        synchronized (dd) {
+            return dd.getFavorites();
+        }
     }
     
     /**
