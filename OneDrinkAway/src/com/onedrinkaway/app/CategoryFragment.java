@@ -41,8 +41,13 @@ public class CategoryFragment extends Fragment {
                     LayoutParams.MATCH_PARENT,
                     LayoutParams.MATCH_PARENT, 1.0f);
 			category.setLayoutParams(param);
-			category.setId(i);
+			category.setId(i);			
 			category.setText(categories[i]);
+			
+			String iconIdName = "ic_" + categories[i].replace(' ', '_').toLowerCase();
+			int iconId = getResources().getIdentifier(iconIdName, "drawable", getActivity().getPackageName());
+			category.setCompoundDrawablesWithIntrinsicBounds(0, iconId, 0, 0);
+			
 			category.setOnLongClickListener(new View.OnLongClickListener(){
 				@Override
 				public boolean onLongClick(View view) {

@@ -1,12 +1,8 @@
 package com.onedrinkaway.app;
 
-import java.util.Locale;
-
 import android.app.ActionBar.LayoutParams;
 import android.app.DialogFragment;
 import android.content.Intent;
-import android.content.res.Resources;
-import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
