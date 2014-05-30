@@ -60,9 +60,7 @@ public class DrinkInfoPage extends OneDrinkAwayActivity {
 		}
 		if (drink != null) {
 			drinkInfo = DrinkModel.getDrinkInfo(drink);
-
 			setTitle(drink.name);
-
 			fillInstructions();
 			fillIngredients();
 			setGlassPicture();
@@ -80,13 +78,12 @@ public class DrinkInfoPage extends OneDrinkAwayActivity {
 		}
 	}
 	
-
-
 	/**
 	 * Fills the drink_info_ingredients TextView with given drink ingredients
 	 * list Appends garnish to end of ingredients list if drinkInfo.garnish
 	 * !=null
 	 */
+	@SuppressLint("DefaultLocale")
 	private void fillIngredients() {
 		TextView ingredientsTextView = (TextView) findViewById(R.id.drink_info_ingredients);
 		if (drinkInfo.ingredients != null) {
