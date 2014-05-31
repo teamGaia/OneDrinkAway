@@ -1,0 +1,29 @@
+Release Candidate: Code Review
+Team Gaia
+
+
+The first area was the code that implemented our machine learning algorithm (KNearestNeighbor). 
+This code was written by Pheonix but unfortunately he left the group shortly after Beta 
+release. We decided to review his code because we felt that it was important for all team 
+members to have at least a rudimentary understanding of how this part of our application 
+worked and to review Pheonix's work. We looked at the code and James 
+took the role of presenter as he has had some experience with the algorithm used by Pheonix. 
+Upon reviewing the code, we discovered a few minor formatting errors as well as some design 
+decisions that seemed hacky (for example there was a field that should have been a local 
+variable). While we didn't find many thing wrong with this code, the review was still 
+important to give team members at least a little experience with the machine learning portion 
+of the application.
+ 
+The next area was the part that syncs data from the database to the application on the users
+phone (DrinkData). This was reviewed because John was concerned about its implementation. 
+He edited different parts of the file multiple times and wanted to make sure everything 
+fit well together as well as made sense from a design perspective. John walked through 
+each method in the class explaining what it did and made sure we understood each method's 
+purpose. During the review a few questions were brought up about the asynchronous aspect of 
+the database syncing. Mainly they had to do with why a custom class was created instead of 
+using an inline runnable class and a new thread. We also found a bug in the method 
+uploadDrinks where if a drink failed to get pushed to the web server, it would never get 
+pushed. We also found an error in the method getDrinkDataDb where the instance would get 
+created and then immediately overwritten. Both of these bugs were immediately fixed. 
+This code review also helped our team members gain a better understanding of the "behind 
+the scenes" working of the interactions between the cloud and local databases. 

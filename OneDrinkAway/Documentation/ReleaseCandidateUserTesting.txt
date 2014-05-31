@@ -1,0 +1,138 @@
+Release Candidate: User Testing
+Team Gaia
+
+
+User 1: 55 year old mom who does not own a smart-phone
+What you asked the user to do:
+Try using the application and tell me what you are thinking. If you get stuck try to 
+figure it out.
+
+Description of what occurred:
+She easily navigated through each of the features. She avoided pressing the help icon even 
+when she was unsure about something. There were a lot of typos that I noticed when she was 
+looking at the help menus. When a dialog pops up, she kept trying to press outside the dialog 
+to close it, rather than press "okay". Since there is no way to look at everything you have 
+rated, when she accidentally rated something she could not undo it. One of her favorite 
+features was Try Something New because you get suggestions at the touch of a button.
+
+What we learned about the app:
+-It would have been nice if we implemented a feature that allows you to look at everything you 
+have rated in case you want to change your ratings easily
+-If a user does not know what a category is, it is not obvious to them that they should go to 
+the help menu and see that they can hold down the category to get an explanation of what each 
+category is
+-Since search by categories looks exactly the same as the search by category on advanced 
+search, you might forget which one you are looking at
+
+User 2: 24 year old man, WSU alumni with business degree
+
+What you asked users to do:
+Explain what his thought process out loud and then use the app.
+
+Description of what occurred:
+He was a little confused on why he was prompted to rate drinks and wanted to rate drinks 
+based on how they sounded rather than on ones he had already tried. He wanted more options 
+for try something new rather than just five. He also wanted the 5 drinks on try something 
+new to change so that he could see more options. The pictures of the glasses that the drinks 
+come in were sometimes confusing because of size discrepancies. He wanted to know the 
+category of the drink on the drink info page as well.
+
+What we learned about the app:
+-The glass pictures are hard to differentiate between and it is hard to tell the category 
+of the drink on the drink info page. 
+-We need to change the categories of the drinks to be more intuitive rather than "shaken 
+or stirred". 
+-It would have been nice if we would have implemented a "clear all" on the search features 
+so that the user could reset their search.
+
+User 3: 26 year old bartender
+What you asked users to do:
+Use the app and tell me what you think. First rate a bunch of drinks, 
+then use the search features. Tell me if you notice any bugs or things you feel should be 
+different.
+
+Description of what occurred:
+He used the app for a bit, first rating and favoriting several drinks. 
+He then noticed that some of the drinks he rated in the new user dialogue were labeled 
+as unrated. While using search by ingredient he complained that several of the ingredients 
+were duplicates. He really liked the search by flavor option, stating that was the best 
+feature of the app. He pointed out that a mojito is listed as herbal 5, and he thought 
+it should be lowered. He complained that Try Something New keeps giving him the same drinks, 
+he wanted it to change every time he pressed the button. He suggested being able to swipe 
+a drink away to 'pass' on it, or somehow tell the app he doesn't want to be suggested that 
+drink anymore.
+
+What I learned about the app:
+-Found a bug in the new user dialogue. 
+-Noticed some duplicate ingredients that I hadn't previously. 
+-Discovered a few flavor profiles that were inaccurate.
+
+User 4: 22 year old Aerospace Engineer at UW, frequent alcohol drinker, cool Norwegian
+
+What you asked the user to do:
+ I explained why he might want to download the app and asked him to imagine he was using 
+ it at a bar and think out loud. Then I shut up.
+
+Description: 
+He started by completing our new user activity by rating a few drinks after reading why 
+it would be a good idea. Next, he went directly to "Try Something New" and selected 
+Flaming Dr. Pepper (and was upset it doesn't actually contain Dr. Pepper.) 
+He pretended to really like the drink and added it to favorites. 
+After returning to the home screen (via the home button) he completed various 
+searches and never ran into problems. During this time he never used Help button or 
+removed anything from Favorites.
+ Overall, he liked it! He suggested that the search buttons be more 
+ consistent (they are different sizes) and would prefer if they were a lighter color. 
+ His favorite search type was Search By Flavor because he thought it was a very cool 
+ idea and fun to play with. He didn't like how the Flavor seek bars (on DrinkInfo) looked 
+ like he could move them. He got excited by the idea that he could taste a drink them 
+ modify its flavor profile but was really let down when this wasn't possible. 
+ He'd also like to be able to remove a drink from favorite while on the DrinkInfo page.
+
+What we learned about the app:
+- We need to mention in the Welcome Dialog that the user's can press the Help button at any 
+ time to learn how to use the page they're currently on. 
+-We also have a couple fixed  to make, such as fixing typos, having the Results Page 
+update a drink's rating after the user rates it on the DrinkInfo Page and pressed back, 
+category icons need to be added to Advanced Search. 
+-Also, we need to mention in the Welcome Dialog that predicted ratings are red stars and 
+user ratings are gold.
+
+
+User 5: 20 year old female, Drama Production major
+
+What you asked the user to do:
+I didn't say anything, just said to use the app.
+
+Description of what occurred:
+The first thing she did was open the app and say "Now what do I do?" I prompted her 
+with "whatever you want" and she began opening different search functions. She 
+started with Search By Flavors and looked for a boozy drink. The picture confused her 
+for a second but she figured out its purpose quickly. Looking at the results her first 
+reaction was "Your predictions aren't very good." (She hadn't rated anything yet) 
+She looked at a few drinks and accidentally rated few of them. Next she went to Search By 
+Ingredients and started playing around with that. She found a bug when searching the 
+ingredients list but was getting the hang of the results layout. She started going down 
+the list of results, rating drinks based off whether or not they sounded good or not. 
+She repeated this process for the other different Searches, rating drinks based off of 
+how good they sounded. She used the help button onced but didn't spend too much time on it. 
+After 20 drinks, she made the comment that the predicted rating system was actually pretty 
+good.
+
+What I learned about the app:
+-It's easy to accidentally rate something.
+-The help text is a little overwhelming
+-She didn't really know what to do with the app after a few minutes. 
+Eventually she settled into rating drinks on how good they sounded
+-Found bugs in advanced search 
+
+What you changed as a result:
+-We added a "toast" to the bottom of the search by category page the first time the 
+user ever opens this page within the app to give them the hint that they can hold down 
+on the category button to get a description of the category. 
+-We  went over the help menus and fixed the typos.
+-Category icons have been added to advance search.
+-Drink icons have been added to the new user rating experience.
+-Flavor profiles for drinks have been looked over and modified to better reflect that drink's 
+actual flavor.
+-Modified ingredients to remove duplicates
