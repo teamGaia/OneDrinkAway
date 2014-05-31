@@ -26,7 +26,7 @@ import com.onedrinkaway.model.DrinkModel;
  *
  */
 public class ResultsPage extends OneDrinkAwayActivity {
-
+	private boolean isTrySomethingNew;
 	/**
 	 * Creates and fills the view of the Results page with the dynamic results
 	 */
@@ -42,6 +42,9 @@ public class ResultsPage extends OneDrinkAwayActivity {
 
 			String title = extras.getString("title");
 			if(title != null) {
+				if (title.equals("New Drinks Just For You")) {
+					isTrySomethingNew = true;
+				}
 				setTitle(title);
 				if (!(title.equals("Results") || title.equals("New Drinks Just For You"))
 						&& android.os.Build.VERSION.SDK_INT >= 14) {
@@ -65,13 +68,10 @@ public class ResultsPage extends OneDrinkAwayActivity {
 			//sort results by name
 			//Arrays.sort(drinkResults, new DrinkRatingComparator());
 			LinearLayout listView = (LinearLayout) findViewById(R.id.results_container);
-		
-			int drinksRemaining = 5;
-			int i = 0;
-			while (drinksRemaining > 0) {
-				Drink drink = drinkResults[i];
-				
-				if (!drink.getRatingType().equals("user")) {
+			
+			int numDrinks = 0; 
+			for (Drink drink : drinkResults) {
+				if (!isTrySomethingNew || (isTrySomethingNew && !drink.getRatingType().equals("user"))) {
 					LayoutInflater inflater = (LayoutInflater) getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 					View listItems = inflater.inflate(R.layout.oda_result_item, null);
 					//Add listener to each drink result
@@ -85,13 +85,18 @@ public class ResultsPage extends OneDrinkAwayActivity {
 					setRatingBar(listItems, drink);
 					setGlassPicture(listItems, drink);
 					
-					listView.addView(listItems); 
-					drinksRemaining--;
+					listView.addView(listItems);
+					if (isTrySomethingNew) {
+						numDrinks++;
+					}
 				}
-				i++;
-			} 
-		}
+				if (numDrinks >= 5) {
+					break;
+				}
+			}
+		} 
     }
+
 	/**
 	 * Distinguishes whether to use user rating bar or predicted rating bar and sets the correct one
 	 * @param listItems favorites_list_item View
