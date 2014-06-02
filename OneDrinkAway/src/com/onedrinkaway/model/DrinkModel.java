@@ -7,8 +7,6 @@ import java.util.List;
 import java.util.Random;
 import java.util.Set;
 
-import android.provider.Settings.Secure;
-
 import com.onedrinkaway.db.DrinkDb;
 import com.onedrinkaway.model.machinelearning.KNearestNeighborModel;
 import com.onedrinkaway.model.machinelearning.MLModel;
