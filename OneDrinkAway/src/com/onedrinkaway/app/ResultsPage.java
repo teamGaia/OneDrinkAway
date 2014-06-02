@@ -27,35 +27,39 @@ import com.onedrinkaway.model.DrinkModel;
  */
 public class ResultsPage extends OneDrinkAwayActivity {
 	private boolean isTrySomethingNew;
+	
 	/**
 	 * Creates and fills the view of the Results page with the dynamic results
+	 * @param prevActivity 
 	 */
-	@SuppressLint({ "NewApi", "DefaultLocale" })
-	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_results_page);
 		helpID = R.string.results_help;
-		
+    	
 		Bundle extras = getIntent().getExtras();
 		if (extras != null) {
-
-			String title = extras.getString("title");
-			if(title != null) {
-				if (title.equals("New Drinks Just For You")) {
-					isTrySomethingNew = true;
-				}
-				setTitle(title);
-				if (!(title.equals("Results") || title.equals("New Drinks Just For You"))
-						&& android.os.Build.VERSION.SDK_INT >= 14) {
-					// It's a category
-					String iconIdName = "ic_" + title.replace(' ', '_').toLowerCase();
-					int iconId = getResources().getIdentifier(iconIdName, "drawable", getPackageName());
-					getActionBar().setIcon(iconId);
-				}
-			}
+			setTitle(extras);
 			displayResults();
 		}	
+	}
+	
+	@SuppressLint("NewApi")
+	private void setTitle(Bundle extras) {
+		String title = extras.getString("title");
+		if(title != null) {
+			if (title.equals("New Drinks Just For You")) {
+				isTrySomethingNew = true;
+			}
+			setTitle(title);
+			if (!(title.equals("Results") || title.equals("New Drinks Just For You"))
+					&& android.os.Build.VERSION.SDK_INT >= 14) {
+				// It's a category
+				String iconIdName = "ic_" + title.replace(' ', '_').toLowerCase();
+				int iconId = getResources().getIdentifier(iconIdName, "drawable", getPackageName());
+				getActionBar().setIcon(iconId);
+			}
+		}
 	}
     
     private void displayResults() {
@@ -96,7 +100,7 @@ public class ResultsPage extends OneDrinkAwayActivity {
 			}
 		} 
     }
-
+    
 	/**
 	 * Distinguishes whether to use user rating bar or predicted rating bar and sets the correct one
 	 * @param listItems favorites_list_item View
@@ -160,6 +164,7 @@ public class ResultsPage extends OneDrinkAwayActivity {
 	 * @param drink drink in which will be displayed on the drink info page
 	 */
 	private void goToDrinkInfo(Drink drink) {
+		finish();
 		Intent intent = new Intent(this, DrinkInfoPage.class);
 		intent.putExtra("drink", drink.name);
 		startActivity(intent);

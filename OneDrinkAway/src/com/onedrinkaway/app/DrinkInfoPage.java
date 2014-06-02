@@ -4,6 +4,7 @@ import java.util.Arrays;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
@@ -238,6 +239,14 @@ public class DrinkInfoPage extends OneDrinkAwayActivity {
 		}
 
 		return super.onOptionsItemSelected(item);
+	}
+	
+	@Override 
+	public void onBackPressed() {
+		super.onBackPressed();
+		Intent i = new Intent(this, ResultsPage.class);
+		i.putExtra("title", "Results");
+		startActivity(i);
 	}
 
 	/**
