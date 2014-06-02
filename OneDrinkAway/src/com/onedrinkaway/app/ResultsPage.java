@@ -168,9 +168,9 @@ public class ResultsPage extends OneDrinkAwayActivity {
 		finish();
 		Intent intent = new Intent(this, DrinkInfoPage.class);
 		intent.putExtra("drink", drink.name);
+		intent.putExtra("prevActivity", "ResultsPage");
 		startActivity(intent);
 	}
-	
 
 	/**
 	 * OnClickListener for each drink result. Goes to drink info page for 

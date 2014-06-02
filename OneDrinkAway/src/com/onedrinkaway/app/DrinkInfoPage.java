@@ -40,6 +40,7 @@ public class DrinkInfoPage extends OneDrinkAwayActivity {
 	private LinearLayout seekBarView;
 	private Drink drink;
 	private DrinkInfo drinkInfo;
+	private String prevActivity;
 
 	/**
 	 * Creates and fills the layout for the Drink Info Page
@@ -56,6 +57,7 @@ public class DrinkInfoPage extends OneDrinkAwayActivity {
 		if (extras != null) {
 			String name = (String) extras.get("drink");
 			drink = DrinkModel.getDrink(name);
+			prevActivity = extras.getString("prevActivity");
 		}
 		if (drink != null) {
 			drinkInfo = DrinkModel.getDrinkInfo(drink);
@@ -235,11 +237,19 @@ public class DrinkInfoPage extends OneDrinkAwayActivity {
 		return super.onOptionsItemSelected(item);
 	}
 	
+	/**
+	 * Delegates action if back button is pressed.
+	 */
 	@Override 
 	public void onBackPressed() {
 		super.onBackPressed();
-		Intent i = new Intent(this, ResultsPage.class);
-		i.putExtra("title", "Results");
-		startActivity(i);
+		
+		if (prevActivity != null && prevActivity.equals("ResultsPage")) {
+			Intent i = new Intent(this, ResultsPage.class);
+			i.putExtra("title", "Results");
+			startActivity(i);
+		} else {
+			startActivity(new Intent(this, SearchByName.class));
+		}
 	}
 }

@@ -80,6 +80,7 @@ public class SearchByName extends OneDrinkAwayActivity implements SearchView.OnQ
      * @param name the name of the drink who's info page will be navigated to
      */
     private void goToDrinkInfo(String name) {
+    	finish();
     	Intent intent = new Intent(this, DrinkInfoPage.class);
     	intent.putExtra("drink", name);
     	startActivity(intent);
