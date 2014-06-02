@@ -39,9 +39,10 @@ public class HomePage extends OneDrinkAwayActivity {
 		helpID = R.string.help_home_page;
 		getSupportActionBar().setTitle(R.string.app_name);
 		getSupportActionBar().setDisplayHomeAsUpEnabled(false);
-
+		
+		DrinkDb.open();
 		checkNewUser();
-	    DrinkDb.open();
+	    
 	}
 	
 	/**
