@@ -12,8 +12,4 @@
         android:title="@string/action_home"
         android:icon="@drawable/action_bar_home"
     	app:showAsAction="always" />
-    
-    <item android:id="@+id/action_secret"
-        android:title="Secret (shhhh!)"
-    	app:showAsAction="never" />
 </menu>

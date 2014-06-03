@@ -244,12 +244,16 @@ public class DrinkInfoPage extends OneDrinkAwayActivity {
 	public void onBackPressed() {
 		super.onBackPressed();
 		
-		if (prevActivity != null && prevActivity.equals("ResultsPage")) {
-			Intent i = new Intent(this, ResultsPage.class);
-			i.putExtra("title", "Results");
-			startActivity(i);
-		} else if (prevActivity != null && prevActivity.equals("SearchByName")) {
-			startActivity(new Intent(this, SearchByName.class));
+		if (prevActivity != null) {
+			if (prevActivity.equals("ResultsPage")) {
+				Intent i = new Intent(this, ResultsPage.class);
+				i.putExtra("title", "Results");
+				startActivity(i);
+			} else if (prevActivity.equals("SearchByName")) {
+				startActivity(new Intent(this, SearchByName.class));
+			}
+		} else {
+			startActivity(new Intent(this, FavoriteDrinks.class));
 		}
 	}
 }

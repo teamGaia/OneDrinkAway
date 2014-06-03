@@ -140,6 +140,7 @@ public class FavoriteDrinks extends OneDrinkAwayActivity {
 	 * @param drink the drink in which the drink info page will appear for
 	 */
 	private void goToDrinkInfo(Drink drink) {
+		finish();
 		Intent intent = new Intent(this, DrinkInfoPage.class);
 		intent.putExtra("drink", drink.name);
 		startActivity(intent);
