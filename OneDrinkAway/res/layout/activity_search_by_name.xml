@@ -15,5 +15,13 @@
         android:layout_height="0dip"
         android:layout_weight="1" >
     </ListView>
+    
+    <TextView
+        android:id="@+id/empty_list_item"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:visibility="gone"
+        android:text="@string/empty_list_view_text" >
+    </TextView>
 
 </LinearLayout>

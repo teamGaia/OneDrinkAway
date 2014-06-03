@@ -89,5 +89,6 @@
 	<string name="title_activity_new_user_rating">Welcome to OneDrinkAway!</string>
 	<string name="finish">Finish</string>
 	<string name="ingredients_edit_text">Enter an Ingredient Here</string>
+	<string name="empty_list_view_text">No drinks by that name!</string>
 	<string name="new_user_help">To rate our most common drinks, press the Rate Common Drinks tab. To look at all of the drinks in our database, press the Find and Rate tab. To rate a drink, press the number of stars you want to rate it on the rating bar below the name of the drink. When you are finished rating drinks, press the "Finish" button.</string>
 </resources>

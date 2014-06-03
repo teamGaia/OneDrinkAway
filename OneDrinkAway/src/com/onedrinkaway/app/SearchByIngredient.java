@@ -5,13 +5,12 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
+import android.view.Gravity;
 import android.view.View;
-import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.Toast;
@@ -60,6 +59,12 @@ public class SearchByIngredient extends OneDrinkAwayActivity {
         	 public void onTextChanged(CharSequence s, int start, int before, int count) {
         		 //get the text in the EditText
         		 myArrayAdapter.filterIngredients(s);
+        		 if (myArrayAdapter.getCount() == 0) {
+        			Toast toast = Toast.makeText(getApplicationContext(),
+        										 "No ingredients named \"" + s + "\"", Toast.LENGTH_SHORT);
+        			toast.setGravity(Gravity.TOP, 0, 170);
+        			toast.show();
+        		 }
         	 }
 
         	 @Override
@@ -111,10 +116,9 @@ public class SearchByIngredient extends OneDrinkAwayActivity {
     	boolean drinksFound = DrinkModel.searchForDrinks(query);
     	if (!drinksFound) {
     		// no drinks were found, hide the keyboard and display a toast
-    		EditText searchBox = (EditText) findViewById(R.id.searchBox);
-    		InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE); 
-    		imm.hideSoftInputFromWindow(searchBox.getWindowToken(), 0);
-    		Toast.makeText(getApplicationContext(), "No results found!", Toast.LENGTH_LONG).show();
+        	Toast toast = Toast.makeText(getApplicationContext(), "No Results Found!", Toast.LENGTH_LONG);
+        	toast.setGravity(Gravity.TOP, 0, 170);
+        	toast.show();
     	} else {
     		// go to results page
         	Intent intent = new Intent(this, ResultsPage.class);

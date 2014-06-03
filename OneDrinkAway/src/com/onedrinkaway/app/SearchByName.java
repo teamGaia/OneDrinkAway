@@ -3,6 +3,7 @@ package com.onedrinkaway.app;
 import android.content.Intent;
 import android.os.Bundle;
 import android.text.TextUtils;
+import android.view.Gravity;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
@@ -10,6 +11,7 @@ import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import android.widget.SearchView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.onedrinkaway.R;
 import com.onedrinkaway.model.DrinkModel;
@@ -27,6 +29,8 @@ public class SearchByName extends OneDrinkAwayActivity implements SearchView.OnQ
     private String[] drinkNames;
     
 	private ListView listView;
+	
+	private ArrayAdapter<String> adapter;
 
 	/**
 	 * Creates the view of the search by name page
@@ -58,12 +62,13 @@ public class SearchByName extends OneDrinkAwayActivity implements SearchView.OnQ
      */
     private void setupListView() {
     	listView = (ListView) findViewById(R.id.list_view);
-        listView.setAdapter(new ArrayAdapter<String>(this,
-                R.layout.oda_list_item,
-                R.id.list_item,
-                drinkNames));
+    	adapter = new ArrayAdapter<String>(this,
+				 R.layout.oda_list_item,
+				 R.id.list_item,
+				 drinkNames);
+        listView.setAdapter(adapter);
         listView.setTextFilterEnabled(true);
-        
+
         listView.setOnItemClickListener(new OnItemClickListener() {
 
             @Override
@@ -73,6 +78,10 @@ public class SearchByName extends OneDrinkAwayActivity implements SearchView.OnQ
             }
 
         });
+        /*
+        View empty = getLayoutInflater().inflate(R.layout.empty_text_view, null);
+        ((ViewGroup) listView.getParent()).addView(empty, new LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.MATCH_PARENT));
+        listView.setEmptyView(empty);*/
     }
 
     /**
@@ -95,6 +104,16 @@ public class SearchByName extends OneDrinkAwayActivity implements SearchView.OnQ
             listView.clearTextFilter();
         } else {
             listView.setFilterText(newText.toString());
+            listView.post(new Runnable() {
+                public void run() {
+                    if (listView.getLastVisiblePosition() == -1) {
+                    	Toast toast = Toast.makeText(getApplicationContext(),
+        	                     "No drinks by that name!", Toast.LENGTH_SHORT);
+                    	toast.setGravity(Gravity.TOP, 0, 150);
+                    	toast.show();
+                    }
+                }
+            });
         }
         return true;
     }

@@ -7,6 +7,7 @@ import java.util.Map;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.Button;
@@ -102,9 +103,9 @@ public class SearchByFlavor extends OneDrinkAwayActivity {
 		
 
 		if (!drinksFound) {
-			Toast.makeText(getApplicationContext(),
-					"No results found!",
-					Toast.LENGTH_LONG).show();
+        	Toast toast = Toast.makeText(getApplicationContext(), "No Results Found!", Toast.LENGTH_LONG);
+        	toast.setGravity(Gravity.TOP, 0, 110);
+        	toast.show();
 
 		} else { 
 	    	Intent intent = new Intent(this, ResultsPage.class);

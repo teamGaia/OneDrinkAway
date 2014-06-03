@@ -51,8 +51,7 @@ public class ResultsPage extends OneDrinkAwayActivity {
 			}
 			setTitle(title);
 			if (!(title.equals("Results") || title.equals("New Drinks Just For You") || title.equals("Flavor Results")
-				  || title.equals("Ingredient Results"))
-					&& android.os.Build.VERSION.SDK_INT >= 14) {
+				  || title.equals("Ingredient Results")) && android.os.Build.VERSION.SDK_INT >= 14) {
 				// It's a category
 				String iconIdName = "ic_" + title.replace(' ', '_').toLowerCase();
 				int iconId = getResources().getIdentifier(iconIdName, "drawable", getPackageName());
