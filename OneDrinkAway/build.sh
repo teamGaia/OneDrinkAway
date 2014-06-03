@@ -5,7 +5,7 @@
 
 set -e
 
-if [ ! -n "$1" ]
+if [ $# -ne 2 ]
 then
   echo "Usage: first argument should be path to your android build tools folder (usually under the sdk)"
   echo "       second argument should be the path to your appcompat-v7 project"
