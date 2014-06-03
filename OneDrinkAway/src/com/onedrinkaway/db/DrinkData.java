@@ -28,6 +28,7 @@ import com.google.gson.reflect.TypeToken;
 import com.onedrinkaway.app.HomePage;
 import com.onedrinkaway.model.Drink;
 import com.onedrinkaway.model.DrinkInfo;
+import com.onedrinkaway.model.DrinkModel;
 
 /**
  * Helper for DrinkDb, singleton, main data structure.
@@ -550,6 +551,7 @@ public class DrinkData implements Serializable {
                 uploadDrinks();
             }
             if (System.currentTimeMillis() - LAST_SAVE > SAVE_DELAY) {
+                DrinkModel.predictRatings();
                 instance.saveDrinkData();
                 LAST_SAVE = System.currentTimeMillis();
             }

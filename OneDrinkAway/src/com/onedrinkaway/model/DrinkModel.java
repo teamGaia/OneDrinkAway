@@ -77,8 +77,9 @@ public class DrinkModel {
 		
 		Drink[] allDrinks = convertDrinkSetToArray(DrinkDb.getAllDrinks());
 		Drink[] ratedDrinks = convertDrinkSetToArray(DrinkDb.getRatedDrinks());
-		Drink[] unratedDrinks = getUnratedDrinks(allDrinks, ratedDrinks);
-		Drink[] ratings = predictRatings(unratedDrinks, ratedDrinks);
+		Drink[] ratings = getUnratedDrinks(allDrinks, ratedDrinks);
+		//Drink[] ratings = predictRatings(unratedDrinks, ratedDrinks);
+		Arrays.sort(ratings);
 		if(ratings.length <= numDrinks){
 			results = ratings;
 			return;
@@ -163,14 +164,14 @@ public class DrinkModel {
 				}
 			}
 		}
-		// more code here, set predicted ratings or whatever
 
 		// Get everything into arrays
 		Drink[] filteredDrinks = convertDrinkSetToArray(drinks);
-		Drink[] ratedDrinks = convertDrinkSetToArray(DrinkDb.getRatedDrinks());
-		// Get all of the unrated drinks then set the predicted ratings
-		//Drink[] unratedDrinks = getUnratedDrinks(filteredDrinks, ratedDrinks);
-		results = predictRatings(filteredDrinks, ratedDrinks);
+		//Drink[] ratedDrinks = convertDrinkSetToArray(DrinkDb.getRatedDrinks());
+
+		//results = predictRatings(filteredDrinks, ratedDrinks);
+		results = filteredDrinks;
+		Arrays.sort(results);
 		return results.length > 0;
 	}
 	
@@ -253,6 +254,15 @@ public class DrinkModel {
 		return null;
 	
 	}
+	
+	/**
+	 * Sets predicted ratings on all non-user-rated drinks in DrinkData
+	 */
+	public static void predictRatings() {
+	    Drink[] filteredDrinks = convertDrinkSetToArray(DrinkDb.getAllDrinks());
+        Drink[] ratedDrinks = convertDrinkSetToArray(DrinkDb.getRatedDrinks());
+        predictRatings(filteredDrinks, ratedDrinks);
+	}
 
 	/**
 	 * Filters out all of the Drinks that are in the second array from the first
@@ -292,16 +302,16 @@ public class DrinkModel {
 	 *         is SORTED by the predicted rating for the drinks, highest ->
 	 *         lowest
 	 */
-	private static Drink[] predictRatings(Drink[] unratedDrinks,
+	private static void predictRatings(Drink[] unratedDrinks,
 			Drink[] ratedDrinks) {
 		machineLearner.train(new ArrayList<Drink>(Arrays.asList(ratedDrinks)));
 		for (Drink d : unratedDrinks) {
 			double rating = machineLearner.predictRating(d);
 			d.predictedRating = rating;
 		}
-		Drink[] predictedDrinks = unratedDrinks.clone();
-		Arrays.sort(predictedDrinks);
-		return predictedDrinks;
+//		Drink[] predictedDrinks = unratedDrinks.clone();
+//		Arrays.sort(predictedDrinks);
+//		return predictedDrinks;
 	}
 
 	/**
