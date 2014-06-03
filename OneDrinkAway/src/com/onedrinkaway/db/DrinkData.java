@@ -467,11 +467,11 @@ public class DrinkData implements Serializable {
                     for (String category : d.categories)
                         instance.categories.add(category);
                 }
+                d = instance.getDrink(d.name); // this is necessary to ensure we have the local copy of d
                 if (favs.contains(d.id))
                     instance.favorites.add(d);
                 if (ratings.containsKey(d.id)) {
-                    Set<Drink> ratedDrinks = instance.ratedDrinks;
-                    ratedDrinks.add(d);
+                    instance.ratedDrinks.add(d);
                     d.addUserRating(ratings.get(d.id));
                 }
             }
