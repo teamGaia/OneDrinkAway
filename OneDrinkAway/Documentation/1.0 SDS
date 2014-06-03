@@ -1,0 +1,563 @@
+OneDrinkAway SDS
+Team Gaia
+ 
+John Wilson (johnleew@uw)
+Nicole Kihara (kiharank@uw)
+James Luey (lueyja1@uw)
+Andrea Martin (mieko101@uw)
+Taylor Juve (tjuve92@uw)
+
+A link to the google document for easier viewing: 
+ https://docs.google.com/document/d/1oZzaIQJsSvNI_8p7Vzchuk9L-gdFJY7e2p9jbBWs8hA/edit?usp=sharing
+ 
+The extensibility exercise is at the bottom
+ 
+**System Architecture
+Machine Learning
+        	We did our best to ensure that our application was algorithm-agnostic. 
+What we mean by this is that any machine learning algorithm could be “plugged into” our 
+app and everything would still work. To this end we designed an interface and had all of
+the machine learning classes we created implement that interface so algorithms could be
+swapped out with a change to only a single line of code. This allows us to refine our 
+algorithms and try new ones easily and with little to no integration time.
+ 
+Data Storage/Database:
+	Our app stores data in two different places, locally and on AWS. We want our app to be 
+able to function without a data connection, so this requires storing a good amount of 
+data locally. However, we also want to be able to push new info to users devices, when
+they have a data connection. Android devices each have a unique id, which is used to
+identify each device locally. We will use this id to track user data, which we can hopefully
+use to develop user profiles.
+
+	In our initial design, the app communicated directly with the database. As we started 
+implementing this, we realized that it was not secure, as the database password had to
+be located somewhere in memory on the Android device. We realized the proper solution to
+this was to implement a web server, which could sit between the app and the database.
+The server is open to the world to communicate with, but it only accepts a few types of
+data, and is careful to guard against sql injection. The server is running on tomcat on
+an aws ec2 instance. It accepts http requests, communicates with the database via sql,
+and returns strings to via http. For simple responses, such as a list of drinkids, it
+returns a comma-separated list. For more complicated requests, it uses the gson package
+to convert the data into json. This is very useful, as gson can convert complicated data
+structures such as a hashmap of objects, into json and easily convert it on the other side.
+	
+	Most of our data is represented by two classes, “Drink” and “DrinkInfo”. Drink objects hold all
+the data necessary for comparing Drinks, and nothing else. As Drinks will be passed around in
+lists, and iterated through frequently, we wanted to keep them as small as possible. Drink stores
+basic information about a drink, including it’s unique id, name, category, glass type, and all of
+it’s flavor attributes. DrinkInfo objects store all data necessary for the DrinkInfo page. As the
+DrinkInfo page only displays one drink at a time, DrinkInfo objects can store the larger bits of
+data that are not necessary for comparing drinks. Specifically, they store a drinks unique id,
+ingredients lists, garnish and instructions.
+
+	All of our Drinks and DrinkInfo objects are stored in our local data structure “DrinkData”.
+We are using the singleton pattern, ensuring that only one instance of DrinkData exists at a time.
+DrinkData, Drink and DrinkInfo are serializable, so the app can save their state periodically, and
+deserialize them quickly on startup. Our dataset has around 150 drinks in it, and it still loads
+very quickly, so we are pleased with this result.
+
+	When our app starts, it loads DrinkData into memory, deserializing it from disc. DrinkData will
+then check for updated data in the database, and update where required. If data is not available,
+it waits until the next restart to update. Whenever a user adds or removes a favorite, or rates a drink,
+this initiates an exchange with the database. The app keeps a queue of drinks that have modified
+ratings/favorite status, and it tries to push that data to the database. If data is unavailable, it
+waits until the user makes another change in a drinks rating or favorite status, and tries the exchange
+again. The queue is maintained indefinitely, until the data is successfully uploaded.
+
+	Most of our data is stored in our database, as well as in local memory. Data stored in both places
+includes all Drinks and DrinkInfo, which allows us to update Drinks or DrinkInfo in our database,
+and push those changes to user’s devices. Average ratings, User ratings and favorite lists are stored
+locally as well. Our database does not store specific user data, but simply stores aggregate data to
+aid our machine learning algorithm. For each drink it tracks the number of times a drink has been rated
+or favorited, and the running sum of all ratings, so it can quickly calculate the average. This allows users
+to see how popular a drink is, which can be used to offer better recommendations.
+
+	We considered storing all our data in the database, and doing away with serializing/parsing, but decided
+that making our app function without data was an important feature. Another alternative would be to do away
+with the database, keeping all our data in local storage. This would simplify our life as well, but would
+disable aggregate data collection, which is important for the machine learning aspect of our application.
+We felt that the ability to modify the database after application release and have those modifications be
+transferred to each user was ultimately more beneficial to users and worth the extra effort to implement 
+this feature.
+ 
+Database schema: (underline is primary key)
+drink (id, name, glass, garnish, description, instructions, source, sweet, citrusy, bitter, 
+		herbal, minty, fruity, sour, boosy, spicy, salty, creamy)
+        	- (int, string, string, string, string, string, string, string, int, int,... int)
+        	- all flavors are on a 0-5 scale
+        	- ex(0001, “Whiskey Sour”, “On the Rocks”, “Old Fashioned”, “lime”, “bla bla”, 
+        	     “do this then that”, “Cloud Strife”, 3, 4, 1, 0, 0,..., 0)
+	// citation is source for drink description
+
+category (drinkId, category)  // necessary to separate as a drink can have multiple categories
+        	- int, string
+        	- ex: 0001, martini
+
+ingredient (drinkId, ingredient, ingredientWithPortions) // need two ingredient fields, 
+			as it is hard to separate the portions from each ingredient, due to formatting differences
+        	- (int, string, string)
+        	- ex: 0001, “lemon juice”, “½ oz lemon juice”
+
+favorite (drinkId, userId)
+        	- (int, string)
+        	- ex: 0001, 9774d56d682e549c  (userId is android device id, a unique 64 bit string)
+
+rating (drinkId, rating, userId)
+        	- (int, int, string)
+        	- ex: 0001, 4, 9774d56d682e549c // drink 0001 rated 4 by user 
+ 
+ 
+**Design Decisions:
+
+Overall Design Decisions
+	The drink data and rating information is locally stored on the user’s device and if we update the cloud database,
+then the user will have to do an update on their application in order to gain the changes.
+
+	The cons of the design are that the user’s local database on their device needs to be updated either through
+syncing with the cloud database upon starting the application or through an app store update. We think that being
+able to use the app without an internet connection and having to periodically sync with the database is better
+than always having to use the internet to use our app. It also decreases coupling and does not force the user
+to pull every small change that we make to the database.
+
+	The way we designed it, the UI can only access data by calling the model first. An alternative that we
+considered was to have the UI make basic calls such as getAllDrinks() directly from the database to reduce
+method call overhead. However, we decided to keep the call to the model so that we could increase the modularity
+of our application and decrease the coupling within modules.
+
+	We decided to rate drinks from 1-5, as this is a common and intuitive system for users. However, we decided
+to rate flavors from 0-5, as we felt expressing an absence of flavor was important. For example, a White Russian
+cocktail is simply not fruity at all, earning it a score of 0 in the fruity category. Giving it a score of 1
+would seem counter-intuitive, as it seems to express a low value, but not an absence of that flavor.
+ 
+Machine Learning Design Decisions:
+
+	The main machine learning algorithm that we employ in our app is the K-Nearest Neighbor algorithm.
+Within this algorithm, we use a content based recommendation system, where we compare the attributes of
+drinks to determine the predicted rating for a drink. These attributes include flavors, ingredients, and
+categories. 
+
+	By treating these attributes as a vector, we can compare two drinks based off of their attribute vectors.
+Even if a user has not rated many drinks, a drink similar to one that the user has rated will still be similar
+in rating to the one that the user has rated.
+
+	Another machine learning algorithm that we considered was decision trees. However, we decided to not use
+this method for a few reasons. A decision tree generally does not perform well if it has few data points which
+will often be the case in our application since users will probably not rate very many drinks. Creating decision
+tree code is also not trivial and we didn’t feel like the time spent implementing the decision tree would be worth
+the results obtained. There are existing open source implementations of decision trees (ex. Weka) but those
+libraries are fairly large (~30 MB) and bigger than we wanted for our application.
+
+	We also tried to use Jama and UJMP, packages to perform matrix calculations. During initial testing, our
+K-Nearest Neighbor implementations using these packages obtained about 0.94 prediction accuracy (using old data
+from a past CSE 446 homework assignment) but predictions were relatively slow (around 100 predictions per min).
+While the data used in testing was not from the same distribution as the application data, it did allow us to
+get some preliminary numbers and evaluate the system. Another problem was that it produced a small number of
+ratings that were beyond the bounds of the rating systems. So we finally decide to remove all the support libraries
+for machine learning algorithm, and use Euler distance as rating of each neighbor.
+
+	We decided to not go with a collaborative based filtering algorithm. The main reason behind this is that
+it is unlikely that our application would have enough users to make comparison between users a valid analytic
+technique.
+
+
+
+**Diagrams
+High-Level Architecture Diagram
+	http://imgur.com/D1AUIbv
+
+Class Diagram
+	http://i.imgur.com/tAJTdVv.png
+
+Sequence Diagrams
+- Search By Ingredient Sequence Diagram
+	http://i.imgur.com/59XnItG.gif
+ 
+- Try Something New Sequence Diagram
+	http://imgur.com/59XnItG,xf9yhNa#1
+
+**Process
+Risk assessment
+ 
+Risk 1: The accuracy of drink recommendations are low
+ 
+Likelihood: high
+Impact:  high
+Evidence:
+The machine learning accuracy is based on many factors and typically works best with mass amounts of
+data and also data tied to specific users (ie. Netflix, Foursquare). We will not have user data stored
+in our server database and will not have mass amounts of drink data, so the likelihood is high. The
+impact is high because this is what sets our app apart from competitors.
+
+Steps:
+	As we populate the database, we will make sure that the flavor profiling is accurate as possible
+as it is important to the machine learning. Rather than just scrape webpages for flavor profiles, we
+will go over each to assure accuracy.
+
+	Cross validation will also be used when testing the accuracy of the machine learning algorithms.
+We will create several sample data sets of user ratings and will train the algorithm on all but one
+of the ratings, then use the resulting model to predict the rating for the left out rating. Between
+this predicted rating and the actual rating, we can evaluate the accuracy of the predicted value.
+Repeating this step with different and drinks and data sets will give us a fairly good idea of how
+our machine learning algorithms are performing.
+        	
+ 
+Plan:  
+	We will have users give feedback on whether or not the recommendations suit them. We will track how
+the number of drinks in the database change the percentage of successful recommendations as we add more
+drinks to the database. This way, if the satisfiability changes as the number of drinks in the database
+increases, then we can try to maximize success not only by the machine learning algorithm but also by
+outside factors. If we test early and often with real user feedback, we will be able to detect accuracy
+issues earlier rather than later.
+ 
+Mitigation plan: 
+	Make sure our search features are appealing and usable. That way in case our machine learning API
+does not accurately predict drinks the user will like, we will at least have working search features.
+ 
+Changes Since SRS: 
+	For the SRS we had centered our application around the machine learning, and had not factored in what
+we would do if the machine learning did not make accurate drink recommendations. We now have a plan for
+if the machine learning does not go as expected.
+ 
+ 
+Risk 2: Longevity (keeping the user’s interest)
+ 
+Likelihood: high
+Impact: high
+Evidence:  
+	People get tired of applications extremely quickly, ourselves included. Unless it is essential to everyday
+life, such as Google searching or Google maps, it is hard to keep the user’s interest. For instance, most game
+applications are popular for ~3 months and then users move on to other games. Therefore the likelihood is high.
+Especially since once a user has gotten about ten recommendations, they may feel like they no longer need the
+application.
+
+The impact is high because if users lose interest, they will no longer use our application.
+
+Steps: 
+	We will keep brainstorming ways we can keep users interest in the app and talk to our customers about
+what else they would like to see from our application or reasons for why they would keep using it and reasons
+why they would not keep using it. We also will take  surveys on what key features the application is missing.
+
+Plan: 
+	Have users use the application over a period of two weeks and have them let us know if they think it is still
+relevant to them and what features they would think they would use and what they do not use at all.
+
+Mitigation Plan: 
+	Populating the database with plenty of drinks to provide lots of different recommendations may be crucial
+to keeping the users interest. If we find that our customers are losing interest, we will implement our database
+mitigation plan.
+
+Changes Since SRS:
+	We did not address this risk on the SRS. Now we are going to try and think of ways we can expand the idea
+of the app but finish before the end of the quarter.
+ 
+ 
+Risk 3: The number of drinks in the database will be too few
+ 
+Likelihood:  medium
+Impact: high
+Evidence:	
+	Machine learning typically works better with more data. Another effect is that if we only have 100 drinks in
+our database, and around 20 of them will fit the user’s tastes, they will quickly lose interest in the application.
+Thus the impact of not having enough drinks is high.
+
+	The likelihood is medium because we do control how many drinks go into the database, but we want to make sure
+that the drink information is accurate so we want to moderate the drink information as we go rather than just
+scraping databases for as many recipes as we can find.
+ 
+Steps:
+	We are dividing the work of adding drinks to the database so that one person does not have to enter 100 drinks
+in one week.
+
+	We are going to continue to add drinks throughout the lifetime of the project in order to gradually increase
+the number of drinks from the initial population of the database.
+ 
+Plan: 
+	Create a script that can copy the drink information from an existing database. That way we will have the drink
+information for a large amount of drinks.
+
+Mitigation plan:
+	If we run out of time manually entering drinks into the database, or decide that our number of drinks or range
+of different drinks is not enough, then we will get our drink ingredients, descriptions, and flavor profiles from
+a database such as Yummly which has some flavor profiles of drinks in order to add drinks quickly to our database.
+ 
+Changes Since SRS: 
+	Since the SRS, we decided that we may have to scrape a database if the number of the drinks in the application
+are too few. We found that Yummly has flavor profiling of drinks, so now we have a backup plan. The ideal situation
+would be to manually populate the database with drinks in the beginning which will allow development to proceed
+then add drinks scraped from an existing database at a later date.
+ 
+ 
+Risk 4: The User may not want to use the application if the UI has low user friendliness/usability.
+ 
+Likelihood: medium
+Impact: high
+Evidence: 
+	One comment on our competitors application said that their application was “Super ugly and not at all easy to use.”
+Which shows that if our application is not appealing and easy to use, then people will be less likely to use it.  
+
+Steps:
+	Paper prototyping reduces the impact because it helps us get quick feedback about our UI decisions. It also provides
+feedback on decisions that we have not implemented yet so that we don’t have to waste time changing code if it is not
+a final decision.
+  	We will also look at blogs specifically about Android application UI standards so that we can pull ideas from
+there and try to make something that is users have used.
+ 
+Plan: 
+	We plan to have ourselves test the UI as well as do hallway testing in the CSE labs. We have found that people
+in the labs are interested in the application and helpful in finding bugs as well as telling us things they like
+or don’t like.
+
+Mitigation Plan:
+	We will have help menus on each page that the user can click on if they need direction. Make the interface
+as basic as possible so that confusion is limited.
+ 
+ 
+Changes Since SRS : 
+	We have taken more time to think about the steps we will take to reduce the likelihood of a non-user
+friendly UI occurring. Such as watching Android tutorials and making sure we regularly meet with customers
+and get their feedback. We learned from the paper prototyping exercise that we can practice changes to the
+UI on paper and test our ideas first to try to get a basic idea of whether they are intuitive or not.
+ 
+ 
+Risk 5: Application Response Time
+ 
+Likelihood: medium
+Impact:  medium
+Evidence:  
+	Since we plan on having 500 or less drinks in our database, the chance for interaction with the database
+causing performance issues is low. However, the searching and sorting algorithms based on user preference
+may take long if we do not use the proper machine learning algorithms and sorting algorithms together, so
+the likelihood is medium.
+
+	The impact is medium because users tend to deal with applications that lag a little bit if they really
+want the functionality of the app. Typically a user will wait as long as it is not taking over 2 seconds or so.
+
+Steps: 
+	Decrease coupling in our architecture to reduce method call overhead, test features on our application
+with time limits to make sure that any time deficiency is not noticeable by the user. We will do unit testing
+on the searching, sorting and machine learning algorithms to ensure that each individual algorithm works quickly.
+
+Plan: 
+	Run the features on our application and record wait times for drink suggestions. If it takes longer than ~2
+seconds, we have a performance issue.
+
+Mitigation Plan: 
+	Have a loading screen that says “Please wait while we find drinks that suit you.” If the drink suggestions
+are accurate enough, then it might be worth waiting for if the lag is not too long (< 15 seconds). If the sorting
+by preference and machine learning takes too long, our last resort would be to take the machine learning and
+sorting by preference out and just have a basic searchable database that sorts alphabetically.
+
+Changes since SRS: 
+	In the SRS, we did not think about taking the machine learning out, we based our entire application around it.
+Now we are taking into consideration that if the machine learning fails that we need to have mitigation plans
+to ensure as much as possible that we will have a functional and working application in the end rather than not
+have anything if the machine learning does not work out.
+ 
+ 
+**Project Schedule
+Dependencies:
+	The database first needs to be set-up with ratings, drink ingredients and flavor profiles before the machine
+learning algorithms can be tested and the UI can return sample results. The database should contain at least
+30 drinks. The more drinks in the database, the more accurate the machine learning algorithms will be and allow
+us to make any changes to them.
+ 
+	In the UI, the main menu needs to be done first so that we can get a page skeleton and then navigate to other
+pages from the first page. The Drink object and drink information needs to be set up in the database before we can
+display drink information on the Drink Info page. The results page should also be done before we test searches on the UI.
+ 
+	The machine learning API needs to be done before we can test how well the drink recommendations suit the users
+of Try Something New as well as the other search types.
+ 
+Milestones:
+
+        	5/2/14: (Zero Feature)
+				- Running application that can be downloaded and opened
+				- Machine Learning Libraries set-up
+				- Drink, Flavor & Query objects implemented
+				- Skeleton home page Activity is implemented
+				- Application displays skeleton home screen when ran
+ 
+ 
+        	5/9/14:
+				- Search By Flavor formatted(without functionality)
+				- Search by Name is implemented
+				- Database is setup and populated with a basic dataset
+ 
+        	
+        	5/16/14 (Beta Release)
+				- Search by Category (without icons, category list not complete)
+				- Favorite Drinks List (without ability to remove)
+				- Try Something New recommends drinks (but with test rating data)
+				- Search by Ingredients
+				- Machine Learning Algorithms finalized
+				- Formatted Drink Info Page
+				- First iteration of Machine Learning Algorithms is implemented
+ 
+ 
+        	
+			5/23/14 (Feature-complete Release)
+				- Search by Flavors (implement functionality)
+				- Advanced Search
+				- No Results Found is implemented
+				- System Tests are implemented (Android system tests)
+				- Recommender (machine learning) fully integrated and tested for accuracy
+				- Database is populated with 50% of dataset
+				- Rating System is complete without bugs
+				- Removal from Favorite’s list is implemented
+				- User information is saved in between closing and restarting the app
+ 
+         	5/30/14 (Release candidate)
+				- Final UI that is as appealing and intuitive as possible
+				- Full suite of System Tests are implemented (Android system tests)
+				- Database populated with complete dataset
+				- Improved UI: Stock Android icons replaced with our own
+				- All bugs that we could track are fixed
+				- Update our categories in the database so that they are no longer just shooter and shaken
+ 
+ 
+
+**Team structure
+ 
+Structure:
+	Each person will mainly be a developer for their role. While we do not have designated testers,
+each person will also fill the role of tester at some point. As the development process continues,
+each team member will write test cases for their parts and also write black box tests for other group
+members’ parts.
+ 
+	Team members will be grouped by functionality rather than by job function because each person
+specializes in a different skill. Team roles were picked by member preference as well as previous
+experience in order to maximize our productivity while working on this application.
+ 
+Roles:
+John: Database / Model
+Nicole, Taylor & Andrea: UI
+James: Machine Learning and Testing
+Project Manager: Nicole
+ 
+ 
+Communication:
+	We will communicate primarily through the group meetings and the group mailing list.
+We will have at least two meetings a week: Tuesdays at 9:30 which everyone can make it to,
+and the other meeting will be TBD at the Tuesday meeting or before. We will have additional
+meetings of subgroups throughout the week as necessary.
+
+Status Reports:
+	TeamGaia wiki on github contains all of our individual and team status reports labeled by the week.
+ 
+Test plan
+Unit test strategy
+Unit Tests will test:
+1)Database queries - This will test if the queries return the correct drinks    given a set of constraints.
+2)Model queries - Does the model return the appropriate data for each method call?
+3) Machine Learning - Are the machine learning algorithms consistent?
+ 
+Unit Tests Development Strategy:
+ Every team member will be in charge of writing a test suite for the module that they are working on. 
+ 
+ Frequency and AutoBuild:
+ 1)At least once a day by Jenkins with autotest and autobuild
+2)By each individual before they commit
+3)By each individual when they pull
+ 
+ System Test Strategy
+ 
+	This will test whether or not all of our components connect in the right ways with the correct
+end result. (ie. Use cases in which go from the UI and down to the backend modules)
+
+	Execute one of our use cases and document the results and make sure the results are the same
+as previous iterations. If any results are different, make sure the differences are expected.
+
+ 	We have implemented Android System Tests. These tests actually run on the phone and
+ can go through different pages within the app to test functionality.
+ 
+Frequency with which system tests will be ran:
+1) System tests will be ran at minimum daily and also
+2) By an individual before they commit
+3) By an individual when they pull
+ 
+ 
+Usability test strategy
+
+Usability tests will test:
+1) How effectively users can achieve tasks in our application, such as how quickly, and without confusion.
+2) Test if the application exits or acts unexpectedly
+3) Test if the sequence of each use case follow as expected in the context of UI
+ 
+ How usability tests will be developed:
+1) Paper prototyping will tell us whether or not users can easily navigate through the application, as well
+	as if the design could improve.
+2) Hallway testing in which the tester will give feedback on what is confusing or unintuitive
+ 
+ Frequency with which they will run:
+1) With each change that the UI developers make, they will test their UI changes individually.
+2) After each UI feature is committed the other group members will test the feature.
+3) After group approval of each feature, we will do hallway testing.
+ 
+Bug Tracking Strategy:
+	We are using the built-in bug tracker on GitHub and will document each bug that we find as we go along.
+When we fix a bug, we will document what commit fixed the bug along with closing the bug issue.
+ 
+Adequacy of Testing Strategy:
+	The unit tests are the best indicator of testing adequacy because they are either pass or fail. So we
+can test the database queries and performance of the machine learning algorithms that way. The adequacy of
+testing for the UI is harder and less measurable, so we will have to make sure that we are thorough and
+consistent with our user testing and prototyping.
+ 
+Documentation Plan
+	On each screen there will be a help menu. On the home screen, the help menu will contain information
+about each feature and how and why to use it. On each page other than the home screen there will be a
+unique help menu for that particular feature that will have a short dialog of how to use it. The help menu
+icon will be placed on the top navigation bar; readily available if the user needs assistance.
+
+	Full documentation that contains all of our help menu information will also be in the User Documentation
+on the website and in the repo.
+ 
+Coding style guidelines
+Java: http://google-styleguide.googlecode.com/svn/trunk/javaguide.html#s4.1-braces
+All Java code will follow Google’s Java Style Guidelines. We will enforce the guidelines by peer reviews.
+
+	Every time you push code to the repository someone else must review this code to ensure it follows the
+style guidelines. The reviewer is chosen by a rotation of members where the next person in the rotation
+must review the code.
+
+**Extensibility Exercise
+
+
+Changes that need to be made to the UI
+1) Add a “Write Note” button to the DrinkInfo page by adding the button to the res/layout/activity_drink_info_page.xml.
+   Add a TextView to display the users current note.
+
+2) Create a new Android Activity that extends DialogFragment which will be a pop-up where the user can edit the note.
+
+3) Add a “Share” option and “Save” option to the dialog fragment.
+
+4) In DrinkInfo.java in the onCreate, get the note that is currently stored for the given drink by using 
+   DrinkModel.getNote(drink.id) where drink is the Drink object for the current DrinkInfo page. Display the note
+   in the TextView created in step 1 if the current Note is not null.
+
+5) Set an onclick listener for “Share” in the dialog fragment so that when “Share” is pressed, the app connects to
+   Facebook or Twitter’s API,  allows them to log-in if they are not already, and lets them share the note. Also,
+   call DrinkModel.addNote(drinkid, note) to save the note in the application.
+
+6) Set an onclick listener for “Save” in the dialog fragment so that when “Save” is pressed, the app saves the note
+   using the same method as above - DrinkMode.addNote.
+
+7) Set an onClick listener for “Write Note” in DrinkInfo.java that launches the DialogFragment. If the user already
+   has a note then it will display that note where they can delete or append, otherwise it will allow them to write
+   a new note.
+
+Changes that need to be made to the Model
+1) Add three new static methods in DrinkModel: addNote(int drinkid, String note), getNote(int drinkid) and
+   removeNote(int drinkid), which simply call the same methods in DrinkDb.
+
+2) Add a method in DrinkModel, postDrink(int drinkid, String note) for handling Facebook posting of notes. This method
+   will be called by the UI, and will start the process of posting the given drink and the associated note to Facebook.
+   
+Changes that need to be mde to DB
+1) Add a new data structure to DrinkData. This will be a HashMap<Integer, String>, mapping Drink id’s to the user’s
+   note for that drink. This data will be stored locally, and will not sync with the database.
+
+2) Add three new functions to DrinkData, addNote(int drinkid, String note), getNote(int drinkid) and
+   removeNote(int drinkid).
+
+3) Add static versions of these methods to DrinkDb, which will delegate them to it’s static instance of DrinkData (dd).

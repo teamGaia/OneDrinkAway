@@ -1,0 +1,509 @@
+OneDrinkAway SRS Release Candidate
+
+Team Gaia
+ 
+John Wilson (johnleew@uw)
+Nicole Kihara (kiharank@uw)
+James Luey (lueyja1@uw)
+Andrea Martin (mieko101@uw)
+Taylor Juve (tjuve92@uw)
+
+A link to the document for easier viewing:
+	https://docs.google.com/a/uw.edu/document/d/1QbACZjVoOBeVTJBvDTY5nApV_5Ka6rb9AKHSfwL5KBw/edit?usp=sharing
+
+**Product Description
+
+	OneDrinkAway is an Android application that suggests cocktails to try based on your taste preferences.
+It is useful for anyone who enjoys cocktails and would like to try something new. Since the application is
+mobile, users can get drink suggestions anywhere, whether they are at a bar or in the kitchen.
+
+	With thousands of drink recipes online and no time to go through all of them, people end up ordering
+the same drink every time they go to the bar because it is too much of a hassle to figure out what else is
+out there. You could ask your friends or a bartender for a recommendation, but they don’t know what your
+tastes are. Some bars don’t even have drink menus. OneDrinkAway solves this problem by giving users the
+recipes for new drinks to try that actually fit their preferences. Never again do you have to keep ordering
+the same drink because you are unsure of what else is out there or take your quality time to search for a
+new drink yourself.
+
+	There exist applications for smart phones that allow you to search for recipes or find a drink recipe
+at random, but none of them keep a list of your favorite drinks and provide better drink suggestions the
+more you use the application. We also have a rating system so that the more drinks you rate, the better
+the application gets to know you and can suggest drinks more geared toward your tastes. You do not have to
+waste your precious time searching through drink recipes and guessing whether or not you think you might
+like them; OneDrinkAway figures it out for you. Since your mood can change daily and you might be craving
+a different kind of cocktail some nights, our application also has a feature that allows you to enter what
+flavors you are looking for in a drink, and then recommends cocktails based on those.
+
+The major features are:
+	- Favorite Drinks list which keeps track of all of the user’s favorite drinks so that they are readily
+		accessible in case the user want to drink them again
+	- Search By Flavors which allows the user to enter their particular taste preferences
+		(such as sweet, bitter, herbal) and get drink suggestions based on those
+	- Search by Category allows for searching by types of drinks such as shooters, martinis, long glass, etc.
+	- Search by Ingredient allows the user to enter multiple ingredients and find a cocktail that contains those ingredients
+	- Search by Name allows searching for one particular cocktail or browsing all of our drinks
+	- Rating system that allows the user to rate drinks, and provides a predicted rating score for drinks that 
+		you haven’t tried
+	- Try Something New which recommends a drink that is any type with the touch of a button based on the user’s 
+		taste preferences
+	- Advanced Search which combines the search features of Search by Category, Ingredient, and Flavors
+
+
+Stretch features:
+	It would be ideal if we could add user comments to the drinks so that users can see why or why not
+someone enjoyed the drink. However, it is not imperative so we are making it a stretch feature. Another
+nice feature would be to add your own drink recipes, but this might need to require some kind of monitoring
+to make sure bogus recipes are not added. Therefore we are not making it a priority feature. Another good
+stretch feature would be if we included a way to look at all of the drinks you have rated, that way in case
+you want to change your ratings you could do so. One suggestion we got from our customers was to include
+whether or not a drink is gluten or lactose free in the description. Since this requires a lot of research
+we are keeping this as a stretch feature. However, it is a good idea that would make the application more
+usable. Another idea is to allow users to submit what their flavor profile ratings are. For instance, if we
+gave a drink a sweetness of five, but they think it is a three, they could submit to us their flavor ratings
+and we could alter our ratings to reflect that. We would change our ratings if a lot of people also think it
+is a four instead. 
+
+
+Non-functional requirements:
+
+Dependability: 
+	In order to make sure users get drink suggestions that actually fit them, we are making sure
+our machine learning algorithms are intuitively able to match similar drinks. That way if a user likes a
+certain drink, the algorithm can recommend a similar drink that they will most likely enjoy.
+	
+Metrics to know if we have met dependability requirement:
+	Have our friends rate a few drinks in the application and then use our Try Something 
+New feature. Then get feedback on how well the drink suggestions fit them.
+
+Performance:
+	Because all of the data is stored locally on the user’s device so that they do not need internet/data
+access, we need a way for the user to get new information from our server database. So when the user opens
+the application, if there are updates to our cloud database, then we will sync the cloud database to the
+local database on the user’s device. This could lead to a performance issue because we do not want this
+syncing process to take too long if the user has not opened their application with internet access for a
+long time or if there has been a lot of changes to the cloud database.
+	
+Metrics to know if we have met our database-syncing performance requirement: 
+	Measure how long it takes to open the application on different Android devices. If it takes longer
+than three seconds to open the application, there is a performance issue. If this occurs, we will have
+to make the syncing asynchronous so that the user can use the application as the database syncs.
+
+	Another performance issue could be caused from the searching and machine learning algorithm for when a user
+searches for a drink. If it takes too long, the user may not want to use the application, since the idea of
+the application is to save the user time when deciding on a drink that they will like.
+
+Metrics to know if we have met our machine algorithm performance requirement:
+	Use all of the different features of the app and record response times. If getting a drink 
+recommendation from our search features takes more than one second on a modern Android phone we
+will have to consider other algorithms or keeping all of our drink information local on the user’s phone.
+
+
+
+External Documentation:
+	When a user first opens up our application, there will be a welcome dialog asking the user to rate common
+drinks or search for drinks that they have already had to rate. This dialog box will have “No Thanks”, “Okay”,
+and “Why” buttons so that the user does not have to rate if they do not want to. Also, if they are confused as
+to why they would want to rate drinks, they can press “Why” and it will lead them to a help dialog that tells
+them about our application and explain that the more drinks they rate, the better their drink suggestions will be.
+
+	Help menus will be available on the top tool bar of every page. On the home page, there will be a listing of
+every help dialogue for every feature inside of the help menu. On each of the feature pages, it will display a
+dialogue for that particular feature.
+	
+	We will also have explanations of every feature, how to install, and how to use the application in the User
+Help Manual on our application’s website.
+
+
+**Process Description
+
+Software Toolset:
+	Android SDK (Java)
+	Android Framework for UI
+	Database: Postgres on AWS
+	Version Control: git, github
+	Defect Tracking: github issue tracker
+	Daily Build Software: Jenkins
+	Machine Learning: UJMP matrix package
+	Test Coverage Tool: EclEmma
+
+The Android SDK features a number of built in tools, as well as a GUI for designing our own UI. Postgres is
+open source, and AWS will provide our app with a responsive back end. Github has a number of useful built-in
+features such as Issue track and a wiki. UJMP is a Java matrix package that supports basic and advance matrix
+operations.
+
+Roles:
+	Project Manager: Nicole Kihara
+	James: Machine learning for drink recommendations and Testing
+	John: Setting up database and populating with data
+	Andrea & Nicole & Taylor: UI and framework
+
+The group structure that we have chosen is based on each individual’s knowledge. Each person will share in the
+development. We do not have designated testers at first, each person will share in the testing as well. As the
+development process continues the roles will change slightly in that we will become testers for our own parts
+and also do black box testing for other group members’ parts. The members of the machine learning will jump into
+tester roles once the machine learning part becomes stable. Role by functionality is better suited for our group
+rather than role by job function because each person specializes in a different skill, so role by functionality
+makes the most use out of those skills. We did not want to label any person as “developer” because we are all
+going to be developers as well as testers for the function we are working on. We chose these roles because we want
+people to work on something that they have learned before for the most part in order for development to run smoother. 
+
+If a disagreement arises, we will listen to each party’s input and then take a vote on the subject. If there is a
+tie, then the Project Manager will have the deciding vote. We decided on this structure because we want to make
+sure the majority of the group agrees, rather than making all of the major decisions depend on only one person’s
+opinion. 
+
+Schedule:
+	The database, machine learning, and UI will all be done in parallel. The first step for the UI will be to
+make an “ugly” version with basic navigation, which should be done by the zero-feature release. We are estimating
+it will take about a week since three people will be working on getting it running. Since Browse All Drinks and
+Search by Name are the most basic features, we also want to get those done by zero-feature release. We are
+estimating it will take about three days. We want to finish the rating system by 5/9 since our drink recommendation
+algorithm depends on it. Since Try Something New is one of the main features of the app, we will work on getting
+it to recommend something based on the machine learning algorithms we have set-up by 5/9. The Favorite Drinks List
+is a basic list, so we are estimating that Try Something New, Favorite Drinks List, and the Ratings System combined
+will take a week. Once we have basic search working the other search features will be easier to implement, so
+Search by Category, Search by Ingredients, and a formatted drink info page that looks presentable we are estimating
+will take a week. These features should be more or less complete by beta. Finally we hope to make our UI pretty,
+which we will work on near the end of development, as much as possible.
+
+	The database will be set-up and functional by the zero-feature release. We should have all of the flavor
+profile information complete by beta. The machine learning algorithms will take a week to set-up. We will spend
+another week fine-tuning them.
+
+
+Milestones:
+
+	5/2/14: (Zero Feature)
+		Running application that can be downloaded and opened
+			-Taylor: 1 developer day
+		Machine Learning Libraries set-up
+			-Phoenix: 1 developer day
+		Drink, Flavor & Query objects implemented
+			-John: 1 developer day
+		Skeleton home page Activity is implemented
+			-Taylor: 1 developer day
+		Application displays skeleton home screen when ran
+			-Taylor: 1 developer day
+ 
+ 
+ 	5/9/14:
+		Search By Flavor formatted(without functionality)
+			- Nicole: 2 developer days
+		Search by Name is implemented
+			-Taylor: 2 developer days
+		Help menus implemented
+			-Taylor, Andrea, Nicole: 1 developer day
+		Database is setup and populated with a basic dataset
+			-John: 2 developer days
+		Unformatted Drink Info Page
+			-Andrea: 2 developer days
+		Automated build
+			-James: 2 developer days	
+		Drink Model Code stubbed out
+			-James: 2 developer days
+        
+ 	
+	5/16/14 (Beta Release):
+		Search by Category (without icons, category list not complete)
+			-Taylor: 2 developer days
+		Favorite Drinks List (without ability to remove)
+			-Andrea: 2 developer days
+		Add home page icons 
+			-Andrea: 1 developer day
+		Try Something New recommends drinks (but with test rating data)
+			-Andrea, Taylor, Nicole: 1 developer day
+		Search by Ingredients
+			-Nicole: 2 developer days
+		Machine Learning Algorithms finalized
+			-Pheonix, James: 2 developer days
+		Formatted Drink Info Page
+			-Andrea: 2 developer days
+		First iteration of Machine Learning Algorithms is implemented
+			-Pheonix: 2 developer days
+		DrinkModel implemented
+			-James: 3 developer days
+		DrinkData implemented
+			-John: 3 developer days
+
+   	
+	5/23/14 (Feature-complete Release)
+		Search by Flavors (implement functionality)
+			-Nicole: 3 developer days
+		No Results Found is implemented
+			-Nicole: 2 developer days
+		Advanced Search
+			-Taylor: 2 developer days
+		First Iteration of Unit Tests Implemented
+			-James: 4 developer days
+		Recommender (machine learning) fully integrated and tested for accuracy
+			-James: 1 developer day
+		Database is populated with 50% of dataset
+			-John: 1 developer day
+		Rating System is complete with some bugs
+			-John: 1 developer day
+		Add custom rating bars with functionality on all pages
+			-Andrea: 1 developer day
+		Removal from Favorite’s list is implemented
+			-Andrea: 2 developer days
+		User information is saved in between closing and restarting the app
+			-John: 1 developer day
+
+
+	5/30/14 (Release candidate)
+		Final UI that is as appealing and intuitive as possible
+		Search by Ingredient fully functional
+			- Nicole: 4 developer days
+		Search by Category has icons
+			- Taylor: 1 developer day
+		Advanced Search fully functional
+			- Taylor: 2 developer days
+		Database populated with almost complete dataset
+			- John: 2 developer days
+		Web Server implemented and relatively bug free
+			- John: 3 developer days
+		Search by Flavor fully functional
+			- Andrea, Nicole, Taylor: 1 developer day
+		Database tracks user ratings for overall averages
+			- John: 1 developer day
+		Generic glass images added
+			-Andrea: 1 developer day
+		Drink images added
+			-Andrea: 2 developer days
+		Test Suite completed
+			-James: 4 developer days 
+		All bugs that we could track are fixed
+			-Everyone
+
+	6/04/14 (1.0 Release)
+		Database has complete dataset
+			- John: 1 developer day
+		Last minute bug fixing
+			Everyone - 1 developer day
+
+Risk Summary:
+1) Providing Accurate Drink Recommendations
+	It is going to be difficult to test the machine learning algorithm because we are trying to mathematically
+analyze drinks and drink qualities which are not as quantifiable as we would like. Also the problem of “drink
+suggestion” is not necessarily a “pass” or “fail” it is more scalable. This is the center of the application
+which makes it one of the most serious risks.
+
+	We’re most worried about our application making good drink suggestions. If no one likes any of the drinks
+we suggest then why would they keep using our application? To mitigate this risk we plan on having several test
+clients rate several drinks that they have tried then randomly choose one drink as a test case. Our application
+would estimate what the rating is based off the other drinks chosen and we would compare this estimation with the
+actual rating. From this result we can evaluate the algorithms providing the drink recommendations. If we are unable
+to overcome this problem or if the implementation takes longer than expected, then we’ll have to reassign people
+to work in the drink suggestion sub-group. Specifically, one or two people would switch from working on UI to
+testing/working on the machine learning algorithm at the cost of cutting some UI features or time spent making the
+UI more appealing. 
+
+2) Populating the database
+	Since we need to give each drink its own profile based on how sweet, bitter, citrusy, etc. it is, we will need
+to do this by hand by learning about each drink. We then have to manually enter each drink into the database.
+If we spend too much time trying to add too many drinks, important aspects of the application such as the UI may
+end up neglected. On the other hand, if we do not add enough drinks, we might not always be able to recommend
+something for the user. This is serious because there is no point to the application if the user cannot get a drink
+recommendation that suits them.
+
+	Our mitigation plan is to automate data collection for ingredients, instructions and drink descriptions. This
+allows us to minimize time spent on each drink entry. The flavor profiles will be entered manually, but they can
+typed in relatively quickly. Once the name and profile exists, the rest of the data can be collected automatically.
+
+	Another issue with populating the database is consistency. Different people have different tastes, so a sweetness
+of five to one person may be a three to another person. Users might have issues with the way our drink flavors are profiled. 
+
+3) Building the Android application
+	Since none of us has built an Android application before, it will take a lot of self-teaching and time to get all
+of the components of the application running. On top of that, we could run into problems while making the UI simple
+and usable enough so that people can easily get drink recommendations. If we start to run out of time, we might not
+be able to make the UI very nice and could end up with a buggy application.
+
+	To mitigate this risk, we plan on having help documentation available via the top toolbar on every page so that
+if the UI does not end up being as intuitive and appealing as we want it to, then there will be help documentation
+readily available for the user that will walk them through each feature. 
+
+Getting FeedBack:
+
+Getting external user feedback will be most useful once we have a working application because we can meet with our
+customers and have them try the app to see if we need to change the UI. Customer feedback will be most useful once
+we have the rating system in place as well as the “smart” drink suggestion capability such that users can test rating
+drinks and then finding a new drink based on their favorite. After that, the points in which user feedback would be
+helpful would be once we have a new working feature that can be used and tested.
+
+To get our user feedback, we will schedule meetings with our customers as well as asking non customers to try the app
+and give us feedback.
+
+Our mitigation plan if our machine learning algorithm fails and we aren’t providing good drink suggestions to the user
+is to have the search features and favorites list stable so that even if we are not recommending smart drink
+recommendations, we still have a good drink database with different search mechanisms for the user. 
+
+
+
+
+
+Customer Meeting Report
+
+Customer Meeting With Upper Managers: Team Caelus     
+Issues brought up:
+	Our customers had questions about what the point of the favorites list was since we also have a rating system in
+place. They were wondering why we need it to recommend drinks if we already base our recommendations on ratings. We
+explained that it is available in case you want to look at those drinks again later and remember them. We made this
+clearer on our product description. One feature that our customer recommended was telling whether or not a drink is
+gluten or lactose free for people with allergies. This was something we liked and want to add to our descriptions of
+the drinks. 
+
+Meeting With Group We Are Customers For: Team Cronus
+Issues brought up:
+	We brought up issues about whether or not users would remember to use the app and pay their bills, so we suggested
+a notification system. Also, it is a hassle to keep re-adding tasks to a calendar that need to be done regularly
+(such as taking out the trash or doing the dishes). A solution we suggested was a To-Do list that would assign tasks
+to different people and rotate between them. Lastly, we thought the application might be more useful if you could
+coordinate events between friends such as invite group members to a lunch.
+
+Meeting with TA: Brian
+Issues brought up:
+	As a customer, Brian explained some situations in which he’d like to use this application. Most of which we had
+thought of already and already planned to include. However, there was one use that we hadn’t accounted for: some bars
+make the same cocktail better or worse than others so it’d be nice if the application suggested both a cocktail and
+where to buy it. We’ll keep this in mind as a possible stretch feature.
+	As a mentor, Brian was concerned about how we’re planning on managing and gathering enough data to reliably
+suggest drinks to our users. Before, we had planned to keep all data on the server and only suggest drinks off a
+single user’s preferences. Brian brought up a couple problems with this implementation, the two biggest issues were
+it would require an internet connection and new users would receive poor suggestions. Instead, Brian suggested
+locally storing the database and syncing it with the server whenever an internet connection is present. He also
+suggested including multiple users’ preferences in our recommendation algorithm.
+
+2nd Meeting with TA: Brian
+	He also reinforced not to do pop up help dialogs on each page and rather suggested looking into new user
+experience on FourSquare that points out buttons and those kind of things to new users. He also recommended
+that we make sure to properly cite any data that we collect from other sources.
+	As a customer, we asked Brian if he would want to have a ready list of all the drinks that he has rated as
+a preference, but he didn’t think that he would have any need for it and if we wanted to look at the drinks again,
+he probably would have put them in his favorites list in the first place. 
+
+3rd Meeting with TA: Brian
+	Brian explained the best practices for creating a new release branch in our repo. Now we know to create
+the branch close to release time rather than creating it early and working on it. We also got feedback on
+our developer documents and learned why we got so many points off for the Zero Feature Release.
+
+
+
+
+
+**Use Cases
+
+These use cases cover the important scenarios because each use case corresponds to a major feature of the application
+that was listed in the product description. 
+
+Our failure handling remedies are included in our use cases, such as if a user enters an invalid combination of ingredients
+when searching by ingredient, a “No Results Found” will be displayed on the search page so that the user can simply
+change their search criteria. 
+
+Case 1, a user has an ingredient or two in mind, but doesn’t know what to order
+	1. User starts app, is presented with the Home Screen
+	2. User selects “Search By Ingredients”
+	3. App presents “Search By Ingredients” page with searchable list of ingredients with checkboxes
+		a. User can either scroll through all of the ingredients and check the checkboxes or type in an ingredient
+			then check its checkbox
+		b. Search button is disabled until at least one ingredient is selected
+	4. User selects ingredients and presses search
+		a. Case A, no drinks found with combination of ingredients
+			i.   App presents “No Results Found” on top of Search by Ingredients page
+			ii.  User changes search criteria
+			iii. Return to step 4
+		b. Case B, at least one drink is found with requested ingredients
+			i.   App displays “Results Page”, sorted based on how closely they match user’s preferences
+			ii.  User selects a drink
+			iii. App displays “Drink Info Page” with ingredients as well as ‘back’ and ‘home’ buttons
+				1. Case a, user selects ‘home’
+					a. App returns to “Home Screen”, done.
+				2. Case b, user selects ‘back’
+					b. App returns back to “Results Page”
+
+Case 2, a user is in the mood for a certain flavor of drink, such as fruity or herbal
+	1. User starts app, is presented with the “Home Screen”
+	2. User selects “Search by Flavors”
+	3. App presents “Search by Flavors” page, with a list of flavor profiles (Fruity, Bitter, Citrus etc)
+		a. Each flavor profile has a checkbox and a seekbar, which is disabled until the checkbox is selected
+		b. Search button is disabled until at least one checkbox is selected
+	4. User selects at least one flavor and adjusts the seekbar, presses search
+      	a. Case A, no drinks found with combination of flavors
+			i.   App presents “No Search Results Found” on the “Search by Flavors” page
+    		ii.	 User changes search criteria 
+  			iii. Return to step 4
+		b. App displays “Results Page” with cocktails that match the flavors requests as 
+			closely as possible
+			i.   Results are displayed in ranked order, based on predictive algorithm
+			ii.  User selects a drink
+			iii. App displays “Drink Info Page” with ingredients as well as ‘back’ and ‘home’ buttons
+				1. Case A, user selects ‘home’
+					a. App returns to “Home Screen”, done.
+				2. Case B, user selects ‘back’
+					a. App returns back to “Results Page”
+
+Case 3, a user wants to find a new drink to try
+	1. User starts app, is presented with the “Home Screen”
+	2. User selects “Try Something New”
+		a. Case A, user has rated at least one drink
+			i.   App presents “Results Page” with a couple of drinks to try that the user has not yet rated,
+			   based on what the app thinks the user would like based on all of their current drink ratings
+			ii.  User can view “Drink Info Page”
+			iii. User can select the back button to return to the “Try Something New” Page to find different
+			     results if unsatisfied
+		b. Case B, user has rated all of the drinks
+			i.   App presents “All Drinks Rated” page saying no results were found because there are no new
+			     drinks in the database for the user
+			ii.  User selects ‘Return’
+			iii. App presents “Home Screen”
+
+Case 4, a user wants to look at all of the drink recipes
+	1. User starts app, “Home Screen” appears
+	2. User selects, “Search by name”
+	3. App presents “Search by name” page with a search bar at the top and an alphabetically ordered list of
+	   drinks with their average user rating below it
+	4. Case A, user selects one of the drinks
+		a. App displays “Drink Info Page” for selected drink with ingredients as well as ‘back’ and ‘home’ buttons
+			i.  Case a, user selects ‘home’
+				1. App returns to “Home Screen”, done.
+			ii. Case b, user selects ‘back’
+				1. App returns back to “Search by Name” page
+    5. Case B, user types a name into the text box and presses search
+		a. Case a, App displays “Results page” with drinks with names containing words in the user’s search
+			i.  Case a, user selects one of the drinks
+				1. App displays “Drink Info Page” for the selected drink
+			ii.  Case b, user selects ‘back’
+				1. App displays “Search by Name” page
+			iii. Case c, user selects ‘home’
+				1. App returns to “Home Screen”, done.
+		b. Case b, App displays “No Results Found” on the “Search by Name” page
+			i.  Case a, user re-enters a search name and selects the Search button which restarts Case B
+			ii. Case b, user selects ‘back’ or ‘home’
+				1. App returns to “Home Screen”, done.
+
+Case 5, a user wants to search for a drink by category
+	1. User starts app, “Home Screen” appears
+	2. User selects, “Search by Category”
+	3. App presents “Search by Category” page with list of different types of drink categories
+		a. Case A, user selects one of the categories
+			i.   App presents “Results Page” with drinks that are in the selected category and are ordered by
+				 highest predicted rating for the user
+			ii.  User can select one of the drinks to view its “Drink Info Page”
+			iii. User can select the ‘start over’ button to return to the “Results Page” to look at other drinks
+		b. Case B, user selects ‘back’
+			i. App returns to “Home Screen”
+
+
+Case 6, a user wants to look at their favorite drinks so they can drink one of them again
+	1. User starts app, “Home Screen” appears
+	2. User selects, “Favorite Drinks List”
+	3. App presents “Favorite Drinks List” page with the drinks the user added to their Favorite Drinks List and the
+	   rating they gave it. Drinks are ordered by highest rating
+		a. Case A, user selects one of the drinks
+			i. App displays “Drink Info Page” for selected drink with ingredients as well as ‘back’ and ‘home’ buttons
+				1. Case a, user selects ‘home’
+					a. App returns to “Home Screen”, done.
+				2. Case b, user selects ‘back to results’
+					a. App returns back to “Browse All Drinks” page
+		b. Case B, user selects ‘Back to Menu’ button
+			i. App returns to “Home Screen”
+
