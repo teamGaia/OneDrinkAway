@@ -66,9 +66,7 @@ public abstract class OneDrinkAwayActivity extends ActionBarActivity {
 			goHomeIntent.setFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
 			finish();
 			startActivity(goHomeIntent);
-		} else if (id == R.id.action_secret) {
-			startActivity(new Intent(this, NewUserRatingActivity.class));
-		}
+		} 
 		return super.onOptionsItemSelected(item);
 	}
 	
