@@ -1,15 +1,22 @@
 package com.onedrinkaway.app;
 
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+
+import android.annotation.SuppressLint;
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
-import android.text.TextUtils;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.view.Gravity;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.ArrayAdapter;
+import android.widget.EditText;
 import android.widget.ListView;
-import android.widget.SearchView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -25,12 +32,8 @@ import com.onedrinkaway.model.DrinkModel;
  * @author Taylor Juve
  *
  */
-public class SearchByName extends OneDrinkAwayActivity implements SearchView.OnQueryTextListener {
-    private String[] drinkNames;
-    
-	private ListView listView;
-	
-	private ArrayAdapter<String> adapter;
+public class SearchByName extends OneDrinkAwayActivity {
+    private NameArrayAdapter myArrayAdapter;
 
 	/**
 	 * Creates the view of the search by name page
@@ -38,37 +41,66 @@ public class SearchByName extends OneDrinkAwayActivity implements SearchView.OnQ
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        drinkNames  = DrinkModel.getDrinkNames();
         
         helpID = R.string.search_by_name_help;
         setContentView(R.layout.activity_search_by_name);
-        setupSearchView();
+        setupSearchBox();
         setupListView();
     }
     
-    /**
-     * Sets up the search text view box
-     */
-    private void setupSearchView() {
-    	SearchView srchView = (SearchView) findViewById(R.id.search_view);
-        srchView.setIconifiedByDefault(false);
-        srchView.setOnQueryTextListener(this);
-        srchView.setSubmitButtonEnabled(false);
-        srchView.setQueryHint("Enter Name Here");
+	/**
+	 * Displays the Search Box that appears at the top of the screen
+	 */
+    private void setupSearchBox() {
+    	EditText searchBox = (EditText) findViewById(R.id.search_by_name_edit_text);
+    	// A TextWatcher is a listener for the searchBox
+        searchBox.addTextChangedListener(new TextWatcher() {
+        	 
+        	/**
+        	 * When a user enters text in the text box, this filters the list of names
+        	 * to display
+        	 */
+        	 public void onTextChanged(CharSequence s, int start, int before, int count) {
+        		 //get the text in the EditText
+        		 myArrayAdapter.filterNames(s);
+        		 if (myArrayAdapter.getCount() == 0) {
+        			Toast toast = Toast.makeText(getApplicationContext(),
+        										 "No drinks named \"" + s + "\"", Toast.LENGTH_SHORT);
+        			toast.setGravity(Gravity.TOP, 0, 170);
+        			toast.show();
+        		 }
+        	 }
+
+        	 @Override
+        	 public void beforeTextChanged(CharSequence s, int start, int count,
+        	     int after) {
+        	 }
+
+        	 @Override
+        	 public void afterTextChanged(Editable arg0) {
+	        		 // TODO Auto-generated method stub
+        	 }
+        });
+       
     }
     
     /**
-     * Sets a filterable list view of all of the drinks
+     * Displays the list of names to choose from in a scrolling list view
      */
     private void setupListView() {
-    	listView = (ListView) findViewById(R.id.list_view);
-    	adapter = new ArrayAdapter<String>(this,
-				 R.layout.oda_list_item,
-				 R.id.list_item,
-				 drinkNames);
-        listView.setAdapter(adapter);
+    	ListView listView = (ListView) findViewById(R.id.list_view);
+    	List<String> nameList = new ArrayList<String>();
+    	nameList.addAll(Arrays.asList(DrinkModel.getDrinkNames()));
+    	myArrayAdapter = new NameArrayAdapter(
+    	          this,
+    	          R.layout.oda_list_item,
+    	          R.id.list_item,
+    	          nameList
+    	          );
+        
+        listView.setAdapter(myArrayAdapter);
         listView.setTextFilterEnabled(true);
-
+        
         listView.setOnItemClickListener(new OnItemClickListener() {
 
             @Override
@@ -78,10 +110,6 @@ public class SearchByName extends OneDrinkAwayActivity implements SearchView.OnQ
             }
 
         });
-        /*
-        View empty = getLayoutInflater().inflate(R.layout.empty_text_view, null);
-        ((ViewGroup) listView.getParent()).addView(empty, new LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.MATCH_PARENT));
-        listView.setEmptyView(empty);*/
     }
 
     /**
@@ -96,34 +124,41 @@ public class SearchByName extends OneDrinkAwayActivity implements SearchView.OnQ
     	startActivity(intent);
     }
 
-    /**
-     * Resets the filter of the drinks when the text in the search box changes
-     */
-    public boolean onQueryTextChange(String newText) {
-        if (TextUtils.isEmpty(newText)) {
-            listView.clearTextFilter();
-        } else {
-            listView.setFilterText(newText.toString());
-            listView.post(new Runnable() {
-                public void run() {
-                    if (listView.getLastVisiblePosition() == -1) {
-                    	Toast toast = Toast.makeText(getApplicationContext(),
-        	                     "No drinks by that name!", Toast.LENGTH_SHORT);
-                    	toast.setGravity(Gravity.TOP, 0, 150);
-                    	toast.show();
-                    }
-                }
-            });
-        }
-        return true;
-    }
+    public class NameArrayAdapter extends ArrayAdapter<String> {
+    	// The context (or activity) that is using this adapter
+    	//private Context context;
+    	
 
-    /**
-     * Removes the submit query button from the search box when this
-     * returns false
-     */
-    public boolean onQueryTextSubmit(String query) {
-        return false;
+    	// All of the ingredients
+    	private List<String> allNames;
+
+        public NameArrayAdapter(Context context, int resource, int textViewResourceId, List<String> objects) {
+        	super(context, resource, textViewResourceId, objects);
+        	//this.context = context;
+            allNames = new ArrayList<String>();
+        	allNames.addAll(objects);
+        }
+
+    	/**
+    	 * Filters the names to display in the list based on the user-typed constraint
+    	 * @param constraint the user's text in the Search Box
+    	 */
+    	@SuppressLint("DefaultLocale")
+    	public void filterNames(CharSequence constraint) {
+    		// clear all of the name to display
+    		clear();
+
+    		constraint = constraint.toString().toLowerCase();
+    		for (int i = 0; i < allNames.size(); i++) {
+    			// check each name in the list to see if it starts with this constraint
+    			String name = allNames.get(i);
+    			if (name.toLowerCase().startsWith(constraint.toString()))  {
+    				// display this ingredient
+    				add(name);
+    			}
+    		}
+    		notifyDataSetChanged();
+    	}
     }
 }
 
