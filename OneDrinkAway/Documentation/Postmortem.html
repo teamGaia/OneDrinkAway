@@ -1,0 +1,49 @@
+<h1>OneDrinkAway</h1>
+<h1>Team Gaia</h1>
+<h1>Portmortem</h1>
+<hr />
+<h2>Features and Cuts</h2>
+<p>Have you completed the major functionality and features listed in your original SRS?<br />
+Yes, we have completed all of the major features listed in our SRS.</p>
+
+<p>What about the extra features and frills you listed? If not, why not?<br />
+We did not complete any of our stretch features because we felt that having a polished application that performs it’s core functionality well and reliably was more important than having a buggy application with several features that would only affect a small portion of our users. For example, one of our stretch features was to include whether or not a drink was gluten or lactose free. However, this feature would only be useful to a small portion of our users as less than 1% of the US population is gluten intolerant and the drinks that have lactose in them are easy to identify by the ingredient list. Adding user created drinks to the database was another stretch feature but we felt that the potential impact on users from bogus drinks would be too great. As an alternative to this, we made sure that adding drinks to the database as a developer was as easy as possible which allows the database to grow as time goes on.
+</p>
+
+<p>Did you add any additional features that were not listed in the SRS?<br />
+Yes, we implemented an Advanced Search feature that combines Search By Flavor, Search By Ingredient, and Search By Category. We also added the functionality that the app remembers the user’s favorites and ratings if they uninstall the app and then reinstall. Another feature we added was the ability for the app to work without an internet connection.
+</p>
+
+<p>What features did you cut to help you complete the project in time, and why did you choose these to be cut? How much work do you estimate you saved by cutting these features?<br />
+We did not cut any features, we were able to implement every feature that we documented in our SRS.
+<p>
+
+<h2>Task assignments</h2>
+<p>What ended up being your team members' current roles?<br />
+	Phoenix implemented the machine learning algorithm and began writing some tests, but once he left the group, James became the tester. James also was in charge of the DrinkModel which handled all interactions between the UI and database. John implemented the database, web server and the data structure classes (DrinkData, DrinkDb). He also made our product webpage. Andrea, Nicole, and Taylor completed the Android application. They were responsible for updating our paper prototypes and most of the SRS. Andrea implemented the Drink Info Page, Favorite Drinks list, Results Page, added the images for each drink, made custom rating bars for user/predicted ratings, and helped with new user pages. Nicole implemented Search by Flavors, Search by Ingredients, and the new user dialogs. Taylor implemented Search by Name, Search by Category, Advanced Search, and made rating bars refresh to show your updated ratings.
+Nicole and Andrea were responsible for user documentation, while John, James, and Taylor worked on the developer documentation. Everyone contributed to our SRS and SDS.
+<p>
+
+<p>
+What occupied the majority of each team member's time and workload?<br />
+Nicole: Most of Nicole’s time was spent on the SRS and SDS, as well as implementing Search by Flavors and Search by Ingredients. Search by Ingredients took a week to fix.
+James: Most of James’s time was taken up by functional requests made by the UI team as well as writing unit tests for all of the android classes as well as the normal java classes.
+John: Most of John’s time was spent developing DrinkData, the web server (DrinkDbServer), data collection and documentation (website, developer docs etc).
+Andrea: Most of Andrea’s time was spent on SRS, SDS, the Drink Info page, adding drink and glass images, creating custom rating bars, and formatting pages.
+Taylor: Most of Taylor’s time was spent learning the Android SDK in order to implement and debug OneDrinkAwayActivity, SearchByName, SearchByCategory, AdvancedSearch, and some of the HomePage and NewUserActivity.
+</p>
+
+<p>How does this differ from your original expectations and specs?<br />
+	Originally we thought each person would be testers, but the UI and database took more time than expected. James worked on the model at the beginning but that took less time than expected and so spent the remainder writing unit tests. We also expected that James would work on machine learning with Pheonix, but Pheonix implemented most of the machine learning on his own so James devoted his time to the model and unit tests.
+	We had originally planned for the app to communicate directly with the database, but discovered a web server would needed to work as a proxy between the app and database. This was an additional project that John worked on.
+</p>
+
+<p>
+Where did you spend too much time, and why?<br />
+	We spent too much time getting simple things in the UI to work. Since we are all new to Android, a lot of time was spent looking things up on Stack Overflow trying to get answers for how to get things to display and work properly. We also spent too much time on the DrinkModel. It didn’t take long to implement but too much time was spent tweaking it that could have been spent on other tasks. The planning for the machine learning took way too long. It took several meetings before the architecture for the machine learning was decided on when it should have just taken one or two.
+</p>
+
+<p>
+Where did you spend too little time, and why?<br />
+	We spent too little time writing tests for the UI because we were trying to get all of our features functioning and creating Android system tests proved to be harder to learn than we originally thought. 
+</p>

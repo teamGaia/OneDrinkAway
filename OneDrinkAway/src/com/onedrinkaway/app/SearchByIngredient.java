@@ -118,7 +118,7 @@ public class SearchByIngredient extends OneDrinkAwayActivity {
     	} else {
     		// go to results page
         	Intent intent = new Intent(this, ResultsPage.class);
-        	intent.putExtra("title", "Results");
+        	intent.putExtra("title", "Ingredient Results");
     		startActivity(intent);
     	}
     }

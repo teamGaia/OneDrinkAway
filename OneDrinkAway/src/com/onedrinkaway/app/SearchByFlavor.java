@@ -108,7 +108,7 @@ public class SearchByFlavor extends OneDrinkAwayActivity {
 
 		} else { 
 	    	Intent intent = new Intent(this, ResultsPage.class);
-	    	intent.putExtra("title", "Results");
+	    	intent.putExtra("title", "Flavor Results");
 			startActivity(intent);
 		}
 	}
