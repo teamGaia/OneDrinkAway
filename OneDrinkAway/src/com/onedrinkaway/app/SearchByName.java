@@ -83,6 +83,7 @@ public class SearchByName extends OneDrinkAwayActivity implements SearchView.OnQ
     	finish();
     	Intent intent = new Intent(this, DrinkInfoPage.class);
     	intent.putExtra("drink", name);
+    	intent.putExtra("prevActivity", "SearchByName");
     	startActivity(intent);
     }
 

@@ -236,7 +236,7 @@ public class DrinkInfoPage extends OneDrinkAwayActivity {
 
 		return super.onOptionsItemSelected(item);
 	}
-	
+
 	/**
 	 * Delegates action if back button is pressed.
 	 */
@@ -248,7 +248,7 @@ public class DrinkInfoPage extends OneDrinkAwayActivity {
 			Intent i = new Intent(this, ResultsPage.class);
 			i.putExtra("title", "Results");
 			startActivity(i);
-		} else {
+		} else if (prevActivity != null && prevActivity.equals("SearchByName")) {
 			startActivity(new Intent(this, SearchByName.class));
 		}
 	}
