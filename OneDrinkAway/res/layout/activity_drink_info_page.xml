@@ -28,47 +28,49 @@
 
         <TextView
             android:id="@+id/drink_info_ingredients"
-            android:layout_width="match_parent"
+            android:layout_width="fill_parent"
             android:layout_height="wrap_content"
             android:layout_gravity="center_horizontal"
-            android:layout_weight="1"
+            android:layout_weight="1.2"
              android:paddingRight="10dp"
 		    android:textSize="16sp"
             android:text="@string/ingredients"
              />
         
           <LinearLayout 
-            android:layout_width="match_parent"
+            android:layout_width="fill_parent"
         	android:layout_height="wrap_content"
-        	android:orientation="vertical"
-        	android:layout_weight="1.2"
+        	android:orientation="horizontal"
+        	android:layout_weight="1"
         	android:layout_marginRight="10dp"
               >
-             <ImageView
+              
+              
+            <ImageView
             android:id="@+id/drink_info_glass_type"
-            android:layout_width="fill_parent"
-            android:layout_height="wrap_content"
+            android:layout_width="150dp"
+            android:layout_height="150dp"
             android:scaleType="fitXY"
             android:adjustViewBounds="true"
-            android:layout_gravity="center_horizontal"
             android:src="@drawable/rocks_glass"
             
             
              />
-             
-             <Button 
+              <ImageView
              android:id="@+id/drink_info_add_to_favorites"
-             android:layout_width="fill_parent"
-             android:layout_height="wrap_content"
-             android:layout_gravity="center_horizontal"
-             android:layout_marginTop="5dp"
-             android:paddingLeft = "10dp"
-             android:paddingRight="10dp"
-             android:text="@string/add_to_favorites"
-             style="?android:attr/buttonStyleSmall"
+             android:layout_width="30dp"
+             android:layout_height="30dp"
+             android:scaleType="centerInside"
+             android:layout_gravity="right"
+             android:clickable="true"
+             android:src="@drawable/red_heart_unfilled"
+             
              
                  
                  /> 
+            
+             
+             
               
               
           </LinearLayout>  
