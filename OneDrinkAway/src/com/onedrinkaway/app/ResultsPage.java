@@ -25,6 +25,7 @@ import com.onedrinkaway.model.DrinkModel;
  */
 public class ResultsPage extends OneDrinkAwayActivity {
 	private boolean isTrySomethingNew;
+	private String title;
 	
 	/**
 	 * Creates and fills the view of the Results page with the dynamic results
@@ -44,7 +45,7 @@ public class ResultsPage extends OneDrinkAwayActivity {
 	
 	@SuppressLint("NewApi")
 	private void setTitle(Bundle extras) {
-		String title = extras.getString("title");
+		title = extras.getString("title");
 		if(title != null) {
 			if (title.equals("New Drinks Just For You")) {
 				isTrySomethingNew = true;
@@ -168,7 +169,7 @@ public class ResultsPage extends OneDrinkAwayActivity {
 		finish();
 		Intent intent = new Intent(this, DrinkInfoPage.class);
 		intent.putExtra("drink", drink.name);
-		intent.putExtra("prevActivity", "ResultsPage");
+		intent.putExtra("prevActivity", title);
 		startActivity(intent);
 	}
 

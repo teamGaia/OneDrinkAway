@@ -113,6 +113,7 @@ public class SearchByCategory extends OneDrinkAwayActivity {
 		if (drinksFound) {
 		    // hurray found at least one drink, go to ResultsPage
 		    intent.putExtra("title", categoryName);
+		    intent.putExtra("prevActivity", "SearchByCategory");
 		    startActivity(intent);
 		} else {
 			Toast.makeText(getApplicationContext(), "No results found!", Toast.LENGTH_LONG).show();
