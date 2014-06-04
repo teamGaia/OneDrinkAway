@@ -51,7 +51,7 @@ public class IngredientFragment extends Fragment {
        searchBox.addTextChangedListener(new TextWatcher() {
        	 
        	/**
-       	 * When a user enters text in the text box, this filters the list of ingedients
+       	 * When a user enters text in the text box, this filters the list of ingredients
        	 * to display
        	 */
        	 public void onTextChanged(CharSequence s, int start, int before, int count) {
@@ -84,7 +84,8 @@ public class IngredientFragment extends Fragment {
 			   R.layout.oda_ingredient_item,
 			   R.id.ingredient_check_box,
 			   ingredientsList,
-			   listView
+			   listView,
+			   (AdvancedSearch) getActivity()
 			   );
 
 	   listView.setAdapter(myArrayAdapter);

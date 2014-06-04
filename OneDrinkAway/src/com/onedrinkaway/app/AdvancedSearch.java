@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.FragmentTabHost;
 import android.util.Log;
+import android.view.Gravity;
 import android.view.View;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -93,7 +94,9 @@ public class AdvancedSearch extends OneDrinkAwayActivity {
 			goToResults.putExtra("title", "Results");
 		    startActivity(goToResults);
 		} else {
-			Toast.makeText(getApplicationContext(), "No results found!", Toast.LENGTH_LONG).show();
+			Toast toast = Toast.makeText(getApplicationContext(), "No results found!", Toast.LENGTH_LONG);
+			toast.setGravity(Gravity.TOP, 0, 170);
+        	toast.show();
 		}
 	}
 }

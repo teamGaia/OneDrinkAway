@@ -393,7 +393,6 @@ Milestones:
 				- Formatted Drink Info Page
 				- First iteration of Machine Learning Algorithms is implemented
  
- 
         	
 			5/23/14 (Feature-complete Release)
 				- Search by Flavors (implement functionality)
@@ -406,14 +405,23 @@ Milestones:
 				- Removal from Favorite’s list is implemented
 				- User information is saved in between closing and restarting the app
  
+ 
          	5/30/14 (Release candidate)
 				- Final UI that is as appealing and intuitive as possible
 				- Full suite of System Tests are implemented (Android system tests)
-				- Database populated with complete dataset
-				- Improved UI: Stock Android icons replaced with our own
+				- Advanced Search fully functional
+				- Search by Ingredient fully functional
+				- Web Server implemented and relatively bug free
+				- Database tracks user ratings for overall averages
+				- Generic and unique drink images added
+				- Database populated with almost complete dataset
 				- All bugs that we could track are fixed
 				- Update our categories in the database so that they are no longer just shooter and shaken
  
+ 
+			6/04/14 (1.0 Release)
+				- Database has complete dataset
+				- Last minute bug fixing
  
 
 **Team structure

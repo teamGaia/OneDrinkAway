@@ -92,7 +92,8 @@ public class SearchByIngredient extends OneDrinkAwayActivity {
     	          R.layout.oda_ingredient_item,
     	          R.id.ingredient_check_box,
     	          ingredientsList,
-    	          listView
+    	          listView,
+    	          null
     	          );
         
         listView.setAdapter(myArrayAdapter);

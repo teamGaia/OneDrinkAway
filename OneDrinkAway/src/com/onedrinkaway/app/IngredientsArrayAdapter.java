@@ -41,8 +41,12 @@ public class IngredientsArrayAdapter extends ArrayAdapter<String> {
 	
 	// The list containing all of the ingredients to search by
 	private ListView listView;
+	
+	// whether or not this is used for advanced search
+	private AdvancedSearch as;
 
-    public IngredientsArrayAdapter(Context context, int resource, int textViewResourceId, List<String> objects, ListView listView) {
+    public IngredientsArrayAdapter(Context context, int resource, int textViewResourceId,
+    								List<String> objects, ListView listView, AdvancedSearch as) {
     	super(context, resource, textViewResourceId, objects); 
     	myChecked = new HashMap<String, Boolean>();
     	this.context = context;
@@ -51,6 +55,7 @@ public class IngredientsArrayAdapter extends ArrayAdapter<String> {
         allIngredients = new ArrayList<String>();
     	allIngredients.addAll(objects);
     	this.listView = listView;
+    	this.as = as;
     	
     	// initially put all checkboxes as un-checked
     	for (int i = 0; i < objects.size(); i++) {
@@ -136,6 +141,12 @@ public class IngredientsArrayAdapter extends ArrayAdapter<String> {
 			    toggleChecked(ingredient);
 				Boolean checked = myChecked.get(ingredient);
 				listView.setItemChecked(ingredientPosition.get(ingredient), checked);
+				if (as != null) {
+					if (checked)
+						as.query.add(ingredient);
+					else
+						as.query.remove(ingredient);
+				}
 			}
 			
 		});
