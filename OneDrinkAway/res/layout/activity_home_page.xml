@@ -13,21 +13,7 @@
 		android:layout_marginTop="15dp"
         android:orientation="horizontal" 
         android:layout_weight="1" >
-
-        <TextView
-            android:id="@+id/search_by_name"
-            android:layout_width="0dip"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:layout_weight="1"
-            android:drawablePadding="5dp"
-            android:drawableTop="@drawable/logo_simple_glass"
-            android:gravity="center_horizontal"
-            android:text="@string/search_by_name"
-            android:textSize="18sp"
-            android:onClick="goToActivity"
-			android:clickable="true" />
-
+		
         <TextView
             android:id="@+id/search_by_category"
             android:layout_width="0dip"
@@ -38,6 +24,20 @@
             android:drawableTop="@drawable/home_search_by_category"
             android:gravity="center_horizontal"
             android:text="@string/search_by_category" 
+            android:textSize="18sp"
+            android:onClick="goToActivity"
+            android:clickable="true" />
+        
+        <TextView
+            android:id="@+id/search_by_flavor"
+            android:layout_width="0dip"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_weight="1"
+            android:drawablePadding="5dp"
+            android:drawableTop="@drawable/home_search_by_flavor"
+            android:gravity="center_horizontal"
+            android:text="@string/search_by_flavor" 
             android:textSize="18sp"
             android:onClick="goToActivity"
             android:clickable="true" />
@@ -65,19 +65,19 @@
         android:layout_weight="1" >
 
         <TextView
-            android:id="@+id/search_by_flavor"
+            android:id="@+id/search_by_name"
             android:layout_width="0dip"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
             android:layout_weight="1"
             android:drawablePadding="5dp"
-            android:drawableTop="@drawable/home_search_by_flavor"
+            android:drawableTop="@drawable/logo_simple_glass"
             android:gravity="center_horizontal"
-            android:text="@string/search_by_flavor" 
+            android:text="@string/search_by_name"
             android:textSize="18sp"
             android:onClick="goToActivity"
-            android:clickable="true" />
-
+			android:clickable="true" />
+        
         <TextView
             android:id="@+id/favorites"
             android:layout_width="0dip"

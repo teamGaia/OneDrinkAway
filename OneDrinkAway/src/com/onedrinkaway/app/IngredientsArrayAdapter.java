@@ -13,6 +13,7 @@ import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.CheckedTextView;
 import android.widget.ListView;
+import android.widget.Toast;
 
 import com.onedrinkaway.R;
 
@@ -177,5 +178,15 @@ public class IngredientsArrayAdapter extends ArrayAdapter<String> {
 			}
 		}
 		notifyDataSetChanged();
+	}
+	
+	/**
+	 * Returns the position of the given ingredient in the ListView
+	 * @param ingr - String containing name of ingredient
+	 * @return an int representing the position (0-based) of the 
+	 * given ingredient in the ListView or null if not found
+	 */
+	public int getIngredientPosition(String ingr) {
+		return ingredientPosition.get(ingr);
 	}
 }
