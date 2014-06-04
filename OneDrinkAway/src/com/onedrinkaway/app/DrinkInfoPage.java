@@ -67,12 +67,35 @@ public class DrinkInfoPage extends OneDrinkAwayActivity {
 			setGlassPicture();
 			addSeekBarsToView();
 			setRatingBar();
-			Button addToFavoritesButton = (Button) findViewById(R.id.drink_info_add_to_favorites);
-			// Add Listener to Add To Favorites button
-			addToFavoritesButton
-					.setOnClickListener(new AddToFavoritesButtonListener());
+			displayFavoritesButton();
+			
 
 		}
+	}
+	
+	/**
+	 * Displays Add To Favorites button if the drink is not already on the user's 
+	 * favorite drink list
+	 */
+	private void displayFavoritesButton() {
+		// Add Listener to Add To Favorites button
+		Button addToFavoritesButton = 
+				(Button) findViewById(R.id.drink_info_add_to_favorites);
+		
+		Drink[] favoritesList = DrinkModel.getFavorites();
+		boolean favorited = false;
+		for(Drink favDrink: favoritesList) {
+			if(favDrink.equals(drink)) 
+				favorited = true;
+			
+		}
+		if(favorited) {
+			addToFavoritesButton.setText("One Of Your Favorites");
+			addToFavoritesButton.setClickable(false);
+		} else {
+			addToFavoritesButton.setOnClickListener(new AddToFavoritesButtonListener());
+		}
+		
 	}
 	
 	/**
@@ -172,11 +195,16 @@ public class DrinkInfoPage extends OneDrinkAwayActivity {
 	public class AddToFavoritesButtonListener implements OnClickListener {
 
 		@Override
-		public void onClick(View arg0) {
+		public void onClick(View button) {
 			DrinkModel.addFavorite(drink);
 			Toast.makeText(getApplicationContext(),
 					drink.name + " was added to your favorites",
 					Toast.LENGTH_LONG).show();
+			
+			Button addToFavoritesButton = 
+					(Button) findViewById(R.id.drink_info_add_to_favorites);
+			addToFavoritesButton.setText("One Of Your Favorites");
+			addToFavoritesButton.setClickable(false);
 		}
 	}
 
