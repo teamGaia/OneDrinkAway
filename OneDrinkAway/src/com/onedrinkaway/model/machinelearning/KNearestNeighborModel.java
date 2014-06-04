@@ -8,7 +8,11 @@
 
 package com.onedrinkaway.model.machinelearning;
 
-import java.util.*;
+import java.util.Comparator;
+import java.util.List;
+import java.util.PriorityQueue;
+import java.util.Queue;
+
 import com.onedrinkaway.model.Drink;
 
 public class KNearestNeighborModel implements MLModel {
