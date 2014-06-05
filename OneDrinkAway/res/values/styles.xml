@@ -17,6 +17,14 @@
         <!-- All customizations that are NOT specific to a particular API-level can go here. -->
     </style>
     
+    <style name="AppThemeNoBar" parent="Theme.AppCompat.Light.DarkActionBar">
+        <item name="android:windowNoTitle">true</item>
+	</style>
+	
+	<style name="AppThemeBar" parent="Theme.AppCompat.Light.DarkActionBar">
+        <item name="android:windowNoTitle">false</item>
+	</style>
+    
     
 
     <style name="RedRatingBar" parent="@android:style/Widget.RatingBar">
