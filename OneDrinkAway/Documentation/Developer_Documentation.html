@@ -1,4 +1,73 @@
-<h1>Developer Documentation - OneDrinkAway Release Candidate</h1>
+Documentation for Developers
+Setup:
+Before proceeding, make sure you have the Android SDK Installed.
+
+If you haven't previously run an android application from Eclipse, you will need to setup an 
+Android virtual device (avd), or plug an android device into your computer and run the application 
+on it. The avd is quite slow, so we recommend an actual android device.
+
+How to setup an Android virtual device: http://developer.android.com/sdk/index.html?hl=sk
+
+To use your own android device, you simply need to enable usb debugging in your settings menu, 
+plug the phone into your computer and run an android application. The usb debugging option is 
+hard to find on some devices, so use google if you cannot find it.
+
+Our application requires the appcompat_v7 library, so please download the zip if you do not 
+have it already.
+
+Next, visit our download page: http://www.onedrinkaway.ava4.net/downloadPage.php to find the 
+latest source code release.
+
+Now import both projects into eclipse.
+
+You will need to make sure eclipse knows that appcompat_v7 is a library, 
+so right click on appcompat_v7 in the project explorer, then click properties > Android and 
+verify that "is Library" is selected. Press ok, and right click on OneDrinkAway, 
+then click properties > Android. In the Library window, you may see a Reference named ../../../.. 
+with a red X next to it. If you do, select it and remove it. Then click Add, and add appcompat_v7 
+as a library. Press Ok and the project should be ready to run.
+
+Eclipse will automatically build the project for you, simply select the OneDrinkAway project 
+in the Package Explorer, then select Project and enable 'Build Automatically'. To run our build
+script from a terminal, execute build.bat which is located in the OneDrinkAway project.
+
+To run our test suite, in src/com.onedrinkaway.test, open TestSuite.java. 
+Click Run > Run as > Android JUnit Test.
+
+The installable version of an Android application is a .apk file. Eclipse automatically 
+generates the apk for a project when it is run. The apk can be found in the bin folder 
+of the project after it has been built and run. To install the program on an android device, 
+simply copy the apk to it, navigate to the apk in a file explorer and select it. Android will 
+install the program, and it can then be found in the device's launcher.
+
+If you have developed additional features in the OneDrinkAway app, you are welcome to 
+submit your changes to our project. First, generate a full suite of tests for the new features 
+you have implemented, similarly to the tests found in the test package. Then export the project 
+as a zip or tar, and send it to cse403gaia@u.washington.edu. A member of our team will 
+get in contact with you regarding your work.
+
+Our source code repository can be found here: https://github.com/teamGaia/OneDrinkAway
+
+Directory Structure:
+
+OneDrinkAway - Main project directory containing all code and resources
+	documentation - stores documents for users and developers
+	src - stores packages that contain source code
+		com
+			onedrinkaway
+				app - stores source code for android app
+				common - stores source code for classes used by other packages
+				db - stores source code for the database
+				machinelearning - stores source code for ML
+				test - test suites for all packages
+	res - stores resources files
+		drawable-* - stores .png icons of various sizes.
+		layout - stores XML files defining the layout of the app's UI
+		menu - stores XML files defining the layout of the app's action bar
+		values-* - stores variable names and values
+	gen - stores generated files for all resources defined in res folder
+	.settings - stores preferences file
+<h1>Developer Documentation - OneDrinkAway 1.0 Release</h1>
 
 <h2>Setup</h2>
 
@@ -145,13 +214,13 @@
 
 <p>Currently our code coverage for our tests is as follows (broken down by packages):</p>
 
-<p>OneDrinkAway.app: 0.00%</p>
+<p>OneDrinkAway.app: 90.00%</p>
 
 <p>OneDrinkAway.model:89.9%</p>
 
 <p>OneDrinkAway.model.machinelearning:100%</p>
 
-<p>OneDrinkAway.db: 85.6%</p>
+<p>OneDrinkAway.db: 95.6%</p>
 
 <p>These numbers are obtained by using the EclEmma plugin for Eclispe with the UnitTests project. Unfortunately, this tool only supports jUnit tests, which can’t run Android JUnit tests which is why the OneDrinkAway.app coverage is 0.0%. Our AndroidUnitTest project contains a few Android Junit tests that test some of the UI classes in but due to time constraints these tests are not nearly as comprehensive as we would like. For the release candidate, we plan on having much more of the UI and functionality of our app covered by tests. We also plan on finding a code coverage tool that supports Android Junit tests.This will give  a much better idea of what areas we need to cover better with tests.</p>
 
@@ -197,11 +266,39 @@
 
 <h2>Updating the Database</h2>
 
-<p>We have a tool "UpdateDrinks" located in our DrinkUtility project, which automates modifying data in our database. It is important to note that using this tool drops all categories, drinks and ingredients from the database. Only run this when you are certain that the data in the files is correct. All our drink info is located in the tab separated spreadsheet "drinks.tsv" and our Recipes are located in "Recipes.txt". Both of these can found in the DrinkUtility Project. Modify the files, as then run UpdateDrinks. If some drinks are missing recipes, it will print those names to standard out and halt. If all drinks have recipes, it will go ahead and update the ingredient, category and drink tables in the database.</p>
+<p>We have a tool named UpdateDrinks located in our DrinkUtility project, which automates modifying data in our database. It is important to note that using this tool drops all categories, drinks and ingredients from the database. Only run this when you are certain that the data in the files is correct. All our drink info is located in the tab separated spreadsheet "drinks.tsv" and our Recipes are located in "Recipes.txt". Both of these can found in the DrinkUtility Project. Modify the files, as then run UpdateDrinks. If some drinks are missing recipes, it will print those names to standard out and halt. If all drinks have recipes, it will go ahead and update the ingredient, category and drink tables in the database.</p>
 
 <h2>Updating DrinkData Startup Image</h2>
 
 <p>When the app starts, it loads a serialized image of DrinkData from the assets folder in OneDrinkAway. The app then attempts to update DrinkData from database info. If you want to update the serialized startup image, run the SaveDrinkData program in DrinkUtility. Then copy drinkdata.ser from DrinkUtility to the assets folder of OneDrinkAway.</p>
+
+<h2>Adding and Updating Drink Images Within the App</h2>
+
+<p>1) Change the image field of the drink in the database to the exact name that you will name your new image file, but leave off the “.png” appendage. Be sure to not include capital letters, Android is picky about those. For naming conventions we are using: underscores_between_words. For generic drink images, they should be glassname_color, such as rocks_brown or martini_clear.</p>
+
+<p>2) The final image you submit must be in .png format. Make sure the background of the drink image is transparent, none of the drink images have backgrounds. </p>
+
+<p>3) You will need 4 different sizes of the same image, and they must all have the same name. We are using the Android launcher icon proportions. This is so that the app can support different screen resolutions. You will need:
+<ul>
+    <li>A) 146px x 146px</li>
+    <li>B) 96px x 96px </li>
+    <li>C) 72px x 72px </li>
+    <li>D) 48px x 48px </li>
+</ul>
+</p>
+
+<p>4) Go into OneDrinkAway/res and there are four different folders corresponding to the different sizes:
+<ul>
+    <li>A) drawable-xxhdpi (extra-extra high 146px x 146px)</li>
+    <li>B) drawable-xhdpi (extra-high 96px x 96px)</li>
+    <li>C) drawable-hdpi (high 72px x 72px) </li>
+    <li>D) drawable-mdpi (medium 48px x 48px) </li>
+</ul>
+Put each image from step three into its corresponding folder.
+Do not put any pictures in the drawable folder, that is just for .xml files </p>
+
+<p>5) Run the app and check that your changes have been made. If there is a generic glass picture for the drink image that you have updated, then something has gone wrong somewhere, check your file naming and image name.</p>
+
 
 <h2>Code Coverage Tool</h2>
 
@@ -252,4 +349,44 @@
 <p>Adapter: DrinkDb is an adapter between DrinkData and DrinkModel. It primarily functions as a collection of static classes, maintaining a static pointer to the singleton DrinkData, and passing data from DrinkData to DrinkModel. It will also send updates to the database, updating local and remote storage simultaneously.</p>
 
 
+Our bug tracker can found here:  https://github.com/teamGaia/OneDrinkAway/issues
+The listings under the open tab are the list of outstanding 
+bugs and the listings under the closed tab are the resolved bugs. In order to resolve a bug, you 
+check the checkbox corresponding to the particular bug and hit the close button on the top toolbar.
 
+Daily Build Setup:
+The following instructions assume you have cloned our repository.
+	
+	To set up an automated daily build system, you will 
+	first need to install Jenkins: http://jenkins-ci.org/
+	and follow the instructions to get it set up on your machine. Next you will need to open Jenkins 
+	and change the workspace directory to the OneDrinkAway repository. You do this by clicking 
+	on "Manage Jenkins" -> "Configure System" then clicking on the "Advanced" button in the top 
+	right. Change the "Workspace Root Directory" to point at your local repository.
+
+Now we need to make a new project that will actually run the build. Click "New Item" (top left) and 
+give the project a good name, and select "Build a free-style software project." Click ok then navigate 
+down the page to the "Build" section and "Add build step." Select "Execute Windows Batch Command."
+This will create a text box labeled "Command." Copy and paste: build.bat into the box. To schedule 
+daily builds, check the "Build Periodically" box and then paste: H H 1-31 * * in the "Schedule" text box 
+
+All that is left to do is click save and click on "Build Now" which will compile everything and run 
+tests. The build status will be displayed on the left hand side of the page and detailed information 
+about each build can be examined by clicking on the date next to the build number.
+
+	Our build setup differs from the above step only in that we have email notification in case of a 
+	failed build. To set up email notification, you will need to go to "Configure Project" then under 
+	"Post Build Actions," "Add post-build action" then select "E-mail Notification." Add the desired 
+	email recipients then navigate back to the Jenkins Dashboard. Once there go to 
+	"Manage Jenkins" -> "Configure System" then scroll down to "E-Mail Notification" and hit advanced. 
+	Fill out all the fields with the appropriate information. We use the gmail SMTP server with SMTP 
+	authentication, SSL and port 465 as our SMTP port.
+
+If you have developed additional features in the OneDrinkAway app, you are welcome to submit your changes
+to our project. First, generate a full suite of tests for the new features you have implemented, similarly
+to the tests found in the test package. Then export the project as a zip or tar, and send it to 
+cse403gaia@u.washington.edu. A member of our team will get in contact with you regarding your work.
+
+Database Access:
+We are running Postgres on AWS to store cocktail information as well as aggregate user data. If you need
+access beyond what is provided in the DrinkDb class, please contact us: http://www.onedrinkaway.ava4.net/contact.php
