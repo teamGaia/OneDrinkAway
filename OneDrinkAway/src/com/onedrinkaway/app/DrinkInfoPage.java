@@ -41,6 +41,9 @@ public class DrinkInfoPage extends OneDrinkAwayActivity {
 	private Drink drink;
 	private DrinkInfo drinkInfo;
 	private String prevActivity;
+	private boolean favorited;
+	
+	
 
 	/**
 	 * Creates and fills the layout for the Drink Info Page
@@ -67,12 +70,40 @@ public class DrinkInfoPage extends OneDrinkAwayActivity {
 			setGlassPicture();
 			addSeekBarsToView();
 			setRatingBar();
-			Button addToFavoritesButton = (Button) findViewById(R.id.drink_info_add_to_favorites);
-			// Add Listener to Add To Favorites button
-			addToFavoritesButton
-					.setOnClickListener(new AddToFavoritesButtonListener());
+			displayFavoritesButton();
+			
 
 		}
+	}
+	
+	/**
+	 * Displays Add To Favorites button if the drink is not already on the user's 
+	 * favorite drink list
+	 */
+	private void displayFavoritesButton() {
+		// Add Listener to Add To Favorites button
+		ImageView addToFavoritesImage = 
+				(ImageView) findViewById(R.id.drink_info_add_to_favorites);
+		
+		Drink[] favoritesList = DrinkModel.getFavorites();
+		favorited = false;
+		for(Drink favDrink: favoritesList) {
+			if(favDrink.equals(drink)) 
+				favorited = true;
+				
+		}
+		
+		addToFavoritesImage.setOnClickListener(new AddToFavoritesButtonListener());
+		
+		int imageID;
+		if(favorited) {
+			imageID = getResources().getIdentifier
+					("com.onedrinkaway:drawable/red_heart_filled", null, null);;
+		} else {
+			imageID = getResources().getIdentifier
+					("com.onedrinkaway:drawable/red_heart_unfilled", null, null);
+		}
+		addToFavoritesImage.setImageResource(imageID);
 	}
 	
 	/**
@@ -168,15 +199,33 @@ public class DrinkInfoPage extends OneDrinkAwayActivity {
 				});
 	}
 
-	// The Search button listener for Search By Flavor
+	// On click listener for add to favorites 
 	public class AddToFavoritesButtonListener implements OnClickListener {
-
+		ImageView addToFavoritesImage = 
+				(ImageView) findViewById(R.id.drink_info_add_to_favorites);
 		@Override
-		public void onClick(View arg0) {
-			DrinkModel.addFavorite(drink);
-			Toast.makeText(getApplicationContext(),
-					drink.name + " was added to your favorites",
-					Toast.LENGTH_LONG).show();
+		public void onClick(View button) {
+			int imageID;
+			if(favorited) {
+				DrinkModel.removeFavorite(drink);
+				Toast.makeText(getApplicationContext(), "Drink favorite removed", Toast.LENGTH_LONG).show();
+				imageID = getResources().getIdentifier
+						("com.onedrinkaway:drawable/red_heart_unfilled", null, null);
+				favorited = false;
+				
+				
+			} else {
+				DrinkModel.addFavorite(drink);
+				Toast.makeText(getApplicationContext(),
+						"Drink favorited",
+						Toast.LENGTH_LONG).show();
+				imageID = getResources().getIdentifier
+						("com.onedrinkaway:drawable/red_heart_filled", null, null);
+				favorited = true;
+			}
+			
+			addToFavoritesImage.setImageResource(imageID);
+			
 		}
 	}
 

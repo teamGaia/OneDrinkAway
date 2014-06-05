@@ -30,23 +30,20 @@ public class IngredientFragment extends Fragment {
 	IngredientsArrayAdapter myArrayAdapter;
 	LinearLayout ll;
 	boolean firstTime;
-
+	
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		firstTime = true;
 	}
-
 	/**
 	 * Fills this IngredientFragment view with all content
 	 */
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 		ll = (LinearLayout) inflater.inflate(R.layout.fragment_ingredient, null);
-
 		setupSearchBox();
 	    setupListView();
-
 	    return ll;
    }
    

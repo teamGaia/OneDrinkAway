@@ -9,6 +9,7 @@ import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.View.OnClickListener;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RatingBar;
@@ -24,8 +25,14 @@ import com.onedrinkaway.model.DrinkModel;
  *
  */
 public class ResultsPage extends OneDrinkAwayActivity {
+	public static final int NUM_TO_DISPLAY = 20;
+	
 	private boolean isTrySomethingNew;
 	private String title;
+	private LinearLayout ll;
+	private Drink[] results;
+	private int lastVisibleDrinkIndex;
+	private int buttonID;
 	
 	/**
 	 * Creates and fills the view of the Results page with the dynamic results
@@ -43,6 +50,10 @@ public class ResultsPage extends OneDrinkAwayActivity {
 		}	
 	}
 	
+	/**
+	 * Sets the title of this page to the appropriate type of results
+	 * @param extras the Bundle containing the title we should display
+	 */
 	@SuppressLint("NewApi")
 	private void setTitle(Bundle extras) {
 		title = extras.getString("title");
@@ -61,37 +72,25 @@ public class ResultsPage extends OneDrinkAwayActivity {
 		}
 	}
     
+	/**
+	 * Displays the drinks and their rating bars on the page, as well as a button
+	 * to load more drinks
+	 */
     private void displayResults() {
-    	//Drink[] drinkResults = (Drink[]) extras.get("results"); 
-    	
     	if (isTrySomethingNew) {
     		DrinkModel.findTrySomethingNewDrinks();
     	}
-		Drink[] drinkResults = DrinkModel.getResults();
+		results = DrinkModel.getResults();
 		
-		if(drinkResults != null) { // should never be null, either empty or non-empty right?
+		if(results != null) { // should never be null, either empty or non-empty right?
 			
-			//sort results by name
-			//Arrays.sort(drinkResults, new DrinkRatingComparator());
-			LinearLayout listView = (LinearLayout) findViewById(R.id.results_container);
+			ll = (LinearLayout) findViewById(R.id.results_container);
 			
 			int numDrinks = 0; 
-			for (Drink drink : drinkResults) {
+			for (int i = 0; i < NUM_TO_DISPLAY && i < results.length; i++) {
+				Drink drink = results[i];
 				if (!isTrySomethingNew || (isTrySomethingNew && !drink.getRatingType().equals("user"))) {
-					LayoutInflater inflater = (LayoutInflater) getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-					View listItems = inflater.inflate(R.layout.oda_result_item, null);
-					//Add listener to each drink result
-					LinearLayout resultListClickable = (LinearLayout) listItems.findViewById(R.id.result_wrapper);
-					resultListClickable.setOnClickListener(new ResultDrinkOnClickListener(drink));
-					
-					//Add drink name to each drink result
-					TextView drinklabel = (TextView) listItems.findViewById(R.id.result_title);
-					drinklabel.setText(drink.name);
-					//Add rating bar to show rating for each drink result
-					setRatingBar(listItems, drink);
-					setGlassPicture(listItems, drink);
-					
-					listView.addView(listItems);
+					addDrinkItem(drink);
 					if (isTrySomethingNew) {
 						numDrinks++;
 					}
@@ -100,7 +99,68 @@ public class ResultsPage extends OneDrinkAwayActivity {
 					break;
 				}
 			}
+			
+			lastVisibleDrinkIndex = NUM_TO_DISPLAY;
+			addButton();
 		} 
+    }
+    
+    /**
+     * Adds the "Display More Drinks" button to the bottom of the page if there are more
+     * drinks to display
+     */
+    private void addButton() {
+		if (lastVisibleDrinkIndex < results.length) {
+	
+			Button b = new Button(this);
+			b.setId(buttonID);
+			b.setText("Display More Drinks");
+			b.setOnClickListener(new OnClickListener() {
+				@Override
+				public void onClick(View arg0) {
+					loadMoreResults();
+				}
+			});
+			ll.addView(b);
+		}
+	}
+    
+    /**
+     * Adds this drink to the scroll view to display
+     * @param drink the drink to display
+     */
+    private void addDrinkItem(Drink drink) {
+    	LayoutInflater inflater = (LayoutInflater) getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+		View listItems = inflater.inflate(R.layout.oda_result_item, null);
+		//Add listener to each drink result
+		LinearLayout resultListClickable = (LinearLayout) listItems.findViewById(R.id.result_wrapper);
+		resultListClickable.setOnClickListener(new ResultDrinkOnClickListener(drink));
+		
+		//Add drink name to each drink result
+		TextView drinklabel = (TextView) listItems.findViewById(R.id.result_title);
+		drinklabel.setText(drink.name);
+		//Add rating bar to show rating for each drink result
+		setRatingBar(listItems, drink);
+		setGlassPicture(listItems, drink);
+		
+		ll.addView(listItems);
+    }
+    
+    /**
+     * Displays NUM_TO_DISPLAY more results when the button is pressed
+     * (if there are more drinks to display)
+     */
+    private void loadMoreResults() {
+    	findViewById(buttonID).setVisibility(View.GONE);
+    	
+    	int i = 0;
+    	for (i = lastVisibleDrinkIndex; i - lastVisibleDrinkIndex < NUM_TO_DISPLAY && i < results.length; i++) {
+    		Drink d = results[i];
+    		addDrinkItem(d);
+    	}
+    	lastVisibleDrinkIndex = i;
+    	buttonID++;
+    	addButton();
     }
     
 	/**
