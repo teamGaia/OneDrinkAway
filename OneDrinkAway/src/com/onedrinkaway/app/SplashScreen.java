@@ -2,6 +2,7 @@ package com.onedrinkaway.app;
 
 
 import android.annotation.SuppressLint;
+import android.app.Activity;
 import android.content.Intent;
 import android.graphics.drawable.AnimationDrawable;
 import android.os.Bundle;
@@ -10,43 +11,15 @@ import android.widget.ImageView;
 
 import com.onedrinkaway.R;
 
-public class SplashScreen extends OneDrinkAwayActivity {
+public class SplashScreen extends Activity {
     
     // Splash screen timer
-    private static int SPLASH_TIME_OUT = 2500;
+    private static int SPLASH_TIME_OUT = 2500; // ms
  
     @SuppressLint("InlinedApi")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-
-        
-        
-        // remove title
-//        requestWindowFeature(Window.FEATURE_NO_TITLE);
-//        getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,
-//                WindowManager.LayoutParams.FLAG_FULLSCREEN);
-//      getSupportActionBar().hide();
-        
-        
-        
-//        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.KITKAT) {
-//            View decorView = getWindow().getDecorView();
-//            // Hide the status bar.
-//            int uiOptions = View.SYSTEM_UI_FLAG_HIDE_NAVIGATION;
-//            decorView.setSystemUiVisibility(uiOptions);
-//            uiOptions = View.SYSTEM_UI_FLAG_FULLSCREEN;
-//            decorView.setSystemUiVisibility(uiOptions);
-//            uiOptions = View.SYSTEM_UI_FLAG_IMMERSIVE;
-//            decorView.setSystemUiVisibility(uiOptions);
-//        }
-         
-        // Remember that you should never show the action bar if the
-        // status bar is hidden, so hide that too if necessary.
-//        ActionBar actionBar = getActionBar();
-//        actionBar.hide();
-        
-        
+        super.onCreate(savedInstanceState);        
         setContentView(R.layout.activity_splash);
         
         // start animation
@@ -74,5 +47,4 @@ public class SplashScreen extends OneDrinkAwayActivity {
             }
         }, SPLASH_TIME_OUT);
     }
- 
 }

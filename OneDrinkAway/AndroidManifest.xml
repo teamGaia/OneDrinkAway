@@ -19,17 +19,14 @@
         android:allowBackup="true"
         android:icon="@drawable/home_search_by_name"
         android:label="@string/app_name"
-        android:theme="@style/AppThemeNoBar" >
+        android:theme="@style/Theme.AppCompat.Light.DarkActionBar" >
         <uses-library android:name="android.test.runner" />
         
         <activity
             android:name="com.onedrinkaway.app.SplashScreen"
-            android:label="@string/app_name" >
-            android:screenOrientation="portrait"
-            android:theme="@style/AppThemeNoBar" >
-            
-            <item name="android:windowNoTitle">false</item>
-            
+            android:label="@string/app_name" 
+            android:theme="@android:style/Theme.Light.NoTitleBar.Fullscreen">
+			
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.LAUNCHER" />
@@ -38,26 +35,22 @@
 
         <activity
             android:name="com.onedrinkaway.app.OneDrinkAwayActivity"
-            android:label="@string/title_activity_one_drink_away" 
-            android:theme="@style/AppThemeBar">
+            android:label="@string/title_activity_one_drink_away">
         </activity>
         <activity
             android:name="com.onedrinkaway.app.HomePage"
-            android:label="@string/app_name" 
-            android:theme="@style/AppThemeBar" >
+            android:label="@string/app_name" >
         </activity>
         <activity
             android:name="com.onedrinkaway.app.HelpDialog"
-            android:label="@string/title_activity_home_page_help" 
-            android:theme="@style/AppThemeBar" >
+            android:label="@string/title_activity_home_page_help">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="com.onedrinkaway.app.HomePage" />
         </activity>
         <activity
             android:name="com.onedrinkaway.app.DrinkInfoPage"
-            android:label="@string/title_activity_drink_info_page" 
-            android:theme="@style/AppThemeBar" >
+            android:label="@string/title_activity_drink_info_page">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="com.onedrinkaway.app.HomePage" />
@@ -65,8 +58,7 @@
         <activity
             android:name="com.onedrinkaway.app.SearchByName"
             android:icon="@drawable/logo_simple_glass"
-            android:label="@string/title_activity_search_by_name" 
-            android:theme="@style/AppThemeBar" >
+            android:label="@string/title_activity_search_by_name">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="com.onedrinkaway.app.HomePage" />
@@ -74,8 +66,7 @@
         <activity
             android:name="com.onedrinkaway.app.SearchByCategory"
             android:icon="@drawable/home_search_by_category"
-            android:label="@string/title_activity_search_by_category" 
-            android:theme="@style/AppThemeBar" >
+            android:label="@string/title_activity_search_by_category">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="com.onedrinkaway.app.HomePage" />
@@ -83,8 +74,7 @@
         <activity
             android:name="com.onedrinkaway.app.SearchByFlavor"
             android:icon="@drawable/home_search_by_flavor"
-            android:label="@string/title_activity_search_by_flavor" 
-            android:theme="@style/AppThemeBar" >
+            android:label="@string/title_activity_search_by_flavor" >
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="com.onedrinkaway.app.HomePage" />
@@ -92,8 +82,7 @@
         <activity
             android:name="com.onedrinkaway.app.SearchByIngredient"
             android:icon="@drawable/home_search_by_ingredient"
-            android:label="@string/title_activity_search_by_ingredient" 
-            android:theme="@style/AppThemeBar" >
+            android:label="@string/title_activity_search_by_ingredient" >
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="com.onedrinkaway.app.HomePage" />
@@ -101,8 +90,7 @@
         <activity
             android:name="com.onedrinkaway.app.FavoriteDrinks"
             android:icon="@drawable/home_favorite_drinks"
-            android:label="@string/title_activity_favorite_drinks" 
-            android:theme="@style/AppThemeBar" >
+            android:label="@string/title_activity_favorite_drinks" >
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="com.onedrinkaway.app.HomePage" />
@@ -110,30 +98,25 @@
         <activity
             android:name="com.onedrinkaway.app.AdvancedSearch"
             android:icon="@drawable/home_advanced_search"
-            android:label="@string/title_activity_advanced_search" 
-            android:theme="@style/AppThemeBar" >
+            android:label="@string/title_activity_advanced_search" >
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="com.onedrinkaway.app.HomePage" />
         </activity>
         <activity
             android:name="com.onedrinkaway.app.ResultsPage"
-            android:label="@string/title_activity_results_page" 
-            android:theme="@style/AppThemeBar" >
+            android:label="@string/title_activity_results_page" >
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="com.onedrinkaway.app.HomePage" />
         </activity>
         <activity
             android:name="com.onedrinkaway.TrySomethingNew"
-            android:label="@string/title_activity_try_something_new" 
-            android:theme="@style/AppThemeBar" >
+            android:label="@string/title_activity_try_something_new" >
         </activity>
         <activity
             android:name="com.onedrinkaway.app.NewUserRatingActivity"
-            android:label="@string/title_activity_new_user_rating" 
-            android:theme="@style/AppThemeBar" >
+            android:label="@string/title_activity_new_user_rating" >
         </activity>
     </application>
-
 </manifest>
