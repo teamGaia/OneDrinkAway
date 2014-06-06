@@ -1,6 +1,7 @@
 package com.onedrinkaway.app;
 
 import java.util.Arrays;
+import java.util.Comparator;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -10,6 +11,8 @@ import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.View.OnClickListener;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RatingBar;
@@ -33,13 +36,19 @@ public class NewUserRateByName extends Fragment {
 	
 	private int[] currentRatings;
 	
+	@SuppressWarnings("unchecked")
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 		allDrinks = DrinkModel.getAllDrinks();
 		currentRatings = new int[allDrinks.length];
 		
 		// Sort the arrays alphabetically
-		Arrays.sort(allDrinks);
+		Arrays.sort(allDrinks, new Comparator<Drink>() {
+			@Override
+			public int compare(Drink d1, Drink d2) {
+				return d1.name.compareTo(d2.name);
+			}
+		});
 		ratingBarsMap = new HashMap<RatingBar, String>();
 	   LinearLayout newUserCommonView = 
 			   (LinearLayout) inflater.inflate(R.layout.fragment_new_user_rate_by_name, null);

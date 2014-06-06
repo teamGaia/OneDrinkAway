@@ -25,7 +25,7 @@
         <activity
             android:name="com.onedrinkaway.app.SplashScreen"
             android:label="@string/app_name" 
-            android:theme="@android:style/Theme.Light.NoTitleBar.Fullscreen">
+            android:theme="@android:style/Theme.Light.NoTitleBar">
 			
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

@@ -1,6 +1,7 @@
 package com.onedrinkaway.app;
 
 import java.util.Arrays;
+import java.util.Comparator;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -22,9 +23,6 @@ import com.onedrinkaway.model.DrinkModel;
 import com.onedrinkaway.model.Query;
 
 public class NewUserRateCommonDrinks extends Fragment {
-	private String[] commonDrinks = {"Gin & Tonic", "Apple Martini (Appletini)", "White Russian", "Rum & Coke", "Mojito",
-			"Lemon Drop", "Bloody Mary"};
-	
 	//maps id value of rating bar to its drink name
 	private Map<RatingBar, String> ratingBarsMap;
 	
@@ -35,8 +33,13 @@ public class NewUserRateCommonDrinks extends Fragment {
 		// Will be used in the future (it currently returns no drinks)
 		Drink[] popDrinks = getPopularDrinks();
 		
-		Arrays.sort(popDrinks);
-		currentRatings = new int[commonDrinks.length];
+		Arrays.sort(popDrinks, new Comparator<Drink>() {
+			@Override
+			public int compare(Drink d1, Drink d2) {
+				return d1.name.compareTo(d2.name);
+			}
+		});
+		currentRatings = new int[popDrinks.length];
 		
 		ratingBarsMap = new HashMap<RatingBar, String>();
 	   LinearLayout newUserCommonView = 
@@ -44,10 +47,10 @@ public class NewUserRateCommonDrinks extends Fragment {
 	   
 	   LinearLayout commonDrinkContainer = (LinearLayout) newUserCommonView.findViewById(R.id.common_drink_container);
 	   
-	   for(int i = 0; i < commonDrinks.length; i++) {
+	   for(int i = 0; i < popDrinks.length; i++) {
 		   LinearLayout commonDrink = (LinearLayout) inflater.inflate(R.layout.common_drinks, null);
 		   TextView commonDrinkTitle = (TextView) commonDrink.findViewById(R.id.common_drink_title);
-		   commonDrinkTitle.setText(commonDrinks[i]);
+		   commonDrinkTitle.setText(popDrinks[i].name);
 		   
 		   RatingBar ratingBar = (RatingBar) commonDrink.findViewById(R.id.common_drink_rating_bar);
 		   
@@ -68,8 +71,8 @@ public class NewUserRateCommonDrinks extends Fragment {
 				}
 		   
 		   		});
-		   ratingBarsMap.put(ratingBar, commonDrinks[i]);
-		   setGlassPicture(commonDrink, DrinkModel.getDrink(commonDrinks[i]));
+		   ratingBarsMap.put(ratingBar, popDrinks[i].name);
+		   setGlassPicture(commonDrink, DrinkModel.getDrink(popDrinks[i].name));
 		   commonDrinkContainer.addView(commonDrink);
 	   }
 	   

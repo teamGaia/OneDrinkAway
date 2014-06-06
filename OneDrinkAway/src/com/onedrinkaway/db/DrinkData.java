@@ -16,6 +16,7 @@ import java.util.HashSet;
 import java.util.LinkedList;
 import java.util.Map;
 import java.util.Queue;
+import java.util.Random;
 import java.util.Set;
 
 import android.annotation.SuppressLint;
@@ -109,6 +110,9 @@ public class DrinkData implements Serializable {
             instance.userId = userId;
             instance.updateInstanceAsync();
         }
+//        Random rand = new Random();
+//        instance.userId = "" + rand.nextInt(10000) + 1;
+        
         instance.userId = userId;
         return instance;
     }

@@ -25,11 +25,10 @@ public class NewUserRatingActivity extends OneDrinkAwayActivity {
 		FragmentTabHost mTabHost = (FragmentTabHost)findViewById(android.R.id.tabhost);
         mTabHost.setup(this, getSupportFragmentManager(), R.id.realtabcontent);
 
-        mTabHost.addTab(mTabHost.newTabSpec("tab1").setIndicator("Find and Rate"),
-            NewUserRateByName.class, null);
-        mTabHost.addTab(mTabHost.newTabSpec("tab2").setIndicator("Rate Common Drinks"),
+        mTabHost.addTab(mTabHost.newTabSpec("tab1").setIndicator("Popular Drinks"),
             NewUserRateCommonDrinks.class, null);
-        
+        mTabHost.addTab(mTabHost.newTabSpec("tab2").setIndicator("All Drinks"),
+                NewUserRateByName.class, null);
 	}
 	
 	/**
