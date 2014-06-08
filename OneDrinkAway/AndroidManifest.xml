@@ -19,7 +19,8 @@
         android:allowBackup="true"
         android:icon="@drawable/home_search_by_name"
         android:label="@string/app_name"
-        android:theme="@style/Theme.AppCompat.Light.DarkActionBar" >
+        android:theme="@style/Theme.AppCompat.Light.DarkActionBar"
+        largeHeap="true" >
         <uses-library android:name="android.test.runner" />
         
         <activity

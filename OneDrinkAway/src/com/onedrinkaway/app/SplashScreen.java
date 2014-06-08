@@ -4,6 +4,7 @@ package com.onedrinkaway.app;
 import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.Intent;
+import android.graphics.BitmapFactory;
 import android.graphics.drawable.AnimationDrawable;
 import android.os.Bundle;
 import android.os.Handler;
@@ -14,7 +15,7 @@ import com.onedrinkaway.R;
 public class SplashScreen extends Activity {
     
     // Splash screen timer
-    private static int SPLASH_TIME_OUT = 2500; // ms
+    private static int SPLASH_TIME_OUT = 3200; // ms
  
     @SuppressLint("InlinedApi")
     @Override
@@ -26,6 +27,8 @@ public class SplashScreen extends Activity {
         ImageView splashView = (ImageView) findViewById(R.id.imgLogo);
         splashView.setBackgroundResource(R.drawable.splash_animation);
         AnimationDrawable splashAnimation = (AnimationDrawable) splashView.getBackground();
+
+        //Bitmap bitmap = BitmapFactory.decodeStream(fis, null, options);
         splashAnimation.start();
         
         new Handler().postDelayed(new Runnable() {
