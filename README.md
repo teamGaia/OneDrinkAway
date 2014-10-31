@@ -1,9 +1,9 @@
-<h1>OneDrinkAway</h1>
+OneDrinkAway
+============
 John Wilson</br>
 Taylor Juve</br>
 Andrea Martin</br>
 Nicole Kihara</br>
-============
 
 An intelligent drink suggestion application for Android created by UW CS students<br />
 
