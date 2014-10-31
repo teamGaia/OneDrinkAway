@@ -7,8 +7,6 @@ Nicole Kihara<br />
 
 An intelligent drink suggestion application for Android created by UW CS students<br />
 
-User and Developer Documentation can be found at http://www.onedrinkaway.ava4.net/<br />
-
 Directory Structure<br />
   OneDrinkAway - Main project directory containing all code and resources<br />
   src - stores packages that contain source code<br />
@@ -16,7 +14,7 @@ Directory Structure<br />
   db - stores source code for the database<br />
   model - stores source code for model classes such as Drink, Flavor, Query<br />
   machinelearning - stores source code for machine learning<br />
-  documentation - stores documents<br />
+  documentation - stores user and developer documentation<br />
   res - stores resources files<br />
   drawable-* - stores .png icons of various sizes.<br />
   layout - stores XML files defining the layout of the app's UI<br />
