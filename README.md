@@ -1,7 +1,11 @@
-OneDrinkAway
+<h1>OneDrinkAway</h1>
+John Wilson
+Taylor Juve
+Andrea Martin
+Nicole Kihara
 ============
 
-An intelligent drink suggestion application for Android<br />
+An intelligent drink suggestion application for Android created by UW CS students<br />
 
 User and Developer Documentation can be found at http://www.onedrinkaway.ava4.net/<br />
 
